@@ -8,7 +8,7 @@ metadata:
   upstream_skill: skill-038-spelling-editorial-error-detection
   category: creative
   kind: analyst
-  data_source: standard
+  data_source: export
   markets: all
   gaql_verified: null
   reviewed: 2026-09-03
@@ -21,10 +21,10 @@ Editorial errors trigger ad disapprovals and damage brand credibility, reducing 
 
 ## Data Requirements
 
-**Data Source:** Standard
+**Data Source:** Account export
 
-**Standard Data:**
-- `data/account/campaigns/*/*/ads.md` - RSA headlines and descriptions
+**Export data:**
+- **Ads** - RSA headlines and descriptions
 
 **Reference GAQL:**
 ```sql
@@ -39,7 +39,7 @@ FROM ad_group_ad
 WHERE ad_group_ad.status != 'REMOVED'
   AND campaign.status = 'ENABLED'
 ```
-Use `/google-ads:get-custom` if you need policy details for already-flagged ads.
+Run the reference query (API, UI report, or Editor export) if you need policy details for already-flagged ads.
 
 ## Analysis Steps
 

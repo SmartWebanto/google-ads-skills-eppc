@@ -8,7 +8,7 @@ metadata:
   upstream_skill: skill-115-display-youtube-placement-performance-review
   category: waste
   kind: deterministic
-  data_source: custom_gaql
+  data_source: custom_query
   markets: all
   gaql_verified: null
   reviewed: 2026-09-03
@@ -20,7 +20,7 @@ Conduct placement reports to identify high-impression, low-conversion placements
 
 ## Data Requirements
 
-**Data Source:** Custom GAQL Required
+**Data Source:** Custom query required
 
 **GAQL Query - Display Placements:**
 ```sql
@@ -56,7 +56,7 @@ WHERE segments.date DURING LAST_30_DAYS
   AND campaign.advertising_channel_type = 'VIDEO'
 ```
 Note: CTR and view rate not directly available on `detail_placement_view` — calculate client-side from clicks/impressions.
-Run via `/google-ads:get-custom` with query name `placement_review`.
+Run the query through the Google Ads API, a UI custom report, or Google Ads Editor; save the result as `placement_review`.
 
 ## Analysis Steps
 

@@ -8,7 +8,7 @@ metadata:
   upstream_skill: skill-068-ad-relevance-gap-identification
   category: quality
   kind: deterministic
-  data_source: standard
+  data_source: export
   markets: all
   gaql_verified: null
   reviewed: 2026-09-03
@@ -20,12 +20,12 @@ Flag keywords where ad copy does not match keyword intent. Low Ad Relevance indi
 
 ## Data Requirements
 
-**Data Source:** Standard
+**Data Source:** Account export
 
-**Standard Data:**
-- `data/account/campaigns/*/*/keywords.md` - Keyword data with Ad Relevance component
-- `data/account/campaigns/*/*/ads.md` - Ad copy (headlines, descriptions)
-- `data/performance/campaigns/*/*/keywords_metrics_30_days.md` - Performance for prioritization
+**Export data:**
+- **Keywords** - Keyword data with Ad Relevance component
+- **Ads** - Ad copy (headlines, descriptions)
+- **Keyword metrics (30 days)** - Performance for prioritization
 
 **Reference GAQL:**
 ```sql
@@ -43,7 +43,7 @@ WHERE ad_group_criterion.status = 'ENABLED'
   AND metrics.impressions > 50
   AND segments.date DURING LAST_30_DAYS
 ```
-Use `/google-ads:get-custom` if you need additional fields.
+Run the reference query (API, UI report, or Editor export) if you need additional fields.
 
 ## Analysis Steps
 

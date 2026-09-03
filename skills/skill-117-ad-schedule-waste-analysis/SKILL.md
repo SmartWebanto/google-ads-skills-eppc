@@ -8,7 +8,7 @@ metadata:
   upstream_skill: skill-117-ad-schedule-waste-analysis
   category: waste
   kind: deterministic
-  data_source: custom_gaql
+  data_source: custom_query
   markets: all
   gaql_verified: null
   reviewed: 2026-09-03
@@ -20,7 +20,7 @@ Identify time periods with high spend but low or zero conversions to optimize ad
 
 ## Data Requirements
 
-**Data Source:** Custom GAQL Required
+**Data Source:** Custom query required
 
 **GAQL Query:**
 ```sql
@@ -39,7 +39,7 @@ WHERE segments.date DURING LAST_30_DAYS
   AND metrics.impressions > 0
 ORDER BY campaign.name, segments.day_of_week, segments.hour
 ```
-Run via `/google-ads:get-custom` with query name `ad_schedule_analysis`.
+Run the query through the Google Ads API, a UI custom report, or Google Ads Editor; save the result as `ad_schedule_analysis`.
 
 ## Analysis Steps
 

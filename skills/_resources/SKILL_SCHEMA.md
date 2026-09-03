@@ -25,8 +25,8 @@ metadata:
   upstream_skill: skill-XXX-descriptive-name     # exact upstream name
   category: keywords                             # from the category table below
   kind: deterministic                            # deterministic | analyst | operational
-  data_source: standard                          # standard | custom_gaql | external
-  merged_from: []                                # optional: absorbed upstream skills (see MERGES.md)
+  data_source: export                          # export | custom_query | external
+  merged_from: []                                # optional: absorbed skills (see MERGES.md)
   related: []                                    # optional: skills covering adjacent facets
   markets: all                                   # all | us_only | eea_relevant
   gaql_verified: null                            # API version the queries were checked against, or null
@@ -54,26 +54,26 @@ One paragraph (2-3 sentences max) explaining what this audit checks and why it m
 ```markdown
 ## Data Requirements
 
-**Data Source:** Standard  ← or "Custom GAQL Required"
+**Data Source:** Account export  ← or "Custom query required" or "External (beyond Google Ads data)"
 
-**Standard Data:**
-- `data/account/...` - Brief description
-- `data/performance/...` - Brief description
+**Export data:**
+- **Campaigns** - Brief description
+- **Campaign metrics (30 days)** - Brief description
 
 **Reference GAQL:**
 ```sql
 SELECT ... FROM ... WHERE ...
 ```
-Use `/google-ads:get-custom` if you need to adjust date range, add filters, or fetch additional fields.
+Run the reference query (API, UI report, or Editor export) if you need to adjust date range, add filters, or fetch additional fields.
 ```
 
 **Data Source Values:**
-- `Standard` - The `/google-ads:get` export contains all required data (`metadata.data_source: standard`)
-- `Custom GAQL Required` - Must run `/google-ads:get-custom` (`custom_gaql`)
+- `Account export` - The tables in `DATA_CONTRACT.md` contain all required data (`metadata.data_source: export`)
+- `Custom query required` - The reference GAQL query must be run (API, UI custom report, or Editor export) and saved under `export/custom/` (`custom_query`)
 - `External (beyond Google Ads data)` - Needs data outside Google Ads: site tests, CRM, Merchant Center, configuration review (`external`)
 
 **GAQL Rules:**
-- **Always include GAQL** as reference, even when standard data is sufficient
+- **Always include GAQL** as reference, even when the export is sufficient
 - This allows Claude to adjust queries (date range, filters, additional metrics)
 - Mark clearly whether it's required or just for reference
 
@@ -134,17 +134,17 @@ Report ONLY issues found. Do not list passed items.
 
 ## Data Requirements Examples
 
-### Example A: Standard Data Sufficient
+### Example A: Export Sufficient
 
 ```markdown
 ## Data Requirements
 
-**Data Source:** Standard
+**Data Source:** Account export
 
-**Standard Data:**
-- `data/account/campaigns/*/*/keywords.md` - Keywords with match types and QS
-- `data/account/campaigns/*/*/negative_keywords.md` - Negative keywords
-- `data/account/shared_negative_lists.md` - Shared negative lists
+**Export data:**
+- **Keywords** - Keywords with match types and QS
+- **Negative keywords (ad group level)** - Negative keywords
+- **Shared negative lists** - Shared negative lists
 
 **Reference GAQL:**
 ```sql
@@ -158,7 +158,7 @@ FROM keyword_view
 WHERE ad_group_criterion.status = 'ENABLED'
   AND segments.date DURING LAST_30_DAYS
 ```
-Use `/google-ads:get-custom` if you need different date ranges or additional metrics.
+Run the reference query (API, UI report, or Editor export) if you need different date ranges or additional metrics.
 ```
 
 ### Example B: Custom GAQL Required
@@ -166,9 +166,9 @@ Use `/google-ads:get-custom` if you need different date ranges or additional met
 ```markdown
 ## Data Requirements
 
-**Data Source:** Custom GAQL Required
+**Data Source:** Custom query required
 
-The standard export does not include network-segmented metrics.
+A basic account export does not include network-segmented metrics.
 
 **GAQL Query:**
 ```sql
@@ -183,7 +183,7 @@ FROM campaign
 WHERE campaign.status = 'ENABLED'
   AND segments.date DURING LAST_30_DAYS
 ```
-Run via `/google-ads:get-custom` with query name `network_performance`.
+Run the query through the Google Ads API, a UI custom report, or Google Ads Editor; save the result as `network_performance`.
 ```
 
 ---
@@ -313,13 +313,13 @@ No issues found. All [X] entities pass the audit criteria.
 ```markdown
 ## Brand/Non-Brand Split Audit
 
-**Account:** TrueClicks - Dev Test | **Analyzed:** 2 campaigns, 15 keywords | **Issues:** 2
+**Account:** Acme Demo | **Analyzed:** 2 campaigns, 15 keywords | **Issues:** 2
 
 ### Critical (1)
 - **"Manual - ROAS - For Cost campaign"**: Mixed brand + non-brand keywords → Split into separate campaigns
 
 ### Warnings (1)
-- **No brand negatives in non-brand campaigns** → Add "trueclicks" as exact match negative
+- **No brand negatives in non-brand campaigns** → Add "acme" as exact match negative
 
 ### Recommendations
 1. Create dedicated "Brand - Search" campaign
@@ -331,7 +331,7 @@ No issues found. All [X] entities pass the audit criteria.
 ```markdown
 ## Brand/Non-Brand Split Audit
 
-**Account:** TrueClicks - Dev Test
+**Account:** Acme Demo
 **Date:** 2024-01-15
 **Entities Analyzed:** 2 campaigns, 15 keywords
 
@@ -344,13 +344,13 @@ No issues found. All [X] entities pass the audit criteria.
 
 1. **"Manual - ROAS - For Cost campaign"**: Contains both brand and non-brand keywords
    - Impact: Inflated CTR metrics, distorted Smart Bidding signals
-   - Evidence: 2 brand keywords ("trueclicks", "trueclicks pricing") + 7 non-brand keywords
+   - Evidence: 2 brand keywords ("acme", "acme pricing") + 7 non-brand keywords
    - Fix: Move brand keywords to dedicated Brand campaign
 
 ### Warnings (1)
 
 1. **No brand negatives in non-brand campaigns**
-   - Fix: Add "trueclicks" as exact match negative to non-brand campaigns
+   - Fix: Add "acme" as exact match negative to non-brand campaigns
 
 ### Summary
 | Metric | Value |
@@ -401,7 +401,7 @@ Brand and non-brand keywords have different performance characteristics...
 
 ## Skill Categories
 
-Category keys used in `metadata.category` (key in parentheses). 17 upstream numbers are absent (084, 086, 087, 091, 096, 097, 132, 134, 138, 140, 143, 144, 153-155, 157, 158) and 8 more were merged (see MERGES.md).
+Category keys used in `metadata.category` (key in parentheses). 17 numbers of the original set are absent (084, 086, 087, 091, 096, 097, 132, 134, 138, 140, 143, 144, 153-155, 157, 158) and 8 more were merged (see MERGES.md).
 
 | Category | Skills | Focus |
 |----------|--------|-------|

@@ -8,7 +8,7 @@ metadata:
   upstream_skill: skill-020-low-performing-keyword-pruning
   category: keywords
   kind: deterministic
-  data_source: standard
+  data_source: export
   markets: all
   gaql_verified: null
   reviewed: 2026-09-03
@@ -20,12 +20,12 @@ Identify keywords that exceed cost thresholds without generating conversions, re
 
 ## Data Requirements
 
-**Data Source:** Standard
+**Data Source:** Account export
 
-**Standard Data:**
-- `data/performance/campaigns/*/*/keywords_metrics_30_days.md` - Keyword performance
-- `data/account/campaigns/*/*/keywords.md` - Keyword settings (status, QS)
-- `data/account/campaigns/*/campaign.md` - Campaign target CPA/ROAS and bidding strategy
+**Export data:**
+- **Keyword metrics (30 days)** - Keyword performance
+- **Keywords** - Keyword settings (status, QS)
+- **Campaigns** - Campaign target CPA/ROAS and bidding strategy
 
 **Reference GAQL:**
 ```sql
@@ -43,7 +43,7 @@ FROM keyword_view
 WHERE ad_group_criterion.status = 'ENABLED'
   AND segments.date DURING LAST_30_DAYS
 ```
-Use `/google-ads:get-custom` if you need different date ranges or longer lookback windows.
+Run the reference query (API, UI report, or Editor export) if you need different date ranges or longer lookback windows.
 
 ## Analysis Steps
 

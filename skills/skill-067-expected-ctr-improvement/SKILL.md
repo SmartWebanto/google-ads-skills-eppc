@@ -8,7 +8,7 @@ metadata:
   upstream_skill: skill-067-expected-ctr-improvement
   category: quality
   kind: deterministic
-  data_source: standard
+  data_source: export
   related: [skill-064-quality-score-distribution-analysis, skill-065-quality-score-component-breakdown, skill-066-historical-quality-score-trend]
   markets: all
   gaql_verified: null
@@ -21,12 +21,12 @@ Find keywords with "Below Average" Expected CTR and recommend improvements. Expe
 
 ## Data Requirements
 
-**Data Source:** Standard
+**Data Source:** Account export
 
-**Standard Data:**
-- `data/account/campaigns/*/*/keywords.md` - Keyword QS components including Expected CTR
-- `data/account/campaigns/*/*/ads.md` - Ad copy to review for CTR issues
-- `data/performance/campaigns/*/*/keywords_metrics_30_days.md` - CTR performance data
+**Export data:**
+- **Keywords** - Keyword QS components including Expected CTR
+- **Ads** - Ad copy to review for CTR issues
+- **Keyword metrics (30 days)** - CTR performance data
 
 **Reference GAQL:**
 ```sql
@@ -47,7 +47,7 @@ WHERE ad_group_criterion.status = 'ENABLED'
   AND segments.date DURING LAST_30_DAYS
 ORDER BY metrics.cost_micros DESC
 ```
-Use `/google-ads:get-custom` if you need additional CTR metrics.
+Run the reference query (API, UI report, or Editor export) if you need additional CTR metrics.
 
 ## Analysis Steps
 

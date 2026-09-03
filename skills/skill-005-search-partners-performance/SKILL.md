@@ -8,7 +8,7 @@ metadata:
   upstream_skill: skill-005-search-partners-performance
   category: structure
   kind: deterministic
-  data_source: custom_gaql
+  data_source: custom_query
   markets: all
   gaql_verified: null
   reviewed: 2026-09-03
@@ -20,9 +20,9 @@ Segment and analyze Search Partners performance separately from Google Search. S
 
 ## Data Requirements
 
-**Data Source:** Custom GAQL Required
+**Data Source:** Custom query required
 
-The standard export does not include network-segmented metrics.
+A basic account export does not include network-segmented metrics.
 
 **GAQL Query:**
 ```sql
@@ -41,7 +41,7 @@ WHERE segments.date DURING LAST_30_DAYS
   AND campaign.status = 'ENABLED'
   AND campaign.advertising_channel_type = 'SEARCH'
 ```
-Run via `/google-ads:get-custom` with query name `search_partners_performance`.
+Run the query through the Google Ads API, a UI custom report, or Google Ads Editor; save the result as `search_partners_performance`.
 
 ## Analysis Steps
 

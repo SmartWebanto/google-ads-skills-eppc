@@ -8,7 +8,7 @@ metadata:
   upstream_skill: skill-056-device-performance-analysis
   category: targeting
   kind: deterministic
-  data_source: custom_gaql
+  data_source: custom_query
   markets: all
   gaql_verified: null
   reviewed: 2026-09-03
@@ -21,12 +21,12 @@ Device performance varies significantly by business type. This skill analyzes pe
 
 ## Data Requirements
 
-**Data Source:** Custom GAQL Required
+**Data Source:** Custom query required
 
-The standard export does not include device-segmented performance metrics.
+A basic account export does not include device-segmented performance metrics.
 
-**Standard Data:**
-- `data/account/campaigns/*/bid_adjustments.md` - Current device bid modifiers
+**Export data:**
+- **Bid adjustments (campaign level)** - Current device bid modifiers
 
 **GAQL Query:**
 ```sql
@@ -44,7 +44,7 @@ FROM campaign
 WHERE segments.date DURING LAST_30_DAYS
   AND metrics.impressions > 0
 ```
-Run via `/google-ads:get-custom` with query name `device_performance`. Device values: DESKTOP, MOBILE, TABLET, CONNECTED_TV.
+Run the query through the Google Ads API, a UI custom report, or Google Ads Editor; save the result as `device_performance`. Device values: DESKTOP, MOBILE, TABLET, CONNECTED_TV.
 
 ## Analysis Steps
 

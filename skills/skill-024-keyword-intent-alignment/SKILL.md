@@ -8,7 +8,7 @@ metadata:
   upstream_skill: skill-024-keyword-intent-alignment
   category: keywords
   kind: analyst
-  data_source: standard
+  data_source: export
   markets: all
   gaql_verified: null
   reviewed: 2026-09-03
@@ -21,14 +21,14 @@ Ensure keywords target users at the right funnel stage for campaign goals. Infor
 
 ## Data Requirements
 
-**Data Source:** Standard
+**Data Source:** Account export
 
-**Standard Data:**
-- `data/account/campaigns/*/*/keywords.md` - Keywords to analyze
-- `data/performance/campaigns/*/*/keywords_metrics_30_days.md` - Performance metrics
-- `data/performance/campaigns/*/*/search_terms_metrics_30_days.md` - Actual queries revealing intent
-- `data/account/campaigns/*/*/ads.md` - Final URLs for landing page context
-- `data/account/campaigns/*/campaign.md` - Campaign goals/bidding
+**Export data:**
+- **Keywords** - Keywords to analyze
+- **Keyword metrics (30 days)** - Performance metrics
+- **Search terms (30 days)** - Actual queries revealing intent
+- **Ads** - Final URLs for landing page context
+- **Campaigns** - Campaign goals/bidding
 
 **Reference GAQL:**
 ```sql
@@ -46,7 +46,7 @@ FROM keyword_view
 WHERE ad_group_criterion.status = 'ENABLED'
   AND segments.date DURING LAST_30_DAYS
 ```
-Use `/google-ads:get-custom` for conversion rate analysis or landing page URL extraction.
+Run the reference query (API, UI report, or Editor export) for conversion rate analysis or landing page URL extraction.
 
 ## Analysis Steps
 

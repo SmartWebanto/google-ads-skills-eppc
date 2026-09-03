@@ -8,7 +8,7 @@ metadata:
   upstream_skill: skill-081-micro-conversion-tracking
   category: tracking
   kind: deterministic
-  data_source: standard
+  data_source: export
   related: [skill-070-conversion-tracking-completeness, skill-071-conversion-tracking-accuracy, skill-107-conversion-value-accuracy, skill-108-cross-device-conversion-tracking, skill-110-conversion-tracking-breakage]
   markets: all
   gaql_verified: null
@@ -21,12 +21,12 @@ Track intermediate actions (micro-conversions) that indicate user intent before 
 
 ## Data Requirements
 
-**Data Source:** Standard
+**Data Source:** Account export
 
-**Standard Data:**
-- `data/account/conversion_actions.md` - Current conversion action configuration
-- `data/account/account_summary.md` - Business type context
-- `data/performance/campaigns/*/campaign_metrics_30_days.md` - Conversion volumes
+**Export data:**
+- **Conversion actions** - Current conversion action configuration
+- **Account** - Business type context
+- **Campaign metrics (30 days)** - Conversion volumes
 
 **Reference GAQL:**
 ```sql
@@ -41,7 +41,7 @@ FROM conversion_action
 WHERE conversion_action.status = 'ENABLED'
 ORDER BY conversion_action.include_in_conversions_metric DESC
 ```
-Use `/google-ads:get-custom` for conversion volume per action.
+Run the reference query (API, UI report, or Editor export) for conversion volume per action.
 
 ## Analysis Steps
 

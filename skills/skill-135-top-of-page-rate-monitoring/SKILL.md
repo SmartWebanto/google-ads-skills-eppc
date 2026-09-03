@@ -8,7 +8,7 @@ metadata:
   upstream_skill: skill-135-top-of-page-rate-monitoring
   category: competitive
   kind: deterministic
-  data_source: custom_gaql
+  data_source: custom_query
   related: [skill-121-impression-share-loss-analysis]
   markets: all
   gaql_verified: null
@@ -22,7 +22,7 @@ Monitor top-of-page and absolute-top position rates to ensure ads appear in prem
 
 ## Data Requirements
 
-**Data Source:** Custom GAQL Required
+**Data Source:** Custom query required
 
 Position metrics require custom GAQL queries.
 
@@ -43,7 +43,7 @@ WHERE campaign.advertising_channel_type = 'SEARCH'
   AND campaign.status = 'ENABLED'
   AND segments.date DURING LAST_30_DAYS
 ```
-Run via `/google-ads:get-custom` with query name `serp_position_metrics`.
+Run the query through the Google Ads API, a UI custom report, or Google Ads Editor; save the result as `serp_position_metrics`.
 
 ## Analysis Steps
 

@@ -8,7 +8,7 @@ metadata:
   upstream_skill: skill-076-conversion-action-configuration
   category: tracking
   kind: deterministic
-  data_source: standard
+  data_source: export
   markets: all
   gaql_verified: null
   reviewed: 2026-09-03
@@ -20,10 +20,10 @@ Review and optimize conversion action configuration including counting method, a
 
 ## Data Requirements
 
-**Data Source:** Standard
+**Data Source:** Account export
 
-**Standard Data:**
-- `data/account/conversion_actions.md` - Full conversion action settings including counting type, attribution, values, windows
+**Export data:**
+- **Conversion actions** - Full conversion action settings including counting type, attribution, values, windows
 
 **Reference GAQL:**
 ```sql
@@ -42,7 +42,7 @@ SELECT
 FROM conversion_action
 ORDER BY conversion_action.include_in_conversions_metric DESC
 ```
-Use `/google-ads:get-custom` for additional conversion action details.
+Run the reference query (API, UI report, or Editor export) for additional conversion action details.
 
 ## Analysis Steps
 

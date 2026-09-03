@@ -8,7 +8,7 @@ metadata:
   upstream_skill: skill-011-power-pack-assessment
   category: structure
   kind: analyst
-  data_source: standard
+  data_source: export
   markets: all
   gaql_verified: null
   reviewed: 2026-09-03
@@ -20,11 +20,11 @@ Evaluate whether the account leverages Google's 2025 recommended campaign trio: 
 
 ## Data Requirements
 
-**Data Source:** Standard
+**Data Source:** Account export
 
-**Standard Data:**
-- `data/account/campaigns/*/campaign.md` - All campaign types and settings
-- `data/performance/campaigns/*/campaign_metrics_30_days.md` - Campaign performance
+**Export data:**
+- **Campaigns** - All campaign types and settings
+- **Campaign metrics (30 days)** - Campaign performance
 
 **Reference GAQL:**
 ```sql
@@ -44,7 +44,7 @@ FROM campaign
 WHERE campaign.status = 'ENABLED'
   AND segments.date DURING LAST_30_DAYS
 ```
-Use `/google-ads:get-custom` if you need additional campaign type details or different date ranges.
+Run the reference query (API, UI report, or Editor export) if you need additional campaign type details or different date ranges.
 
 ## Analysis Steps
 

@@ -23,9 +23,9 @@ Provide a systematic pre-launch review checklist to catch policy violations befo
 
 **Data Source:** External (beyond Google Ads data)
 
-**Standard Data:**
-- `data/account/campaigns/*/*/ads.md` - Existing approved ads (for reference)
-- `data/account/ext_*.md` - Extension templates
+**Export data:**
+- **Ads** - Existing approved ads (for reference)
+- **Assets (all types)** - Extension templates
 
 This skill is primarily a checklist guide rather than data analysis.
 

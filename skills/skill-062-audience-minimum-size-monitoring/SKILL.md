@@ -8,7 +8,7 @@ metadata:
   upstream_skill: skill-062-audience-minimum-size-monitoring
   category: targeting
   kind: deterministic
-  data_source: custom_gaql
+  data_source: custom_query
   markets: all
   gaql_verified: null
   reviewed: 2026-09-03
@@ -20,12 +20,12 @@ Monitor remarketing and customer lists to ensure they maintain the minimum 1,000
 
 ## Data Requirements
 
-**Data Source:** Custom GAQL Required
+**Data Source:** Custom query required
 
-The standard export does not include user list size data.
+A basic account export does not include user list size data.
 
-**Standard Data:**
-- `data/account/campaigns/*/audience_targeting.md` - Audience usage in campaigns
+**Export data:**
+- **Audiences (campaign level)** - Audience usage in campaigns
 
 **GAQL Query:**
 ```sql
@@ -42,7 +42,7 @@ SELECT
 FROM user_list
 WHERE user_list.membership_status = 'OPEN'
 ```
-Run via `/google-ads:get-custom` with query name `audience_sizes`.
+Run the query through the Google Ads API, a UI custom report, or Google Ads Editor; save the result as `audience_sizes`.
 
 ## Analysis Steps
 

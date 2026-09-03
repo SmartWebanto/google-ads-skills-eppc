@@ -22,9 +22,9 @@ Identify opportunities to add seasonal keywords to product titles for Shopping a
 
 **Data Source:** External (beyond Google Ads data)
 
-**Standard Data:**
-- `data/account/campaigns/*/campaign.md` - Identify Shopping/PMax campaigns
-- `data/performance/campaigns/*/ad_groups/*/search_terms_metrics_30_days.md` - Seasonal query patterns
+**Export data:**
+- **Campaigns** - Identify Shopping/PMax campaigns
+- **Search terms (30 days)** - Seasonal query patterns
 
 **Reference GAQL (Shopping Search Terms):**
 ```sql
@@ -40,13 +40,13 @@ WHERE campaign.status = 'ENABLED'
   AND segments.date DURING LAST_30_DAYS
   AND metrics.impressions > 100
 ```
-Use `/google-ads:get-custom` to identify seasonal search patterns in Shopping campaigns.
+Run the reference query (API, UI report, or Editor export) to identify seasonal search patterns in Shopping campaigns.
 
 **Note:** Actual feed changes must be made in Google Merchant Center, not Google Ads.
 
 ## Analysis Steps
 
-1. **Identify Shopping/PMax campaigns:** Check campaign types in standard data
+1. **Identify Shopping/PMax campaigns:** Check campaign types in the export
 2. **Map seasonal opportunities:** List upcoming events and relevant seasonal modifiers
 3. **Analyze search queries:** Review search terms for seasonal patterns driving traffic
 4. **Identify title gaps:** Find products without seasonal keywords that match seasonal queries

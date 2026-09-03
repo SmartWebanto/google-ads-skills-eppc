@@ -8,7 +8,7 @@ metadata:
   upstream_skill: skill-060-in-market-custom-intent-layering
   category: targeting
   kind: deterministic
-  data_source: custom_gaql
+  data_source: custom_query
   markets: all
   gaql_verified: null
   reviewed: 2026-09-03
@@ -21,12 +21,12 @@ In-market segments and custom intent audiences help reach users with demonstrate
 
 ## Data Requirements
 
-**Data Source:** Custom GAQL Required
+**Data Source:** Custom query required
 
-The standard export includes audience targeting setup but not audience-level performance metrics.
+A basic account export includes audience targeting setup but not audience-level performance metrics.
 
-**Standard Data:**
-- `data/account/campaigns/*/audience_targeting.md` - Current audience setup
+**Export data:**
+- **Audiences (campaign level)** - Current audience setup
 
 **GAQL Query:**
 ```sql
@@ -45,7 +45,7 @@ FROM ad_group_audience_view
 WHERE segments.date DURING LAST_30_DAYS
   AND metrics.impressions > 0
 ```
-Run via `/google-ads:get-custom` with query name `audience_performance`.
+Run the query through the Google Ads API, a UI custom report, or Google Ads Editor; save the result as `audience_performance`.
 
 ## Analysis Steps
 

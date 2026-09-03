@@ -8,7 +8,7 @@ metadata:
   upstream_skill: skill-152-historical-performance-benchmarking-seasonal-planning
   category: seasonal
   kind: deterministic
-  data_source: custom_gaql
+  data_source: custom_query
   markets: all
   gaql_verified: null
   reviewed: 2026-09-03
@@ -20,7 +20,7 @@ Pull and analyze prior-year performance data for seasonal periods to establish d
 
 ## Data Requirements
 
-**Data Source:** Custom GAQL Required
+**Data Source:** Custom query required
 
 Standard 30-day export cannot provide prior-year comparisons. Need multi-year historical data for accurate benchmarking.
 
@@ -40,7 +40,7 @@ FROM campaign
 WHERE campaign.status IN ('ENABLED', 'PAUSED')
   AND segments.date BETWEEN '[PRIOR_YEAR_START]' AND '[PRIOR_YEAR_END]'
 ```
-Run via `/google-ads:get-custom` for each seasonal period needing analysis (e.g., Black Friday 2025 to plan for 2026).
+Run via a custom query (API, UI report, or Editor export) for each seasonal period needing analysis (e.g., Black Friday 2025 to plan for 2026).
 
 ## Analysis Steps
 

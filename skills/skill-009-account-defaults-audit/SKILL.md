@@ -8,7 +8,7 @@ metadata:
   upstream_skill: skill-009-account-defaults-audit
   category: structure
   kind: deterministic
-  data_source: custom_gaql
+  data_source: custom_query
   markets: all
   gaql_verified: null
   reviewed: 2026-09-03
@@ -20,7 +20,7 @@ Review account-level settings including auto-tagging, conversion tracking defaul
 
 ## Data Requirements
 
-**Data Source:** Custom GAQL Required
+**Data Source:** Custom query required
 
 Standard account summary may lack complete settings. Custom GAQL provides comprehensive account configuration.
 
@@ -49,7 +49,7 @@ SELECT
 FROM conversion_action
 WHERE conversion_action.status = 'ENABLED'
 ```
-Run via `/google-ads:get-custom` with query names `account_settings` and `conversion_actions`.
+Run via a custom query (API, UI report, or Editor export) with query names `account_settings` and `conversion_actions`.
 
 **Note:** Auto-applied recommendations settings require Google Ads UI review or Recommendations API (not available via standard GAQL).
 

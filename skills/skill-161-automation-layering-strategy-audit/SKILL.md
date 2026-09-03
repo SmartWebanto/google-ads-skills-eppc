@@ -22,9 +22,9 @@ Assess whether Google automation (Smart Bidding, PMax, broad match) is supplemen
 
 **Data Source:** External (beyond Google Ads data)
 
-**Standard Data:**
-- `data/account/campaigns/*/campaign.md` - Bid strategies, automation settings
-- `data/account/bidding_strategies.md` - Portfolio strategies
+**Export data:**
+- **Campaigns** - Bid strategies, automation settings
+- **Bidding strategies** - Portfolio strategies
 
 **Additional Review Required:**
 - Automated rules configuration (Google Ads UI)
@@ -41,7 +41,7 @@ SELECT
 FROM campaign
 WHERE campaign.status = 'ENABLED'
 ```
-Use `/google-ads:get-custom` if you need to check specific automation configurations.
+Run the reference query (API, UI report, or Editor export) if you need to check specific automation configurations.
 
 ## Analysis Steps
 

@@ -8,7 +8,7 @@ metadata:
   upstream_skill: skill-052-conversion-value-based-bidding
   category: bidding
   kind: deterministic
-  data_source: standard
+  data_source: export
   markets: all
   gaql_verified: null
   reviewed: 2026-09-03
@@ -21,12 +21,12 @@ Without accurate conversion values, tROAS bidding optimizes for revenue regardle
 
 ## Data Requirements
 
-**Data Source:** Standard
+**Data Source:** Account export
 
-**Standard Data:**
-- `data/account/conversion_actions.md` - Conversion action settings, default values
-- `data/account/account_summary.md` - Account-level conversion settings
-- `data/performance/campaigns/*/campaign_metrics_30_days.md` - Conversion values
+**Export data:**
+- **Conversion actions** - Conversion action settings, default values
+- **Account** - Account-level conversion settings
+- **Campaign metrics (30 days)** - Conversion values
 
 **Reference GAQL:**
 ```sql
@@ -42,7 +42,7 @@ SELECT
 FROM conversion_action
 WHERE conversion_action.status = 'ENABLED'
 ```
-Use `/google-ads:get-custom` for detailed value settings.
+Run the reference query (API, UI report, or Editor export) for detailed value settings.
 
 ## Analysis Steps
 

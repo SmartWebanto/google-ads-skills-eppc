@@ -8,7 +8,7 @@ metadata:
   upstream_skill: skill-146-seasonality-bid-adjustment-deployment
   category: seasonal
   kind: operational
-  data_source: custom_gaql
+  data_source: custom_query
   markets: all
   gaql_verified: null
   reviewed: 2026-09-03
@@ -20,9 +20,9 @@ Audit upcoming events and historical performance to recommend Seasonality Adjust
 
 ## Data Requirements
 
-**Data Source:** Custom GAQL Required
+**Data Source:** Custom query required
 
-Standard export lacks seasonality adjustment configuration and prior-year event data for comparison.
+A basic account export lacks seasonality adjustment configuration and prior-year event data for comparison.
 
 **GAQL Query (Historical Event Performance):**
 ```sql
@@ -38,7 +38,7 @@ FROM campaign
 WHERE campaign.status = 'ENABLED'
   AND segments.date BETWEEN '[PRIOR_YEAR_EVENT_START]' AND '[PRIOR_YEAR_EVENT_END]'
 ```
-Run via `/google-ads:get-custom` with appropriate date ranges for prior-year events.
+Run via a custom query (API, UI report, or Editor export) with appropriate date ranges for prior-year events.
 
 **Additional Requirements:**
 - Business promotional calendar with upcoming events

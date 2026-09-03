@@ -8,7 +8,7 @@ metadata:
   upstream_skill: skill-018-duplicate-keyword-detection
   category: keywords
   kind: deterministic
-  data_source: standard
+  data_source: export
   markets: all
   gaql_verified: null
   reviewed: 2026-09-03
@@ -20,11 +20,11 @@ Find duplicate keywords across ad groups and campaigns, considering match type a
 
 ## Data Requirements
 
-**Data Source:** Standard
+**Data Source:** Account export
 
-**Standard Data:**
-- `data/account/campaigns/*/*/keywords.md` - Keyword settings with match type and Quality Score
-- `data/performance/campaigns/*/*/keywords_metrics_30_days.md` - Keyword performance
+**Export data:**
+- **Keywords** - Keyword settings with match type and Quality Score
+- **Keyword metrics (30 days)** - Keyword performance
 
 **Reference GAQL:**
 ```sql
@@ -42,7 +42,7 @@ FROM keyword_view
 WHERE ad_group_criterion.status = 'ENABLED'
   AND segments.date DURING LAST_30_DAYS
 ```
-Use `/google-ads:get-custom` if you need different date ranges.
+Run the reference query (API, UI report, or Editor export) if you need different date ranges.
 
 ## Analysis Steps
 

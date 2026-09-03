@@ -8,7 +8,7 @@ metadata:
   upstream_skill: skill-094-pmax-cannibalizing-search-detection
   category: shopping_pmax
   kind: deterministic
-  data_source: custom_gaql
+  data_source: custom_query
   markets: all
   gaql_verified: null
   reviewed: 2026-09-03
@@ -20,7 +20,7 @@ Monitor for search query overlap between Performance Max and standard Search cam
 
 ## Data Requirements
 
-**Data Source:** Custom GAQL Required
+**Data Source:** Custom query required
 
 **GAQL Query - Search Terms (Standard Search):**
 ```sql
@@ -59,10 +59,10 @@ FROM campaign
 WHERE campaign.advertising_channel_type IN ('SEARCH', 'PERFORMANCE_MAX')
   AND segments.date DURING LAST_30_DAYS
 ```
-Run via `/google-ads:get-custom` with query name `pmax_cannibalization`.
+Run the query through the Google Ads API, a UI custom report, or Google Ads Editor; save the result as `pmax_cannibalization`.
 
-**Standard Data:**
-- `data/performance/campaigns/*/search_terms_metrics_30_days.md` - Search term reports
+**Export data:**
+- **Search terms (30 days)** - Search term reports
 
 ## Analysis Steps
 

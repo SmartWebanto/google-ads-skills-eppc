@@ -8,7 +8,7 @@ metadata:
   upstream_skill: skill-101-dynamic-remarketing-setup
   category: remarketing
   kind: deterministic
-  data_source: custom_gaql
+  data_source: custom_query
   markets: all
   gaql_verified: null
   reviewed: 2026-09-03
@@ -20,12 +20,12 @@ Verify dynamic remarketing is properly configured with product feed integration.
 
 ## Data Requirements
 
-**Data Source:** Custom GAQL Required
+**Data Source:** Custom query required
 
-**Standard Data:**
-- `data/account/account_summary.md` - Merchant Center linkage
-- `data/account/campaigns/*/campaign.md` - Campaign types
-- `data/account/campaigns/*/audience_targeting.md` - Audience configurations
+**Export data:**
+- **Account** - Merchant Center linkage
+- **Campaigns** - Campaign types
+- **Audiences (campaign level)** - Audience configurations
 
 **Reference GAQL:**
 ```sql
@@ -37,7 +37,7 @@ FROM campaign
 WHERE campaign.advertising_channel_type IN ('DISPLAY', 'PERFORMANCE_MAX', 'SHOPPING')
   AND campaign.status = 'ENABLED'
 ```
-Use `/google-ads:get-custom` to verify Merchant Center linkage.
+Run the reference query (API, UI report, or Editor export) to verify Merchant Center linkage.
 
 **Note:** Full dynamic remarketing audit requires website tag verification via Google Tag Assistant.
 

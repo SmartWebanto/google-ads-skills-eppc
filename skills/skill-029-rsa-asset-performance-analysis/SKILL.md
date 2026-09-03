@@ -8,7 +8,7 @@ metadata:
   upstream_skill: skill-029-rsa-asset-performance-analysis
   category: creative
   kind: deterministic
-  data_source: custom_gaql
+  data_source: custom_query
   merged_from: [skill-126-rsa-asset-performance-bulk-analysis]
   markets: all
   gaql_verified: null
@@ -22,12 +22,12 @@ Google labels each RSA asset Best, Good, Low, or Learning. Aggregate labels and 
 
 ## Data Requirements
 
-**Data Source:** Custom GAQL Required
+**Data Source:** Custom query required
 
-Standard export does not include asset-level performance ratings.
+A basic account export does not include asset-level performance ratings.
 
-**Standard Data:**
-- `data/account/campaigns/*/*/ads.md` - RSA headlines, descriptions, ad strength
+**Export data:**
+- **Ads** - RSA headlines, descriptions, ad strength
 
 **GAQL Query:**
 ```sql
@@ -46,7 +46,7 @@ WHERE ad_group_ad.status = 'ENABLED'
   AND segments.date DURING LAST_30_DAYS
 ORDER BY ad_group_ad_asset_view.performance_label DESC
 ```
-Run via `/google-ads:get-custom` with query name `asset_performance`.
+Run the query through the Google Ads API, a UI custom report, or Google Ads Editor; save the result as `asset_performance`.
 
 **GAQL Query (ad-level metrics):**
 ```sql
@@ -66,7 +66,7 @@ WHERE ad_group_ad.ad.type = 'RESPONSIVE_SEARCH_AD'
   AND segments.date DURING LAST_30_DAYS
 ORDER BY metrics.impressions DESC
 ```
-Run via `/google-ads:get-custom` with query name `rsa_ad_performance`.
+Run the query through the Google Ads API, a UI custom report, or Google Ads Editor; save the result as `rsa_ad_performance`.
 
 ## Analysis Steps
 

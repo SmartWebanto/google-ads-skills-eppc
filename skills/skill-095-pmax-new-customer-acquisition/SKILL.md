@@ -8,7 +8,7 @@ metadata:
   upstream_skill: skill-095-pmax-new-customer-acquisition
   category: shopping_pmax
   kind: deterministic
-  data_source: custom_gaql
+  data_source: custom_query
   markets: all
   gaql_verified: null
   reviewed: 2026-09-03
@@ -20,7 +20,7 @@ Evaluate whether New Customer Acquisition (NCA) mode is enabled to bid more aggr
 
 ## Data Requirements
 
-**Data Source:** Custom GAQL Required
+**Data Source:** Custom query required
 
 **GAQL Query - NCA Settings:**
 ```sql
@@ -43,7 +43,7 @@ FROM user_list
 WHERE user_list.type = 'CRM_BASED'
   AND user_list.membership_status = 'OPEN'
 ```
-Run via `/google-ads:get-custom` with query name `pmax_nca_settings`.
+Run the query through the Google Ads API, a UI custom report, or Google Ads Editor; save the result as `pmax_nca_settings`.
 
 ## Analysis Steps
 

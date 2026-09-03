@@ -8,7 +8,7 @@ metadata:
   upstream_skill: skill-049-budget-overspend-underspend-alert-configuration
   category: bidding
   kind: operational
-  data_source: custom_gaql
+  data_source: custom_query
   markets: all
   gaql_verified: null
   reviewed: 2026-09-03
@@ -21,13 +21,13 @@ Budget pacing issues often go unnoticed until month-end. This skill defines aler
 
 ## Data Requirements
 
-**Data Source:** Custom GAQL Required
+**Data Source:** Custom query required
 
-The standard export provides aggregated data but not daily spend patterns needed for alert detection.
+A basic account export provides aggregated data but not daily spend patterns needed for alert detection.
 
-**Standard Data:**
-- `data/account/campaigns/*/campaign.md` - Budget settings
-- `data/performance/campaigns/*/campaign_metrics_30_days.md` - Total spend (baseline)
+**Export data:**
+- **Campaigns** - Budget settings
+- **Campaign metrics (30 days)** - Total spend (baseline)
 
 **GAQL Query:**
 ```sql
@@ -42,7 +42,7 @@ WHERE campaign.status = 'ENABLED'
   AND segments.date DURING LAST_14_DAYS
 ORDER BY segments.date DESC
 ```
-Run via `/google-ads:get-custom` with query name `budget_alerts`.
+Run the query through the Google Ads API, a UI custom report, or Google Ads Editor; save the result as `budget_alerts`.
 
 ## Analysis Steps
 

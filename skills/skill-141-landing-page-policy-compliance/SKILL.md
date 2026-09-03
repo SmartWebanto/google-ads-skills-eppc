@@ -8,7 +8,7 @@ metadata:
   upstream_skill: skill-141-landing-page-policy-compliance
   category: compliance
   kind: analyst
-  data_source: custom_gaql
+  data_source: custom_query
   related: [skill-034-ad-copy-landing-page-consistency, skill-069-landing-page-experience-assessment, skill-078-landing-page-speed, skill-079-broken-url-monitoring, skill-125-landing-page-health-check-automation]
   markets: all
   gaql_verified: null
@@ -22,11 +22,11 @@ Audit destination URLs for Google Ads policy compliance requirements including p
 
 ## Data Requirements
 
-**Data Source:** Custom GAQL Required
+**Data Source:** Custom query required
 
-**Standard Data:**
-- `data/account/campaigns/*/*/ads.md` - Final URLs from ads
-- `data/account/campaigns/*/*/keywords.md` - Keyword-level URLs
+**Export data:**
+- **Ads** - Final URLs from ads
+- **Keywords** - Keyword-level URLs
 
 **GAQL Query (for landing page inventory):**
 ```sql
@@ -39,7 +39,7 @@ SELECT
 FROM ad_group_ad
 WHERE ad_group_ad.status = 'ENABLED'
 ```
-Run via `/google-ads:get-custom` with query name `landing_page_urls`.
+Run the query through the Google Ads API, a UI custom report, or Google Ads Editor; save the result as `landing_page_urls`.
 
 ## Analysis Steps
 

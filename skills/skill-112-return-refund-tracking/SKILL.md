@@ -8,7 +8,7 @@ metadata:
   upstream_skill: skill-112-return-refund-tracking
   category: remarketing
   kind: analyst
-  data_source: custom_gaql
+  data_source: custom_query
   markets: all
   gaql_verified: null
   reviewed: 2026-09-03
@@ -20,7 +20,7 @@ Track product returns and refunds to measure true ROAS. Without return data, rep
 
 ## Data Requirements
 
-**Data Source:** Custom GAQL Required
+**Data Source:** Custom query required
 
 **GAQL Query:**
 ```sql
@@ -35,7 +35,7 @@ FROM conversion_action
 WHERE conversion_action.status = 'ENABLED'
   AND conversion_action.category IN ('PURCHASE', 'CONVERTED_LEAD')
 ```
-Run via `/google-ads:get-custom` to analyze conversion value patterns.
+Run via a custom query (API, UI report, or Editor export) to analyze conversion value patterns.
 
 **Note:** Return tracking requires e-commerce system integration - full audit needs access to OMS/CRM.
 

@@ -8,7 +8,7 @@ metadata:
   upstream_skill: skill-123-budget-pacing-daily-allocation-scripts
   category: waste
   kind: operational
-  data_source: custom_gaql
+  data_source: custom_query
   related: [skill-044-monthly-budget-pacing-analysis]
   markets: all
   gaql_verified: null
@@ -22,9 +22,9 @@ Analyze day-of-week performance patterns to optimize daily budget allocation and
 
 ## Data Requirements
 
-**Data Source:** Custom GAQL Required
+**Data Source:** Custom query required
 
-The standard export does not include day-of-week segmented data.
+A basic account export does not include day-of-week segmented data.
 
 **GAQL Query:**
 ```sql
@@ -42,7 +42,7 @@ WHERE segments.date BETWEEN '{start_date}' AND '{end_date}'
   AND campaign.status = 'ENABLED'
 ORDER BY campaign.name, segments.day_of_week
 ```
-Run via `/google-ads:get-custom` with query name `day_of_week_performance`.
+Run the query through the Google Ads API, a UI custom report, or Google Ads Editor; save the result as `day_of_week_performance`.
 
 ## Analysis Steps
 

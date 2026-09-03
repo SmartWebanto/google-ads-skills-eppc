@@ -8,7 +8,7 @@ metadata:
   upstream_skill: skill-090-pmax-audience-signal-configuration
   category: shopping_pmax
   kind: deterministic
-  data_source: custom_gaql
+  data_source: custom_query
   markets: all
   gaql_verified: null
   reviewed: 2026-09-03
@@ -20,9 +20,9 @@ Verify that Performance Max campaigns have proper audience signals configured. S
 
 ## Data Requirements
 
-**Data Source:** Custom GAQL Required
+**Data Source:** Custom query required
 
-The standard export does not include asset group audience signal details.
+A basic account export does not include asset group audience signal details.
 
 **GAQL Query - Audience Signals:**
 ```sql
@@ -48,10 +48,10 @@ SELECT
 FROM user_list
 WHERE user_list.type IN ('CRM_BASED', 'RULE_BASED', 'LOGICAL')
 ```
-Run via `/google-ads:get-custom` with query name `pmax_audience_signals`.
+Run the query through the Google Ads API, a UI custom report, or Google Ads Editor; save the result as `pmax_audience_signals`.
 
-**Standard Data:**
-- `data/account/campaigns/*/audience_targeting.md` - Audience configurations (if available)
+**Export data:**
+- **Audiences (campaign level)** - Audience configurations (if available)
 
 ## Analysis Steps
 

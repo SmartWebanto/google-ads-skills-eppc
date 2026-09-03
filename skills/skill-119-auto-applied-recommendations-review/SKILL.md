@@ -8,7 +8,7 @@ metadata:
   upstream_skill: skill-119-auto-applied-recommendations-review
   category: waste
   kind: deterministic
-  data_source: custom_gaql
+  data_source: custom_query
   markets: all
   gaql_verified: null
   reviewed: 2026-09-03
@@ -20,7 +20,7 @@ Audit and manage Google's auto-applied recommendations to prevent unwanted chang
 
 ## Data Requirements
 
-**Data Source:** Custom GAQL Required
+**Data Source:** Custom query required
 
 **GAQL Query - Change History:**
 ```sql
@@ -45,7 +45,7 @@ SELECT
   recommendation.campaign
 FROM recommendation
 ```
-Run via `/google-ads:get-custom` with query name `auto_apply_audit`.
+Run the query through the Google Ads API, a UI custom report, or Google Ads Editor; save the result as `auto_apply_audit`.
 
 ## Analysis Steps
 

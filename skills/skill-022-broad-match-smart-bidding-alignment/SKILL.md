@@ -8,7 +8,7 @@ metadata:
   upstream_skill: skill-022-broad-match-smart-bidding-alignment
   category: keywords
   kind: deterministic
-  data_source: standard
+  data_source: export
   markets: all
   gaql_verified: null
   reviewed: 2026-09-03
@@ -21,13 +21,13 @@ Google recommends using broad match keywords with Smart Bidding because the algo
 
 ## Data Requirements
 
-**Data Source:** Standard
+**Data Source:** Account export
 
-**Standard Data:**
-- `data/account/campaigns/*/campaign.md` - Campaign bidding strategy
-- `data/account/campaigns/*/*/keywords.md` - Keyword match types
-- `data/account/bidding_strategies.md` - Portfolio bidding strategies
-- `data/performance/campaigns/*/*/keywords_metrics_30_days.md` - Performance by match type
+**Export data:**
+- **Campaigns** - Campaign bidding strategy
+- **Keywords** - Keyword match types
+- **Bidding strategies** - Portfolio bidding strategies
+- **Keyword metrics (30 days)** - Performance by match type
 
 **Reference GAQL:**
 ```sql
@@ -44,7 +44,7 @@ FROM keyword_view
 WHERE ad_group_criterion.status = 'ENABLED'
   AND segments.date DURING LAST_30_DAYS
 ```
-Use `/google-ads:get-custom` if you need to analyze performance differences by match type.
+Run the reference query (API, UI report, or Editor export) if you need to analyze performance differences by match type.
 
 ## Analysis Steps
 

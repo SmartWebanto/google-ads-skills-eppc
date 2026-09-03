@@ -23,10 +23,10 @@ Scan landing pages for 4xx and 5xx HTTP errors that waste ad spend and damage us
 
 **Data Source:** External (beyond Google Ads data)
 
-**Standard Data:**
-- `data/account/campaigns/*/*/ads.md` - Ad final URLs
-- `data/account/ext_sitelinks.md` - Sitelink URLs
-- `data/performance/campaigns/*/*/ads_metrics_30_days.md` - Click volume per ad
+**Export data:**
+- **Ads** - Ad final URLs
+- **Assets: sitelinks** - Sitelink URLs
+- **Ad metrics (30 days)** - Click volume per ad
 
 **Reference GAQL:**
 ```sql
@@ -43,7 +43,7 @@ WHERE segments.date DURING LAST_30_DAYS
   AND ad_group_ad.status = 'ENABLED'
 ORDER BY metrics.clicks DESC
 ```
-Use `/google-ads:get-custom` for comprehensive URL extraction.
+Run the reference query (API, UI report, or Editor export) for comprehensive URL extraction.
 
 Note: Actual HTTP status testing requires external tools or scripts.
 

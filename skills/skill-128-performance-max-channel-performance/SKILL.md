@@ -8,7 +8,7 @@ metadata:
   upstream_skill: skill-128-performance-max-channel-performance
   category: waste
   kind: deterministic
-  data_source: custom_gaql
+  data_source: custom_query
   markets: all
   gaql_verified: null
   reviewed: 2026-09-03
@@ -21,7 +21,7 @@ Extract available performance data from Performance Max campaigns including asse
 
 ## Data Requirements
 
-**Data Source:** Custom GAQL Required
+**Data Source:** Custom query required
 
 Performance Max data requires custom queries for asset group and placement insights.
 
@@ -73,7 +73,7 @@ FROM campaign
 WHERE campaign.advertising_channel_type = 'PERFORMANCE_MAX'
   AND segments.date DURING LAST_30_DAYS
 ```
-Run via `/google-ads:get-custom`.
+Run the query through the Google Ads API, a UI custom report, or Google Ads Editor.
 
 ## Analysis Steps
 

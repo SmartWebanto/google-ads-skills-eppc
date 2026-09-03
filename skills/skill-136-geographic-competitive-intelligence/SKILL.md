@@ -8,7 +8,7 @@ metadata:
   upstream_skill: skill-136-geographic-competitive-intelligence
   category: competitive
   kind: deterministic
-  data_source: custom_gaql
+  data_source: custom_query
   markets: all
   gaql_verified: null
   reviewed: 2026-09-03
@@ -21,7 +21,7 @@ Analyze competitive dynamics by geography to identify regions with strong positi
 
 ## Data Requirements
 
-**Data Source:** Custom GAQL Required
+**Data Source:** Custom query required
 
 Geographic performance data requires custom GAQL queries.
 
@@ -39,7 +39,7 @@ FROM geographic_view
 WHERE segments.date DURING LAST_30_DAYS
   AND metrics.impressions > 0
 ```
-Run via `/google-ads:get-custom` with query name `geo_performance`.
+Run the query through the Google Ads API, a UI custom report, or Google Ads Editor; save the result as `geo_performance`.
 
 ## Analysis Steps
 

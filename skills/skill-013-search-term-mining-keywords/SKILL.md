@@ -8,7 +8,7 @@ metadata:
   upstream_skill: skill-013-search-term-mining-keywords
   category: keywords
   kind: deterministic
-  data_source: standard
+  data_source: export
   related: [skill-014-search-term-mining-negatives, skill-127-trending-search-term-detection]
   markets: all
   gaql_verified: null
@@ -21,11 +21,11 @@ Review search term reports to identify high-performing queries that are not yet 
 
 ## Data Requirements
 
-**Data Source:** Standard
+**Data Source:** Account export
 
-**Standard Data:**
-- `data/performance/campaigns/*/*/search_terms_metrics_30_days.md` - Search query performance
-- `data/account/campaigns/*/*/keywords.md` - Existing keywords to cross-reference
+**Export data:**
+- **Search terms (30 days)** - Search query performance
+- **Keywords** - Existing keywords to cross-reference
 
 **Reference GAQL:**
 ```sql
@@ -43,7 +43,7 @@ FROM search_term_view
 WHERE segments.date DURING LAST_30_DAYS
   AND metrics.impressions > 0
 ```
-Use `/google-ads:get-custom` if you need different date ranges or additional metrics.
+Run the reference query (API, UI report, or Editor export) if you need different date ranges or additional metrics.
 
 ## Analysis Steps
 

@@ -8,7 +8,7 @@ metadata:
   upstream_skill: skill-025-rsa-headline-diversity-completeness
   category: creative
   kind: deterministic
-  data_source: standard
+  data_source: export
   markets: all
   gaql_verified: null
   reviewed: 2026-09-03
@@ -21,10 +21,10 @@ Google recommends 10-15 unique headlines per RSA to maximize ad combinations and
 
 ## Data Requirements
 
-**Data Source:** Standard
+**Data Source:** Account export
 
-**Standard Data:**
-- `data/account/campaigns/*/*/ads.md` - RSA headlines, descriptions, ad strength
+**Export data:**
+- **Ads** - RSA headlines, descriptions, ad strength
 
 **Reference GAQL:**
 ```sql
@@ -40,7 +40,7 @@ FROM ad_group_ad
 WHERE ad_group_ad.ad.type = 'RESPONSIVE_SEARCH_AD'
   AND ad_group_ad.status != 'REMOVED'
 ```
-Use `/google-ads:get-custom` if you need ad strength details or performance metrics.
+Run the reference query (API, UI report, or Editor export) if you need ad strength details or performance metrics.
 
 ## Analysis Steps
 

@@ -8,7 +8,7 @@ metadata:
   upstream_skill: skill-041-smart-bidding-learning-phase-monitoring
   category: bidding
   kind: deterministic
-  data_source: custom_gaql
+  data_source: custom_query
   markets: all
   gaql_verified: null
   reviewed: 2026-09-03
@@ -21,13 +21,13 @@ Smart Bidding algorithms need time to learn optimal bid patterns. During learnin
 
 ## Data Requirements
 
-**Data Source:** Custom GAQL Required
+**Data Source:** Custom query required
 
-The standard export does not include campaign primary status or learning phase indicators.
+A basic account export does not include campaign primary status or learning phase indicators.
 
-**Standard Data:**
-- `data/account/campaigns/*/campaign.md` - Bidding strategy type, status
-- `data/performance/campaigns/*/campaign_metrics_30_days.md` - Daily performance trends
+**Export data:**
+- **Campaigns** - Bidding strategy type, status
+- **Campaign metrics (30 days)** - Daily performance trends
 
 **GAQL Query:**
 ```sql
@@ -47,7 +47,7 @@ FROM campaign
 WHERE campaign.status = 'ENABLED'
   AND segments.date DURING LAST_14_DAYS
 ```
-Run via `/google-ads:get-custom` with query name `learning_phase_status`.
+Run the query through the Google Ads API, a UI custom report, or Google Ads Editor; save the result as `learning_phase_status`.
 
 ## Analysis Steps
 

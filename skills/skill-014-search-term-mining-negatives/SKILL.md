@@ -8,7 +8,7 @@ metadata:
   upstream_skill: skill-014-search-term-mining-negatives
   category: keywords
   kind: deterministic
-  data_source: standard
+  data_source: export
   related: [skill-013-search-term-mining-keywords, skill-127-trending-search-term-detection]
   markets: all
   gaql_verified: null
@@ -21,14 +21,14 @@ Identify irrelevant, wasteful, or poor-performing search queries that should be 
 
 ## Data Requirements
 
-**Data Source:** Standard
+**Data Source:** Account export
 
-**Standard Data:**
-- `data/performance/campaigns/*/*/search_terms_metrics_30_days.md` - Search query performance
-- `data/account/campaigns/*/negative_keywords.md` - Existing campaign negatives
-- `data/account/campaigns/*/*/negative_keywords.md` - Existing ad group negatives
-- `data/account/shared_negative_lists.md` - Shared negative keyword lists
-- `data/account/campaigns/*/*/keywords.md` - Active keywords (to avoid conflicts)
+**Export data:**
+- **Search terms (30 days)** - Search query performance
+- **Negative keywords (campaign level)** - Existing campaign negatives
+- **Negative keywords (ad group level)** - Existing ad group negatives
+- **Shared negative lists** - Shared negative keyword lists
+- **Keywords** - Active keywords (to avoid conflicts)
 
 **Reference GAQL:**
 ```sql
@@ -45,7 +45,7 @@ FROM search_term_view
 WHERE segments.date DURING LAST_30_DAYS
   AND metrics.cost_micros > 0
 ```
-Use `/google-ads:get-custom` if you need different date ranges.
+Run the reference query (API, UI report, or Editor export) if you need different date ranges.
 
 ## Analysis Steps
 

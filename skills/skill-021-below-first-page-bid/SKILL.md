@@ -8,7 +8,7 @@ metadata:
   upstream_skill: skill-021-below-first-page-bid
   category: keywords
   kind: deterministic
-  data_source: standard
+  data_source: export
   markets: all
   gaql_verified: null
   reviewed: 2026-09-03
@@ -21,12 +21,12 @@ Identify keywords where low bids are limiting visibility and performance. Keywor
 
 ## Data Requirements
 
-**Data Source:** Standard
+**Data Source:** Account export
 
-**Standard Data:**
-- `data/account/campaigns/*/*/keywords.md` - Keyword bids and Quality Score
-- `data/performance/campaigns/*/*/keywords_metrics_30_days.md` - Impressions and performance
-- `data/account/campaigns/*/campaign.md` - Campaign bidding strategy
+**Export data:**
+- **Keywords** - Keyword bids and Quality Score
+- **Keyword metrics (30 days)** - Impressions and performance
+- **Campaigns** - Campaign bidding strategy
 
 **Reference GAQL:**
 ```sql
@@ -43,7 +43,7 @@ FROM keyword_view
 WHERE ad_group_criterion.status = 'ENABLED'
   AND segments.date DURING LAST_30_DAYS
 ```
-Use `/google-ads:get-custom` if you need impression share metrics for more accurate diagnosis.
+Run the reference query (API, UI report, or Editor export) if you need impression share metrics for more accurate diagnosis.
 
 ## Analysis Steps
 

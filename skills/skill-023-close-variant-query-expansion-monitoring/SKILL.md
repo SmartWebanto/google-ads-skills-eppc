@@ -8,7 +8,7 @@ metadata:
   upstream_skill: skill-023-close-variant-broad-match-monitoring
   category: keywords
   kind: deterministic
-  data_source: standard
+  data_source: export
   merged_from: [skill-120-close-variant-match-expansion-monitoring]
   markets: all
   gaql_verified: null
@@ -22,13 +22,13 @@ Google expands every match type: broad and phrase reach related queries, and exa
 
 ## Data Requirements
 
-**Data Source:** Standard
+**Data Source:** Account export
 
-**Standard Data:**
-- `data/performance/campaigns/*/*/search_terms_metrics_30_days.md` - Actual queries with performance
-- `data/account/campaigns/*/*/keywords.md` - Keywords with match types
-- `data/account/campaigns/*/negative_keywords.md` - Existing campaign negatives
-- `data/account/campaigns/*/*/negative_keywords.md` - Ad group negatives
+**Export data:**
+- **Search terms (30 days)** - Actual queries with performance
+- **Keywords** - Keywords with match types
+- **Negative keywords (campaign level)** - Existing campaign negatives
+- **Negative keywords (ad group level)** - Ad group negatives
 
 **Reference GAQL:**
 ```sql
@@ -46,7 +46,7 @@ SELECT
 FROM search_term_view
 WHERE segments.date DURING LAST_30_DAYS
 ```
-Use `/google-ads:get-custom` for different date ranges or to filter by specific campaigns.
+Run the reference query (API, UI report, or Editor export) for different date ranges or to filter by specific campaigns.
 
 ## Analysis Steps
 

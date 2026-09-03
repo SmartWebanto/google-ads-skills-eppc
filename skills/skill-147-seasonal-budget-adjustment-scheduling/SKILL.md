@@ -8,7 +8,7 @@ metadata:
   upstream_skill: skill-147-seasonal-budget-adjustment-scheduling
   category: seasonal
   kind: operational
-  data_source: custom_gaql
+  data_source: custom_query
   markets: all
   gaql_verified: null
   reviewed: 2026-09-03
@@ -20,13 +20,13 @@ Ensure campaigns have scheduled budget increases for peak periods and automatic 
 
 ## Data Requirements
 
-**Data Source:** Custom GAQL Required
+**Data Source:** Custom query required
 
-Standard export shows current budgets but not historical spend patterns or impression share lost to budget during prior peaks.
+A basic account export shows current budgets but not historical spend patterns or impression share lost to budget during prior peaks.
 
-**Standard Data:**
-- `data/account/campaigns/*/campaign.md` - Current budget settings
-- `data/account/budgets.md` - Shared budget configuration
+**Export data:**
+- **Campaigns** - Current budget settings
+- **Budgets** - Shared budget configuration
 
 **GAQL Query (Historical Peak Spend):**
 ```sql
@@ -42,11 +42,11 @@ FROM campaign
 WHERE campaign.status = 'ENABLED'
   AND segments.date BETWEEN '[PRIOR_YEAR_PEAK_START]' AND '[PRIOR_YEAR_PEAK_END]'
 ```
-Run via `/google-ads:get-custom` to analyze prior-year peak periods.
+Run via a custom query (API, UI report, or Editor export) to analyze prior-year peak periods.
 
 ## Analysis Steps
 
-1. **Review current budgets:** Read campaign budget settings from standard data
+1. **Review current budgets:** Read campaign budget settings from the export
 2. **Identify upcoming peaks:** Map promotional calendar to budget requirements
 3. **Analyze historical spend:** Query prior-year peak periods for spend patterns and budget limitations
 4. **Check impression share loss:** Identify campaigns that were budget-limited during prior peaks

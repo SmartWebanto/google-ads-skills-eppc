@@ -8,7 +8,7 @@ metadata:
   upstream_skill: skill-016-negative-keyword-list-completeness
   category: keywords
   kind: deterministic
-  data_source: standard
+  data_source: export
   merged_from: [skill-113-proactive-negative-keyword-list-building]
   markets: all
   gaql_verified: null
@@ -22,14 +22,14 @@ Shared negative lists are the cheapest waste prevention: build them proactively 
 
 ## Data Requirements
 
-**Data Source:** Standard
+**Data Source:** Account export
 
-**Standard Data:**
-- `data/account/shared_negative_lists.md` - Shared negative keyword lists
-- `data/account/campaigns/*/negative_keywords.md` - Campaign-level negatives
-- `data/account/campaigns/*/*/negative_keywords.md` - Ad group-level negatives
-- `data/performance/campaigns/*/*/search_terms_metrics_30_days.md` - To validate leakage
-- `data/account/campaigns/*/campaign.md` - Campaign list for coverage check
+**Export data:**
+- **Shared negative lists** - Shared negative keyword lists
+- **Negative keywords (campaign level)** - Campaign-level negatives
+- **Negative keywords (ad group level)** - Ad group-level negatives
+- **Search terms (30 days)** - To validate leakage
+- **Campaigns** - Campaign list for coverage check
 
 **Reference GAQL:**
 ```sql
@@ -41,7 +41,7 @@ SELECT
 FROM shared_set
 WHERE shared_set.type = 'NEGATIVE_KEYWORDS'
 ```
-Use `/google-ads:get-custom` if you need detailed shared set membership.
+Run the reference query (API, UI report, or Editor export) if you need detailed shared set membership.
 
 **Reference GAQL (search terms):**
 ```sql

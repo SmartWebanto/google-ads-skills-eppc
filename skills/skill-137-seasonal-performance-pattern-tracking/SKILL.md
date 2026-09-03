@@ -8,7 +8,7 @@ metadata:
   upstream_skill: skill-137-seasonal-performance-pattern-tracking
   category: competitive
   kind: deterministic
-  data_source: custom_gaql
+  data_source: custom_query
   markets: all
   gaql_verified: null
   reviewed: 2026-09-03
@@ -21,7 +21,7 @@ Analyze your own seasonal performance patterns across 12+ months to identify rec
 
 ## Data Requirements
 
-**Data Source:** Custom GAQL Required
+**Data Source:** Custom query required
 
 **GAQL Query:**
 ```sql
@@ -37,7 +37,7 @@ FROM campaign
 WHERE campaign.advertising_channel_type = 'SEARCH'
   AND segments.date BETWEEN '{start_date}' AND '{end_date}'
 ```
-Run via `/google-ads:get-custom`. Use 12+ month date range for meaningful seasonal patterns.
+Run the query through the Google Ads API, a UI custom report, or Google Ads Editor. Use 12+ month date range for meaningful seasonal patterns.
 
 ## Analysis Steps
 

@@ -8,7 +8,7 @@ metadata:
   upstream_skill: skill-061-customer-match-list-freshness
   category: targeting
   kind: deterministic
-  data_source: custom_gaql
+  data_source: custom_query
   merged_from: [skill-104-customer-match-list-management]
   related: [skill-156-first-party-data-collection-activation-strategy]
   markets: all
@@ -23,12 +23,12 @@ Customer Match is the most durable first-party targeting signal. Verify lists ex
 
 ## Data Requirements
 
-**Data Source:** Custom GAQL Required
+**Data Source:** Custom query required
 
-The standard export does not include user list metadata such as size, match rate, or freshness.
+A basic account export does not include user list metadata such as size, match rate, or freshness.
 
-**Standard Data:**
-- `data/account/campaigns/*/audience_targeting.md` - Customer Match list usage in campaigns
+**Export data:**
+- **Audiences (campaign level)** - Customer Match list usage in campaigns
 
 **GAQL Query:**
 ```sql
@@ -45,7 +45,7 @@ SELECT
 FROM user_list
 WHERE user_list.type = 'CRM_BASED'
 ```
-Run via `/google-ads:get-custom` with query name `customer_match_lists`.
+Run the query through the Google Ads API, a UI custom report, or Google Ads Editor; save the result as `customer_match_lists`.
 
 ## Analysis Steps
 

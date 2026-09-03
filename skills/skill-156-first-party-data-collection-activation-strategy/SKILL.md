@@ -8,7 +8,7 @@ metadata:
   upstream_skill: skill-156-first-party-data-collection-activation-strategy
   category: platform
   kind: analyst
-  data_source: custom_gaql
+  data_source: custom_query
   related: [skill-061-customer-match-list-health]
   markets: eea_relevant
   gaql_verified: null
@@ -21,9 +21,9 @@ Assess first-party data collection and activation for Google Ads targeting and m
 
 ## Data Requirements
 
-**Data Source:** Custom GAQL Required
+**Data Source:** Custom query required
 
-Standard export doesn't include Customer Match audience configuration or match rates.
+A basic account export doesn't include Customer Match audience configuration or match rates.
 
 **Reference GAQL (Customer Match Audiences):**
 ```sql
@@ -36,7 +36,7 @@ SELECT
 FROM user_list
 WHERE user_list.type = 'CRM_BASED'
 ```
-Run via `/google-ads:get-custom` to inventory Customer Match lists.
+Run via a custom query (API, UI report, or Editor export) to inventory Customer Match lists.
 
 **Additional Data Sources:**
 - CRM system (Salesforce, HubSpot) - email counts, data quality

@@ -8,7 +8,7 @@ metadata:
   upstream_skill: skill-089-pmax-asset-group-structure
   category: shopping_pmax
   kind: deterministic
-  data_source: custom_gaql
+  data_source: custom_query
   markets: all
   gaql_verified: null
   reviewed: 2026-09-03
@@ -20,9 +20,9 @@ Evaluate whether PMax asset groups are organized by distinct product categories 
 
 ## Data Requirements
 
-**Data Source:** Custom GAQL Required
+**Data Source:** Custom query required
 
-The standard export does not include asset group details.
+A basic account export does not include asset group details.
 
 **GAQL Query - Asset Groups:**
 ```sql
@@ -49,7 +49,7 @@ SELECT
 FROM asset_group_listing_group_filter
 WHERE campaign.advertising_channel_type = 'PERFORMANCE_MAX'
 ```
-Run via `/google-ads:get-custom` with query name `pmax_asset_groups`.
+Run the query through the Google Ads API, a UI custom report, or Google Ads Editor; save the result as `pmax_asset_groups`.
 
 ## Analysis Steps
 

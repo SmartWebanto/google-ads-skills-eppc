@@ -8,7 +8,7 @@ metadata:
   upstream_skill: skill-033-dynamic-keyword-insertion-review
   category: creative
   kind: deterministic
-  data_source: standard
+  data_source: export
   markets: all
   gaql_verified: null
   reviewed: 2026-09-03
@@ -21,11 +21,11 @@ Dynamic Keyword Insertion (DKI) automatically inserts triggering keywords into a
 
 ## Data Requirements
 
-**Data Source:** Standard
+**Data Source:** Account export
 
-**Standard Data:**
-- `data/account/campaigns/*/*/ads.md` - RSA ad copy (check for DKI syntax)
-- `data/account/campaigns/*/*/keywords.md` - Keywords that might trigger DKI
+**Export data:**
+- **Ads** - RSA ad copy (check for DKI syntax)
+- **Keywords** - Keywords that might trigger DKI
 
 **Reference GAQL:**
 ```sql
@@ -40,7 +40,7 @@ FROM ad_group_ad
 WHERE ad_group_ad.ad.type = 'RESPONSIVE_SEARCH_AD'
   AND ad_group_ad.status != 'REMOVED'
 ```
-Use `/google-ads:get-custom` if you need to filter by specific campaigns.
+Run the reference query (API, UI report, or Editor export) if you need to filter by specific campaigns.
 
 ## Analysis Steps
 

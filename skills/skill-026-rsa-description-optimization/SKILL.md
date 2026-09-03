@@ -8,7 +8,7 @@ metadata:
   upstream_skill: skill-026-rsa-description-optimization
   category: creative
   kind: deterministic
-  data_source: standard
+  data_source: export
   markets: all
   gaql_verified: null
   reviewed: 2026-09-03
@@ -21,10 +21,10 @@ RSAs support 4 descriptions but serve only 2 at a time. Having all 4 slots fille
 
 ## Data Requirements
 
-**Data Source:** Standard
+**Data Source:** Account export
 
-**Standard Data:**
-- `data/account/campaigns/*/*/ads.md` - RSA descriptions, headlines, ad strength
+**Export data:**
+- **Ads** - RSA descriptions, headlines, ad strength
 
 **Reference GAQL:**
 ```sql
@@ -41,7 +41,7 @@ WHERE ad_group_ad.ad.type = 'RESPONSIVE_SEARCH_AD'
   AND ad_group_ad.status != 'REMOVED'
   AND segments.date DURING LAST_30_DAYS
 ```
-Use `/google-ads:get-custom` for performance metrics by ad.
+Run the reference query (API, UI report, or Editor export) for performance metrics by ad.
 
 ## Analysis Steps
 

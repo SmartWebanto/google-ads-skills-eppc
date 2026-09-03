@@ -8,7 +8,7 @@ metadata:
   upstream_skill: skill-130-campaign-enable-pause-scheduling
   category: competitive
   kind: operational
-  data_source: standard
+  data_source: export
   markets: all
   gaql_verified: null
   reviewed: 2026-09-03
@@ -21,11 +21,11 @@ Review campaign inventory to identify those needing automated enable/pause sched
 
 ## Data Requirements
 
-**Data Source:** Standard
+**Data Source:** Account export
 
-**Standard Data:**
-- `data/account/campaigns/*/campaign.md` - Campaign settings, status, dates
-- `data/account/account_summary.md` - Campaign inventory
+**Export data:**
+- **Campaigns** - Campaign settings, status, dates
+- **Account** - Campaign inventory
 
 **Reference GAQL:**
 ```sql
@@ -38,7 +38,7 @@ SELECT
 FROM campaign
 WHERE campaign.status IN ('ENABLED', 'PAUSED')
 ```
-Use `/google-ads:get-custom` for label-based filtering.
+Run the reference query (API, UI report, or Editor export) for label-based filtering.
 
 ## Analysis Steps
 

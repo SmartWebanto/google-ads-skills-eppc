@@ -8,7 +8,7 @@ metadata:
   upstream_skill: skill-058-demographic-performance-analysis
   category: targeting
   kind: deterministic
-  data_source: custom_gaql
+  data_source: custom_query
   markets: us_only
   gaql_verified: null
   reviewed: 2026-09-03
@@ -21,12 +21,12 @@ Demographic performance varies by business and product type. This skill analyzes
 
 ## Data Requirements
 
-**Data Source:** Custom GAQL Required
+**Data Source:** Custom query required
 
-The standard export does not include demographic-segmented performance metrics.
+A basic account export does not include demographic-segmented performance metrics.
 
-**Standard Data:**
-- `data/account/campaigns/*/bid_adjustments.md` - Current demographic adjustments
+**Export data:**
+- **Bid adjustments (campaign level)** - Current demographic adjustments
 
 **GAQL Queries:**
 
@@ -77,7 +77,7 @@ FROM income_range_view
 WHERE segments.date DURING LAST_30_DAYS
   AND metrics.impressions > 0
 ```
-Run via `/google-ads:get-custom`.
+Run the query through the Google Ads API, a UI custom report, or Google Ads Editor.
 
 ## Analysis Steps
 

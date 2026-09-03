@@ -8,7 +8,7 @@ metadata:
   upstream_skill: skill-001-campaign-type-separation
   category: structure
   kind: deterministic
-  data_source: standard
+  data_source: export
   markets: all
   gaql_verified: null
   reviewed: 2026-09-03
@@ -20,10 +20,10 @@ Verify that Search, Display, Shopping, Video, and Performance Max campaigns are 
 
 ## Data Requirements
 
-**Data Source:** Standard
+**Data Source:** Account export
 
-**Standard Data:**
-- `data/account/campaigns/*/campaign.md` - Campaign settings including type, network settings
+**Export data:**
+- **Campaigns** - Campaign settings including type, network settings
 
 **Reference GAQL:**
 ```sql
@@ -39,12 +39,12 @@ SELECT
 FROM campaign
 WHERE campaign.status != 'REMOVED'
 ```
-Use `/google-ads:get-custom` if you need additional fields or different filters.
+Run the reference query (API, UI report, or Editor export) if you need additional fields or different filters.
 
 ## Analysis Steps
 
 1. **Load all campaign files:**
-   - Read each `campaign.md` file from `data/account/campaigns/*/`
+   - Read each `campaign.md` file from **Campaigns**
    - Extract: Campaign Name, Type, Network Settings, Status
 
 2. **Classify campaigns by type:**

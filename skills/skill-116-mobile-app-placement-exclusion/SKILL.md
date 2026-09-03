@@ -8,7 +8,7 @@ metadata:
   upstream_skill: skill-116-mobile-app-placement-exclusion
   category: waste
   kind: deterministic
-  data_source: custom_gaql
+  data_source: custom_query
   markets: all
   gaql_verified: null
   reviewed: 2026-09-03
@@ -20,7 +20,7 @@ Exclude mobile app placements, particularly games and children's apps, which typ
 
 ## Data Requirements
 
-**Data Source:** Custom GAQL Required
+**Data Source:** Custom query required
 
 **GAQL Query:**
 ```sql
@@ -41,10 +41,10 @@ WHERE segments.date DURING LAST_30_DAYS
 ORDER BY metrics.cost_micros DESC
 LIMIT 500
 ```
-Run via `/google-ads:get-custom` with query name `mobile_app_placements`.
+Run the query through the Google Ads API, a UI custom report, or Google Ads Editor; save the result as `mobile_app_placements`.
 
-**Standard Data:**
-- `data/account/campaigns/*/campaign.md` - Identify Display/Video campaigns
+**Export data:**
+- **Campaigns** - Identify Display/Video campaigns
 
 ## Analysis Steps
 

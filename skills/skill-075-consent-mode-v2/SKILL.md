@@ -8,7 +8,7 @@ metadata:
   upstream_skill: skill-075-consent-mode-v2
   category: tracking
   kind: deterministic
-  data_source: custom_gaql
+  data_source: custom_query
   markets: eea_relevant
   gaql_verified: null
   reviewed: 2026-09-03
@@ -20,13 +20,13 @@ Verify that Consent Mode v2 is properly implemented to maintain conversion measu
 
 ## Data Requirements
 
-**Data Source:** Custom GAQL Required
+**Data Source:** Custom query required
 
-The standard export does not include Consent Mode status details.
+A basic account export does not include Consent Mode status details.
 
-**Standard Data:**
-- `data/account/account_summary.md` - Account settings
-- `data/account/conversion_actions.md` - Conversion action configuration
+**Export data:**
+- **Account** - Account settings
+- **Conversion actions** - Conversion action configuration
 
 **GAQL Query:**
 ```sql
@@ -37,7 +37,7 @@ SELECT
 FROM customer
 LIMIT 1
 ```
-Run via `/google-ads:get-custom` with query name `consent_mode_check`.
+Run the query through the Google Ads API, a UI custom report, or Google Ads Editor; save the result as `consent_mode_check`.
 
 Note: Full Consent Mode verification requires Tag Assistant or code inspection.
 

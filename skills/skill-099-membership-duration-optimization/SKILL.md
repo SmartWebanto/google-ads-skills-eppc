@@ -8,7 +8,7 @@ metadata:
   upstream_skill: skill-099-membership-duration-optimization
   category: remarketing
   kind: deterministic
-  data_source: standard
+  data_source: export
   markets: all
   gaql_verified: null
   reviewed: 2026-09-03
@@ -20,11 +20,11 @@ Optimize audience membership durations aligned to the business's buying cycle. S
 
 ## Data Requirements
 
-**Data Source:** Standard
+**Data Source:** Account export
 
-**Standard Data:**
-- `data/account/campaigns/*/audience_targeting.md` - Audience configurations
-- `data/account/campaigns/*/*/audience_targeting.md` - Ad group audiences
+**Export data:**
+- **Audiences (campaign level)** - Audience configurations
+- **Audiences (ad group level)** - Ad group audiences
 
 **Reference GAQL:**
 ```sql
@@ -36,7 +36,7 @@ SELECT
 FROM user_list
 WHERE user_list.membership_status = 'OPEN'
 ```
-Use `/google-ads:get-custom` for conversion lag analysis:
+Run the reference query (API, UI report, or Editor export) for conversion lag analysis:
 ```sql
 SELECT
   segments.conversion_lag_bucket,

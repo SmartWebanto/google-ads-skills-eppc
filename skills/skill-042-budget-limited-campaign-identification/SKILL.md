@@ -8,7 +8,7 @@ metadata:
   upstream_skill: skill-042-budget-limited-campaign-identification
   category: bidding
   kind: deterministic
-  data_source: custom_gaql
+  data_source: custom_query
   markets: all
   gaql_verified: null
   reviewed: 2026-09-03
@@ -21,13 +21,13 @@ Budget-limited campaigns leave conversions and revenue on the table. This skill 
 
 ## Data Requirements
 
-**Data Source:** Custom GAQL Required
+**Data Source:** Custom query required
 
-The standard export does not include impression share metrics or campaign primary status.
+A basic account export does not include impression share metrics or campaign primary status.
 
-**Standard Data:**
-- `data/account/campaigns/*/campaign.md` - Campaign settings, budget, bidding
-- `data/performance/campaigns/*/campaign_metrics_30_days.md` - Spend, conversions
+**Export data:**
+- **Campaigns** - Campaign settings, budget, bidding
+- **Campaign metrics (30 days)** - Spend, conversions
 
 **GAQL Query:**
 ```sql
@@ -49,7 +49,7 @@ FROM campaign
 WHERE campaign.status = 'ENABLED'
   AND segments.date DURING LAST_30_DAYS
 ```
-Run via `/google-ads:get-custom` with query name `budget_limited_campaigns`.
+Run the query through the Google Ads API, a UI custom report, or Google Ads Editor; save the result as `budget_limited_campaigns`.
 
 ## Analysis Steps
 

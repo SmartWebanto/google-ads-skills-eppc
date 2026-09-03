@@ -8,7 +8,7 @@ metadata:
   upstream_skill: skill-044-monthly-budget-pacing-analysis
   category: bidding
   kind: deterministic
-  data_source: custom_gaql
+  data_source: custom_query
   related: [skill-123-budget-pacing-daily-allocation-scripts]
   markets: all
   gaql_verified: null
@@ -22,13 +22,13 @@ Monthly budget management prevents overspend that exceeds limits and underspend 
 
 ## Data Requirements
 
-**Data Source:** Custom GAQL Required
+**Data Source:** Custom query required
 
-The standard export provides aggregated 30-day data but not daily spend patterns needed for pacing analysis.
+A basic account export provides aggregated 30-day data but not daily spend patterns needed for pacing analysis.
 
-**Standard Data:**
-- `data/account/campaigns/*/campaign.md` - Daily budgets, settings
-- `data/performance/campaigns/*/campaign_metrics_30_days.md` - Total spend (used for baseline)
+**Export data:**
+- **Campaigns** - Daily budgets, settings
+- **Campaign metrics (30 days)** - Total spend (used for baseline)
 
 **GAQL Query:**
 ```sql
@@ -43,7 +43,7 @@ WHERE campaign.status = 'ENABLED'
   AND segments.date DURING THIS_MONTH
 ORDER BY segments.date
 ```
-Run via `/google-ads:get-custom` with query name `monthly_pacing`.
+Run the query through the Google Ads API, a UI custom report, or Google Ads Editor; save the result as `monthly_pacing`.
 
 ## Analysis Steps
 

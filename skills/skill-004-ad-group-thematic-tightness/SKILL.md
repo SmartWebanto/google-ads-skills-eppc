@@ -8,7 +8,7 @@ metadata:
   upstream_skill: skill-004-ad-group-thematic-tightness
   category: structure
   kind: deterministic
-  data_source: standard
+  data_source: export
   markets: all
   gaql_verified: null
   reviewed: 2026-09-03
@@ -20,13 +20,13 @@ Evaluate whether each ad group contains tightly themed, closely related keywords
 
 ## Data Requirements
 
-**Data Source:** Standard
+**Data Source:** Account export
 
-**Standard Data:**
-- `data/account/campaigns/*/*/keywords.md` - Keywords per ad group
-- `data/account/campaigns/*/*/ads.md` - Ad copy per ad group
-- `data/account/campaigns/*/*/ad_group.md` - Ad group settings
-- `data/performance/campaigns/*/*/keywords_metrics_30_days.md` - Keyword performance with QS
+**Export data:**
+- **Keywords** - Keywords per ad group
+- **Ads** - Ad copy per ad group
+- **Ad groups** - Ad group settings
+- **Keyword metrics (30 days)** - Keyword performance with QS
 
 **Reference GAQL:**
 ```sql
@@ -40,7 +40,7 @@ FROM keyword_view
 WHERE ad_group_criterion.status = 'ENABLED'
   AND segments.date DURING LAST_30_DAYS
 ```
-Use `/google-ads:get-custom` if you need different date ranges or additional QS components.
+Run the reference query (API, UI report, or Editor export) if you need different date ranges or additional QS components.
 
 ## Analysis Steps
 

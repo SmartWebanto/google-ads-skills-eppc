@@ -8,7 +8,7 @@ metadata:
   upstream_skill: skill-064-quality-score-distribution-analysis
   category: quality
   kind: deterministic
-  data_source: standard
+  data_source: export
   merged_from: [skill-129-quality-score-monitoring-alert-rules]
   related: [skill-065-quality-score-component-breakdown, skill-066-historical-quality-score-trend, skill-067-expected-ctr-improvement]
   markets: all
@@ -23,11 +23,11 @@ Low Quality Scores raise CPCs and lower positions. Measure the distribution and 
 
 ## Data Requirements
 
-**Data Source:** Standard
+**Data Source:** Account export
 
-**Standard Data:**
-- `data/account/campaigns/*/*/keywords.md` - Keyword Quality Score data including overall QS and components
-- `data/performance/campaigns/*/*/keywords_metrics_30_days.md` - Keyword performance metrics
+**Export data:**
+- **Keywords** - Keyword Quality Score data including overall QS and components
+- **Keyword metrics (30 days)** - Keyword performance metrics
 
 **Reference GAQL:**
 ```sql
@@ -48,7 +48,7 @@ WHERE ad_group_criterion.status = 'ENABLED'
   AND campaign.status = 'ENABLED'
   AND segments.date DURING LAST_30_DAYS
 ```
-Use `/google-ads:get-custom` if you need additional metrics or different date ranges.
+Run the reference query (API, UI report, or Editor export) if you need additional metrics or different date ranges.
 
 ## Analysis Steps
 

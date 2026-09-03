@@ -8,7 +8,7 @@ metadata:
   upstream_skill: skill-159-ai-max-for-search-campaign-assessment
   category: platform
   kind: deterministic
-  data_source: custom_gaql
+  data_source: custom_query
   markets: all
   gaql_verified: null
   reviewed: 2026-09-03
@@ -20,13 +20,13 @@ Assess Search campaigns for AI Max adoption. AI Max extends Performance Max's AI
 
 ## Data Requirements
 
-**Data Source:** Custom GAQL Required
+**Data Source:** Custom query required
 
-Standard export shows campaign settings; custom query needed for AI Max-specific configuration.
+A basic account export shows campaign settings; custom query needed for AI Max-specific configuration.
 
-**Standard Data:**
-- `data/account/campaigns/*/campaign.md` - Campaign settings, bid strategies
-- `data/performance/campaigns/*/campaign_metrics_30_days.md` - Conversion volume for eligibility
+**Export data:**
+- **Campaigns** - Campaign settings, bid strategies
+- **Campaign metrics (30 days)** - Conversion volume for eligibility
 
 **Reference GAQL (Campaign Settings):**
 ```sql
@@ -42,7 +42,7 @@ WHERE campaign.advertising_channel_type = 'SEARCH'
   AND campaign.status = 'ENABLED'
   AND segments.date DURING LAST_30_DAYS
 ```
-Use `/google-ads:get-custom` to get current AI Max configuration status (requires API access to campaign settings).
+Run the reference query (API, UI report, or Editor export) to get current AI Max configuration status (requires API access to campaign settings).
 
 ## Analysis Steps
 

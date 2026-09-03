@@ -8,7 +8,7 @@ metadata:
   upstream_skill: skill-031-sitelink-relevance-performance
   category: creative
   kind: deterministic
-  data_source: standard
+  data_source: export
   markets: all
   gaql_verified: null
   reviewed: 2026-09-03
@@ -21,11 +21,11 @@ Sitelinks are the most impactful ad extension, potentially increasing CTR by 10-
 
 ## Data Requirements
 
-**Data Source:** Standard
+**Data Source:** Account export
 
-**Standard Data:**
-- `data/account/ext_sitelinks.md` - Sitelink extensions with linking info
-- `data/account/campaigns/*/campaign.md` - Campaign settings for context
+**Export data:**
+- **Assets: sitelinks** - Sitelink extensions with linking info
+- **Campaigns** - Campaign settings for context
 
 **Reference GAQL:**
 ```sql
@@ -43,7 +43,7 @@ FROM campaign_asset
 WHERE campaign_asset.field_type = 'SITELINK'
   AND segments.date DURING LAST_30_DAYS
 ```
-Use `/google-ads:get-custom` for sitelink performance metrics.
+Run the reference query (API, UI report, or Editor export) for sitelink performance metrics.
 
 ## Analysis Steps
 

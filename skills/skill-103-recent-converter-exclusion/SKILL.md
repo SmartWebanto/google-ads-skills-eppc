@@ -8,7 +8,7 @@ metadata:
   upstream_skill: skill-103-recent-converter-exclusion
   category: remarketing
   kind: deterministic
-  data_source: standard
+  data_source: export
   markets: all
   gaql_verified: null
   reviewed: 2026-09-03
@@ -20,11 +20,11 @@ Maintain exclusion lists for recent converters. Showing ads to recent buyers was
 
 ## Data Requirements
 
-**Data Source:** Standard
+**Data Source:** Account export
 
-**Standard Data:**
-- `data/account/campaigns/*/audience_targeting.md` - Audience targeting and exclusions
-- `data/account/campaigns/*/*/audience_targeting.md` - Ad group audiences
+**Export data:**
+- **Audiences (campaign level)** - Audience targeting and exclusions
+- **Audiences (ad group level)** - Ad group audiences
 
 **Reference GAQL:**
 ```sql
@@ -36,7 +36,7 @@ FROM ad_group_audience_view
 WHERE ad_group_criterion.negative = true
   AND segments.date DURING LAST_30_DAYS
 ```
-Use `/google-ads:get-custom` for complete exclusion inventory.
+Run the reference query (API, UI report, or Editor export) for complete exclusion inventory.
 
 ## Analysis Steps
 

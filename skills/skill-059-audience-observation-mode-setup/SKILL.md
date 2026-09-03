@@ -8,7 +8,7 @@ metadata:
   upstream_skill: skill-059-audience-observation-mode-setup
   category: targeting
   kind: deterministic
-  data_source: standard
+  data_source: export
   markets: all
   gaql_verified: null
   reviewed: 2026-09-03
@@ -21,11 +21,11 @@ Observation mode allows collecting audience performance data without restricting
 
 ## Data Requirements
 
-**Data Source:** Standard
+**Data Source:** Account export
 
-**Standard Data:**
-- `data/account/campaigns/*/audience_targeting.md` - Campaign audience setup
-- `data/account/campaigns/*/*/audience_targeting.md` - Ad group audiences
+**Export data:**
+- **Audiences (campaign level)** - Campaign audience setup
+- **Audiences (ad group level)** - Ad group audiences
 
 **Reference GAQL:**
 ```sql
@@ -40,7 +40,7 @@ SELECT
 FROM ad_group_audience_view
 WHERE campaign.status != 'REMOVED'
 ```
-Use `/google-ads:get-custom` if audience details are not in standard export.
+Run the reference query (API, UI report, or Editor export) if audience details are not in basic account export.
 
 ## Analysis Steps
 

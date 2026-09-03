@@ -8,7 +8,7 @@ metadata:
   upstream_skill: skill-092-pmax-final-url-expansion-control
   category: shopping_pmax
   kind: deterministic
-  data_source: custom_gaql
+  data_source: custom_query
   markets: all
   gaql_verified: null
   reviewed: 2026-09-03
@@ -20,10 +20,10 @@ Audit Performance Max Final URL Expansion settings to ensure appropriate control
 
 ## Data Requirements
 
-**Data Source:** Custom GAQL Required
+**Data Source:** Custom query required
 
-**Standard Data:**
-- `data/account/campaigns/*/campaign.md` — The `Asset Automation Settings` field shows opt-in/opt-out status per automation type. Check for `FinalUrlExpansionTextAssetAutomation` to determine URL expansion status. If not listed, defaults apply (opted in).
+**Export data:**
+- **Campaigns** — The `Asset Automation Settings` field shows opt-in/opt-out status per automation type. Check for `FinalUrlExpansionTextAssetAutomation` to determine URL expansion status. If not listed, defaults apply (opted in).
 
 **GAQL Query - Asset Group Final URLs:**
 ```sql
@@ -53,7 +53,7 @@ WHERE campaign.advertising_channel_type = 'PERFORMANCE_MAX'
 ORDER BY metrics.clicks DESC
 LIMIT 100
 ```
-Run via `/google-ads:get-custom` with query name `pmax_url_expansion`.
+Run the query through the Google Ads API, a UI custom report, or Google Ads Editor; save the result as `pmax_url_expansion`.
 
 ## Analysis Steps
 

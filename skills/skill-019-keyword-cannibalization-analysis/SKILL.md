@@ -8,7 +8,7 @@ metadata:
   upstream_skill: skill-019-keyword-cannibalization-analysis
   category: keywords
   kind: deterministic
-  data_source: standard
+  data_source: export
   markets: all
   gaql_verified: null
   reviewed: 2026-09-03
@@ -20,12 +20,12 @@ Detect when multiple keywords within the account compete for the same search que
 
 ## Data Requirements
 
-**Data Source:** Standard
+**Data Source:** Account export
 
-**Standard Data:**
-- `data/performance/campaigns/*/*/search_terms_metrics_30_days.md` - Search query data with matched keyword
-- `data/account/campaigns/*/*/keywords.md` - Keyword settings and match types
-- `data/performance/campaigns/*/*/keywords_metrics_30_days.md` - Keyword performance
+**Export data:**
+- **Search terms (30 days)** - Search query data with matched keyword
+- **Keywords** - Keyword settings and match types
+- **Keyword metrics (30 days)** - Keyword performance
 
 **Reference GAQL:**
 ```sql
@@ -41,7 +41,7 @@ FROM search_term_view
 WHERE segments.date DURING LAST_30_DAYS
   AND metrics.impressions > 0
 ```
-Use `/google-ads:get-custom` if you need different date ranges.
+Run the reference query (API, UI report, or Editor export) if you need different date ranges.
 
 ## Analysis Steps
 

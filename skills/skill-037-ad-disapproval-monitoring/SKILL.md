@@ -8,7 +8,7 @@ metadata:
   upstream_skill: skill-037-ad-disapproval-limited-eligibility
   category: creative
   kind: deterministic
-  data_source: custom_gaql
+  data_source: custom_query
   merged_from: [skill-139-ad-disapproval-monitoring]
   markets: all
   gaql_verified: null
@@ -22,11 +22,11 @@ Disapproved ads stop serving; limited ads serve in restricted contexts; ads stuc
 
 ## Data Requirements
 
-**Data Source:** Custom GAQL Required
+**Data Source:** Custom query required
 Standard ads.md gives approval status; policy topic entries need the GAQL query.
 
-**Standard Data:**
-- `data/account/campaigns/*/*/ads.md` - Ad approval status and policy issues
+**Export data:**
+- **Ads** - Ad approval status and policy issues
 
 **Reference GAQL:**
 ```sql
@@ -46,7 +46,7 @@ FROM ad_group_ad
 WHERE ad_group_ad.status != 'REMOVED'
   AND segments.date DURING LAST_30_DAYS
 ```
-Use `/google-ads:get-custom` for detailed policy topic entries.
+Run the reference query (API, UI report, or Editor export) for detailed policy topic entries.
 
 ## Analysis Steps
 

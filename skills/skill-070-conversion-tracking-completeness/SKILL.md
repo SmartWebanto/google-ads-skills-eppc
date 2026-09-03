@@ -8,7 +8,7 @@ metadata:
   upstream_skill: skill-070-conversion-tracking-completeness
   category: tracking
   kind: deterministic
-  data_source: standard
+  data_source: export
   related: [skill-071-conversion-tracking-accuracy, skill-081-micro-conversion-tracking, skill-107-conversion-value-accuracy, skill-108-cross-device-conversion-tracking, skill-110-conversion-tracking-breakage]
   markets: all
   gaql_verified: null
@@ -21,12 +21,12 @@ Verify that all valuable business actions are being tracked as conversions in Go
 
 ## Data Requirements
 
-**Data Source:** Standard
+**Data Source:** Account export
 
-**Standard Data:**
-- `data/account/conversion_actions.md` - Conversion action settings and configuration
-- `data/account/account_summary.md` - Account-level conversion tracking status
-- `data/performance/campaigns/*/campaign_metrics_30_days.md` - Conversion data by campaign
+**Export data:**
+- **Conversion actions** - Conversion action settings and configuration
+- **Account** - Account-level conversion tracking status
+- **Campaign metrics (30 days)** - Conversion data by campaign
 
 **Reference GAQL:**
 ```sql
@@ -42,7 +42,7 @@ SELECT
 FROM conversion_action
 WHERE conversion_action.status = 'ENABLED'
 ```
-Use `/google-ads:get-custom` to get conversion volume per action.
+Run the reference query (API, UI report, or Editor export) to get conversion volume per action.
 
 ## Analysis Steps
 

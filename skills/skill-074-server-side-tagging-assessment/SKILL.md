@@ -22,9 +22,9 @@ Evaluate the readiness and benefit of migrating from client-side to server-side 
 
 **Data Source:** External (beyond Google Ads data)
 
-**Standard Data:**
-- `data/account/conversion_actions.md` - Conversion tracking setup
-- `data/account/account_summary.md` - Account configuration
+**Export data:**
+- **Conversion actions** - Conversion tracking setup
+- **Account** - Account configuration
 
 Note: Full server-side tagging assessment requires website/infrastructure access beyond Google Ads data.
 
@@ -37,7 +37,7 @@ SELECT
 FROM conversion_action
 WHERE conversion_action.status = 'ENABLED'
 ```
-Use `/google-ads:get-custom` to check conversion action origins.
+Run the reference query (API, UI report, or Editor export) to check conversion action origins.
 
 ## Analysis Steps
 

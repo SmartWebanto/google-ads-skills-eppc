@@ -8,7 +8,7 @@ metadata:
   upstream_skill: skill-077-data-driven-attribution
   category: tracking
   kind: deterministic
-  data_source: standard
+  data_source: export
   markets: all
   gaql_verified: null
   reviewed: 2026-09-03
@@ -20,11 +20,11 @@ Verify that Data-Driven Attribution (DDA) is enabled for all eligible conversion
 
 ## Data Requirements
 
-**Data Source:** Standard
+**Data Source:** Account export
 
-**Standard Data:**
-- `data/account/conversion_actions.md` - Attribution model settings
-- `data/performance/campaigns/*/campaign_metrics_30_days.md` - Conversion volume for eligibility
+**Export data:**
+- **Conversion actions** - Attribution model settings
+- **Campaign metrics (30 days)** - Conversion volume for eligibility
 
 **Reference GAQL:**
 ```sql
@@ -38,7 +38,7 @@ SELECT
 FROM conversion_action
 WHERE conversion_action.status = 'ENABLED'
 ```
-Use `/google-ads:get-custom` for DDA eligibility status.
+Run the reference query (API, UI report, or Editor export) for DDA eligibility status.
 
 ## Analysis Steps
 

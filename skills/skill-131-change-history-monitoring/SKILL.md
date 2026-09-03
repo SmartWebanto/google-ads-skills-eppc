@@ -8,7 +8,7 @@ metadata:
   upstream_skill: skill-131-change-history-monitoring
   category: competitive
   kind: deterministic
-  data_source: custom_gaql
+  data_source: custom_query
   markets: all
   gaql_verified: null
   reviewed: 2026-09-03
@@ -21,9 +21,9 @@ Monitor all account changes to identify who made what changes, track auto-applie
 
 ## Data Requirements
 
-**Data Source:** Custom GAQL Required
+**Data Source:** Custom query required
 
-Change history data requires the change_event resource which is not in standard exports.
+Change history data requires the change_event resource which is not in basic account exports.
 
 **GAQL Query:**
 ```sql
@@ -38,7 +38,7 @@ FROM change_event
 WHERE change_event.change_date_time DURING LAST_14_DAYS
 LIMIT 1000
 ```
-Run via `/google-ads:get-custom` with query name `change_history`.
+Run the query through the Google Ads API, a UI custom report, or Google Ads Editor; save the result as `change_history`.
 
 ## Analysis Steps
 

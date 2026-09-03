@@ -8,7 +8,7 @@ metadata:
   upstream_skill: skill-083-product-feed-attribute-completeness
   category: shopping_pmax
   kind: deterministic
-  data_source: custom_gaql
+  data_source: custom_query
   markets: all
   gaql_verified: null
   reviewed: 2026-09-03
@@ -20,9 +20,9 @@ Verify that critical product identifiers (GTIN, MPN, Brand) and key attributes a
 
 ## Data Requirements
 
-**Data Source:** Custom GAQL Required
+**Data Source:** Custom query required
 
-The standard export does not include product attribute details like GTIN/MPN.
+A basic account export does not include product attribute details like GTIN/MPN.
 
 **GAQL Query:**
 ```sql
@@ -43,7 +43,7 @@ WHERE campaign.advertising_channel_type IN ('SHOPPING', 'PERFORMANCE_MAX')
 ORDER BY metrics.impressions DESC
 LIMIT 2000
 ```
-Run via `/google-ads:get-custom` with query name `product_attributes`.
+Run the query through the Google Ads API, a UI custom report, or Google Ads Editor; save the result as `product_attributes`.
 
 Note: GTIN/MPN data requires Merchant Center API access.
 

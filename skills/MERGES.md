@@ -1,6 +1,6 @@
 # Merges (2026-09-03)
 
-Eight upstream skills checked the same condition on the same data as another skill. Each pair became one canonical skill; the absorbed skill's directory was removed. `metadata.merged_from` on the canonical records the absorbed name; `metadata.upstream_skill` keeps the canonical's original upstream name.
+Eight skills in the original 145-skill set checked the same condition on the same data as another skill. Each pair became one canonical skill; the absorbed skill's directory was removed. `metadata.merged_from` on the canonical records the absorbed name.
 
 | Canonical | Absorbed | Why |
 |---|---|---|
@@ -13,7 +13,7 @@ Eight upstream skills checked the same condition on the same data as another ski
 | skill-054-geographic-performance-analysis | skill-055-underperforming-location-exclusion | Same `geographic_view` query; exclusion is the low-performer branch of the analysis |
 | skill-029-rsa-asset-performance-analysis | skill-126-rsa-asset-performance-bulk-analysis | Same asset performance labels; 126 added ad-level metrics, now a second query in 029 |
 
-Canonicals renamed in the merge (directory and `name`; `upstream_skill` keeps the old name): 121 `impression-share-lost-analysis` → `impression-share-loss-analysis`; 023 `close-variant-broad-match-monitoring` → `close-variant-query-expansion-monitoring`; 061 `customer-match-list-freshness` → `customer-match-list-health`; 037 `ad-disapproval-limited-eligibility` → `ad-disapproval-monitoring`.
+Canonicals renamed in the merge (directory and `name`; old names below): 121 `impression-share-lost-analysis` → `impression-share-loss-analysis`; 023 `close-variant-broad-match-monitoring` → `close-variant-query-expansion-monitoring`; 061 `customer-match-list-freshness` → `customer-match-list-health`; 037 `ad-disapproval-limited-eligibility` → `ad-disapproval-monitoring`.
 
 ## Threshold reconciliation notes
 
@@ -23,7 +23,7 @@ Canonicals renamed in the merge (directory and `name`; `upstream_skill` keeps th
 - **037/139:** "under review" reconciled to Info at 3-7 days and Warning above 7 days. 139's "high-spend campaign" became `{{spend_significant}}`.
 - **016/113:** 113's "high-spend zero-conversion terms" got the explicit `{{spend_floor}}` threshold.
 - **064/129:** 129's `$50` floor folded into 064's `{{spend_significant}}` row; 129's "QS dropped 2+ points" kept with the note that it needs a previous snapshot.
-- **054/055:** "outside service area" raised from High to Critical (it is pure waste). 055's two zero-conversion rows became `{{spend_significant}}` (Critical) and `{{spend_floor}}` to `{{spend_significant}}` (High). Upstream's four-level severity (High) was kept where it existed.
+- **054/055:** "outside service area" raised from High to Critical (it is pure waste). 055's two zero-conversion rows became `{{spend_significant}}` (Critical) and `{{spend_floor}}` to `{{spend_significant}}` (High). The original four-level severity (High) was kept where it existed.
 - **029/126:** 126's "Poor strength with significant spend" got `{{spend_significant}}`; "All assets Learning" got `{{min_impressions}}`.
 
 ## Reviewed and kept separate

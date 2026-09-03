@@ -25,7 +25,7 @@ metadata:
   upstream_skill: skill-030-ad-extension-coverage-audit
   category: creative
   kind: deterministic
-  data_source: standard
+  data_source: export
   markets: all
   gaql_verified: null
   reviewed: 2026-09-03
@@ -37,14 +37,14 @@ Verify that all recommended extension types (sitelinks, callouts, structured sni
 
 ## Data Requirements
 
-**Data Source:** Standard
+**Data Source:** Account export
 
-**Standard Data:**
-- `data/account/ext_sitelinks.md` - Sitelink extensions
-- `data/account/ext_callouts.md` - Callout extensions
-- `data/account/ext_structured_snippets.md` - Structured snippets
-- `data/account/ext_call.md` - Call extensions
-- `data/account/campaigns/*/campaign.md` - Campaign settings
+**Export data:**
+- **Assets: sitelinks** - Sitelink extensions
+- **Assets: callouts** - Callout extensions
+- **Assets: structured snippets** - Structured snippets
+- **Assets: call** - Call extensions
+- **Campaigns** - Campaign settings
 
 **Reference GAQL:**
 ```sql
@@ -56,7 +56,7 @@ SELECT
 FROM campaign_asset
 WHERE campaign.status = 'ENABLED'
 ```
-Use `/google-ads:get-custom` if you need extension performance metrics.
+Run the reference query (API, UI report, or Editor export) if you need extension performance metrics.
 
 ## Analysis Steps
 
@@ -118,9 +118,9 @@ Report ONLY issues found.
 When this skill is executed, Claude should output:
 
 ```markdown
-## Ad Extension Coverage Audit — TrueClicks - Dev Test
+## Ad Extension Coverage Audit — Acme Demo
 Account 123-456-7890 · currency EUR · data LAST_30_DAYS · snapshot 2026-09-03
-Library eppc-ads-skills@1.0.0 · skill skill-030-ad-extension-coverage-audit (upstream skill-030-ad-extension-coverage-audit@1.8.0) · profile defaults
+Library eppc-ads-skills@1.0.0 · skill skill-030-ad-extension-coverage-audit · profile defaults
 
 **Campaigns Analyzed:** 2
 

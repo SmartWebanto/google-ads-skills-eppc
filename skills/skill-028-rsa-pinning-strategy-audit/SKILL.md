@@ -8,7 +8,7 @@ metadata:
   upstream_skill: skill-028-rsa-pinning-strategy-audit
   category: creative
   kind: deterministic
-  data_source: standard
+  data_source: export
   markets: all
   gaql_verified: null
   reviewed: 2026-09-03
@@ -21,10 +21,10 @@ Pinning headlines or descriptions to specific positions restricts ad combination
 
 ## Data Requirements
 
-**Data Source:** Standard
+**Data Source:** Account export
 
-**Standard Data:**
-- `data/account/campaigns/*/*/ads.md` - RSA headlines/descriptions with pinned positions
+**Export data:**
+- **Ads** - RSA headlines/descriptions with pinned positions
 
 **Reference GAQL:**
 ```sql

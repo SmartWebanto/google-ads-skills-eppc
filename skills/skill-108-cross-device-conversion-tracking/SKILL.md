@@ -8,7 +8,7 @@ metadata:
   upstream_skill: skill-108-cross-device-conversion-tracking
   category: remarketing
   kind: deterministic
-  data_source: custom_gaql
+  data_source: custom_query
   related: [skill-070-conversion-tracking-completeness, skill-071-conversion-tracking-accuracy, skill-081-micro-conversion-tracking, skill-107-conversion-value-accuracy, skill-110-conversion-tracking-breakage]
   markets: all
   gaql_verified: null
@@ -21,11 +21,11 @@ Evaluate whether cross-device conversion paths are captured. Multi-device journe
 
 ## Data Requirements
 
-**Data Source:** Custom GAQL Required
+**Data Source:** Custom query required
 
-**Standard Data:**
-- `data/account/account_summary.md` - Enhanced Conversions status
-- `data/account/conversion_actions.md` - Conversion settings
+**Export data:**
+- **Account** - Enhanced Conversions status
+- **Conversion actions** - Conversion settings
 
 **Reference GAQL:**
 ```sql
@@ -37,7 +37,7 @@ SELECT
 FROM campaign
 WHERE segments.date DURING LAST_30_DAYS
 ```
-Use `/google-ads:get-custom` for device-level conversion analysis.
+Run the reference query (API, UI report, or Editor export) for device-level conversion analysis.
 
 ## Analysis Steps
 

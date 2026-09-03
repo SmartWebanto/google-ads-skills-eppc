@@ -8,7 +8,7 @@ metadata:
   upstream_skill: skill-012-keyword-match-type-distribution
   category: keywords
   kind: deterministic
-  data_source: standard
+  data_source: export
   markets: all
   gaql_verified: null
   reviewed: 2026-09-03
@@ -20,12 +20,12 @@ Analyze the distribution of broad, phrase, and exact match keywords across the a
 
 ## Data Requirements
 
-**Data Source:** Standard
+**Data Source:** Account export
 
-**Standard Data:**
-- `data/account/campaigns/*/*/keywords.md` - Keyword settings with match type
-- `data/performance/campaigns/*/*/keywords_metrics_30_days.md` - Keyword performance metrics
-- `data/account/campaigns/*/campaign.md` - Campaign bidding strategy (for Smart Bidding alignment)
+**Export data:**
+- **Keywords** - Keyword settings with match type
+- **Keyword metrics (30 days)** - Keyword performance metrics
+- **Campaigns** - Campaign bidding strategy (for Smart Bidding alignment)
 
 **Reference GAQL:**
 ```sql
@@ -43,7 +43,7 @@ FROM keyword_view
 WHERE ad_group_criterion.status = 'ENABLED'
   AND segments.date DURING LAST_30_DAYS
 ```
-Use `/google-ads:get-custom` if you need different date ranges or additional metrics.
+Run the reference query (API, UI report, or Editor export) if you need different date ranges or additional metrics.
 
 ## Analysis Steps
 

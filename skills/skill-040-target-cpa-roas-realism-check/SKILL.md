@@ -8,7 +8,7 @@ metadata:
   upstream_skill: skill-040-target-cpa-roas-realism-check
   category: bidding
   kind: deterministic
-  data_source: standard
+  data_source: export
   markets: all
   gaql_verified: null
   reviewed: 2026-09-03
@@ -21,12 +21,12 @@ Unrealistic bidding targets cause significant issues: too aggressive targets los
 
 ## Data Requirements
 
-**Data Source:** Standard
+**Data Source:** Account export
 
-**Standard Data:**
-- `data/account/campaigns/*/campaign.md` - Target CPA, Target ROAS settings
-- `data/account/bidding_strategies.md` - Portfolio strategy targets
-- `data/performance/campaigns/*/campaign_metrics_30_days.md` - Actual CPA, ROAS achieved
+**Export data:**
+- **Campaigns** - Target CPA, Target ROAS settings
+- **Bidding strategies** - Portfolio strategy targets
+- **Campaign metrics (30 days)** - Actual CPA, ROAS achieved
 
 **Reference GAQL:**
 ```sql
@@ -44,7 +44,7 @@ FROM campaign
 WHERE segments.date BETWEEN '{start_date}' AND '{end_date}'
   AND campaign.status = 'ENABLED'
 ```
-Use `/google-ads:get-custom` for trend analysis over longer periods. Replace `{start_date}` and `{end_date}` with actual dates (e.g., 90-day window). Note: `LAST_90_DAYS` is not a valid GAQL date range; use `BETWEEN` with explicit dates instead.
+Run the reference query (API, UI report, or Editor export) for trend analysis over longer periods. Replace `{start_date}` and `{end_date}` with actual dates (e.g., 90-day window). Note: `LAST_90_DAYS` is not a valid GAQL date range; use `BETWEEN` with explicit dates instead.
 
 ## Analysis Steps
 

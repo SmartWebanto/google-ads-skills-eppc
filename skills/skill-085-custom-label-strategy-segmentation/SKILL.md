@@ -8,7 +8,7 @@ metadata:
   upstream_skill: skill-085-custom-label-strategy-segmentation
   category: shopping_pmax
   kind: deterministic
-  data_source: custom_gaql
+  data_source: custom_query
   markets: all
   gaql_verified: null
   reviewed: 2026-09-03
@@ -20,9 +20,9 @@ Evaluate and implement custom label (custom_label_0 through custom_label_4) stra
 
 ## Data Requirements
 
-**Data Source:** Custom GAQL Required
+**Data Source:** Custom query required
 
-The standard export does not include custom label data.
+A basic account export does not include custom label data.
 
 **GAQL Query:**
 ```sql
@@ -46,7 +46,7 @@ WHERE campaign.advertising_channel_type IN ('SHOPPING', 'PERFORMANCE_MAX')
 ORDER BY metrics.cost_micros DESC
 LIMIT 2000
 ```
-Run via `/google-ads:get-custom` with query name `custom_labels`.
+Run the query through the Google Ads API, a UI custom report, or Google Ads Editor; save the result as `custom_labels`.
 
 ## Analysis Steps
 

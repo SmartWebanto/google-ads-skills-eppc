@@ -8,7 +8,7 @@ metadata:
   upstream_skill: skill-107-conversion-value-accuracy
   category: remarketing
   kind: deterministic
-  data_source: custom_gaql
+  data_source: custom_query
   related: [skill-070-conversion-tracking-completeness, skill-071-conversion-tracking-accuracy, skill-081-micro-conversion-tracking, skill-108-cross-device-conversion-tracking, skill-110-conversion-tracking-breakage]
   markets: all
   gaql_verified: null
@@ -21,11 +21,11 @@ Verify that conversion values reflect actual business value. Accurate values ena
 
 ## Data Requirements
 
-**Data Source:** Custom GAQL Required
+**Data Source:** Custom query required
 
-**Standard Data:**
-- `data/account/conversion_actions.md` - Conversion value settings
-- `data/performance/campaigns/*/campaign_metrics_30_days.md` - Value per conversion
+**Export data:**
+- **Conversion actions** - Conversion value settings
+- **Campaign metrics (30 days)** - Value per conversion
 
 **Reference GAQL:**
 ```sql
@@ -38,7 +38,7 @@ SELECT
 FROM conversion_action
 WHERE conversion_action.status = 'ENABLED'
 ```
-Use `/google-ads:get-custom` for detailed value analysis.
+Run the reference query (API, UI report, or Editor export) for detailed value analysis.
 
 ## Analysis Steps
 

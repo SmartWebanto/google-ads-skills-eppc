@@ -8,7 +8,7 @@ metadata:
   upstream_skill: skill-149-promotional-extensions-countdown-customizers
   category: seasonal
   kind: operational
-  data_source: standard
+  data_source: export
   markets: all
   gaql_verified: null
   reviewed: 2026-09-03
@@ -20,11 +20,11 @@ Audit promotion extensions and countdown customizers for upcoming events. Promot
 
 ## Data Requirements
 
-**Data Source:** Standard
+**Data Source:** Account export
 
-**Standard Data:**
-- `data/account/ext_promotion.md` - Promotion extension settings and schedules
-- `data/account/campaigns/*/ad_groups/*/ads.md` - Ad copy with countdown customizers
+**Export data:**
+- **Assets: promotion** - Promotion extension settings and schedules
+- **Ads** - Ad copy with countdown customizers
 
 **Reference GAQL:**
 ```sql
@@ -40,7 +40,7 @@ SELECT
 FROM asset
 WHERE asset.type = 'PROMOTION'
 ```
-Use `/google-ads:get-custom` if you need asset-level performance data or extended date ranges.
+Run the reference query (API, UI report, or Editor export) if you need asset-level performance data or extended date ranges.
 
 ## Analysis Steps
 

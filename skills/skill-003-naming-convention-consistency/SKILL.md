@@ -8,7 +8,7 @@ metadata:
   upstream_skill: skill-003-naming-convention-consistency
   category: structure
   kind: analyst
-  data_source: standard
+  data_source: export
   markets: all
   gaql_verified: null
   reviewed: 2026-09-03
@@ -20,11 +20,11 @@ Audit naming conventions across all campaigns, ad groups, and labels for a stand
 
 ## Data Requirements
 
-**Data Source:** Standard
+**Data Source:** Account export
 
-**Standard Data:**
-- `data/account/campaigns/*/campaign.md` - All campaign names
-- `data/account/campaigns/*/*/ad_group.md` - All ad group names
+**Export data:**
+- **Campaigns** - All campaign names
+- **Ad groups** - All ad group names
 
 **Reference GAQL:**
 ```sql
@@ -35,7 +35,7 @@ SELECT
 FROM campaign
 WHERE campaign.status != 'REMOVED'
 ```
-Use `/google-ads:get-custom` if you need to include labels or additional metadata.
+Run the reference query (API, UI report, or Editor export) if you need to include labels or additional metadata.
 
 ## Analysis Steps
 

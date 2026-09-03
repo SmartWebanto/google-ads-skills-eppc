@@ -8,7 +8,7 @@ metadata:
   upstream_skill: skill-080-offline-conversion-import
   category: tracking
   kind: deterministic
-  data_source: standard
+  data_source: export
   markets: all
   gaql_verified: null
   reviewed: 2026-09-03
@@ -20,11 +20,11 @@ Verify that offline conversions (sales calls, in-store purchases, CRM-tracked de
 
 ## Data Requirements
 
-**Data Source:** Standard
+**Data Source:** Account export
 
-**Standard Data:**
-- `data/account/conversion_actions.md` - Conversion action types (look for UPLOAD_CLICKS, UPLOAD_CALLS, STORE_SALES)
-- `data/performance/campaigns/*/campaign_metrics_30_days.md` - Conversion counts
+**Export data:**
+- **Conversion actions** - Conversion action types (look for UPLOAD_CLICKS, UPLOAD_CALLS, STORE_SALES)
+- **Campaign metrics (30 days)** - Conversion counts
 
 **Reference GAQL:**
 ```sql
@@ -39,7 +39,7 @@ FROM conversion_action
 WHERE conversion_action.type IN ('UPLOAD_CLICKS', 'UPLOAD_CALLS', 'STORE_SALES', 'STORE_SALES_DIRECT_UPLOAD')
   AND conversion_action.status = 'ENABLED'
 ```
-Use `/google-ads:get-custom` to check offline conversion import status.
+Run the reference query (API, UI report, or Editor export) to check offline conversion import status.
 
 ## Analysis Steps
 

@@ -8,7 +8,7 @@ metadata:
   upstream_skill: skill-148-seasonal-keyword-calendar-planning
   category: seasonal
   kind: deterministic
-  data_source: custom_gaql
+  data_source: custom_query
   markets: all
   gaql_verified: null
   reviewed: 2026-09-03
@@ -20,13 +20,13 @@ Ensure seasonal keywords are created and active 4-6 weeks before peak periods. L
 
 ## Data Requirements
 
-**Data Source:** Custom GAQL Required
+**Data Source:** Custom query required
 
 Standard 30-day export may not include prior-year seasonal queries. Need historical search term data for seasonal periods.
 
-**Standard Data:**
-- `data/account/campaigns/*/ad_groups/*/keywords.md` - Current keyword coverage
-- `data/performance/campaigns/*/ad_groups/*/search_terms_metrics_30_days.md` - Recent search terms
+**Export data:**
+- **Keywords** - Current keyword coverage
+- **Search terms (30 days)** - Recent search terms
 
 **GAQL Query (Historical Seasonal Queries):**
 ```sql
@@ -45,7 +45,7 @@ WHERE campaign.status = 'ENABLED'
 ORDER BY metrics.conversions DESC
 LIMIT 500
 ```
-Run via `/google-ads:get-custom` to identify high-converting seasonal queries from prior years.
+Run via a custom query (API, UI report, or Editor export) to identify high-converting seasonal queries from prior years.
 
 ## Analysis Steps
 

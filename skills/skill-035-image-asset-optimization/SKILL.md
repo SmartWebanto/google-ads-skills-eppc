@@ -8,7 +8,7 @@ metadata:
   upstream_skill: skill-035-image-asset-optimization
   category: creative
   kind: deterministic
-  data_source: custom_gaql
+  data_source: custom_query
   markets: all
   gaql_verified: null
   reviewed: 2026-09-03
@@ -21,9 +21,9 @@ Image assets increase ad visibility and engagement, particularly on mobile. Camp
 
 ## Data Requirements
 
-**Data Source:** Custom GAQL Required
+**Data Source:** Custom query required
 
-Standard export does not include image asset details.
+A basic account export does not include image asset details.
 
 **GAQL Query (customer-level images):**
 ```sql
@@ -54,7 +54,7 @@ FROM campaign_asset
 WHERE asset.type = 'IMAGE'
   AND segments.date DURING LAST_30_DAYS
 ```
-Run via `/google-ads:get-custom` with query name `image_assets`.
+Run the query through the Google Ads API, a UI custom report, or Google Ads Editor; save the result as `image_assets`.
 
 ## Analysis Steps
 

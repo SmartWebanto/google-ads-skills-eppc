@@ -8,7 +8,7 @@ metadata:
   upstream_skill: skill-010-campaign-priority-experiments
   category: structure
   kind: deterministic
-  data_source: custom_gaql
+  data_source: custom_query
   markets: all
   gaql_verified: null
   reviewed: 2026-09-03
@@ -20,9 +20,9 @@ Ensure campaign priorities (especially for Shopping) are correctly configured an
 
 ## Data Requirements
 
-**Data Source:** Custom GAQL Required
+**Data Source:** Custom query required
 
-Standard export includes basic shopping settings but may lack complete priority data. Custom GAQL provides experiment information.
+A basic account export includes basic shopping settings but may lack complete priority data. Custom GAQL provides experiment information.
 
 **GAQL Query (Shopping priorities):**
 ```sql
@@ -49,7 +49,7 @@ SELECT
   experiment.end_date
 FROM experiment
 ```
-Run via `/google-ads:get-custom` with query names `shopping_priorities` and `experiments`.
+Run via a custom query (API, UI report, or Editor export) with query names `shopping_priorities` and `experiments`.
 
 ## Analysis Steps
 

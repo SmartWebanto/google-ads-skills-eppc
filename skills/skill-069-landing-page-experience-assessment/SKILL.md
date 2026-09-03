@@ -8,7 +8,7 @@ metadata:
   upstream_skill: skill-069-landing-page-experience-assessment
   category: quality
   kind: deterministic
-  data_source: standard
+  data_source: export
   related: [skill-034-ad-copy-landing-page-consistency, skill-078-landing-page-speed, skill-079-broken-url-monitoring, skill-125-landing-page-health-check-automation, skill-141-landing-page-policy-compliance]
   markets: all
   gaql_verified: null
@@ -21,12 +21,12 @@ Evaluate landing pages for relevance, speed, and mobile-friendliness. Landing Pa
 
 ## Data Requirements
 
-**Data Source:** Standard
+**Data Source:** Account export
 
-**Standard Data:**
-- `data/account/campaigns/*/*/keywords.md` - Keyword QS components including Landing Page Experience
-- `data/account/campaigns/*/*/ads.md` - Final URLs for landing pages
-- `data/performance/campaigns/*/*/keywords_metrics_30_days.md` - Performance data
+**Export data:**
+- **Keywords** - Keyword QS components including Landing Page Experience
+- **Ads** - Final URLs for landing pages
+- **Keyword metrics (30 days)** - Performance data
 
 **Reference GAQL:**
 ```sql
@@ -44,7 +44,7 @@ WHERE ad_group_criterion.status = 'ENABLED'
   AND metrics.impressions > 50
   AND segments.date DURING LAST_30_DAYS
 ```
-Use `/google-ads:get-custom` if you need URL-level aggregation.
+Run the reference query (API, UI report, or Editor export) if you need URL-level aggregation.
 
 ## Analysis Steps
 

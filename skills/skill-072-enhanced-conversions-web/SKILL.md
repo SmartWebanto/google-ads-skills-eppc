@@ -8,7 +8,7 @@ metadata:
   upstream_skill: skill-072-enhanced-conversions-web
   category: tracking
   kind: deterministic
-  data_source: custom_gaql
+  data_source: custom_query
   markets: eea_relevant
   gaql_verified: null
   reviewed: 2026-09-03
@@ -20,13 +20,13 @@ Verify that Enhanced Conversions for Web is properly implemented to improve conv
 
 ## Data Requirements
 
-**Data Source:** Custom GAQL Required
+**Data Source:** Custom query required
 
-The standard export includes conversion actions but not Enhanced Conversions status details.
+A basic account export includes conversion actions but not Enhanced Conversions status details.
 
-**Standard Data:**
-- `data/account/conversion_actions.md` - Conversion action configuration
-- `data/account/account_summary.md` - Account-level settings
+**Export data:**
+- **Conversion actions** - Conversion action configuration
+- **Account** - Account-level settings
 
 **GAQL Query:**
 ```sql
@@ -38,7 +38,7 @@ SELECT
 FROM customer
 LIMIT 1
 ```
-Run via `/google-ads:get-custom` with query name `enhanced_conversions_status`.
+Run the query through the Google Ads API, a UI custom report, or Google Ads Editor; save the result as `enhanced_conversions_status`.
 
 Note: Full implementation verification requires Tag Assistant or developer tools.
 

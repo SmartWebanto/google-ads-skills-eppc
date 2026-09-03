@@ -8,7 +8,7 @@ metadata:
   upstream_skill: skill-032-ad-copy-ab-testing
   category: creative
   kind: deterministic
-  data_source: standard
+  data_source: export
   markets: all
   gaql_verified: null
   reviewed: 2026-09-03
@@ -21,11 +21,11 @@ Continuous ad testing is essential for improving performance. Without active tes
 
 ## Data Requirements
 
-**Data Source:** Standard
+**Data Source:** Account export
 
-**Standard Data:**
-- `data/account/campaigns/*/*/ads.md` - All RSAs per ad group
-- `data/performance/campaigns/*/*/ads_metrics_30_days.md` - Ad performance
+**Export data:**
+- **Ads** - All RSAs per ad group
+- **Ad metrics (30 days)** - Ad performance
 
 **Reference GAQL:**
 ```sql
@@ -47,7 +47,7 @@ WHERE ad_group_ad.ad.type = 'RESPONSIVE_SEARCH_AD'
   AND segments.date DURING LAST_30_DAYS
 ORDER BY campaign.name, ad_group.name
 ```
-Use `/google-ads:get-custom` for detailed ad-level performance.
+Run the reference query (API, UI report, or Editor export) for detailed ad-level performance.
 
 ## Analysis Steps
 

@@ -8,7 +8,7 @@ metadata:
   upstream_skill: skill-125-landing-page-health-check-automation
   category: waste
   kind: operational
-  data_source: custom_gaql
+  data_source: custom_query
   related: [skill-034-ad-copy-landing-page-consistency, skill-069-landing-page-experience-assessment, skill-078-landing-page-speed, skill-079-broken-url-monitoring, skill-141-landing-page-policy-compliance]
   markets: all
   gaql_verified: null
@@ -22,11 +22,11 @@ Extract all destination URLs from ads and keywords, then audit for technical iss
 
 ## Data Requirements
 
-**Data Source:** Custom GAQL Required
+**Data Source:** Custom query required
 
-**Standard Data:**
-- `data/account/campaigns/*/*/ads.md` - Ad final URLs
-- `data/account/campaigns/*/*/keywords.md` - Keyword-level URLs (if present)
+**Export data:**
+- **Ads** - Ad final URLs
+- **Keywords** - Keyword-level URLs (if present)
 
 **GAQL Query (for landing page performance):**
 ```sql
@@ -40,7 +40,7 @@ FROM landing_page_view
 WHERE segments.date DURING LAST_30_DAYS
 ORDER BY metrics.clicks DESC
 ```
-Run via `/google-ads:get-custom` with query name `landing_page_performance`.
+Run the query through the Google Ads API, a UI custom report, or Google Ads Editor; save the result as `landing_page_performance`.
 
 ## Analysis Steps
 

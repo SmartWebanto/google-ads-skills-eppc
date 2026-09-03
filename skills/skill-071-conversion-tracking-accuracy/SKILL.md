@@ -23,9 +23,9 @@ Cross-reference Google Ads conversion data with actual business data (CRM, e-com
 
 **Data Source:** External (beyond Google Ads data)
 
-**Standard Data:**
-- `data/account/conversion_actions.md` - Conversion action configuration
-- `data/performance/campaigns/*/campaign_metrics_30_days.md` - Conversion counts and values
+**Export data:**
+- **Conversion actions** - Conversion action configuration
+- **Campaign metrics (30 days)** - Conversion counts and values
 
 **Reference GAQL:**
 ```sql
@@ -40,7 +40,7 @@ FROM campaign
 WHERE segments.date DURING LAST_30_DAYS
 ORDER BY segments.date DESC
 ```
-Use `/google-ads:get-custom` for date-level conversion data.
+Run the reference query (API, UI report, or Editor export) for date-level conversion data.
 
 Note: Accuracy verification requires comparing to external business system data (CRM, OMS).
 

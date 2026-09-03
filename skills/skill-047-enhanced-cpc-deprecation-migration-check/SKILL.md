@@ -8,7 +8,7 @@ metadata:
   upstream_skill: skill-047-enhanced-cpc-deprecation-migration-check
   category: bidding
   kind: deterministic
-  data_source: standard
+  data_source: export
   markets: all
   gaql_verified: null
   reviewed: 2026-09-03
@@ -21,11 +21,11 @@ Enhanced CPC is being deprecated by Google with limited optimization compared to
 
 ## Data Requirements
 
-**Data Source:** Standard
+**Data Source:** Account export
 
-**Standard Data:**
-- `data/account/campaigns/*/campaign.md` - Bidding strategy settings
-- `data/performance/campaigns/*/campaign_metrics_30_days.md` - Conversion metrics
+**Export data:**
+- **Campaigns** - Bidding strategy settings
+- **Campaign metrics (30 days)** - Conversion metrics
 
 **Reference GAQL:**
 ```sql
@@ -44,7 +44,7 @@ WHERE campaign.status = 'ENABLED'
   AND campaign.bidding_strategy_type = 'MANUAL_CPC'
   AND segments.date DURING LAST_30_DAYS
 ```
-Use `/google-ads:get-custom` if you need enhanced_cpc_enabled field.
+Run the reference query (API, UI report, or Editor export) if you need enhanced_cpc_enabled field.
 
 ## Analysis Steps
 

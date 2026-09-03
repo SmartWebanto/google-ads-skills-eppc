@@ -8,7 +8,7 @@ metadata:
   upstream_skill: skill-006-display-network-optin
   category: structure
   kind: deterministic
-  data_source: custom_gaql
+  data_source: custom_query
   markets: all
   gaql_verified: null
   reviewed: 2026-09-03
@@ -20,9 +20,9 @@ Check whether Search campaigns have inadvertently opted into the Google Display 
 
 ## Data Requirements
 
-**Data Source:** Custom GAQL Required
+**Data Source:** Custom query required
 
-The standard export may not include `target_content_network` setting. Custom GAQL provides complete network settings and spend breakdown.
+A basic account export may not include `target_content_network` setting. Custom GAQL provides complete network settings and spend breakdown.
 
 **GAQL Query:**
 ```sql
@@ -40,7 +40,7 @@ FROM campaign
 WHERE segments.date DURING LAST_30_DAYS
   AND campaign.status = 'ENABLED'
 ```
-Run via `/google-ads:get-custom` with query name `display_network_audit`.
+Run the query through the Google Ads API, a UI custom report, or Google Ads Editor; save the result as `display_network_audit`.
 
 ## Analysis Steps
 

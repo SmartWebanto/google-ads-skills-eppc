@@ -8,7 +8,7 @@ metadata:
   upstream_skill: skill-093-pmax-video-asset-review
   category: shopping_pmax
   kind: deterministic
-  data_source: custom_gaql
+  data_source: custom_query
   markets: all
   gaql_verified: null
   reviewed: 2026-09-03
@@ -20,7 +20,7 @@ Ensure Performance Max campaigns have custom video assets uploaded rather than r
 
 ## Data Requirements
 
-**Data Source:** Custom GAQL Required
+**Data Source:** Custom query required
 
 **GAQL Query - Video Assets:**
 ```sql
@@ -48,10 +48,10 @@ SELECT
 FROM asset
 WHERE asset.type = 'YOUTUBE_VIDEO'
 ```
-Run via `/google-ads:get-custom` with query name `pmax_video_assets`.
+Run the query through the Google Ads API, a UI custom report, or Google Ads Editor; save the result as `pmax_video_assets`.
 
-**Standard Data:**
-- `data/account/campaigns/*/campaign.md` - Campaign settings
+**Export data:**
+- **Campaigns** - Campaign settings
 
 ## Analysis Steps
 

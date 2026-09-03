@@ -8,7 +8,7 @@ metadata:
   upstream_skill: skill-122-automated-keyword-pause-rules
   category: waste
   kind: operational
-  data_source: standard
+  data_source: export
   markets: all
   gaql_verified: null
   reviewed: 2026-09-03
@@ -21,12 +21,12 @@ Identify keywords wasting budget with zero conversions and recommend automated r
 
 ## Data Requirements
 
-**Data Source:** Standard
+**Data Source:** Account export
 
-**Standard Data:**
-- `data/performance/campaigns/*/*/keywords_metrics_30_days.md` - Keyword performance metrics
-- `data/account/campaigns/*/campaign.md` - Target CPA settings
-- `data/account/campaigns/*/*/keywords.md` - Keyword settings
+**Export data:**
+- **Keyword metrics (30 days)** - Keyword performance metrics
+- **Campaigns** - Target CPA settings
+- **Keywords** - Keyword settings
 
 **Reference GAQL:**
 ```sql
@@ -44,7 +44,7 @@ WHERE ad_group_criterion.status = 'ENABLED'
   AND segments.date DURING LAST_30_DAYS
 ORDER BY metrics.cost_micros DESC
 ```
-Use `/google-ads:get-custom` for different date ranges or additional metrics.
+Run the reference query (API, UI report, or Editor export) for different date ranges or additional metrics.
 
 ## Analysis Steps
 

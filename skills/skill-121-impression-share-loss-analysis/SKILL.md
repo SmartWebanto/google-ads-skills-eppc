@@ -8,7 +8,7 @@ metadata:
   upstream_skill: skill-121-impression-share-lost-analysis
   category: waste
   kind: deterministic
-  data_source: custom_gaql
+  data_source: custom_query
   merged_from: [skill-133-impression-share-loss-analysis]
   related: [skill-135-top-of-page-rate-monitoring]
   markets: all
@@ -23,9 +23,9 @@ Split impression-share loss into budget-constrained and rank-constrained causes 
 
 ## Data Requirements
 
-**Data Source:** Custom GAQL Required
+**Data Source:** Custom query required
 
-The standard export does not include competitive impression share metrics.
+A basic account export does not include competitive impression share metrics.
 
 **GAQL Query:**
 ```sql
@@ -48,7 +48,7 @@ WHERE campaign.status = 'ENABLED'
   AND campaign.advertising_channel_type = 'SEARCH'
   AND segments.date DURING LAST_30_DAYS
 ```
-Run via `/google-ads:get-custom` with query name `impression_share_loss`.
+Run the query through the Google Ads API, a UI custom report, or Google Ads Editor; save the result as `impression_share_loss`.
 
 ## Analysis Steps
 

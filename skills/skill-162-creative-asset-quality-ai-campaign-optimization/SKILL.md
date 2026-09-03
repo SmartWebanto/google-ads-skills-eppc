@@ -8,7 +8,7 @@ metadata:
   upstream_skill: skill-162-creative-asset-quality-ai-campaign-optimization
   category: platform
   kind: deterministic
-  data_source: standard
+  data_source: export
   markets: all
   gaql_verified: null
   reviewed: 2026-09-03
@@ -20,11 +20,11 @@ Audit creative asset coverage and quality for AI-driven campaigns (PMax, Demand 
 
 ## Data Requirements
 
-**Data Source:** Standard
+**Data Source:** Account export
 
-**Standard Data:**
-- `data/account/campaigns/*/ad_groups/*/ads.md` - RSA headlines and descriptions
-- `data/account/campaigns/*/campaign.md` - Campaign types (identify PMax, Demand Gen)
+**Export data:**
+- **Ads** - RSA headlines and descriptions
+- **Campaigns** - Campaign types (identify PMax, Demand Gen)
 
 **Reference GAQL (Asset Performance):**
 ```sql
@@ -35,7 +35,7 @@ SELECT
 FROM asset_group_asset
 WHERE asset_group_asset.status = 'ENABLED'
 ```
-Use `/google-ads:get-custom` for asset-level performance ratings and PMax asset group details.
+Run the reference query (API, UI report, or Editor export) for asset-level performance ratings and PMax asset group details.
 
 ## Analysis Steps
 

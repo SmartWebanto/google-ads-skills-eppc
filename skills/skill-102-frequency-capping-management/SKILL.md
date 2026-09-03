@@ -8,7 +8,7 @@ metadata:
   upstream_skill: skill-102-frequency-capping-management
   category: remarketing
   kind: deterministic
-  data_source: custom_gaql
+  data_source: custom_query
   markets: all
   gaql_verified: null
   reviewed: 2026-09-03
@@ -20,7 +20,7 @@ Set appropriate frequency caps to prevent ad fatigue and wasted impressions. Unc
 
 ## Data Requirements
 
-**Data Source:** Custom GAQL Required
+**Data Source:** Custom query required
 
 **GAQL Query:**
 ```sql
@@ -36,10 +36,10 @@ WHERE campaign.advertising_channel_type IN ('DISPLAY', 'VIDEO')
   AND campaign.status = 'ENABLED'
   AND segments.date DURING LAST_30_DAYS
 ```
-Run via `/google-ads:get-custom` with query name `frequency_analysis`.
+Run the query through the Google Ads API, a UI custom report, or Google Ads Editor; save the result as `frequency_analysis`.
 
-**Standard Data:**
-- `data/account/campaigns/*/campaign.md` - Campaign settings
+**Export data:**
+- **Campaigns** - Campaign settings
 
 ## Analysis Steps
 

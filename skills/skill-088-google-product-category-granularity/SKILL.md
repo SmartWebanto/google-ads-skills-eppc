@@ -8,7 +8,7 @@ metadata:
   upstream_skill: skill-088-google-product-category-granularity
   category: shopping_pmax
   kind: deterministic
-  data_source: custom_gaql
+  data_source: custom_query
   markets: all
   gaql_verified: null
   reviewed: 2026-09-03
@@ -20,9 +20,9 @@ Ensure products are mapped to the most specific Google Product Category (GPC) av
 
 ## Data Requirements
 
-**Data Source:** Custom GAQL Required
+**Data Source:** Custom query required
 
-The standard export does not include product category data from Shopping campaigns.
+A basic account export does not include product category data from Shopping campaigns.
 
 **GAQL Query:**
 ```sql
@@ -46,7 +46,7 @@ WHERE campaign.advertising_channel_type IN ('SHOPPING', 'PERFORMANCE_MAX')
 ORDER BY metrics.impressions DESC
 LIMIT 2000
 ```
-Run via `/google-ads:get-custom` with query name `product_category_analysis`.
+Run the query through the Google Ads API, a UI custom report, or Google Ads Editor; save the result as `product_category_analysis`.
 
 **Note:** Full feed analysis requires Merchant Center access.
 

@@ -8,7 +8,7 @@ metadata:
   upstream_skill: skill-105-ga4-advanced-audiences
   category: remarketing
   kind: deterministic
-  data_source: custom_gaql
+  data_source: custom_query
   markets: all
   gaql_verified: null
   reviewed: 2026-09-03
@@ -20,11 +20,11 @@ Audit GA4 behavioral audiences synced to Google Ads. GA4 enables targeting depth
 
 ## Data Requirements
 
-**Data Source:** Custom GAQL Required
+**Data Source:** Custom query required
 
-**Standard Data:**
-- `data/account/account_summary.md` - GA4 linkage status
-- `data/account/campaigns/*/audience_targeting.md` - Audience usage
+**Export data:**
+- **Account** - GA4 linkage status
+- **Audiences (campaign level)** - Audience usage
 
 **Reference GAQL:**
 ```sql
@@ -36,7 +36,7 @@ SELECT
 FROM user_list
 WHERE user_list.type IN ('RULE_BASED', 'LOGICAL')
 ```
-Use `/google-ads:get-custom` for audience inventory.
+Run the reference query (API, UI report, or Editor export) for audience inventory.
 
 **Note:** Full GA4 audience audit requires GA4 property access.
 

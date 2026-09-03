@@ -8,7 +8,7 @@ metadata:
   upstream_skill: skill-109-offline-conversion-freshness
   category: remarketing
   kind: deterministic
-  data_source: custom_gaql
+  data_source: custom_query
   markets: all
   gaql_verified: null
   reviewed: 2026-09-03
@@ -20,7 +20,7 @@ Verify that offline conversion data is imported timely. Stale offline data reduc
 
 ## Data Requirements
 
-**Data Source:** Custom GAQL Required
+**Data Source:** Custom query required
 
 **GAQL Query:**
 ```sql
@@ -32,10 +32,10 @@ SELECT
 FROM campaign
 WHERE segments.date BETWEEN '{start_date}' AND '{end_date}'
 ```
-Run via `/google-ads:get-custom` with query name `offline_conversion_lag`.
+Run the query through the Google Ads API, a UI custom report, or Google Ads Editor; save the result as `offline_conversion_lag`.
 
-**Standard Data:**
-- `data/account/conversion_actions.md` - Identify offline conversion sources
+**Export data:**
+- **Conversion actions** - Identify offline conversion sources
 
 ## Analysis Steps
 

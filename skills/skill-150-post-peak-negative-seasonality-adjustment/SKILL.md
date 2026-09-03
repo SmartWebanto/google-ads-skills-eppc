@@ -8,7 +8,7 @@ metadata:
   upstream_skill: skill-150-post-peak-negative-seasonality-adjustment
   category: seasonal
   kind: deterministic
-  data_source: custom_gaql
+  data_source: custom_query
   markets: all
   gaql_verified: null
   reviewed: 2026-09-03
@@ -20,7 +20,7 @@ Audit recently completed events and recommend negative seasonality adjustments t
 
 ## Data Requirements
 
-**Data Source:** Custom GAQL Required
+**Data Source:** Custom query required
 
 Need to compare event period vs. post-event period performance, which requires specific date range queries.
 
@@ -38,7 +38,7 @@ FROM campaign
 WHERE campaign.status = 'ENABLED'
   AND segments.date BETWEEN '[EVENT_END_DATE]' AND '[POST_EVENT_END]'
 ```
-Run via `/google-ads:get-custom` with event period and post-event period queries for comparison.
+Run via a custom query (API, UI report, or Editor export) with event period and post-event period queries for comparison.
 
 **Additional Requirements:**
 - Knowledge of recently completed events (within past 30 days)

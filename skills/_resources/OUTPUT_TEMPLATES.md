@@ -7,7 +7,7 @@ Skill bodies stay in English. The report is written in the client's `report_lang
 ```
 ## <Skill title> — <Account name>
 Account <id> · currency <CUR> · data <date range> · snapshot <YYYY-MM-DD>
-Library eppc-ads-skills@1.0.0 · skill <skill-id> (upstream <upstream_skill>@1.8.0) · profile <client slug or "defaults">
+Library eppc-ads-skills@1.1.0 · skill <skill-id> · profile <client slug or "defaults">
 ```
 
 ## Short — English (default)

@@ -8,7 +8,7 @@ metadata:
   upstream_skill: skill-017-negative-keyword-conflict-detection
   category: keywords
   kind: deterministic
-  data_source: standard
+  data_source: export
   markets: all
   gaql_verified: null
   reviewed: 2026-09-03
@@ -20,13 +20,13 @@ Identify negative keywords that are blocking or could block desired active keywo
 
 ## Data Requirements
 
-**Data Source:** Standard
+**Data Source:** Account export
 
-**Standard Data:**
-- `data/account/shared_negative_lists.md` - Shared negative keyword lists
-- `data/account/campaigns/*/negative_keywords.md` - Campaign-level negatives
-- `data/account/campaigns/*/*/negative_keywords.md` - Ad group-level negatives
-- `data/account/campaigns/*/*/keywords.md` - Active positive keywords
+**Export data:**
+- **Shared negative lists** - Shared negative keyword lists
+- **Negative keywords (campaign level)** - Campaign-level negatives
+- **Negative keywords (ad group level)** - Ad group-level negatives
+- **Keywords** - Active positive keywords
 
 **Reference GAQL:**
 ```sql
@@ -39,7 +39,7 @@ SELECT
 FROM keyword_view
 WHERE ad_group_criterion.status = 'ENABLED'
 ```
-Use `/google-ads:get-custom` if you need to include shared set data.
+Run the reference query (API, UI report, or Editor export) if you need to include shared set data.
 
 ## Analysis Steps
 

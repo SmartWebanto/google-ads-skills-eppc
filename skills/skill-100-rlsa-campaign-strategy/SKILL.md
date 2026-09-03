@@ -8,7 +8,7 @@ metadata:
   upstream_skill: skill-100-rlsa-campaign-strategy
   category: remarketing
   kind: deterministic
-  data_source: standard
+  data_source: export
   markets: all
   gaql_verified: null
   reviewed: 2026-09-03
@@ -20,13 +20,13 @@ Audit RLSA implementation in Search campaigns. Returning visitors convert at 2-3
 
 ## Data Requirements
 
-**Data Source:** Standard
+**Data Source:** Account export
 
-**Standard Data:**
-- `data/account/campaigns/*/campaign.md` - Campaign types
-- `data/account/campaigns/*/audience_targeting.md` - Audience targeting mode
-- `data/account/campaigns/*/*/audience_targeting.md` - Ad group audiences
-- `data/account/campaigns/*/bid_adjustments.md` - Bid modifiers
+**Export data:**
+- **Campaigns** - Campaign types
+- **Audiences (campaign level)** - Audience targeting mode
+- **Audiences (ad group level)** - Ad group audiences
+- **Bid adjustments (campaign level)** - Bid modifiers
 
 **Reference GAQL:**
 ```sql
@@ -40,7 +40,7 @@ FROM ad_group_audience_view
 WHERE campaign.advertising_channel_type = 'SEARCH'
   AND segments.date DURING LAST_30_DAYS
 ```
-Use `/google-ads:get-custom` for performance by audience segment.
+Run the reference query (API, UI report, or Editor export) for performance by audience segment.
 
 ## Analysis Steps
 

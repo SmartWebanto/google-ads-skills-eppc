@@ -8,7 +8,7 @@ metadata:
   upstream_skill: skill-048-bid-adjustment-layer-review
   category: bidding
   kind: deterministic
-  data_source: standard
+  data_source: export
   markets: all
   gaql_verified: null
   reviewed: 2026-09-03
@@ -21,12 +21,12 @@ Bid adjustments modify bids based on context signals, but Smart Bidding already 
 
 ## Data Requirements
 
-**Data Source:** Standard
+**Data Source:** Account export
 
-**Standard Data:**
-- `data/account/campaigns/*/bid_adjustments.md` - Device and location modifiers
-- `data/account/campaigns/*/campaign.md` - Bidding strategy
-- `data/account/campaigns/*/*/bid_adjustments.md` - Ad group modifiers
+**Export data:**
+- **Bid adjustments (campaign level)** - Device and location modifiers
+- **Campaigns** - Bidding strategy
+- **Bid adjustments (ad group level)** - Ad group modifiers
 
 **Reference GAQL:**
 ```sql
@@ -41,7 +41,7 @@ FROM campaign_criterion
 WHERE campaign.status = 'ENABLED'
   AND campaign_criterion.type IN ('DEVICE', 'LOCATION')
 ```
-Use `/google-ads:get-custom` for schedule or audience bid adjustments.
+Run the reference query (API, UI report, or Editor export) for schedule or audience bid adjustments.
 
 ## Analysis Steps
 

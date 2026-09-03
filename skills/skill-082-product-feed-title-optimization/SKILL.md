@@ -8,7 +8,7 @@ metadata:
   upstream_skill: skill-082-product-feed-title-optimization
   category: shopping_pmax
   kind: deterministic
-  data_source: custom_gaql
+  data_source: custom_query
   markets: all
   gaql_verified: null
   reviewed: 2026-09-03
@@ -20,9 +20,9 @@ Audit product feed titles to ensure they follow the Brand + Product Type + Key A
 
 ## Data Requirements
 
-**Data Source:** Custom GAQL Required
+**Data Source:** Custom query required
 
-The standard export does not include detailed product feed data.
+A basic account export does not include detailed product feed data.
 
 **GAQL Query:**
 ```sql
@@ -43,7 +43,7 @@ WHERE campaign.advertising_channel_type IN ('SHOPPING', 'PERFORMANCE_MAX')
 ORDER BY metrics.impressions DESC
 LIMIT 1000
 ```
-Run via `/google-ads:get-custom` with query name `product_titles`.
+Run the query through the Google Ads API, a UI custom report, or Google Ads Editor; save the result as `product_titles`.
 
 Note: Full product feed data requires Merchant Center access.
 

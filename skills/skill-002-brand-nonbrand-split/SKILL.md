@@ -8,7 +8,7 @@ metadata:
   upstream_skill: skill-002-brand-nonbrand-split
   category: structure
   kind: deterministic
-  data_source: standard
+  data_source: export
   markets: all
   gaql_verified: null
   reviewed: 2026-09-03
@@ -20,14 +20,14 @@ Ensure branded and non-branded keywords live in separate campaigns with independ
 
 ## Data Requirements
 
-**Data Source:** Standard
+**Data Source:** Account export
 
-**Standard Data:**
-- `data/account/campaigns/*/campaign.md` - Campaign names and settings
-- `data/account/campaigns/*/*/keywords.md` - All keywords with match types
-- `data/account/campaigns/*/negative_keywords.md` - Campaign negative keywords
-- `data/performance/campaigns/*/*/search_terms_metrics_30_days.md` - Search queries
-- `data/account/account_summary.md` - Brand name identification
+**Export data:**
+- **Campaigns** - Campaign names and settings
+- **Keywords** - All keywords with match types
+- **Negative keywords (campaign level)** - Campaign negative keywords
+- **Search terms (30 days)** - Search queries
+- **Account** - Brand name identification
 
 **Reference GAQL:**
 ```sql
@@ -44,7 +44,7 @@ FROM keyword_view
 WHERE ad_group_criterion.status = 'ENABLED'
   AND segments.date DURING LAST_30_DAYS
 ```
-Use `/google-ads:get-custom` if you need different date ranges or to include search term data.
+Run the reference query (API, UI report, or Editor export) if you need different date ranges or to include search term data.
 
 ## Analysis Steps
 

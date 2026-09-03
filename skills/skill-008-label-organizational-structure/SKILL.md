@@ -8,7 +8,7 @@ metadata:
   upstream_skill: skill-008-label-organizational-structure
   category: structure
   kind: deterministic
-  data_source: custom_gaql
+  data_source: custom_query
   markets: all
   gaql_verified: null
   reviewed: 2026-09-03
@@ -20,9 +20,9 @@ Verify that campaigns, ad groups, keywords, and ads are properly labeled for seg
 
 ## Data Requirements
 
-**Data Source:** Custom GAQL Required
+**Data Source:** Custom query required
 
-Standard export may not include label details. Custom GAQL required for label inventory and application.
+A basic account export may not include label details. Custom GAQL required for label inventory and application.
 
 **GAQL Query (label inventory):**
 ```sql
@@ -43,7 +43,7 @@ SELECT
 FROM campaign
 WHERE campaign.status != 'REMOVED'
 ```
-Run via `/google-ads:get-custom` with query names `label_inventory` and `campaign_labels`.
+Run via a custom query (API, UI report, or Editor export) with query names `label_inventory` and `campaign_labels`.
 
 ## Analysis Steps
 

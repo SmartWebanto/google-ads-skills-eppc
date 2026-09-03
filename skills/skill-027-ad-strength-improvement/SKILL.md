@@ -8,7 +8,7 @@ metadata:
   upstream_skill: skill-027-ad-strength-improvement
   category: creative
   kind: deterministic
-  data_source: standard
+  data_source: export
   markets: all
   gaql_verified: null
   reviewed: 2026-09-03
@@ -21,10 +21,10 @@ Ad Strength is Google's assessment of RSA quality based on relevance, quantity, 
 
 ## Data Requirements
 
-**Data Source:** Standard
+**Data Source:** Account export
 
-**Standard Data:**
-- `data/account/campaigns/*/*/ads.md` - RSA ad strength, headlines, descriptions
+**Export data:**
+- **Ads** - RSA ad strength, headlines, descriptions
 
 **Reference GAQL:**
 ```sql
@@ -45,7 +45,7 @@ WHERE ad_group_ad.ad.type = 'RESPONSIVE_SEARCH_AD'
   AND segments.date DURING LAST_30_DAYS
 ORDER BY ad_group_ad.ad_strength ASC
 ```
-Use `/google-ads:get-custom` for performance correlation analysis.
+Run the reference query (API, UI report, or Editor export) for performance correlation analysis.
 
 ## Analysis Steps
 

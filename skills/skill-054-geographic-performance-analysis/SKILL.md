@@ -8,7 +8,7 @@ metadata:
   upstream_skill: skill-054-geographic-performance-analysis
   category: targeting
   kind: deterministic
-  data_source: custom_gaql
+  data_source: custom_query
   merged_from: [skill-055-underperforming-location-exclusion]
   markets: all
   gaql_verified: null
@@ -22,12 +22,12 @@ Geographic performance varies widely. Compare each location to the account avera
 
 ## Data Requirements
 
-**Data Source:** Custom GAQL Required
+**Data Source:** Custom query required
 
-The standard export does not include location-segmented performance metrics.
+A basic account export does not include location-segmented performance metrics.
 
-**Standard Data:**
-- `data/account/campaigns/*/bid_adjustments.md` - Current location bid modifiers
+**Export data:**
+- **Bid adjustments (campaign level)** - Current location bid modifiers
 
 **GAQL Query:**
 ```sql
@@ -47,7 +47,7 @@ FROM geographic_view
 WHERE segments.date DURING LAST_30_DAYS
   AND metrics.impressions > 0
 ```
-Run via `/google-ads:get-custom` with query name `geographic_performance`.
+Run the query through the Google Ads API, a UI custom report, or Google Ads Editor; save the result as `geographic_performance`.
 For the exclusion pass, filter to `metrics.cost_micros > 0` and load current exclusions from `bid_adjustments.md`.
 
 ## Analysis Steps

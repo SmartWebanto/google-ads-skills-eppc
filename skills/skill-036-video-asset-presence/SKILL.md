@@ -8,7 +8,7 @@ metadata:
   upstream_skill: skill-036-video-asset-presence
   category: creative
   kind: deterministic
-  data_source: custom_gaql
+  data_source: custom_query
   markets: all
   gaql_verified: null
   reviewed: 2026-09-03
@@ -21,9 +21,9 @@ Performance Max and Demand Gen serve across video placements (YouTube, Discover,
 
 ## Data Requirements
 
-**Data Source:** Custom GAQL Required
+**Data Source:** Custom query required
 
-Standard export does not include video asset details.
+A basic account export does not include video asset details.
 
 **GAQL Query (video assets):**
 ```sql
@@ -50,7 +50,7 @@ FROM asset_group_asset
 WHERE campaign.advertising_channel_type = 'PERFORMANCE_MAX'
   AND asset_group_asset.field_type = 'YOUTUBE_VIDEO'
 ```
-Run via `/google-ads:get-custom` with query name `video_assets`.
+Run the query through the Google Ads API, a UI custom report, or Google Ads Editor; save the result as `video_assets`.
 
 ## Analysis Steps
 

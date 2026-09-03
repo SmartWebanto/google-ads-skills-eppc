@@ -8,7 +8,7 @@ metadata:
   upstream_skill: skill-127-trending-search-term-detection
   category: waste
   kind: deterministic
-  data_source: custom_gaql
+  data_source: custom_query
   related: [skill-013-search-term-mining-keywords, skill-014-search-term-mining-negatives]
   markets: all
   gaql_verified: null
@@ -22,10 +22,10 @@ Analyze search term data across time periods to identify rising trends (opportun
 
 ## Data Requirements
 
-**Data Source:** Custom GAQL Required
+**Data Source:** Custom query required
 
-**Standard Data:**
-- `data/performance/campaigns/*/*/search_terms_metrics_30_days.md` - Recent search terms
+**Export data:**
+- **Search terms (30 days)** - Recent search terms
 
 **GAQL Query (for trend analysis):**
 ```sql
@@ -43,7 +43,7 @@ WHERE segments.date DURING LAST_14_DAYS
   AND metrics.impressions > 0
 ORDER BY search_term_view.search_term, segments.date
 ```
-Run via `/google-ads:get-custom` with query name `search_term_trends`.
+Run the query through the Google Ads API, a UI custom report, or Google Ads Editor; save the result as `search_term_trends`.
 
 ## Analysis Steps
 

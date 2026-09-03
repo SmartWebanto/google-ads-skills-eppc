@@ -8,7 +8,7 @@ metadata:
   upstream_skill: skill-063-locations-of-interest-exclusion
   category: targeting
   kind: deterministic
-  data_source: custom_gaql
+  data_source: custom_query
   markets: all
   gaql_verified: null
   reviewed: 2026-09-03
@@ -20,13 +20,13 @@ Verify that local businesses use "Presence" targeting instead of "Presence or In
 
 ## Data Requirements
 
-**Data Source:** Custom GAQL Required
+**Data Source:** Custom query required
 
-The standard export includes geo targeting locations but not the targeting method (Presence vs Interest).
+A basic account export includes geo targeting locations but not the targeting method (Presence vs Interest).
 
-**Standard Data:**
-- `data/account/campaigns/*/campaign.md` - Campaign settings including geo targeting
-- `data/account/campaigns/*/bid_adjustments.md` - Location targeting details
+**Export data:**
+- **Campaigns** - Campaign settings including geo targeting
+- **Bid adjustments (campaign level)** - Location targeting details
 
 **GAQL Query:**
 ```sql
@@ -39,7 +39,7 @@ SELECT
 FROM campaign
 WHERE campaign.status != 'REMOVED'
 ```
-Run via `/google-ads:get-custom` with query name `geo_targeting_methods`.
+Run the query through the Google Ads API, a UI custom report, or Google Ads Editor; save the result as `geo_targeting_methods`.
 
 ## Analysis Steps
 

@@ -8,7 +8,7 @@ metadata:
   upstream_skill: skill-053-location-targeting-method-audit
   category: targeting
   kind: deterministic
-  data_source: standard
+  data_source: export
   markets: all
   gaql_verified: null
   reviewed: 2026-09-03
@@ -21,12 +21,12 @@ For local businesses, "Presence" targeting is typically preferred to avoid waste
 
 ## Data Requirements
 
-**Data Source:** Standard
+**Data Source:** Account export
 
-**Standard Data:**
-- `data/account/account_summary.md` - Account context and business type
-- `data/account/campaigns/*/campaign.md` - Campaign settings including geo targeting type
-- `data/account/campaigns/*/bid_adjustments.md` - Location targeting details
+**Export data:**
+- **Account** - Account context and business type
+- **Campaigns** - Campaign settings including geo targeting type
+- **Bid adjustments (campaign level)** - Location targeting details
 
 **Reference GAQL:**
 ```sql
@@ -39,7 +39,7 @@ SELECT
 FROM campaign
 WHERE campaign.status != 'REMOVED'
 ```
-Use `/google-ads:get-custom` if geo target type settings are not in standard export.
+Run the reference query (API, UI report, or Editor export) if geo target type settings are not in basic account export.
 
 ## Analysis Steps
 

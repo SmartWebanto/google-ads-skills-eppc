@@ -8,7 +8,7 @@ metadata:
   upstream_skill: skill-106-ga4-google-ads-integration
   category: remarketing
   kind: deterministic
-  data_source: custom_gaql
+  data_source: custom_query
   markets: all
   gaql_verified: null
   reviewed: 2026-09-03
@@ -20,11 +20,11 @@ Confirm GA4 is properly linked with bidirectional data flow, audiences syncing, 
 
 ## Data Requirements
 
-**Data Source:** Custom GAQL Required
+**Data Source:** Custom query required
 
-**Standard Data:**
-- `data/account/account_summary.md` - GA4 linkage status
-- `data/account/conversion_actions.md` - Conversion sources
+**Export data:**
+- **Account** - GA4 linkage status
+- **Conversion actions** - Conversion sources
 
 **Reference GAQL:**
 ```sql
@@ -36,7 +36,7 @@ SELECT
 FROM conversion_action
 WHERE conversion_action.status = 'ENABLED'
 ```
-Use `/google-ads:get-custom` to verify conversion action sources.
+Run the reference query (API, UI report, or Editor export) to verify conversion action sources.
 
 ## Analysis Steps
 

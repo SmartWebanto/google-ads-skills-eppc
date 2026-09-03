@@ -8,7 +8,7 @@ metadata:
   upstream_skill: skill-142-trademark-policy-management
   category: compliance
   kind: deterministic
-  data_source: custom_gaql
+  data_source: custom_query
   markets: all
   gaql_verified: null
   reviewed: 2026-09-03
@@ -21,10 +21,10 @@ Audit ad copy for trademark usage, track authorization status for each trademark
 
 ## Data Requirements
 
-**Data Source:** Custom GAQL Required
+**Data Source:** Custom query required
 
-**Standard Data:**
-- `data/account/campaigns/*/*/ads.md` - Ad headlines and descriptions
+**Export data:**
+- **Ads** - Ad headlines and descriptions
 
 **GAQL Query (for trademark violations):**
 ```sql
@@ -40,7 +40,7 @@ FROM ad_group_ad
 WHERE ad_group_ad.status = 'ENABLED'
   AND ad_group_ad.policy_summary.approval_status = 'DISAPPROVED'
 ```
-Run via `/google-ads:get-custom` with query name `trademark_violations`.
+Run the query through the Google Ads API, a UI custom report, or Google Ads Editor; save the result as `trademark_violations`.
 
 ## Analysis Steps
 

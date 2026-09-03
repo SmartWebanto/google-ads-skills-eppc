@@ -15,14 +15,14 @@ import sys
 from pathlib import Path
 
 KINDS = {"deterministic", "analyst", "operational"}
-DATA_SOURCES = {"standard", "custom_gaql", "external"}
+DATA_SOURCES = {"export", "custom_query", "external"}
 MARKETS = {"all", "us_only", "eea_relevant"}
 CATEGORIES = {
     "structure", "keywords", "creative", "bidding", "targeting", "quality", "tracking",
     "shopping_pmax", "remarketing", "waste", "competitive", "compliance", "seasonal", "platform",
 }
 SECTIONS = ["## Purpose", "## Data Requirements", "## Analysis Steps", "## Thresholds", "## Output"]
-REQUIRED_META = ["library", "upstream", "upstream_skill", "category", "kind", "data_source", "markets", "reviewed"]
+REQUIRED_META = ["library", "category", "kind", "data_source", "markets", "reviewed"]
 NAME_RE = re.compile(r"^skill-(\d{3})-[a-z0-9-]+$")
 PARAM_RE = re.compile(r"\{\{([a-z_]+)\}\}")
 DOLLAR_DIGIT_RE = re.compile(r"\$\d")
@@ -230,18 +230,10 @@ def main(argv: list[str] | None = None) -> int:
     dirs = skill_dirs(root)
     names = {d.name for d in dirs}
 
-    errors, warnings, seen_upstream = [], [], {}
+    errors, warnings = [], []
     for d in dirs:
         errors += check_skill(d, params, merges_text, names, args.allow_dollars)
         warnings += warn_skill(d)
-        try:
-            fm, _ = parse_frontmatter((d / "SKILL.md").read_text())
-            up = (fm.get("metadata") or {}).get("upstream_skill")
-            if up in seen_upstream:
-                errors.append(f"{d.name}: upstream_skill '{up}' also used by {seen_upstream[up]}")
-            seen_upstream[up] = d.name
-        except ValueError:
-            pass
     if len(dirs) != args.expect_count:
         errors.append(f"expected {args.expect_count} skill directories, found {len(dirs)}")
 

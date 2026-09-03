@@ -8,7 +8,7 @@ metadata:
   upstream_skill: skill-098-audience-segmentation-funnel-stage
   category: remarketing
   kind: deterministic
-  data_source: standard
+  data_source: export
   markets: all
   gaql_verified: null
   reviewed: 2026-09-03
@@ -20,11 +20,11 @@ Audit audience segments based on user funnel position. Segmented remarketing del
 
 ## Data Requirements
 
-**Data Source:** Standard
+**Data Source:** Account export
 
-**Standard Data:**
-- `data/account/campaigns/*/audience_targeting.md` - Campaign-level audiences
-- `data/account/campaigns/*/*/audience_targeting.md` - Ad group-level audiences
+**Export data:**
+- **Audiences (campaign level)** - Campaign-level audiences
+- **Audiences (ad group level)** - Ad group-level audiences
 
 **Reference GAQL:**
 ```sql
@@ -38,7 +38,7 @@ SELECT
 FROM ad_group_audience_view
 WHERE segments.date DURING LAST_30_DAYS
 ```
-Use `/google-ads:get-custom` if you need audience sizes or additional details.
+Run the reference query (API, UI report, or Editor export) if you need audience sizes or additional details.
 
 ## Analysis Steps
 

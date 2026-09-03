@@ -9,12 +9,10 @@ name: skill-004-ad-group-thematic-tightness
 description: "Evaluate ad group tightness."
 allowed-tools: Read, Grep, Glob
 metadata:
-  library: eppc-ads-skills@1.0.0
-  upstream: trueclicks/claude-plugins google-ads@1.8.0
-  upstream_skill: skill-004-ad-group-thematic-tightness
+  library: eppc-ads-skills@1.1.0
   category: structure
   kind: deterministic
-  data_source: standard
+  data_source: export
   markets: all
   gaql_verified: null
   reviewed: 2026-09-03
@@ -25,8 +23,8 @@ metadata:
 Text.
 
 ## Data Requirements
-**Data Source:** Standard
-Use `/google-ads:get-custom` if needed.
+**Data Source:** Account export
+Run the reference query (API, UI report, or Editor export) if needed.
 
 ## Analysis Steps
 1. Step.
@@ -95,7 +93,7 @@ class CheckSkillTests(unittest.TestCase):
         self.assertFalse(any("dollar" in i for i in self.issues(bad, allow_dollars=True)))
 
     def test_hyphen_command_is_flagged(self):
-        bad = GOOD.replace("/google-ads:get-custom", "/google-ads-get-custom")
+        bad = GOOD.replace("Run the reference query", "Run `/google-ads-get-custom`")
         self.assertTrue(any("google-ads-get" in i for i in self.issues(bad)))
 
     def test_section_order_is_enforced_ignoring_code_fences(self):
@@ -135,7 +133,7 @@ class CatalogTests(unittest.TestCase):
             self.assertEqual(rows[0]["number"], 4)
             self.assertEqual(rows[0]["kind"], "deterministic")
             md = lint.render_catalog(rows)
-            self.assertIn("| 004 | skill-004-ad-group-thematic-tightness | structure | deterministic | standard | all |", md)
+            self.assertIn("| 004 | skill-004-ad-group-thematic-tightness | structure | deterministic | export | all |", md)
 
 
 if __name__ == "__main__":

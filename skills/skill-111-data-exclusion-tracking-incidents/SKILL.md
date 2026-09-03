@@ -8,7 +8,7 @@ metadata:
   upstream_skill: skill-111-data-exclusion-tracking-incidents
   category: remarketing
   kind: deterministic
-  data_source: custom_gaql
+  data_source: custom_query
   markets: all
   gaql_verified: null
   reviewed: 2026-09-03
@@ -20,7 +20,7 @@ Use data exclusions to prevent broken tracking periods from influencing Smart Bi
 
 ## Data Requirements
 
-**Data Source:** Custom GAQL Required
+**Data Source:** Custom query required
 
 **GAQL Query:**
 ```sql
@@ -36,10 +36,10 @@ WHERE segments.date DURING LAST_30_DAYS
   )
 ORDER BY segments.date
 ```
-Run via `/google-ads:get-custom` with query name `tracking_incident_detection`.
+Run the query through the Google Ads API, a UI custom report, or Google Ads Editor; save the result as `tracking_incident_detection`.
 
-**Standard Data:**
-- `data/performance/campaigns/*/campaign_metrics_30_days.md` - Historical trends
+**Export data:**
+- **Campaign metrics (30 days)** - Historical trends
 
 ## Analysis Steps
 

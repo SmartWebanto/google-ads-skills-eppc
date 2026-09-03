@@ -8,7 +8,7 @@ metadata:
   upstream_skill: skill-073-enhanced-conversions-leads
   category: tracking
   kind: deterministic
-  data_source: custom_gaql
+  data_source: custom_query
   markets: eea_relevant
   gaql_verified: null
   reviewed: 2026-09-03
@@ -20,13 +20,13 @@ Verify that Enhanced Conversions for Leads is properly configured to match offli
 
 ## Data Requirements
 
-**Data Source:** Custom GAQL Required
+**Data Source:** Custom query required
 
-The standard export does not include Enhanced Conversions for Leads status.
+A basic account export does not include Enhanced Conversions for Leads status.
 
-**Standard Data:**
-- `data/account/conversion_actions.md` - Conversion action configuration
-- `data/account/account_summary.md` - Account settings including enhanced conversions for leads
+**Export data:**
+- **Conversion actions** - Conversion action configuration
+- **Account** - Account settings including enhanced conversions for leads
 
 **GAQL Query:**
 ```sql
@@ -37,7 +37,7 @@ SELECT
 FROM customer
 LIMIT 1
 ```
-Run via `/google-ads:get-custom` with query name `enhanced_conversions_leads_status`.
+Run the query through the Google Ads API, a UI custom report, or Google Ads Editor; save the result as `enhanced_conversions_leads_status`.
 
 ## Analysis Steps
 

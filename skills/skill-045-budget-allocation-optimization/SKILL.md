@@ -8,7 +8,7 @@ metadata:
   upstream_skill: skill-045-budget-allocation-optimization
   category: bidding
   kind: deterministic
-  data_source: custom_gaql
+  data_source: custom_query
   markets: all
   gaql_verified: null
   reviewed: 2026-09-03
@@ -21,13 +21,13 @@ Not all campaigns deliver equal value. This skill analyzes campaign efficiency, 
 
 ## Data Requirements
 
-**Data Source:** Custom GAQL Required
+**Data Source:** Custom query required
 
-The standard export lacks impression share metrics needed to identify scale opportunities.
+A basic account export lacks impression share metrics needed to identify scale opportunities.
 
-**Standard Data:**
-- `data/account/campaigns/*/campaign.md` - Current budgets, bidding strategies
-- `data/performance/campaigns/*/campaign_metrics_30_days.md` - All performance metrics
+**Export data:**
+- **Campaigns** - Current budgets, bidding strategies
+- **Campaign metrics (30 days)** - All performance metrics
 
 **GAQL Query:**
 ```sql
@@ -46,7 +46,7 @@ FROM campaign
 WHERE campaign.status = 'ENABLED'
   AND segments.date DURING LAST_30_DAYS
 ```
-Run via `/google-ads:get-custom` with query name `budget_allocation`.
+Run the query through the Google Ads API, a UI custom report, or Google Ads Editor; save the result as `budget_allocation`.
 
 ## Analysis Steps
 

@@ -8,7 +8,7 @@ metadata:
   upstream_skill: skill-050-shared-budget-appropriateness-check
   category: bidding
   kind: deterministic
-  data_source: standard
+  data_source: export
   markets: all
   gaql_verified: null
   reviewed: 2026-09-03
@@ -21,12 +21,12 @@ Shared budgets pool spend across campaigns, which can simplify management but al
 
 ## Data Requirements
 
-**Data Source:** Standard
+**Data Source:** Account export
 
-**Standard Data:**
-- `data/account/budgets.md` - Shared budgets and linked campaigns
-- `data/account/campaigns/*/campaign.md` - Budget settings, shared budget IDs
-- `data/performance/campaigns/*/campaign_metrics_30_days.md` - Campaign spend and conversions
+**Export data:**
+- **Budgets** - Shared budgets and linked campaigns
+- **Campaigns** - Budget settings, shared budget IDs
+- **Campaign metrics (30 days)** - Campaign spend and conversions
 
 **Reference GAQL:**
 ```sql
@@ -46,7 +46,7 @@ WHERE campaign.status = 'ENABLED'
   AND campaign_budget.explicitly_shared = TRUE
   AND segments.date DURING LAST_30_DAYS
 ```
-Use `/google-ads:get-custom` for shared budget reference counts.
+Run the reference query (API, UI report, or Editor export) for shared budget reference counts.
 
 ## Analysis Steps
 

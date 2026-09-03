@@ -8,7 +8,7 @@ metadata:
   upstream_skill: skill-066-historical-quality-score-trend
   category: quality
   kind: deterministic
-  data_source: custom_gaql
+  data_source: custom_query
   related: [skill-064-quality-score-distribution-analysis, skill-065-quality-score-component-breakdown, skill-067-expected-ctr-improvement]
   markets: all
   gaql_verified: null
@@ -21,12 +21,12 @@ Identify trending Quality Score degradation by comparing current QS to historica
 
 ## Data Requirements
 
-**Data Source:** Custom GAQL Required
+**Data Source:** Custom query required
 
-The standard export provides current QS but not historical snapshots. Google Ads does not store historical QS by default.
+A basic account export provides current QS but not historical snapshots. Google Ads does not store historical QS by default.
 
-**Standard Data:**
-- `data/account/campaigns/*/*/keywords.md` - Current Quality Score data
+**Export data:**
+- **Keywords** - Current Quality Score data
 
 **GAQL Query (Current State):**
 ```sql
@@ -46,7 +46,7 @@ WHERE ad_group_criterion.status = 'ENABLED'
   AND metrics.impressions > 0
   AND segments.date DURING LAST_30_DAYS
 ```
-Run via `/google-ads:get-custom` with query name `quality_score_current`.
+Run the query through the Google Ads API, a UI custom report, or Google Ads Editor; save the result as `quality_score_current`.
 
 Note: Historical QS tracking requires external snapshots (Google Ads scripts) since Google does not store QS history.
 

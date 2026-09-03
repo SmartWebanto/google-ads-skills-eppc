@@ -8,7 +8,7 @@ metadata:
   upstream_skill: skill-065-quality-score-component-breakdown
   category: quality
   kind: deterministic
-  data_source: standard
+  data_source: export
   related: [skill-064-quality-score-distribution-analysis, skill-066-historical-quality-score-trend, skill-067-expected-ctr-improvement]
   markets: all
   gaql_verified: null
@@ -21,11 +21,11 @@ Track the three Quality Score components separately: Expected CTR, Ad Relevance,
 
 ## Data Requirements
 
-**Data Source:** Standard
+**Data Source:** Account export
 
-**Standard Data:**
-- `data/account/campaigns/*/*/keywords.md` - Contains QS components (Expected CTR, Ad Relevance, Landing Page Experience)
-- `data/performance/campaigns/*/*/keywords_metrics_30_days.md` - Performance metrics for prioritization
+**Export data:**
+- **Keywords** - Contains QS components (Expected CTR, Ad Relevance, Landing Page Experience)
+- **Keyword metrics (30 days)** - Performance metrics for prioritization
 
 **Reference GAQL:**
 ```sql
@@ -45,7 +45,7 @@ WHERE ad_group_criterion.status = 'ENABLED'
   AND metrics.impressions > 100
   AND segments.date DURING LAST_30_DAYS
 ```
-Use `/google-ads:get-custom` if you need additional fields or filters.
+Run the reference query (API, UI report, or Editor export) if you need additional fields or filters.
 
 ## Analysis Steps
 

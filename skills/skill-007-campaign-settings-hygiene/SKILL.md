@@ -8,7 +8,7 @@ metadata:
   upstream_skill: skill-007-campaign-settings-hygiene
   category: structure
   kind: deterministic
-  data_source: custom_gaql
+  data_source: custom_query
   markets: all
   gaql_verified: null
   reviewed: 2026-09-03
@@ -20,9 +20,9 @@ Audit all campaign-level settings including location targeting method, start/end
 
 ## Data Requirements
 
-**Data Source:** Custom GAQL Required
+**Data Source:** Custom query required
 
-Standard data includes basic campaign settings but may lack `geo_target_type_setting`. Custom GAQL provides complete settings.
+The export includes basic campaign settings but may lack `geo_target_type_setting`. Custom GAQL provides complete settings.
 
 **GAQL Query:**
 ```sql
@@ -40,7 +40,7 @@ SELECT
 FROM campaign
 WHERE campaign.status != 'REMOVED'
 ```
-Run via `/google-ads:get-custom` with query name `campaign_settings_audit`.
+Run the query through the Google Ads API, a UI custom report, or Google Ads Editor; save the result as `campaign_settings_audit`.
 
 ## Analysis Steps
 

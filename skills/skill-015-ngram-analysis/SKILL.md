@@ -8,7 +8,7 @@ metadata:
   upstream_skill: skill-015-ngram-analysis
   category: keywords
   kind: deterministic
-  data_source: standard
+  data_source: export
   markets: all
   gaql_verified: null
   reviewed: 2026-09-03
@@ -20,12 +20,12 @@ Analyze 1-word, 2-word, and 3-word combinations (n-grams) within search terms to
 
 ## Data Requirements
 
-**Data Source:** Standard
+**Data Source:** Account export
 
-**Standard Data:**
-- `data/performance/campaigns/*/*/search_terms_metrics_30_days.md` - Search query performance
-- `data/account/campaigns/*/negative_keywords.md` - Existing negatives
-- `data/account/shared_negative_lists.md` - Shared negative lists
+**Export data:**
+- **Search terms (30 days)** - Search query performance
+- **Negative keywords (campaign level)** - Existing negatives
+- **Shared negative lists** - Shared negative lists
 
 **Reference GAQL:**
 ```sql
@@ -40,7 +40,7 @@ FROM search_term_view
 WHERE segments.date DURING LAST_30_DAYS
   AND metrics.impressions > 0
 ```
-Use `/google-ads:get-custom` if you need different date ranges or additional metrics.
+Run the reference query (API, UI report, or Editor export) if you need different date ranges or additional metrics.
 
 ## Analysis Steps
 

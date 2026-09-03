@@ -8,7 +8,7 @@ metadata:
   upstream_skill: skill-110-conversion-tracking-breakage
   category: remarketing
   kind: deterministic
-  data_source: custom_gaql
+  data_source: custom_query
   related: [skill-070-conversion-tracking-completeness, skill-071-conversion-tracking-accuracy, skill-081-micro-conversion-tracking, skill-107-conversion-value-accuracy, skill-108-cross-device-conversion-tracking]
   markets: all
   gaql_verified: null
@@ -21,10 +21,10 @@ Detect when conversion tracking breaks or degrades. Even brief outages feed inco
 
 ## Data Requirements
 
-**Data Source:** Custom GAQL Required
+**Data Source:** Custom query required
 
-**Standard Data:**
-- `data/performance/campaigns/*/campaign_metrics_30_days.md` - Daily conversion trends
+**Export data:**
+- **Campaign metrics (30 days)** - Daily conversion trends
 
 **Reference GAQL - Daily traffic vs conversions:**
 ```sql
@@ -45,7 +45,7 @@ SELECT
 FROM campaign
 WHERE segments.date DURING LAST_14_DAYS
 ```
-Use `/google-ads:get-custom` for detailed daily breakdown.
+Run the reference query (API, UI report, or Editor export) for detailed daily breakdown.
 
 ## Analysis Steps
 

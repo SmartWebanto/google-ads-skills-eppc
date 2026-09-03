@@ -8,7 +8,7 @@ metadata:
   upstream_skill: skill-039-bid-strategy-appropriateness-audit
   category: bidding
   kind: deterministic
-  data_source: standard
+  data_source: export
   markets: all
   gaql_verified: null
   reviewed: 2026-09-03
@@ -21,12 +21,12 @@ Different campaign goals and maturity levels require different bidding strategie
 
 ## Data Requirements
 
-**Data Source:** Standard
+**Data Source:** Account export
 
-**Standard Data:**
-- `data/account/campaigns/*/campaign.md` - Campaign bidding strategy, type, status
-- `data/account/bidding_strategies.md` - Portfolio bidding strategies
-- `data/performance/campaigns/*/campaign_metrics_30_days.md` - Campaign conversions, spend
+**Export data:**
+- **Campaigns** - Campaign bidding strategy, type, status
+- **Bidding strategies** - Portfolio bidding strategies
+- **Campaign metrics (30 days)** - Campaign conversions, spend
 
 **Reference GAQL:**
 ```sql
@@ -44,7 +44,7 @@ FROM campaign
 WHERE segments.date DURING LAST_30_DAYS
   AND campaign.status != 'REMOVED'
 ```
-Use `/google-ads:get-custom` for detailed bidding strategy analysis.
+Run the reference query (API, UI report, or Editor export) for detailed bidding strategy analysis.
 
 ## Analysis Steps
 

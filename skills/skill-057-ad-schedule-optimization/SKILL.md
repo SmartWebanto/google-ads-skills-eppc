@@ -8,7 +8,7 @@ metadata:
   upstream_skill: skill-057-ad-schedule-optimization
   category: targeting
   kind: deterministic
-  data_source: custom_gaql
+  data_source: custom_query
   markets: all
   gaql_verified: null
   reviewed: 2026-09-03
@@ -21,12 +21,12 @@ Performance varies by time of day and day of week. This skill analyzes hourly an
 
 ## Data Requirements
 
-**Data Source:** Custom GAQL Required
+**Data Source:** Custom query required
 
-The standard export does not include time-segmented performance metrics.
+A basic account export does not include time-segmented performance metrics.
 
-**Standard Data:**
-- `data/account/campaigns/*/campaign.md` - Current ad schedule settings
+**Export data:**
+- **Campaigns** - Current ad schedule settings
 
 **GAQL Queries:**
 
@@ -61,7 +61,7 @@ FROM campaign
 WHERE segments.date DURING LAST_30_DAYS
   AND metrics.impressions > 0
 ```
-Run via `/google-ads:get-custom` with query names `hourly_performance` and `daily_performance`.
+Run via a custom query (API, UI report, or Editor export) with query names `hourly_performance` and `daily_performance`.
 
 ## Analysis Steps
 

@@ -8,7 +8,7 @@ metadata:
   upstream_skill: skill-046-portfolio-bid-strategy-evaluation
   category: bidding
   kind: deterministic
-  data_source: standard
+  data_source: export
   markets: all
   gaql_verified: null
   reviewed: 2026-09-03
@@ -21,12 +21,12 @@ Portfolio bidding strategies share learnings across campaigns, but poorly matche
 
 ## Data Requirements
 
-**Data Source:** Standard
+**Data Source:** Account export
 
-**Standard Data:**
-- `data/account/bidding_strategies.md` - Portfolio strategies and linked campaigns
-- `data/account/campaigns/*/campaign.md` - Campaign settings and bidding
-- `data/performance/campaigns/*/campaign_metrics_30_days.md` - Campaign performance
+**Export data:**
+- **Bidding strategies** - Portfolio strategies and linked campaigns
+- **Campaigns** - Campaign settings and bidding
+- **Campaign metrics (30 days)** - Campaign performance
 
 **Reference GAQL:**
 ```sql
@@ -45,7 +45,7 @@ FROM campaign
 WHERE campaign.status = 'ENABLED'
   AND segments.date DURING LAST_30_DAYS
 ```
-Use `/google-ads:get-custom` if you need portfolio-specific metrics.
+Run the reference query (API, UI report, or Editor export) if you need portfolio-specific metrics.
 
 ## Analysis Steps
 

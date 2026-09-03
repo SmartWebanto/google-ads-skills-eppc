@@ -8,7 +8,7 @@ metadata:
   upstream_skill: skill-118-click-fraud-invalid-traffic-monitoring
   category: waste
   kind: deterministic
-  data_source: custom_gaql
+  data_source: custom_query
   markets: all
   gaql_verified: null
   reviewed: 2026-09-03
@@ -20,7 +20,7 @@ Monitor for suspicious click patterns indicating click fraud or invalid traffic.
 
 ## Data Requirements
 
-**Data Source:** Custom GAQL Required
+**Data Source:** Custom query required
 
 **GAQL Query - Click Analysis:**
 ```sql
@@ -50,7 +50,7 @@ SELECT
 FROM geographic_view
 WHERE segments.date DURING LAST_30_DAYS
 ```
-Run via `/google-ads:get-custom` with query name `fraud_detection`.
+Run the query through the Google Ads API, a UI custom report, or Google Ads Editor; save the result as `fraud_detection`.
 
 ## Analysis Steps
 

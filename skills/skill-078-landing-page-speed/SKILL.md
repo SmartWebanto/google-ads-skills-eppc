@@ -23,10 +23,10 @@ Test landing page load times to ensure pages load in under 3 seconds. Slow landi
 
 **Data Source:** External (beyond Google Ads data)
 
-**Standard Data:**
-- `data/account/campaigns/*/*/ads.md` - Final URLs for landing pages
-- `data/account/campaigns/*/*/keywords.md` - Landing Page Experience QS component
-- `data/performance/campaigns/*/*/ads_metrics_30_days.md` - Traffic to identify high-priority URLs
+**Export data:**
+- **Ads** - Final URLs for landing pages
+- **Keywords** - Landing Page Experience QS component
+- **Ad metrics (30 days)** - Traffic to identify high-priority URLs
 
 **Reference GAQL:**
 ```sql
@@ -41,7 +41,7 @@ WHERE segments.date DURING LAST_30_DAYS
   AND ad_group_ad.status = 'ENABLED'
 ORDER BY metrics.impressions DESC
 ```
-Use `/google-ads:get-custom` to get URL-level traffic data.
+Run the reference query (API, UI report, or Editor export) to get URL-level traffic data.
 
 Note: Actual page speed testing requires external tools (PageSpeed Insights, GTmetrix).
 

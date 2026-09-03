@@ -8,7 +8,7 @@ metadata:
   upstream_skill: skill-043-daily-budget-to-cpa-ratio-check
   category: bidding
   kind: deterministic
-  data_source: standard
+  data_source: export
   markets: all
   gaql_verified: null
   reviewed: 2026-09-03
@@ -21,11 +21,11 @@ Smart Bidding algorithms need sufficient daily budget to test bids, gather conve
 
 ## Data Requirements
 
-**Data Source:** Standard
+**Data Source:** Account export
 
-**Standard Data:**
-- `data/account/campaigns/*/campaign.md` - Budget, Target CPA, bidding strategy
-- `data/performance/campaigns/*/campaign_metrics_30_days.md` - Actual CPA, conversions, spend
+**Export data:**
+- **Campaigns** - Budget, Target CPA, bidding strategy
+- **Campaign metrics (30 days)** - Actual CPA, conversions, spend
 
 **Reference GAQL:**
 ```sql
@@ -43,7 +43,7 @@ FROM campaign
 WHERE campaign.status = 'ENABLED'
   AND segments.date DURING LAST_30_DAYS
 ```
-Use `/google-ads:get-custom` if you need target CPA values not in standard export.
+Run the reference query (API, UI report, or Editor export) if you need target CPA values not in basic account export.
 
 ## Analysis Steps
 

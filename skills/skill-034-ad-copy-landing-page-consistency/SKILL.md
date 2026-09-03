@@ -8,7 +8,7 @@ metadata:
   upstream_skill: skill-034-ad-copy-landing-page-consistency
   category: creative
   kind: analyst
-  data_source: standard
+  data_source: export
   related: [skill-069-landing-page-experience-assessment, skill-078-landing-page-speed, skill-079-broken-url-monitoring, skill-125-landing-page-health-check-automation, skill-141-landing-page-policy-compliance]
   markets: all
   gaql_verified: null
@@ -22,11 +22,11 @@ Message match between ads and landing pages is critical for user experience, Qua
 
 ## Data Requirements
 
-**Data Source:** Standard
+**Data Source:** Account export
 
-**Standard Data:**
-- `data/account/campaigns/*/*/ads.md` - RSA headlines, descriptions, final URLs
-- `data/account/campaigns/*/*/keywords.md` - Keywords for context
+**Export data:**
+- **Ads** - RSA headlines, descriptions, final URLs
+- **Keywords** - Keywords for context
 
 **Reference GAQL:**
 ```sql
@@ -46,7 +46,7 @@ WHERE ad_group_ad.ad.type = 'RESPONSIVE_SEARCH_AD'
   AND segments.date DURING LAST_30_DAYS
 ORDER BY metrics.clicks DESC
 ```
-Use `/google-ads:get-custom` for high-traffic ad prioritization.
+Run the reference query (API, UI report, or Editor export) for high-traffic ad prioritization.
 
 ## Analysis Steps
 

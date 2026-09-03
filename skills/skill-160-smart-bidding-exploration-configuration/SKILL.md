@@ -8,7 +8,7 @@ metadata:
   upstream_skill: skill-160-smart-bidding-exploration-configuration
   category: platform
   kind: deterministic
-  data_source: custom_gaql
+  data_source: custom_query
   markets: all
   gaql_verified: null
   reviewed: 2026-09-03
@@ -20,14 +20,14 @@ Audit Smart Bidding Exploration settings to ensure campaigns are leveraging flex
 
 ## Data Requirements
 
-**Data Source:** Custom GAQL Required
+**Data Source:** Custom query required
 
-Standard export shows bid strategies; custom query needed for exploration-specific settings.
+A basic account export shows bid strategies; custom query needed for exploration-specific settings.
 
-**Standard Data:**
-- `data/account/campaigns/*/campaign.md` - Bid strategy settings
-- `data/account/bidding_strategies.md` - Portfolio bid strategy configuration
-- `data/performance/campaigns/*/campaign_metrics_30_days.md` - Performance data
+**Export data:**
+- **Campaigns** - Bid strategy settings
+- **Bidding strategies** - Portfolio bid strategy configuration
+- **Campaign metrics (30 days)** - Performance data
 
 **Reference GAQL:**
 ```sql
@@ -44,7 +44,7 @@ WHERE campaign.status = 'ENABLED'
   AND campaign.bidding_strategy_type IN ('TARGET_CPA', 'TARGET_ROAS', 'MAXIMIZE_CONVERSIONS', 'MAXIMIZE_CONVERSION_VALUE')
   AND segments.date DURING LAST_30_DAYS
 ```
-Use `/google-ads:get-custom` to get exploration configuration status.
+Run the reference query (API, UI report, or Editor export) to get exploration configuration status.
 
 ## Analysis Steps
 

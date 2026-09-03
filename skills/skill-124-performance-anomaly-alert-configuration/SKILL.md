@@ -8,7 +8,7 @@ metadata:
   upstream_skill: skill-124-performance-anomaly-alert-configuration
   category: waste
   kind: operational
-  data_source: standard
+  data_source: export
   markets: all
   gaql_verified: null
   reviewed: 2026-09-03
@@ -21,12 +21,12 @@ Establish baseline metrics and detect significant deviations that indicate probl
 
 ## Data Requirements
 
-**Data Source:** Standard
+**Data Source:** Account export
 
-**Standard Data:**
-- `data/performance/campaigns/*/campaign_metrics_30_days.md` - Campaign performance
-- `data/performance/campaigns/*/*/ad_group_metrics_30_days.md` - Ad group performance
-- `data/account/campaigns/*/campaign.md` - Budget settings
+**Export data:**
+- **Campaign metrics (30 days)** - Campaign performance
+- **Ad group metrics (30 days)** - Ad group performance
+- **Campaigns** - Budget settings
 
 **Reference GAQL:**
 ```sql
@@ -42,7 +42,7 @@ FROM campaign
 WHERE segments.date DURING LAST_30_DAYS
   AND campaign.status = 'ENABLED'
 ```
-Use `/google-ads:get-custom` for period comparisons or daily granularity.
+Run the reference query (API, UI report, or Editor export) for period comparisons or daily granularity.
 
 ## Analysis Steps
 

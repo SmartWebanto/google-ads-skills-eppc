@@ -8,7 +8,7 @@ metadata:
   upstream_skill: skill-051-bid-simulator-analysis-target-changes
   category: bidding
   kind: deterministic
-  data_source: custom_gaql
+  data_source: custom_query
   markets: all
   gaql_verified: null
   reviewed: 2026-09-03
@@ -21,13 +21,13 @@ Bid simulators provide data-driven projections for target changes, showing trade
 
 ## Data Requirements
 
-**Data Source:** Custom GAQL Required
+**Data Source:** Custom query required
 
-Bid simulator data is not included in the standard export.
+Bid simulator data is not included in a basic account export.
 
-**Standard Data:**
-- `data/account/campaigns/*/campaign.md` - Current target settings
-- `data/performance/campaigns/*/campaign_metrics_30_days.md` - Current performance
+**Export data:**
+- **Campaigns** - Current target settings
+- **Campaign metrics (30 days)** - Current performance
 
 **GAQL Queries:**
 
@@ -57,7 +57,7 @@ FROM campaign_simulation
 WHERE campaign_simulation.type = 'TARGET_ROAS'
   AND campaign.status = 'ENABLED'
 ```
-Run via `/google-ads:get-custom` with query names `cpa_simulator` and `roas_simulator`.
+Run via a custom query (API, UI report, or Editor export) with query names `cpa_simulator` and `roas_simulator`.
 
 ## Analysis Steps
 
