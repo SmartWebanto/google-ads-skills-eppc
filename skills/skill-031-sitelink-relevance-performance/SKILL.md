@@ -63,6 +63,8 @@ Use `/google-ads:get-custom` for sitelink performance metrics.
 | Fewer than 4 sitelinks | Warning |
 | Outdated promotion sitelink | Critical |
 
+Sample size: apply rate-based rows (CTR, CVR, CPA, ROAS) only above {{min_clicks}} clicks, and CPA/ROAS comparisons only above {{min_conversions}} conversions; below that, report "insufficient sample" as Info.
+
 ## Output
 
 **Short (default):**

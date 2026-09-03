@@ -64,6 +64,8 @@ Use `/google-ads:get-custom` to get exploration configuration status.
 | Exploration intensity too aggressive for budget | Warning |
 | Campaign with <50 conv/month (exploration not recommended) | Info |
 
+Sample size: apply rate-based rows (CTR, CVR, CPA, ROAS) only above {{min_clicks}} clicks, and CPA/ROAS comparisons only above {{min_conversions}} conversions; below that, report "insufficient sample" as Info.
+
 ## Output
 
 **Short format (default):**

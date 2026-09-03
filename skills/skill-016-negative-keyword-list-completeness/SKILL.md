@@ -94,7 +94,7 @@ Use **Short** format by default. Use **Detailed** if user requests comprehensive
 - **No shared lists**: All negatives at campaign level → Create shared lists
 
 ### Warnings ([Count])
-- **Missing category**: "[Jobs/Careers]" not covered, $[X] wasted → Create list
+- **Missing category**: "[Jobs/Careers]" not covered, {{currency}} [X] wasted → Create list
 - **Incomplete coverage**: "[List]" not applied to [X] campaigns → Apply to all
 
 ### Recommendations

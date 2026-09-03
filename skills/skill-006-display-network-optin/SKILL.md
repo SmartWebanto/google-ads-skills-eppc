@@ -56,7 +56,7 @@ Run via `/google-ads:get-custom` with query name `display_network_audit`.
 |-----------|----------|
 | Search campaign with Display Network enabled | Critical |
 | Display spend >5% of Search campaign budget | Critical |
-| Display conversions = 0 with >$50 spend | Critical |
+| Display conversions = 0 with >{{spend_floor}} spend | Critical |
 | Display conv rate <50% of Search conv rate | Warning |
 
 ## Output
@@ -69,14 +69,14 @@ Use **Short** format by default. Use **Detailed** if user requests comprehensive
 **Account:** [Name] | **Analyzed:** [X] Search campaigns | **Display Enabled:** [Y]
 
 ### Critical ([Count])
-- **[Campaign]**: Display Network enabled, $[X] Display spend ([Y]% of campaign) → Disable
+- **[Campaign]**: Display Network enabled, {{currency}} [X] Display spend ([Y]% of campaign) → Disable
 
 ### Warnings ([Count])
 - **[Campaign]**: Display conv rate [X]% vs Search [Y]% → Review and likely disable
 
 ### Recommendations
 1. Disable Display Network on [X] Search campaigns
-2. Estimated monthly savings: $[Y]
+2. Estimated monthly savings: {{currency}} [Y]
 3. If Display reach needed, create dedicated Display campaigns
 ```
 

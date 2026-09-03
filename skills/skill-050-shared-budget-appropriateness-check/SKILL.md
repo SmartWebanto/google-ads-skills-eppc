@@ -72,6 +72,8 @@ Use `/google-ads:get-custom` for shared budget reference counts.
 | Concentration index (HHI) >0.40 | Warning |
 | 2-3 campaigns evenly shared | Info |
 
+Sample size: apply rate-based rows (CTR, CVR, CPA, ROAS) only above {{min_clicks}} clicks, and CPA/ROAS comparisons only above {{min_conversions}} conversions; below that, report "insufficient sample" as Info.
+
 ## Output
 
 **Short (default):**
@@ -84,7 +86,7 @@ Use `/google-ads:get-custom` for shared budget reference counts.
 - **[Budget]**: Different goals in same budget → Separate into [X] budgets
 
 ### High Priority ([Count])
-- **[Budget]**: [Campaign] dominates ([X]%), starving [Campaign] at $[Y] CPA → Split budget
+- **[Budget]**: [Campaign] dominates ([X]%), starving [Campaign] at {{currency}} [Y] CPA → Split budget
 
 ### Recommendations
 1. [Priority separation action]

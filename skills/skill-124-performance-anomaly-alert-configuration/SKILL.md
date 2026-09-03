@@ -63,6 +63,8 @@ Use `/google-ads:get-custom` for period comparisons or daily granularity.
 | Impressions -25% week-over-week | Warning |
 | Conversions -30% week-over-week | Warning |
 
+Sample size: apply rate-based rows (CTR, CVR, CPA, ROAS) only above {{min_clicks}} clicks, and CPA/ROAS comparisons only above {{min_conversions}} conversions; below that, report "insufficient sample" as Info.
+
 ## Output
 
 **Short format (default):**

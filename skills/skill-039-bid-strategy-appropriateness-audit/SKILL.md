@@ -65,6 +65,8 @@ Use `/google-ads:get-custom` for detailed bidding strategy analysis.
 | ECPC (any campaign) | Warning (deprecated) |
 | Max Clicks + conversion goal | Warning |
 
+Sample size: apply rate-based rows (CTR, CVR, CPA, ROAS) only above {{min_clicks}} clicks, and CPA/ROAS comparisons only above {{min_conversions}} conversions; below that, report "insufficient sample" as Info.
+
 ## Output
 
 **Short (default):**
@@ -74,7 +76,7 @@ Use `/google-ads:get-custom` for detailed bidding strategy analysis.
 
 ### Critical ([Count])
 - **[Campaign]**: Target CPA with [X] conv/month (need 30+) -> Switch to Max Clicks or Manual
-- **[Campaign]**: Target ROAS but $0 conversion values -> Switch to Target CPA or set values
+- **[Campaign]**: Target ROAS but zero conversion values -> Switch to Target CPA or set values
 
 ### Warnings ([Count])
 - **[Campaign]**: Manual CPC with [X] conv/month -> Upgrade to Smart Bidding

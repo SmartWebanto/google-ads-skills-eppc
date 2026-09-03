@@ -65,7 +65,7 @@ Use `/google-ads:get-custom` if you need enhanced_cpc_enabled field.
 | Shopping campaign + ECPC | Critical |
 | ECPC + poor conversion tracking | Critical |
 | Any campaign using ECPC | High |
-| ECPC + >$5000/month spend | High |
+| ECPC + >{{monthly_spend_large}}/month spend | High |
 | ECPC + >50 conv/month (ready for migration) | High |
 | ECPC + 15-50 conv/month | Warning |
 | ECPC + <15 conv/month | Warning |
@@ -76,13 +76,13 @@ Use `/google-ads:get-custom` if you need enhanced_cpc_enabled field.
 ```
 ## Enhanced CPC Migration Audit
 
-**Account:** [Name] | **ECPC Campaigns:** [X] | **Total ECPC Spend:** $[Y]/month
+**Account:** [Name] | **ECPC Campaigns:** [X] | **Total ECPC Spend:** {{currency}} [Y]/month
 
 ### Critical ([Count])
 - **[Campaign]**: ECPC on Shopping → Migrate to Max Conversions/tROAS immediately
 
 ### High Priority ([Count])
-- **[Campaign]**: [X] conv/mo, ready for migration → Target CPA at $[Y]
+- **[Campaign]**: [X] conv/mo, ready for migration → Target CPA at {{currency}} [Y]
 
 ### Migration Timeline
 | Phase | Campaign | Strategy | Start |

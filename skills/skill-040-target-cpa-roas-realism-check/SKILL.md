@@ -72,7 +72,7 @@ Use `/google-ads:get-custom` for trend analysis over longer periods. Replace `{s
 **Account:** [Name] | **Campaigns with Targets:** [X] | **Misaligned:** [Y]
 
 ### Critical ([Count])
-- **[Campaign]**: Target CPA $[X] vs actual $[Y] ([Z]% gap), [W]% budget used -> Increase to $[Rec]
+- **[Campaign]**: Target CPA {{currency}} [X] vs actual {{currency}} [Y] ([Z]% gap), [W]% budget used -> Increase to {{currency}} [Rec]
 
 ### Warnings ([Count])
 - **[Campaign]**: Target ROAS [X]% vs actual [Y]% -> Adjust to [Rec]%

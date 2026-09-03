@@ -79,7 +79,7 @@ Run via `/google-ads:get-custom` with query name `monthly_pacing`.
 **Account:** [Name] | **Day [X] of [Y]** | **Pacing:** [Z]%
 
 ### Critical ([Count])
-- **[Campaign]**: [X]% pacing, projected $[Y] vs $[Z] target → [Action]
+- **[Campaign]**: [X]% pacing, projected {{currency}} [Y] vs {{currency}} [Z] target → [Action]
 
 ### Warnings ([Count])
 - **[Campaign]**: [X]% pacing, declining trend → Monitor/investigate

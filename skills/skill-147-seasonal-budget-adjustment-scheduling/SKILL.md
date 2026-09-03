@@ -70,7 +70,7 @@ Run via `/google-ads:get-custom` to analyze prior-year peak periods.
 **Account:** [Name] | **Events (60d):** [X] | **Budget gaps:** [Y]
 
 ### Critical ([Count])
-- **[Campaign]**: Lost [X]% IS to budget in prior peak -> Increase from $[X] to $[Y]/day
+- **[Campaign]**: Lost [X]% IS to budget in prior peak -> Increase from {{currency}} [X] to {{currency}} [Y]/day
 
 ### Warnings ([Count])
 - **[Event]**: No auto-revert rule -> Schedule budget decrease for [date]

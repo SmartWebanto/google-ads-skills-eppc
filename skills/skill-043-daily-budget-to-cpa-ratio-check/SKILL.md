@@ -77,7 +77,7 @@ Use `/google-ads:get-custom` if you need target CPA values not in standard expor
 **Account:** [Name] | **Campaigns Analyzed:** [X] | **Below 5x Threshold:** [Y]
 
 ### Critical ([Count])
-- **[Campaign]**: [X]x ratio ($[Budget] / $[CPA]) → Increase to $[Recommended]/day (5x)
+- **[Campaign]**: [X]x ratio ({{currency}} [Budget] / {{currency}} [CPA]) → Increase to {{currency}} [Recommended]/day (5x)
 
 ### Warnings ([Count])
 - **[Campaign]**: [X]x ratio, [Y] conv/day capacity → Consider budget increase

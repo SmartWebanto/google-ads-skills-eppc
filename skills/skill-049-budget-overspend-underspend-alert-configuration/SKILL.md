@@ -75,7 +75,7 @@ Run via `/google-ads:get-custom` with query name `budget_alerts`.
 ```
 ## Budget Alert Audit
 
-**Account:** [Name] | **Active Alerts:** [X] | **Total Spend Affected:** $[Y]/month
+**Account:** [Name] | **Active Alerts:** [X] | **Total Spend Affected:** {{currency}} [Y]/month
 
 ### Critical ([Count])
 - **[Campaign]**: [Alert type], [X]% for [Y] days → [Action]

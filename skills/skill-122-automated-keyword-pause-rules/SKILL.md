@@ -63,6 +63,8 @@ Use `/google-ads:get-custom` for different date ranges or additional metrics.
 | Cost > 1x CPA with 0 conversions | Info |
 | CTR < 0.5% with 1000+ impressions | Warning |
 
+Sample size: apply rate-based rows (CTR, CVR, CPA, ROAS) only above {{min_clicks}} clicks, and CPA/ROAS comparisons only above {{min_conversions}} conversions; below that, report "insufficient sample" as Info.
+
 ## Output
 
 **Short format (default):**
@@ -72,19 +74,19 @@ Use `/google-ads:get-custom` for different date ranges or additional metrics.
 **Account:** [Name] | **Keywords Analyzed:** [X] | **Pause Candidates:** [Y]
 
 ### Critical - Pause Now ([Count])
-- **[Keyword]** ([Campaign]): $[Cost] spent, 0 conversions → Pause immediately
-- **[Keyword]**: $[Cost] spent, 0 conversions → Pause immediately
+- **[Keyword]** ([Campaign]): {{currency}} [Cost] spent, 0 conversions → Pause immediately
+- **[Keyword]**: {{currency}} [Cost] spent, 0 conversions → Pause immediately
 
 ### Warning - Approaching Threshold ([Count])
-- **[Keyword]**: $[Cost] of $[Threshold], 0 conversions → Monitor closely
+- **[Keyword]**: {{currency}} [Cost] of {{currency}} [Threshold], 0 conversions → Monitor closely
 
 ### Recommended Rule Configuration
-- Threshold: $[2x CPA] (2x target CPA)
+- Threshold: {{currency}} [2x CPA] (2x target CPA)
 - Frequency: Daily
 - Exclusions: Brand terms, keywords < 14 days old
 
 ### Waste Summary
-Total spend on zero-conversion keywords: $[Amount]
+Total spend on zero-conversion keywords: {{currency}} [Amount]
 ```
 
 **Detailed adds:**

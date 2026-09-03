@@ -68,7 +68,7 @@ Run via `/google-ads:get-custom` with query name `pmax_url_expansion`.
 |-----------|----------|
 | Non-commercial pages receiving traffic | Critical |
 | >20% spend on expanded URLs with low conversion | Warning |
-| Zero-conversion expanded URLs with >$100 spend | Warning |
+| Zero-conversion expanded URLs with >{{spend_significant}} spend | Warning |
 | URL expansion ON with no exclusion rules | Info |
 
 ## Output
@@ -79,16 +79,16 @@ Run via `/google-ads:get-custom` with query name `pmax_url_expansion`.
 **Account:** [name] | **URL Expansion:** [On/Off] | **Exclusion Rules:** [count] | **Issues:** [count]
 
 ### Critical
-- **Non-commercial pages receiving traffic**: /careers ($[amount]), /about ($[amount])
+- **Non-commercial pages receiving traffic**: /careers ({{currency}} [amount]), /about ({{currency}} [amount])
 
 ### Warnings
-- **[count] expanded URLs with zero conversions** - $[amount] wasted
+- **[count] expanded URLs with zero conversions** - {{currency}} [amount] wasted
 - **No exclusion rules configured** - Add patterns for /blog, /careers, /terms
 
 ### Recommendations
 1. Add exclusions: /careers, /blog, /about, /terms, /privacy
 2. Exclude [count] zero-conversion expanded URLs
-3. Estimated monthly savings: $[amount]
+3. Estimated monthly savings: {{currency}} [amount]
 ```
 
 **Detailed adds:**

@@ -69,10 +69,12 @@ Run via `/google-ads:get-custom` with query name `placement_review`.
 
 | Condition | Severity |
 |-----------|----------|
-| Placement with >$100 spend and 0 conversions | Critical |
+| Placement with >{{spend_significant}} spend and 0 conversions | Critical |
 | CTR >5% (potential click fraud) | Warning |
 | Video view rate <10% | Warning |
 | >20% spend on non-converting placements | Warning |
+
+Sample size: apply rate-based rows (CTR, CVR, CPA, ROAS) only above {{min_clicks}} clicks, and CPA/ROAS comparisons only above {{min_conversions}} conversions; below that, report "insufficient sample" as Info.
 
 ## Output
 
@@ -82,20 +84,20 @@ Run via `/google-ads:get-custom` with query name `placement_review`.
 **Account:** [name] | **Period:** Last 30 days | **Placements Analyzed:** [count]
 
 ### Summary
-- **Total Display/Video Spend:** $[amount]
-- **Non-Converting Placement Spend:** $[amount] ([%])
+- **Total Display/Video Spend:** {{currency}} [amount]
+- **Non-Converting Placement Spend:** {{currency}} [amount] ([%])
 
 ### Critical - Exclude Immediately
 | Placement | Type | Cost | Conv | Reason |
 |-----------|------|------|------|--------|
-| [name] | [type] | $[amount] | 0 | Zero conversions |
+| [name] | [type] | {{currency}} [amount] | 0 | Zero conversions |
 
 ### Warnings
 - **[count] placements with suspicious CTR** - Potential click fraud
 - **[count] YouTube placements with <10% view rate** - Poor engagement
 
 ### Recommendations
-1. Exclude [count] zero-conversion placements - Save $[amount]/month
+1. Exclude [count] zero-conversion placements - Save {{currency}} [amount]/month
 2. Investigate [count] high-CTR placements for fraud
 3. Set up monthly placement review
 ```

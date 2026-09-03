@@ -71,6 +71,8 @@ Use `/google-ads:get-custom` if you need portfolio-specific metrics.
 | Portfolio <30 conv/month total | Warning |
 | Campaign <10 conv/month in large portfolio | Info |
 
+Sample size: apply rate-based rows (CTR, CVR, CPA, ROAS) only above {{min_clicks}} clicks, and CPA/ROAS comparisons only above {{min_conversions}} conversions; below that, report "insufficient sample" as Info.
+
 ## Output
 
 **Short (default):**
@@ -80,7 +82,7 @@ Use `/google-ads:get-custom` if you need portfolio-specific metrics.
 **Account:** [Name] | **Portfolios:** [X] | **Issues Found:** [Y]
 
 ### Critical ([Count])
-- **[Portfolio]**: CV [X], CPA range $[Y]-$[Z] → Split into [N] portfolios by tier
+- **[Portfolio]**: CV [X], CPA range {{currency}} [Y]-{{currency}} [Z] → Split into [N] portfolios by tier
 
 ### Warnings ([Count])
 - **[Portfolio]**: [Campaign] dominates ([X]% of volume) → Consider separation

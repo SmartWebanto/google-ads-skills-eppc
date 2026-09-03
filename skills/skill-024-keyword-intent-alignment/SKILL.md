@@ -65,6 +65,8 @@ Use `/google-ads:get-custom` for conversion rate analysis or landing page URL ex
 | Transactional keyword, 50+ clicks, 0 conversions | Warning |
 | Commercial investigation keyword to generic page | Info |
 
+Sample size: apply rate-based rows (CTR, CVR, CPA, ROAS) only above {{min_clicks}} clicks, and CPA/ROAS comparisons only above {{min_conversions}} conversions; below that, report "insufficient sample" as Info.
+
 ## Output
 
 **Short (default):**
@@ -73,7 +75,7 @@ Use `/google-ads:get-custom` for conversion rate analysis or landing page URL ex
 **Account:** [Name] | **Keywords:** [X] | **Misalignments:** [Y]
 
 ### Critical ([Count])
-- **"[keyword]"** (informational) in [Campaign]: $[X] spent, [Y] CPA vs $[Z] target -> Move to awareness or negative
+- **"[keyword]"** (informational) in [Campaign]: {{currency}} [X] spent, [Y] CPA vs {{currency}} [Z] target -> Move to awareness or negative
 
 ### Warnings ([Count])
 - **"[keyword]"** (transactional): [X] clicks, 0 conv -> Check landing page

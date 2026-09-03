@@ -73,6 +73,8 @@ Run via `/google-ads:get-custom` with query name `learning_phase_status`.
 | CPA variance >50% during learning | Warning |
 | Budget underspend >40% during learning | Warning |
 
+Sample size: apply rate-based rows (CTR, CVR, CPA, ROAS) only above {{min_clicks}} clicks, and CPA/ROAS comparisons only above {{min_conversions}} conversions; below that, report "insufficient sample" as Info.
+
 ## Output
 
 **Short (default):**

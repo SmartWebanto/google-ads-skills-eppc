@@ -61,24 +61,26 @@ Run via `/google-ads:get-custom` with query name `day_of_week_performance`.
 | Monthly overpacing > 10% | Warning |
 | Day efficiency variance > 30% | Info |
 
+Sample size: apply rate-based rows (CTR, CVR, CPA, ROAS) only above {{min_clicks}} clicks, and CPA/ROAS comparisons only above {{min_conversions}} conversions; below that, report "insufficient sample" as Info.
+
 ## Output
 
 **Short format (default):**
 ```
 ## Budget Pacing Audit
 
-**Account:** [Name] | **Monthly Budget:** $[X] | **Pacing:** [On Track/Under/Over]
+**Account:** [Name] | **Monthly Budget:** {{currency}} [X] | **Pacing:** [On Track/Under/Over]
 
 ### Day-of-Week Efficiency
 | Day | CPA | Efficiency | Recommended Multiplier |
 |-----|-----|------------|----------------------|
-| Monday | $[X] | +20% | 1.2x |
-| Saturday | $[X] | -30% | 0.7x |
+| Monday | {{currency}} [X] | +20% | 1.2x |
+| Saturday | {{currency}} [X] | -30% | 0.7x |
 
 ### Pacing Status
 - Days remaining: [X]
-- Budget remaining: $[X]
-- Required daily: $[X] (current avg: $[Y])
+- Budget remaining: {{currency}} [X]
+- Required daily: {{currency}} [X] (current avg: {{currency}} [Y])
 
 ### Recommendations
 1. Increase [Day] budget by [X]% (best efficiency)

@@ -77,7 +77,7 @@ Run via `/google-ads:get-custom` with query names `hourly_performance` and `dail
 
 | Condition | Severity |
 |-----------|----------|
-| Time period with zero conversions + >$100 spend | Critical |
+| Time period with zero conversions + >{{spend_significant}} spend | Critical |
 | Efficiency Ratio <0.50 | High |
 | Efficiency Ratio >1.50 | High (increase opportunity) |
 | Efficiency Ratio 0.50-0.75 | Warning |
@@ -93,10 +93,10 @@ Run via `/google-ads:get-custom` with query names `hourly_performance` and `dail
 **Account:** [Name] | **Campaigns Analyzed:** [X]
 
 ### High-Performing Periods
-- **[Time Period]**: Efficiency [X], CPA $[Y] → Increase bid +[Z]%
+- **[Time Period]**: Efficiency [X], CPA {{currency}} [Y] → Increase bid +[Z]%
 
 ### Low-Performing Periods
-- **[Time Period]**: Efficiency [X], CPA $[Y] → Decrease bid -[Z]%
+- **[Time Period]**: Efficiency [X], CPA {{currency}} [Y] → Decrease bid -[Z]%
 
 ### Recommendations
 1. [Priority schedule adjustment]

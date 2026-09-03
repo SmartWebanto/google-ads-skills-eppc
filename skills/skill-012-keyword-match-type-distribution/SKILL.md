@@ -63,6 +63,8 @@ Use `/google-ads:get-custom` if you need different date ranges or additional met
 | Exact match < 10% with significantly better CPA | Warning |
 | No broad match keywords in account | Info |
 
+Sample size: apply rate-based rows (CTR, CVR, CPA, ROAS) only above {{min_clicks}} clicks, and CPA/ROAS comparisons only above {{min_conversions}} conversions; below that, report "insufficient sample" as Info.
+
 ## Output
 
 Use **Short** format by default. Use **Detailed** if user requests comprehensive analysis.

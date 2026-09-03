@@ -93,7 +93,7 @@ Run via `/google-ads:get-custom`.
 
 | Condition | Severity |
 |-----------|----------|
-| Demographic with zero conversions + >$200 spend | Critical |
+| Demographic with zero conversions + >{{spend_material}} spend | Critical |
 | Efficiency Index <0.50 | High |
 | Efficiency Index >1.50 | High (increase opportunity) |
 | Efficiency Index 0.50-0.70 | Warning |
@@ -111,8 +111,8 @@ Run via `/google-ads:get-custom`.
 ### Age Performance
 | Age Range | Cost | Conv | CPA | Efficiency | Recommendation |
 |-----------|------|------|-----|------------|----------------|
-| 25-34 | $[X] | [Y] | $[Z] | [E] | +[%] |
-| 65+ | $[X] | [Y] | $[Z] | [E] | -[%] |
+| 25-34 | {{currency}} [X] | [Y] | {{currency}} [Z] | [E] | +[%] |
+| 65+ | {{currency}} [X] | [Y] | {{currency}} [Z] | [E] | -[%] |
 
 ### Gender Performance
 | Gender | CPA | Efficiency | Recommendation |

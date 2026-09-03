@@ -66,10 +66,12 @@ Run via `/google-ads:get-custom` with query name `budget_allocation`.
 |-----------|----------|
 | Top 25% efficiency + budget limited | Critical |
 | >30% of budget in bottom 25% efficiency | Critical |
-| Bottom 25% efficiency + >$1000 spend | High |
+| Bottom 25% efficiency + >{{monthly_spend_significant}} spend | High |
 | Campaign CPA >2x account average | High |
 | ROAS <50% of account average | High |
 | Budget utilization <60% + poor metrics | High |
+
+Sample size: apply rate-based rows (CTR, CVR, CPA, ROAS) only above {{min_clicks}} clicks, and CPA/ROAS comparisons only above {{min_conversions}} conversions; below that, report "insufficient sample" as Info.
 
 ## Output
 
@@ -77,14 +79,14 @@ Run via `/google-ads:get-custom` with query name `budget_allocation`.
 ```
 ## Budget Allocation Audit
 
-**Account:** [Name] | **Total Budget:** $[X]/day | **Reallocation Opportunity:** $[Y]/day
+**Account:** [Name] | **Total Budget:** {{currency}} [X]/day | **Reallocation Opportunity:** {{currency}} [Y]/day
 
 ### Critical ([Count])
-- **[Campaign]**: [X]% of budget, [Y]% of conversions, CPA $[Z] → Reduce budget by [%]
+- **[Campaign]**: [X]% of budget, [Y]% of conversions, CPA {{currency}} [Z] → Reduce budget by [%]
 - **[Campaign]**: Best CPA, budget-limited → Increase budget by [%]
 
 ### Recommendations
-1. Reallocate $[X]/day from [Campaign A] to [Campaign B]
+1. Reallocate {{currency}} [X]/day from [Campaign A] to [Campaign B]
 2. [Secondary reallocation]
 ```
 

@@ -56,7 +56,7 @@ Use `/google-ads:get-custom` if you need additional fields.
 
 | Condition | Severity |
 |-----------|----------|
-| Ad Relevance Below Average + Cost > $200/30d | Critical |
+| Ad Relevance Below Average + Cost > {{spend_material}}/30d | Critical |
 | Keyword not in any ad headline or description | Critical |
 | Ad group has >20 keywords with mixed themes | Critical |
 | Ad Relevance Below Average | Warning |
@@ -72,7 +72,7 @@ Use `/google-ads:get-custom` if you need additional fields.
 **Account:** [Name] | **Keywords Analyzed:** [X] | **Below Average:** [Y]
 
 ### Critical ([Count])
-- **[Keyword]** in [Ad Group]: Not in ad copy, $[Cost] -> Add to headline or split ad group
+- **[Keyword]** in [Ad Group]: Not in ad copy, {{currency}} [Cost] -> Add to headline or split ad group
 
 ### Warnings ([Count])
 - **[Keyword]**: [Issue] -> [Fix]

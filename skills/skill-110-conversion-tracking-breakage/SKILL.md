@@ -63,6 +63,8 @@ Use `/google-ads:get-custom` for detailed daily breakdown.
 | Conversion rate drops while traffic stable | Warning |
 | Specific conversion action goes silent | Warning |
 
+Sample size: apply rate-based rows (CTR, CVR, CPA, ROAS) only above {{min_clicks}} clicks, and CPA/ROAS comparisons only above {{min_conversions}} conversions; below that, report "insufficient sample" as Info.
+
 ## Output
 
 **Short (default):**

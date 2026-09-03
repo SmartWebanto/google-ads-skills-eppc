@@ -65,6 +65,8 @@ Use `/google-ads:get-custom` if you need additional fields or filters.
 | Ad Relevance Below Average | Warning |
 | >30% of keywords with any Below Average | Warning |
 
+Sample size: apply rate-based rows (CTR, CVR, CPA, ROAS) only above {{min_clicks}} clicks, and CPA/ROAS comparisons only above {{min_conversions}} conversions; below that, report "insufficient sample" as Info.
+
 ## Output
 
 **Short (default):**

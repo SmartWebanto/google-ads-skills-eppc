@@ -47,7 +47,7 @@ Use `/google-ads:get-custom` if you need different date ranges or longer lookbac
 
 ## Analysis Steps
 
-1. **Establish thresholds:** Use campaign target CPA (prune at 2-3x with 0 conversions) or fixed $50 minimum
+1. **Establish thresholds:** Use campaign target CPA (prune at 2-3x with 0 conversions) or {{spend_floor}} minimum
 2. **Find zero-conversion keywords:** Filter Conversions = 0, Cost >= threshold, sort by Cost descending
 3. **Find high-CPA keywords:** Filter Conversions >= 1, CPA > target CPA x 1.5
 4. **Assess engagement signals:** Check CTR < 1% (poor relevance), QS < 5 (landing page/ad issues)
@@ -59,9 +59,11 @@ Use `/google-ads:get-custom` if you need different date ranges or longer lookbac
 |-----------|----------|
 | Cost >= 3x Target CPA AND Conv = 0 | Critical |
 | Cost >= 2x Target CPA AND Conv = 0 | Warning |
-| Cost >= $100 AND Conv = 0 AND CTR < 1% | Warning |
+| Cost >= {{spend_significant}} AND Conv = 0 AND CTR < 1% | Warning |
 | CPA > 2x Target AND Conv >= 1 | Warning |
 | Cost >= Target CPA AND Conv = 0 AND QS >= 7 | Info |
+
+Sample size: apply rate-based rows (CTR, CVR, CPA, ROAS) only above {{min_clicks}} clicks, and CPA/ROAS comparisons only above {{min_conversions}} conversions; below that, report "insufficient sample" as Info.
 
 ## Output
 
@@ -73,13 +75,13 @@ Use **Short** format by default. Use **Detailed** if user requests comprehensive
 **Account:** [Name] | **Keywords Analyzed:** [X] | **Prune Candidates:** [Y]
 
 ### Critical ([Count])
-- **[keyword]** ([match]): $[X] spent, 0 conversions, [Y] QS → Pause immediately
+- **[keyword]** ([match]): {{currency}} [X] spent, 0 conversions, [Y] QS → Pause immediately
 
 ### Warnings ([Count])
-- **[keyword]**: CPA $[X] vs target $[Y] (+[Z]% over) → Reduce bid or pause
+- **[keyword]**: CPA {{currency}} [X] vs target {{currency}} [Y] (+[Z]% over) → Reduce bid or pause
 
 ### Recommendations
-1. Pause [X] zero-conversion keywords (saves ~$[Y]/month)
+1. Pause [X] zero-conversion keywords (saves ~{{currency}} [Y]/month)
 2. Reduce bids on [X] high-CPA keywords
 ```
 

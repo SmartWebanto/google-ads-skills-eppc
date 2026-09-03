@@ -80,14 +80,14 @@ Sample size: judge impression share only above {{min_impressions}} impressions i
 **Account:** [Name] | **Campaigns:** [X] | **Issues:** [Y]
 
 ### Critical ([Count])
-- **[Campaign]**: [X]% lost to budget, profitable CPA $[Y] → Increase budget by $[Z]/day
+- **[Campaign]**: [X]% lost to budget, profitable CPA {{currency}} [Y] → Increase budget by {{currency}} [Z]/day
 - **[Campaign]**: [X]% lost to rank, avg QS [Y] → Improve landing page experience
 
 ### Warnings ([Count])
 - **[Campaign]**: [X]% lost to [cause] → [Fix]
 
 ### Recommendations
-1. Increase budget on [campaigns] to capture $[X] in missed conversions
+1. Increase budget on [campaigns] to capture {{currency}} [X] in missed conversions
 2. Address QS issues on [campaigns] losing [X]% to rank
 ```
 

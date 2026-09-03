@@ -75,7 +75,7 @@ Note: Actual HTTP status testing requires external tools or scripts.
 ### Priority URLs for HTTP Testing
 | URL | Monthly Clicks | Cost |
 |-----|----------------|------|
-| [URL] | [X] | $[Y] |
+| [URL] | [X] | {{currency}} [Y] |
 
 ### Actions Required
 1. Test URLs for HTTP status codes

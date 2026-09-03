@@ -62,6 +62,8 @@ Run via `/google-ads:get-custom` with query name `search_term_trends`.
 | Declining term (>50% drop) with high spend | Warning |
 | High-volume term not in keyword list | Info |
 
+Sample size: apply rate-based rows (CTR, CVR, CPA, ROAS) only above {{min_clicks}} clicks, and CPA/ROAS comparisons only above {{min_conversions}} conversions; below that, report "insufficient sample" as Info.
+
 ## Output
 
 **Short format (default):**

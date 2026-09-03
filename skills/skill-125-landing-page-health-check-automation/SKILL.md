@@ -77,7 +77,7 @@ Run via `/google-ads:get-custom` with query name `landing_page_performance`.
 - **[URL]**: Slow load ([X]s) → Optimize page speed
 
 ### Wasted Spend
-$[Amount] spent on broken/problematic URLs in last 30 days
+{{currency}} [Amount] spent on broken/problematic URLs in last 30 days
 
 ### Recommendations
 1. Fix [X] broken URLs immediately

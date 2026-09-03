@@ -75,7 +75,7 @@ Run via `/google-ads:get-custom` with query name `change_history`.
 | API/Scripts | [X] |
 
 ### Critical Changes to Review
-- **[Date]**: Budget changed from $[X] to $[Y] by [User]
+- **[Date]**: Budget changed from {{currency}} [X] to {{currency}} [Y] by [User]
 - **[Date]**: Bidding strategy changed on [Campaign] by [User]
 
 ### Auto-Applied Changes

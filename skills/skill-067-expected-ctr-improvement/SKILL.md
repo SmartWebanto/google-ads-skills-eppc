@@ -60,12 +60,14 @@ Use `/google-ads:get-custom` if you need additional CTR metrics.
 
 | Condition | Severity |
 |-----------|----------|
-| Expected CTR Below Average + Cost > $500/30d | Critical |
+| Expected CTR Below Average + Cost > {{spend_high}}/30d | Critical |
 | >30% of keywords have Below Average Expected CTR | Critical |
 | Keyword not appearing in any ad headline | Critical |
 | Expected CTR Below Average + high impressions | Warning |
 | Missing ad extensions in ad group | Warning |
 | Actual CTR below 1% for Search | Warning |
+
+Sample size: apply rate-based rows (CTR, CVR, CPA, ROAS) only above {{min_clicks}} clicks, and CPA/ROAS comparisons only above {{min_conversions}} conversions; below that, report "insufficient sample" as Info.
 
 ## Output
 
@@ -76,7 +78,7 @@ Use `/google-ads:get-custom` if you need additional CTR metrics.
 **Account:** [Name] | **Keywords Analyzed:** [X] | **Below Average CTR:** [Y]
 
 ### Critical ([Count])
-- **[Keyword]** in [Ad Group]: Below Avg Expected CTR, $[Cost] -> Add keyword to headline
+- **[Keyword]** in [Ad Group]: Below Avg Expected CTR, {{currency}} [Cost] -> Add keyword to headline
 
 ### Warnings ([Count])
 - **[Keyword]**: [Issue] -> [Fix]

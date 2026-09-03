@@ -49,7 +49,7 @@ Use `/google-ads:get-custom` if you need different date ranges.
 
 ## Analysis Steps
 
-1. **Find high-spend zero-conversion terms:** Filter Conversions = 0, Cost >= 2x target CPA or $20 minimum
+1. **Find high-spend zero-conversion terms:** Filter Conversions = 0, Cost >= 2x target CPA or {{spend_floor}} minimum
 2. **Identify low-engagement terms:** CTR < 1% AND Impressions >= 100 OR Clicks >= 10 AND Conv = 0
 3. **Detect waste patterns:** Scan for "jobs", "free", "how to", "login", "support", competitor research terms
 4. **Check against existing negatives:** Verify candidates not already blocked
@@ -64,6 +64,8 @@ Use `/google-ads:get-custom` if you need different date ranges.
 | Clicks >= 20 AND Conv = 0 AND CTR < 1% | Warning |
 | Contains waste pattern ("free", "jobs") AND Conv = 0 | Warning |
 
+Sample size: apply rate-based rows (CTR, CVR, CPA, ROAS) only above {{min_clicks}} clicks, and CPA/ROAS comparisons only above {{min_conversions}} conversions; below that, report "insufficient sample" as Info.
+
 ## Output
 
 Use **Short** format by default. Use **Detailed** if user requests comprehensive analysis.
@@ -74,13 +76,13 @@ Use **Short** format by default. Use **Detailed** if user requests comprehensive
 **Account:** [Name] | **Search Terms:** [X] | **Negatives Needed:** [Y]
 
 ### Critical ([Count])
-- **"[search term]"**: $[X] spent, 0 conversions → Add as [phrase] negative
+- **"[search term]"**: {{currency}} [X] spent, 0 conversions → Add as [phrase] negative
 
 ### Warnings ([Count])
-- **"[pattern]" pattern**: [X] terms, $[Y] wasted → Add "[pattern]" to shared negative list
+- **"[pattern]" pattern**: [X] terms, {{currency}} [Y] wasted → Add "[pattern]" to shared negative list
 
 ### Recommendations
-1. Add [X] negative keywords (saves ~$[Y]/month)
+1. Add [X] negative keywords (saves ~{{currency}} [Y]/month)
 2. Create shared list for "[pattern]" terms
 ```
 

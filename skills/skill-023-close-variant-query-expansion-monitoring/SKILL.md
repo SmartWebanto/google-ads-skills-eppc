@@ -79,10 +79,10 @@ Sample size: compare conversion rates only above {{min_clicks}} clicks per class
 **Account:** [Name] | **Queries:** [X] | **Issues:** [Y]
 
 ### Add as Negatives ([Count])
-- **"[query]"** from [keyword]: $[X] cost, 0 conv -> Add as [match] negative
+- **"[query]"** from [keyword]: {{currency}} [X] cost, 0 conv -> Add as [match] negative
 
 ### Add as Keywords ([Count])
-- **"[query]"**: [X] conv at $[Y] CPA -> Add as exact match
+- **"[query]"**: [X] conv at {{currency}} [Y] CPA -> Add as exact match
 
 ### Keywords to Narrow ([Count])
 - **[keyword]** (broad): [X]% irrelevant queries -> Convert to phrase

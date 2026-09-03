@@ -57,7 +57,7 @@ Use `/google-ads:get-custom` if you need URL-level aggregation.
 
 | Condition | Severity |
 |-----------|----------|
-| Landing Page Below Average + Cost > $500/30d | Critical |
+| Landing Page Below Average + Cost > {{spend_high}}/30d | Critical |
 | >50% of keywords have Below Average LP | Critical |
 | Single landing page affecting multiple keywords | Critical |
 | Landing Page Below Average | Warning |
@@ -73,7 +73,7 @@ Use `/google-ads:get-custom` if you need URL-level aggregation.
 **Account:** [Name] | **Keywords Analyzed:** [X] | **Below Average LP:** [Y]
 
 ### Critical ([Count])
-- **[Landing Page URL]**: [X] keywords, $[Cost] -> Test with PageSpeed Insights
+- **[Landing Page URL]**: [X] keywords, {{currency}} [Cost] -> Test with PageSpeed Insights
 
 ### Warnings ([Count])
 - **[URL]**: [Issue] -> [Fix]

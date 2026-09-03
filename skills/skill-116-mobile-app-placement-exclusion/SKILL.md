@@ -57,36 +57,38 @@ Run via `/google-ads:get-custom` with query name `mobile_app_placements`.
 
 | Condition | Severity |
 |-----------|----------|
-| >$500/month on mobile apps with <1% conversion rate | Critical |
+| >{{spend_high}}/month on mobile apps with <1% conversion rate | Critical |
 | Game apps with zero conversions | Warning |
 | App CTR >3% (likely accidental clicks) | Warning |
 | No app exclusions configured | Info |
+
+Sample size: apply rate-based rows (CTR, CVR, CPA, ROAS) only above {{min_clicks}} clicks, and CPA/ROAS comparisons only above {{min_conversions}} conversions; below that, report "insufficient sample" as Info.
 
 ## Output
 
 **Short (default):**
 ```
 ## Mobile App Placement Analysis
-**Account:** [name] | **App Spend:** $[amount] | **App Conversion Rate:** [%]
+**Account:** [name] | **App Spend:** {{currency}} [amount] | **App Conversion Rate:** [%]
 
 ### Performance Comparison
 | Placement Type | Spend | Conv Rate | CPA |
 |----------------|-------|-----------|-----|
-| Websites | $[amount] | [%] | $[amount] |
-| Mobile Apps | $[amount] | [%] | $[amount] |
+| Websites | {{currency}} [amount] | [%] | {{currency}} [amount] |
+| Mobile Apps | {{currency}} [amount] | [%] | {{currency}} [amount] |
 
 ### Critical
 - **Mobile apps underperforming by [X]%** - Consider full exclusion
 
 ### Recommendations
-1. **Option A:** Exclude all mobile apps - Save $[amount]/month
+1. **Option A:** Exclude all mobile apps - Save {{currency}} [amount]/month
 2. **Option B:** Exclude game and children's app categories
 3. **Option C:** Exclude specific zero-conversion apps
 
 ### High-Risk Apps to Exclude
 | App | Category | Spend | Conv | CTR |
 |-----|----------|-------|------|-----|
-| [name] | Game | $[amount] | 0 | [%] |
+| [name] | Game | {{currency}} [amount] | 0 | [%] |
 ```
 
 **Detailed adds:**

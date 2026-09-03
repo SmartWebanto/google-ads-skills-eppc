@@ -46,7 +46,7 @@ Use `/google-ads:get-custom` if you need different date ranges or additional met
 
 1. **Extract n-grams:** Tokenize search terms into 1-grams, 2-grams, and 3-grams; normalize (lowercase, remove punctuation)
 2. **Aggregate metrics:** For each n-gram, sum metrics from all containing search terms
-3. **Identify waste patterns:** Flag n-grams with Cost >= $50 AND Conversions = 0, or appearing in 5+ zero-conversion terms
+3. **Identify waste patterns:** Flag n-grams with Cost >= {{spend_floor}} AND Conversions = 0, or appearing in 5+ zero-conversion terms
 4. **Identify opportunity patterns:** Flag n-grams with Conv >= 3 AND CPA below target, or Conv Rate >= 5%
 5. **Cross-reference negatives:** Check if wasteful n-grams already covered by existing negatives
 
@@ -54,10 +54,12 @@ Use `/google-ads:get-custom` if you need different date ranges or additional met
 
 | Condition | Severity |
 |-----------|----------|
-| N-gram Cost >= $100 AND Conv = 0 | Critical |
+| N-gram Cost >= {{spend_significant}} AND Conv = 0 | Critical |
 | N-gram in 10+ terms AND Conv = 0 | Critical |
-| N-gram Cost >= $50 AND Conv = 0 | Warning |
+| N-gram Cost >= {{spend_floor}} AND Conv = 0 | Warning |
 | N-gram Conv >= 5 AND CPA <= Target CPA | Info (opportunity) |
+
+Sample size: apply rate-based rows (CTR, CVR, CPA, ROAS) only above {{min_clicks}} clicks, and CPA/ROAS comparisons only above {{min_conversions}} conversions; below that, report "insufficient sample" as Info.
 
 ## Output
 
@@ -69,16 +71,16 @@ Use **Short** format by default. Use **Detailed** if user requests comprehensive
 **Account:** [Name] | **Search Terms:** [X] | **Patterns Found:** [Y]
 
 ### Critical ([Count])
-- **"[n-gram]"**: $[X] spent across [Y] terms, 0 conversions → Add as phrase negative
+- **"[n-gram]"**: {{currency}} [X] spent across [Y] terms, 0 conversions → Add as phrase negative
 
 ### Warnings ([Count])
-- **"[n-gram]"**: $[X] spent, 0 conversions → Add as phrase negative
+- **"[n-gram]"**: {{currency}} [X] spent, 0 conversions → Add as phrase negative
 
 ### Opportunities ([Count])
-- **"[n-gram]"**: [X] conversions at $[Y] CPA → Create dedicated ad group
+- **"[n-gram]"**: [X] conversions at {{currency}} [Y] CPA → Create dedicated ad group
 
 ### Recommendations
-1. Add "[n-gram]" as negative (saves ~$[X]/month)
+1. Add "[n-gram]" as negative (saves ~{{currency}} [X]/month)
 2. Create ad group for "[n-gram]" theme
 ```
 

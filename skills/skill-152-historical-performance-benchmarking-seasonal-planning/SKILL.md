@@ -74,7 +74,7 @@ Run via `/google-ads:get-custom` for each seasonal period needing analysis (e.g.
 ### Projections for [Upcoming Event]
 | Metric | Prior Year | Projection | Change |
 |--------|------------|------------|--------|
-| Budget | $X | $Y | +Z% |
+| Budget | {{currency}} X | {{currency}} Y | +Z% |
 | Conv   | X | Y | +Z% |
 | ROAS   | X% | Y% | Z% |
 

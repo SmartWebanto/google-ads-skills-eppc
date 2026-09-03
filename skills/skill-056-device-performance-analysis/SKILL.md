@@ -60,7 +60,7 @@ Run via `/google-ads:get-custom` with query name `device_performance`. Device va
 
 | Condition | Severity |
 |-----------|----------|
-| Device with zero conversions + >$200 spend | Critical |
+| Device with zero conversions + >{{spend_material}} spend | Critical |
 | Device efficiency index < -0.40 | High |
 | Device efficiency index > +0.40 | High (increase opportunity) |
 | Device efficiency index -0.40 to -0.20 | Warning |
@@ -78,9 +78,9 @@ Run via `/google-ads:get-custom` with query name `device_performance`. Device va
 ### Account-Level Summary
 | Device | Cost | Conv | CPA | vs Avg |
 |--------|------|------|-----|--------|
-| Desktop | $[X] | [Y] | $[Z] | [%] |
-| Mobile | $[X] | [Y] | $[Z] | [%] |
-| Tablet | $[X] | [Y] | $[Z] | [%] |
+| Desktop | {{currency}} [X] | [Y] | {{currency}} [Z] | [%] |
+| Mobile | {{currency}} [X] | [Y] | {{currency}} [Z] | [%] |
+| Tablet | {{currency}} [X] | [Y] | {{currency}} [Z] | [%] |
 
 ### Recommendations ([Count])
 - **[Campaign]**: Mobile CPA [X]% above average → Adjust to -[Y]%

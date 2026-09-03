@@ -92,6 +92,8 @@ Run via `/google-ads:get-custom`.
 | >70% spend on Display network with poor conversions | Warning |
 | No first-party audience signals configured | Info |
 
+Sample size: apply rate-based rows (CTR, CVR, CPA, ROAS) only above {{min_clicks}} clicks, and CPA/ROAS comparisons only above {{min_conversions}} conversions; below that, report "insufficient sample" as Info.
+
 ## Output
 
 **Short format (default):**
@@ -103,11 +105,11 @@ Run via `/google-ads:get-custom`.
 ### Campaign Overview
 | Campaign | Cost | Conv | CPA | ROAS |
 |----------|------|------|-----|------|
-| [Name] | $[X] | [Y] | $[Z] | [%] |
+| [Name] | {{currency}} [X] | [Y] | {{currency}} [Z] | [%] |
 
 ### Asset Group Performance
-- **[Asset Group]**: [X] conversions, $[Y] CPA → Top performer
-- **[Asset Group]**: [X] conversions, $[Y] CPA → Review assets
+- **[Asset Group]**: [X] conversions, {{currency}} [Y] CPA → Top performer
+- **[Asset Group]**: [X] conversions, {{currency}} [Y] CPA → Review assets
 
 ### Network Distribution
 | Network | Spend % | Conv % | Efficiency |

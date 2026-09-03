@@ -70,7 +70,7 @@ Use `/google-ads:get-custom` if you need impression share metrics for more accur
 **Account:** [Name] | **Analyzed:** [X] keywords | **Issues:** [Y]
 
 ### Critical ([Count])
-- **[Keyword]** (QS [X]): [Y] impressions, bid $[Z] vs $[A] avg CPC -> Increase to $[B]
+- **[Keyword]** (QS [X]): [Y] impressions, bid {{currency}} [Z] vs {{currency}} [A] avg CPC -> Increase to {{currency}} [B]
 
 ### Warnings ([Count])
 - **[Keyword]**: [Issue] -> [Fix]

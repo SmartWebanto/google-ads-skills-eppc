@@ -62,6 +62,8 @@ Use `/google-ads:get-custom` if you need different date ranges or additional met
 | Conversions >= 1 AND Status = "None" | Warning |
 | Clicks >= 20 AND CTR >= 3% AND Conv = 0 | Info |
 
+Sample size: apply rate-based rows (CTR, CVR, CPA, ROAS) only above {{min_clicks}} clicks, and CPA/ROAS comparisons only above {{min_conversions}} conversions; below that, report "insufficient sample" as Info.
+
 ## Output
 
 Use **Short** format by default. Use **Detailed** if user requests comprehensive analysis.
@@ -72,7 +74,7 @@ Use **Short** format by default. Use **Detailed** if user requests comprehensive
 **Account:** [Name] | **Search Terms:** [X] | **Opportunities:** [Y]
 
 ### Critical ([Count])
-- **"[search term]"**: [X] conversions at $[Y] CPA, not added → Add as [exact]
+- **"[search term]"**: [X] conversions at {{currency}} [Y] CPA, not added → Add as [exact]
 - **"[search term]"**: [X] conversions, triggering from broad match → Add as [exact]
 
 ### Warnings ([Count])

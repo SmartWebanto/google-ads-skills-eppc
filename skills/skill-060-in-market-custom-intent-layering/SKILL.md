@@ -67,6 +67,8 @@ Run via `/google-ads:get-custom` with query name `audience_performance`.
 | Missing relevant in-market category for business | Warning |
 | Custom intent audience not created for competitors | Info |
 
+Sample size: apply rate-based rows (CTR, CVR, CPA, ROAS) only above {{min_clicks}} clicks, and CPA/ROAS comparisons only above {{min_conversions}} conversions; below that, report "insufficient sample" as Info.
+
 ## Output
 
 **Short (default):**
@@ -81,7 +83,7 @@ Run via `/google-ads:get-custom` with query name `audience_performance`.
 ### In-Market Performance
 | Segment | Cost | Conv | CPA | vs Avg |
 |---------|------|------|-----|--------|
-| [Category] | $[X] | [Y] | $[Z] | [%] |
+| [Category] | {{currency}} [X] | [Y] | {{currency}} [Z] | [%] |
 
 ### Recommended Custom Intent Audiences
 1. **Competitor Intent**: [competitor1], [competitor2] keywords

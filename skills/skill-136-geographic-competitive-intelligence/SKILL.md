@@ -58,6 +58,8 @@ Run via `/google-ads:get-custom` with query name `geo_performance`.
 | Strong IS region with declining conversion rate | Warning |
 | Low IS + low conversion rate region | Info |
 
+Sample size: apply rate-based rows (CTR, CVR, CPA, ROAS) only above {{min_clicks}} clicks, and CPA/ROAS comparisons only above {{min_conversions}} conversions; below that, report "insufficient sample" as Info.
+
 ## Output
 
 **Short format (default):**
@@ -69,9 +71,9 @@ Run via `/google-ads:get-custom` with query name `geo_performance`.
 ### Geographic Performance Overview
 | Region | Impressions | IS | Conv Rate | CPA | Strategy |
 |--------|-------------|-----|-----------|-----|----------|
-| California | [X] | [Y]% | [Z]% | $[A] | Expand |
-| Texas | [X] | [Y]% | [Z]% | $[A] | Defend |
-| New York | [X] | [Y]% | [Z]% | $[A] | Optimize |
+| California | [X] | [Y]% | [Z]% | {{currency}} [A] | Expand |
+| Texas | [X] | [Y]% | [Z]% | {{currency}} [A] | Defend |
+| New York | [X] | [Y]% | [Z]% | {{currency}} [A] | Optimize |
 
 ### Expansion Opportunities (Low IS + Good Performance)
 - **[Region]**: [X]% IS, [Y]% conv rate → Increase bids +[Z]%

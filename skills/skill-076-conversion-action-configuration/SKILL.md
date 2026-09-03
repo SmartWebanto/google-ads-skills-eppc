@@ -62,6 +62,8 @@ Use `/google-ads:get-custom` for additional conversion action details.
 | Secondary conversion should be primary | Warning |
 | Missing default value fallback | Warning |
 
+Sample size: apply rate-based rows (CTR, CVR, CPA, ROAS) only above {{min_clicks}} clicks, and CPA/ROAS comparisons only above {{min_conversions}} conversions; below that, report "insufficient sample" as Info.
+
 ## Output
 
 **Short (default):**
@@ -73,7 +75,7 @@ Use `/google-ads:get-custom` for additional conversion action details.
 ### Configuration Summary
 | Action | Type | Primary | Counting | Attribution | Value |
 |--------|------|---------|----------|-------------|-------|
-| [Name] | [Type] | [Y/N] | [One/Every] | [Model] | $[X] |
+| [Name] | [Type] | [Y/N] | [One/Every] | [Model] | {{currency}} [X] |
 
 ### Critical ([Count])
 - **[Action]**: [Issue] -> [Fix]

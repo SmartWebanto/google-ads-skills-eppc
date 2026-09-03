@@ -60,7 +60,7 @@ Use `/google-ads:get-custom` for detailed value settings.
 
 | Condition | Severity |
 |-----------|----------|
-| Lead conversion with $0 value | Critical |
+| Lead conversion with zero value | Critical |
 | E-commerce without dynamic values | Critical |
 | tROAS campaign with static values | High |
 | Revenue vs profit variance >20% | Warning |
@@ -76,10 +76,10 @@ Use `/google-ads:get-custom` for detailed value settings.
 **Account:** [Name] | **Conversion Actions:** [X] | **Using Accurate Values:** [Y]%
 
 ### Critical ([Count])
-- **[Conversion]**: $0 value assigned → Set value to $[X] based on [calculation]
+- **[Conversion]**: zero value assigned → Set value to {{currency}} [X] based on [calculation]
 
 ### Warnings ([Count])
-- **[Conversion]**: Static $[X] value, actual value $[Y] → Update or implement dynamic
+- **[Conversion]**: Static {{currency}} [X] value, actual value {{currency}} [Y] → Update or implement dynamic
 
 ### Recommendations
 1. [Priority value update]

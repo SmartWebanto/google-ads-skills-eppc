@@ -74,6 +74,8 @@ Run via `/google-ads:get-custom` with query name `budget_limited_campaigns`.
 | Budget Lost IS 10-20% | Warning |
 | Budget Lost IS 5-10% | Info |
 
+Sample size: apply rate-based rows (CTR, CVR, CPA, ROAS) only above {{min_clicks}} clicks, and CPA/ROAS comparisons only above {{min_conversions}} conversions; below that, report "insufficient sample" as Info.
+
 ## Output
 
 **Short (default):**
@@ -83,7 +85,7 @@ Run via `/google-ads:get-custom` with query name `budget_limited_campaigns`.
 **Account:** [Name] | **Campaigns Analyzed:** [X] | **Budget-Limited:** [Y]
 
 ### Critical ([Count])
-- **[Campaign]**: [X]% Budget Lost IS, CPA $[Y] (below target) → Increase budget to $[Z]/day
+- **[Campaign]**: [X]% Budget Lost IS, CPA {{currency}} [Y] (below target) → Increase budget to {{currency}} [Z]/day
 
 ### Warnings ([Count])
 - **[Campaign]**: [X]% Budget Lost IS, CPA at target → Evaluate efficiency before increase

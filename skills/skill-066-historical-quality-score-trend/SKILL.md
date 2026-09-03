@@ -68,6 +68,8 @@ Note: Historical QS tracking requires external snapshots (Google Ads scripts) si
 | Expected CTR trending down across keywords | Warning |
 | Single keyword QS dropped 3+ points | Warning |
 
+Sample size: apply rate-based rows (CTR, CVR, CPA, ROAS) only above {{min_clicks}} clicks, and CPA/ROAS comparisons only above {{min_conversions}} conversions; below that, report "insufficient sample" as Info.
+
 ## Output
 
 **Short (default):**

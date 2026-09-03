@@ -68,6 +68,8 @@ Run via `/google-ads:get-custom` with query name `fraud_detection`.
 | Click burst (>2 std dev above average) | Warning |
 | High clicks from non-target geographies | Warning |
 
+Sample size: apply rate-based rows (CTR, CVR, CPA, ROAS) only above {{min_clicks}} clicks, and CPA/ROAS comparisons only above {{min_conversions}} conversions; below that, report "insufficient sample" as Info.
+
 ## Output
 
 **Short (default):**
@@ -78,7 +80,7 @@ Run via `/google-ads:get-custom` with query name `fraud_detection`.
 ### Summary
 - **Total Clicks:** [count]
 - **Invalid Clicks:** [count] ([%])
-- **Google Refunds:** $[amount]
+- **Google Refunds:** {{currency}} [amount]
 
 ### Suspicious Activity
 - **[campaign]**: CTR [%] - Abnormally high

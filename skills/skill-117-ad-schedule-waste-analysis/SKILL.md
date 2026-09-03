@@ -52,29 +52,31 @@ Run via `/google-ads:get-custom` with query name `ad_schedule_analysis`.
 
 | Condition | Severity |
 |-----------|----------|
-| Day with zero conversions and >$100 spend | Critical |
+| Day with zero conversions and >{{spend_significant}} spend | Critical |
 | Hours with zero conversions (multiple days) | Warning |
 | Weekend CPA >2x weekday CPA | Warning |
 | Off-hours (12am-6am) spend >10% of budget | Info |
+
+Sample size: apply rate-based rows (CTR, CVR, CPA, ROAS) only above {{min_clicks}} clicks, and CPA/ROAS comparisons only above {{min_conversions}} conversions; below that, report "insufficient sample" as Info.
 
 ## Output
 
 **Short (default):**
 ```
 ## Ad Schedule Waste Analysis
-**Account:** [name] | **Period:** Last 30 days | **Account CPA:** $[amount]
+**Account:** [name] | **Period:** Last 30 days | **Account CPA:** {{currency}} [amount]
 
 ### Day-of-Week Performance
 | Day | Spend | Conv | CPA | vs. Avg |
 |-----|-------|------|-----|---------|
-| [worst day] | $[amount] | [count] | $[amount] | +[%] |
+| [worst day] | {{currency}} [amount] | [count] | {{currency}} [amount] | +[%] |
 
 ### Zero-Conversion Periods
-- **[day] [hours]**: $[amount] spent, 0 conversions
-- **Off-hours (12am-6am)**: $[amount] spent, [count] conversions
+- **[day] [hours]**: {{currency}} [amount] spent, 0 conversions
+- **Off-hours (12am-6am)**: {{currency}} [amount] spent, [count] conversions
 
 ### Recommendations
-1. Exclude [time periods] - Save $[amount]/month
+1. Exclude [time periods] - Save {{currency}} [amount]/month
 2. Reduce bids -50% on [days/hours] with high CPA
 3. Increase bids +20% on [best performing periods]
 ```

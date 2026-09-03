@@ -54,7 +54,7 @@ Use `/google-ads:get-custom` if audience details are not in standard export.
 
 | Condition | Severity |
 |-----------|----------|
-| Campaign with >$1000/mo spend and no observation audiences | High |
+| Campaign with >{{monthly_spend_significant}}/mo spend and no observation audiences | High |
 | Missing remarketing audience observation | High |
 | Missing relevant in-market segments | Warning |
 | Audience accidentally in Targeting mode (restricting reach) | Critical |
@@ -69,7 +69,7 @@ Use `/google-ads:get-custom` if audience details are not in standard export.
 **Account:** [Name] | **Campaigns Analyzed:** [X] | **Missing Observation Setup:** [Y]
 
 ### High Priority ([Count])
-- **[Campaign]**: No observation audiences, $[X]/mo spend → Add standard observation set
+- **[Campaign]**: No observation audiences, {{currency}} [X]/mo spend → Add standard observation set
 
 ### Warnings ([Count])
 - **[Campaign]**: Missing remarketing observation → Add all visitors lists

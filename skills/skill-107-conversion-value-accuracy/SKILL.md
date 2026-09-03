@@ -52,7 +52,7 @@ Use `/google-ads:get-custom` for detailed value analysis.
 | Condition | Severity |
 |-----------|----------|
 | Primary conversion with no value assigned | Critical |
-| All conversions valued at $1 (placeholder) | Critical |
+| All conversions valued at exactly 1 {{currency}} (placeholder) | Critical |
 | Static values on dynamic transactions | Warning |
 | Gross revenue including shipping/tax | Warning |
 | Value discrepancy >15% vs. actual | Warning |
@@ -66,7 +66,7 @@ Use `/google-ads:get-custom` for detailed value analysis.
 
 ### Critical
 - **[conversion] has no value assigned** - All conversions treated equally
-- **All conversions at $1** - Placeholder value never updated
+- **All conversions at exactly 1 {{currency}}** - Placeholder value never updated
 
 ### Warnings
 - **Static value on e-commerce purchase** - Use dynamic transaction values

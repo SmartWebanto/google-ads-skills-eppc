@@ -80,7 +80,7 @@ Use **Short** format by default. Use **Detailed** if user requests comprehensive
 
 ### Recommendations
 1. Consolidate [X] duplicate sets
-2. Estimated efficiency gain: +[Y] avg QS, -$[Z] fragmented spend
+2. Estimated efficiency gain: +[Y] avg QS, -{{currency}} [Z] fragmented spend
 ```
 
 **Detailed** adds:

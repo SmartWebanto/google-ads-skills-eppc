@@ -56,6 +56,8 @@ Run via `/google-ads:get-custom`. Use 12+ month date range for meaningful season
 | Budget flat despite clear seasonal performance swings | Warning |
 | CPA increases >25% in specific months year-over-year | Info |
 
+Sample size: apply rate-based rows (CTR, CVR, CPA, ROAS) only above {{min_clicks}} clicks, and CPA/ROAS comparisons only above {{min_conversions}} conversions; below that, report "insufficient sample" as Info.
+
 ## Output
 
 **Short format (default):**
@@ -67,7 +69,7 @@ Run via `/google-ads:get-custom`. Use 12+ month date range for meaningful season
 ### Monthly Performance Summary
 | Month | Impressions | Clicks | Cost | Conv | IS | Trend |
 |-------|-------------|--------|------|------|----|-------|
-| Jan   | [X] | [X] | $[X] | [X] | [X]% | Low season |
+| Jan   | [X] | [X] | {{currency}} [X] | [X] | [X]% | Low season |
 | ...   | ... | ... | ... | ... | ... | ... |
 
 ### Seasonal Patterns Identified

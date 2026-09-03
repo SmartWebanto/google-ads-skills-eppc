@@ -74,7 +74,7 @@ Note: Accuracy verification requires comparing to external business system data 
 | Metric | Google Ads | Business Data | Variance |
 |--------|------------|---------------|----------|
 | Conversions | [X] | [Y] | [%] |
-| Revenue | $[X] | $[Y] | [%] |
+| Revenue | {{currency}} [X] | {{currency}} [Y] | [%] |
 
 ### Critical ([Count])
 - **[Issue]**: [Description] -> [Fix]

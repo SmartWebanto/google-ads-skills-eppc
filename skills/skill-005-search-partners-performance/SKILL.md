@@ -56,9 +56,11 @@ Run via `/google-ads:get-custom` with query name `search_partners_performance`.
 | Condition | Severity |
 |-----------|----------|
 | Search Partners conv rate >50% lower than Google Search | Critical |
-| Search Partners enabled with 0 conversions and >$100 spend | Critical |
+| Search Partners enabled with 0 conversions and >{{spend_significant}} spend | Critical |
 | Search Partners conv rate >30% lower than Google Search | Warning |
 | Search Partners CPA >2x Google Search CPA | Warning |
+
+Sample size: apply rate-based rows (CTR, CVR, CPA, ROAS) only above {{min_clicks}} clicks, and CPA/ROAS comparisons only above {{min_conversions}} conversions; below that, report "insufficient sample" as Info.
 
 ## Output
 
@@ -70,13 +72,13 @@ Use **Short** format by default. Use **Detailed** if user requests comprehensive
 **Account:** [Name] | **Analyzed:** [X] campaigns | **Issues:** [Y]
 
 ### Critical ([Count])
-- **[Campaign]**: Search Partners CPA $[X] vs Google $[Y] (>50% worse) → Disable Search Partners
+- **[Campaign]**: Search Partners CPA {{currency}} [X] vs Google {{currency}} [Y] (>50% worse) → Disable Search Partners
 
 ### Warnings ([Count])
 - **[Campaign]**: Search Partners conv rate [X]% vs Google [Y]% → Monitor or disable
 
 ### Recommendations
-1. Disable Search Partners on [X] campaigns (saves ~$[Y]/month)
+1. Disable Search Partners on [X] campaigns (saves ~{{currency}} [Y]/month)
 2. Keep Search Partners on [X] campaigns where performance is within 15%
 ```
 

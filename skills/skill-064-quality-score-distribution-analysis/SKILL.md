@@ -89,7 +89,7 @@ Use `/google-ads:get-custom` if you need additional metrics or different date ra
 | 1-3 | [X] | [%] |
 
 ### Critical ([Count])
-- **[Keyword]** in [Ad Group]: QS [X], $[Cost] -> [Primary issue component]
+- **[Keyword]** in [Ad Group]: QS [X], {{currency}} [Cost] -> [Primary issue component]
 
 ### Recommendations
 1. [Priority action]

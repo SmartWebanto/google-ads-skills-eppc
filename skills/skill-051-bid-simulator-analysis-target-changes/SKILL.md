@@ -82,6 +82,8 @@ Run via `/google-ads:get-custom` with query names `cpa_simulator` and `roas_simu
 | No simulator data available | Info |
 | Current target near optimal | Info |
 
+Sample size: apply rate-based rows (CTR, CVR, CPA, ROAS) only above {{min_clicks}} clicks, and CPA/ROAS comparisons only above {{min_conversions}} conversions; below that, report "insufficient sample" as Info.
+
 ## Output
 
 **Short (default):**
@@ -91,7 +93,7 @@ Run via `/google-ads:get-custom` with query names `cpa_simulator` and `roas_simu
 **Account:** [Name] | **Campaigns with Simulator Data:** [X]
 
 ### Scale Opportunities ([Count])
-- **[Campaign]**: Current $[X] CPA, simulator shows +[Y] conv/week at $[Z] CPA → Raise target to $[Z]
+- **[Campaign]**: Current {{currency}} [X] CPA, simulator shows +[Y] conv/week at {{currency}} [Z] CPA → Raise target to {{currency}} [Z]
 
 ### Efficiency Opportunities ([Count])
 - **[Campaign]**: Can achieve same volume at [X]% lower ROAS target

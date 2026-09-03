@@ -71,7 +71,7 @@ Run via `/google-ads:get-custom` with query name `placement_performance`.
 - **No account-level exclusions** - Add universal placement exclusions
 
 ### Warnings
-- **Mobile app placements wasting $[amount]** - Exclude adsenseformobileapps.com
+- **Mobile app placements wasting {{currency}} [amount]** - Exclude adsenseformobileapps.com
 - **[count] zero-conversion placements** - Add to exclusion list
 
 ### Recommendations
