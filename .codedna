@@ -1,0 +1,18 @@
+# .codedna — CodeDNA project manifest
+project: google-ads-skills-eppc
+description: "google-ads-skills-eppc project"
+mode: human
+max_agent_sessions: 5
+
+packages:
+  skills/:
+    purpose: "lint, test lint module"
+    key_files: [lint.py, test_lint.py]
+
+  tools/:
+    purpose: "validate manifests module"
+    key_files: [validate_manifests.py]
+
+cross_cutting_patterns: {}
+
+agent_sessions: []

@@ -1,11 +1,17 @@
 #!/usr/bin/env python3
-"""Lint and catalog generator for the eppc Google Ads skills library.
+"""skills/_resources/scripts/lint.py — Lint and catalog generator for the eppc Google Ads skills library.
 
 Standard library only. Usage:
   python3 skills/_resources/scripts/lint.py                # lint skills/
   python3 skills/_resources/scripts/lint.py --write-catalog
   python3 skills/_resources/scripts/lint.py --allow-dollars --expect-count 145
 Exit code 1 when any error is found. Warnings never fail the run.
+
+exports: KINDS | DATA_SOURCES | MARKETS | CATEGORIES | SECTIONS | REQUIRED_META | NAME_RE | PARAM_RE | DOLLAR_DIGIT_RE | EXTERNAL_CMD_RE | MAX_LINES | parse_frontmatter(text) | load_params(path) | check_skill(skill_dir, params, merges_text, skill_names, allow_dollars) | warn_skill(skill_dir) | skill_dirs(root) | catalog_rows(root) | render_catalog(rows) | main(argv)
+used_by: none
+rules:   none
+agent:   codedna-cli (no-llm) | codedna-cli | 2026-09-03 | codedna-cli | initial CodeDNA annotation pass
+message: 
 """
 from __future__ import annotations
 
@@ -44,7 +50,13 @@ def _scalar(raw: str):
 
 
 def parse_frontmatter(text: str) -> tuple[dict, str]:
-    """Parse the YAML subset used by SKILL.md files: scalars, inline lists, one nested map, folded text."""
+    """Parse the YAML subset used by SKILL.md files: scalars, inline lists, one nested map, folded text.
+
+    Rules:   NOT a YAML parser — supports exactly one nesting level (metadata:);
+             an indent-0 line resets the write target to the top-level dict.
+             Folded blocks (> or |) are joined with single spaces.
+             Raises ValueError when either --- fence is missing.
+    """
     lines = text.split("\n")
     if not lines or lines[0].strip() != "---":
         raise ValueError("missing frontmatter start")
@@ -85,6 +97,10 @@ def parse_frontmatter(text: str) -> tuple[dict, str]:
 
 # ----------------------------------------------------------------------------- helpers
 def load_params(path: Path) -> set[str]:
+    """Collect defined {{param}} names from PARAMETERS.md.
+
+    Rules:   Missing file returns an empty set — every {{param}} in skills is then flagged.
+    """
     if not path.exists():
         return set()
     return set(PARAM_RE.findall(path.read_text()))
@@ -109,6 +125,14 @@ def _as_list(v) -> list:
 
 # ----------------------------------------------------------------------------- checks
 def check_skill(skill_dir: Path, params: set[str], merges_text: str, skill_names: set[str], allow_dollars: bool) -> list[str]:
+    """Validate one skill directory and return human-readable issue strings.
+
+    Rules:   Returns early on missing SKILL.md or unparseable frontmatter.
+             Section order compares against SECTIONS exactly, after stripping
+             code fences ('## ' lines inside fences must not count).
+             merged_from entries must NOT exist as directories and MUST appear in MERGES.md.
+             DOLLAR_DIGIT_RE only matches $<digit> — $[X] placeholders are legal.
+    """
     issues: list[str] = []
     path = skill_dir / "SKILL.md"
     if not path.exists():
@@ -167,16 +191,23 @@ def check_skill(skill_dir: Path, params: set[str], merges_text: str, skill_names
 
 
 def warn_skill(skill_dir: Path) -> list[str]:
+    """Rules: line count over MAX_LINES is a warning, never an error — must not affect exit code."""
     n = len((skill_dir / "SKILL.md").read_text().split("\n"))
     return [f"{skill_dir.name}: {n} lines (> {MAX_LINES})"] if n > MAX_LINES else []
 
 
 # ----------------------------------------------------------------------------- catalog
 def skill_dirs(root: Path) -> list[Path]:
+    """Rules: only directories matching NAME_RE count as skills; sorted for deterministic output."""
     return sorted(p for p in root.iterdir() if p.is_dir() and NAME_RE.match(p.name))
 
 
 def catalog_rows(root: Path) -> list[dict]:
+    """Build catalog rows from skill frontmatter.
+
+    Rules:   Assumes check_skill passed — parse_frontmatter may raise on broken skills.
+             Sorted by numeric skill number, not directory name.
+    """
     rows = []
     for d in skill_dirs(root):
         fm, _ = parse_frontmatter((d / "SKILL.md").read_text())
@@ -195,6 +226,7 @@ def catalog_rows(root: Path) -> list[dict]:
 
 
 def render_catalog(rows: list[dict]) -> str:
+    """Rules: column order is asserted by tests and committed as CATALOG.md — keep the table shape stable."""
     out = [
         "# Skill catalog",
         "",
@@ -216,6 +248,9 @@ def render_catalog(rows: list[dict]) -> str:
 
 # ----------------------------------------------------------------------------- main
 def main(argv: list[str] | None = None) -> int:
+    """Rules: exits 1 only on errors; warnings (line counts) never fail the run.
+    --expect-count guards against accidental skill deletion or duplication.
+    """
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--root", default="skills")
     ap.add_argument("--allow-dollars", action="store_true")
