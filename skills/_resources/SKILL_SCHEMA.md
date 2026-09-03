@@ -50,12 +50,12 @@ One paragraph (2-3 sentences max) explaining what this audit checks and why it m
 ```sql
 SELECT ... FROM ... WHERE ...
 ```
-Use `/google-ads-get-custom` if you need to adjust date range, add filters, or fetch additional fields.
+Use `/google-ads:get-custom` if you need to adjust date range, add filters, or fetch additional fields.
 ```
 
 **Data Source Values:**
-- `Standard` - The `/google-ads-get` export contains all required data
-- `Custom GAQL Required` - Must run `/google-ads-get-custom` because standard export lacks required fields
+- `Standard` - The `/google-ads:get` export contains all required data
+- `Custom GAQL Required` - Must run `/google-ads:get-custom` because standard export lacks required fields
 
 **GAQL Rules:**
 - **Always include GAQL** as reference, even when standard data is sufficient
@@ -141,7 +141,7 @@ FROM keyword_view
 WHERE ad_group_criterion.status = 'ENABLED'
   AND segments.date DURING LAST_30_DAYS
 ```
-Use `/google-ads-get-custom` if you need different date ranges or additional metrics.
+Use `/google-ads:get-custom` if you need different date ranges or additional metrics.
 ```
 
 ### Example B: Custom GAQL Required
@@ -166,7 +166,7 @@ FROM campaign
 WHERE campaign.status = 'ENABLED'
   AND segments.date DURING LAST_30_DAYS
 ```
-Run via `/google-ads-get-custom` with query name `network_performance`.
+Run via `/google-ads:get-custom` with query name `network_performance`.
 ```
 
 ---

@@ -66,7 +66,7 @@ metadata:
 ---
 ```
 
-`name` keeps the upstream number and directory slug, except where a merge renames the canonical (section 6). `allowed-tools` is unchanged. The body keeps the five sections in order: `## Purpose`, `## Data Requirements`, `## Analysis Steps`, `## Thresholds`, `## Output`. The schema doc is updated to say `## Output` (the files already do); no body headings are renamed.
+`name` keeps the upstream number and slug, and every skill directory is renamed to that full name (`skill-NNN-slug`, as in the upstream plugin), except where a merge renames the canonical (section 6). `allowed-tools` is unchanged. The body keeps the five sections in order: `## Purpose`, `## Data Requirements`, `## Analysis Steps`, `## Thresholds`, `## Output`. The schema doc is updated to say `## Output` (the files already do); no body headings are renamed.
 
 The broken command reference `/google-ads-get-custom` is restored to `/google-ads:get-custom` everywhere (upstream's real command).
 
