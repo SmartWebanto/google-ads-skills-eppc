@@ -19,6 +19,16 @@ The original skill-030 had:
 name: skill-030-ad-extension-coverage-audit
 description: "Verify all extension types are active and linked at appropriate levels."
 allowed-tools: Read, Grep, Glob
+metadata:
+  library: eppc-ads-skills@1.0.0
+  upstream: trueclicks/claude-plugins google-ads@1.8.0
+  upstream_skill: skill-030-ad-extension-coverage-audit
+  category: creative
+  kind: deterministic
+  data_source: standard
+  markets: all
+  gaql_verified: null
+  reviewed: 2026-09-03
 ---
 # Skill 030: Ad Extension Coverage Audit
 
@@ -68,7 +78,7 @@ Use `/google-ads:get-custom` if you need extension performance metrics.
 | Disapproved extension | Critical |
 | Sitelinks missing descriptions | Warning |
 
-## Output Schema
+## Output
 
 Report ONLY issues found.
 
@@ -108,9 +118,10 @@ Report ONLY issues found.
 When this skill is executed, Claude should output:
 
 ```markdown
-## Ad Extension Coverage Audit
+## Ad Extension Coverage Audit — TrueClicks - Dev Test
+Account 123-456-7890 · currency EUR · data LAST_30_DAYS · snapshot 2026-09-03
+Library eppc-ads-skills@1.0.0 · skill skill-030-ad-extension-coverage-audit (upstream skill-030-ad-extension-coverage-audit@1.8.0) · profile defaults
 
-**Account:** TrueClicks - Dev Test
 **Campaigns Analyzed:** 2
 
 ### Issues Found (3)

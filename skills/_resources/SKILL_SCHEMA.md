@@ -19,8 +19,22 @@ This document defines the standard structure for all PPC analysis skills.
 name: skill-XXX-descriptive-name
 description: "One-line description of what this skill checks."
 allowed-tools: Read, Grep, Glob
+metadata:
+  library: eppc-ads-skills@1.0.0
+  upstream: trueclicks/claude-plugins google-ads@1.8.0
+  upstream_skill: skill-XXX-descriptive-name     # exact upstream name
+  category: keywords                             # from the category table below
+  kind: deterministic                            # deterministic | analyst | operational
+  data_source: standard                          # standard | custom_gaql | external
+  merged_from: []                                # optional: absorbed upstream skills (see MERGES.md)
+  related: []                                    # optional: skills covering adjacent facets
+  markets: all                                   # all | us_only | eea_relevant
+  gaql_verified: null                            # API version the queries were checked against, or null
+  reviewed: 2026-09-03
 ---
 ```
+
+Directory name equals `name`. `_resources/scripts/lint.py` enforces this block.
 
 ### Required Sections (in order)
 
@@ -54,8 +68,9 @@ Use `/google-ads:get-custom` if you need to adjust date range, add filters, or f
 ```
 
 **Data Source Values:**
-- `Standard` - The `/google-ads:get` export contains all required data
-- `Custom GAQL Required` - Must run `/google-ads:get-custom` because standard export lacks required fields
+- `Standard` - The `/google-ads:get` export contains all required data (`metadata.data_source: standard`)
+- `Custom GAQL Required` - Must run `/google-ads:get-custom` (`custom_gaql`)
+- `External (beyond Google Ads data)` - Needs data outside Google Ads: site tests, CRM, Merchant Center, configuration review (`external`)
 
 **GAQL Rules:**
 - **Always include GAQL** as reference, even when standard data is sufficient
@@ -93,11 +108,13 @@ Use `/google-ads:get-custom` if you need to adjust date range, add filters, or f
 ```
 - Table format only
 - Specific, measurable conditions
-- 3-6 thresholds maximum
+- 3-8 thresholds maximum
+- Money thresholds are parameters from `PARAMETERS.md`, written `{{spend_floor}}` etc. Never a currency literal.
+- Rate-based rows get the sample-size note (`Sample size: ...`) after the table.
 
-#### 6. Output Schema
+#### 6. Output
 ```markdown
-## Output Schema
+## Output
 
 Report ONLY issues found. Do not list passed items.
 
@@ -109,9 +126,9 @@ Report ONLY issues found. Do not list passed items.
 1. [Specific action]
 2. [Specific action]
 ```
-- Minimal template
+- Short by default, Detailed on request; both rendered from `OUTPUT_TEMPLATES.md` in the client's `report_language`
+- Every report starts with the provenance header; every finding names the skill id
 - Never show "OK" or "Pass" items
-- Focus on actionable recommendations
 
 ---
 
@@ -172,6 +189,8 @@ Run via `/google-ads:get-custom` with query name `network_performance`.
 ---
 
 ## OUTPUT Schema (What Claude Should Report)
+
+The canonical templates, in English and Italian, live in `OUTPUT_TEMPLATES.md`; the examples below are the English short/detailed forms.
 
 Two output formats are available. Use **Short** by default, or **Detailed** when user requests more information.
 
@@ -372,23 +391,31 @@ Brand and non-brand keywords have different performance characteristics...
 
 ---
 
+## Kinds
+
+| Kind | Meaning | How it runs |
+|---|---|---|
+| deterministic | Thresholds computable from Google Ads data | Run as a check; findings follow the table |
+| analyst | Needs external data or judgment (CRM, site tests, intent, naming) | Run as guided analysis; state assumptions in Evidence |
+| operational | Deliverable is a configuration to deploy (rule, script, alert, schedule) | Run only when the user asks for automation; output is a proposal, never applied |
+
 ## Skill Categories
 
-For reference, skills fall into these categories:
+Category keys used in `metadata.category` (key in parentheses). 17 upstream numbers are absent (084, 086, 087, 091, 096, 097, 132, 134, 138, 140, 143, 144, 153-155, 157, 158) and 8 more were merged (see MERGES.md).
 
 | Category | Skills | Focus |
 |----------|--------|-------|
-| Account Structure | 001-011 | Campaign organization, naming, settings |
-| Keyword Strategy | 012-024 | Match types, negatives, search terms |
-| Ad Copy & Creative | 025-038 | RSA, extensions, ad quality |
-| Bidding & Budget | 039-052 | Strategies, budgets, targets |
-| Targeting | 053-063 | Location, device, audience |
-| Quality Score | 064-069 | QS components, improvement |
-| Conversion Tracking | 070-081 | Tracking setup, accuracy |
-| Shopping/PMax | 082-095 | Feed optimization, PMax settings |
-| Remarketing | 098-112 | Audiences, lists, measurement |
-| Waste Prevention | 113-129 | Placements, automation, monitoring |
-| Competitive | 130-138 | Auction insights, competitive analysis |
-| Compliance | 139-145 | Policy, compliance |
-| Seasonal | 146-152 | Seasonal adjustments |
-| Platform-Specific | 153-162 | MS Ads, AI features |
+| Account Structure (structure) | 001-011 | Campaign organization, naming, settings |
+| Keyword Strategy (keywords) | 012-024 | Match types, negatives, search terms |
+| Ad Copy & Creative (creative) | 025-038 | RSA, extensions, ad quality |
+| Bidding & Budget (bidding) | 039-052 | Strategies, budgets, targets |
+| Targeting (targeting) | 053-063 | Location, device, audience |
+| Quality Score (quality) | 064-069 | QS components, improvement |
+| Conversion Tracking (tracking) | 070-081 | Tracking setup, accuracy |
+| Shopping/PMax (shopping_pmax) | 082-095 | Feed optimization, PMax settings |
+| Remarketing (remarketing) | 096-112 | Audiences, lists, measurement |
+| Waste Prevention (waste) | 113-129 | Placements, automation, monitoring |
+| Competitive (competitive) | 130-138 | Auction insights, competitive analysis |
+| Compliance (compliance) | 139-145 | Policy, compliance |
+| Seasonal (seasonal) | 146-152 | Seasonal adjustments |
+| Platform-Specific (platform) | 153-162 | MS Ads, AI features |

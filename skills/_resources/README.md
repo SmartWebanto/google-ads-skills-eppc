@@ -1,3 +1,5 @@
+> Upstream document from TrueClicks google-ads@1.8.0, kept for reference. The commands under `commands/` call TrueClicks' hosted API (api.claudeppc.ai): use them only for a client with a signed DPA (see the root README).
+
 # Google Ads Plugin for Claude Code
 
 Free Google Ads account management plugin. Fetch account data, analyze and audit accounts, validate and execute changes - all from Claude Code.
