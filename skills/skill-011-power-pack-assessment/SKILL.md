@@ -3,7 +3,7 @@ name: skill-011-power-pack-assessment
 description: "Evaluate whether the account leverages Google's 2025 recommended campaign trio: Performance Max + Demand Gen + AI Max for Search."
 allowed-tools: Read, Grep, Glob
 metadata:
-  library: eppc-ads-skills@1.0.0
+  library: eppc-ads-skills@1.1.0
   category: structure
   kind: analyst
   data_source: export

@@ -3,7 +3,7 @@ name: skill-090-pmax-audience-signal-configuration
 description: "Verify that Performance Max campaigns have proper audience signals configured, including Customer Match lists, GA4 audiences, and custom segments."
 allowed-tools: Read, Grep, Glob
 metadata:
-  library: eppc-ads-skills@1.0.0
+  library: eppc-ads-skills@1.1.0
   category: shopping_pmax
   kind: deterministic
   data_source: custom_query

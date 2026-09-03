@@ -3,7 +3,7 @@ name: skill-027-ad-strength-improvement
 description: "Audit RSAs for Ad Strength ratings and identify improvements needed to reach Good or Excellent."
 allowed-tools: Read, Grep, Glob
 metadata:
-  library: eppc-ads-skills@1.0.0
+  library: eppc-ads-skills@1.1.0
   category: creative
   kind: deterministic
   data_source: export

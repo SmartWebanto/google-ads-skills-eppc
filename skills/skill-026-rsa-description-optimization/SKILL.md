@@ -3,7 +3,7 @@ name: skill-026-rsa-description-optimization
 description: "Ensure all 4 description slots in RSAs are filled with unique, compelling descriptions."
 allowed-tools: Read, Grep, Glob
 metadata:
-  library: eppc-ads-skills@1.0.0
+  library: eppc-ads-skills@1.1.0
   category: creative
   kind: deterministic
   data_source: export

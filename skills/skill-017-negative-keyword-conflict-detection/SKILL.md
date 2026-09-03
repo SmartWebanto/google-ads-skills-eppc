@@ -3,7 +3,7 @@ name: skill-017-negative-keyword-conflict-detection
 description: "Identify negative keywords that are blocking or could block desired active keywords, causing ads not to show for intended queries."
 allowed-tools: Read, Grep, Glob
 metadata:
-  library: eppc-ads-skills@1.0.0
+  library: eppc-ads-skills@1.1.0
   category: keywords
   kind: deterministic
   data_source: export

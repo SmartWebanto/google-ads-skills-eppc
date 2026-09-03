@@ -3,7 +3,7 @@ name: skill-151-product-feed-seasonal-keyword-optimization
 description: "Update Shopping/PMax product titles with seasonal keywords before peak periods."
 allowed-tools: Read, Grep, Glob
 metadata:
-  library: eppc-ads-skills@1.0.0
+  library: eppc-ads-skills@1.1.0
   category: seasonal
   kind: analyst
   data_source: external

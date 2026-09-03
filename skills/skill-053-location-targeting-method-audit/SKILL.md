@@ -3,7 +3,7 @@ name: skill-053-location-targeting-method-audit
 description: "Verify that campaigns use the correct location targeting method (\"Presence\" vs \"Presence or Interest\") based on business type."
 allowed-tools: Read, Grep, Glob
 metadata:
-  library: eppc-ads-skills@1.0.0
+  library: eppc-ads-skills@1.1.0
   category: targeting
   kind: deterministic
   data_source: export

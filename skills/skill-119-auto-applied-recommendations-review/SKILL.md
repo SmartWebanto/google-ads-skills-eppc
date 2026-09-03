@@ -3,7 +3,7 @@ name: skill-119-auto-applied-recommendations-review
 description: "Audit and manage Google's auto-applied recommendations to prevent unwanted changes."
 allowed-tools: Read, Grep, Glob
 metadata:
-  library: eppc-ads-skills@1.0.0
+  library: eppc-ads-skills@1.1.0
   category: waste
   kind: deterministic
   data_source: custom_query

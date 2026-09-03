@@ -3,7 +3,7 @@ name: skill-034-ad-copy-landing-page-consistency
 description: "Verify alignment between ad messaging and landing page content."
 allowed-tools: Read, Grep, Glob
 metadata:
-  library: eppc-ads-skills@1.0.0
+  library: eppc-ads-skills@1.1.0
   category: creative
   kind: analyst
   data_source: export

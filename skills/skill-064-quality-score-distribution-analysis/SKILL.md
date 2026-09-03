@@ -3,7 +3,7 @@ name: skill-064-quality-score-distribution-analysis
 description: "Monitor Quality Score distribution, flag high-spend low-QS keywords with their weak component, and recommend monitoring alerts."
 allowed-tools: Read, Grep, Glob
 metadata:
-  library: eppc-ads-skills@1.0.0
+  library: eppc-ads-skills@1.1.0
   category: quality
   kind: deterministic
   data_source: export

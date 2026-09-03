@@ -3,7 +3,7 @@ name: skill-003-naming-convention-consistency
 description: "Audit naming conventions across all campaigns, ad groups, and labels for a standardized taxonomy."
 allowed-tools: Read, Grep, Glob
 metadata:
-  library: eppc-ads-skills@1.0.0
+  library: eppc-ads-skills@1.1.0
   category: structure
   kind: analyst
   data_source: export

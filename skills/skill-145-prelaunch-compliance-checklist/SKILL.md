@@ -3,7 +3,7 @@ name: skill-145-prelaunch-compliance-checklist
 description: "Pre-launch compliance checklist for new ads covering prohibited content, editorial standards, and policy requirements."
 allowed-tools: Read, Grep, Glob
 metadata:
-  library: eppc-ads-skills@1.0.0
+  library: eppc-ads-skills@1.1.0
   category: compliance
   kind: operational
   data_source: external

@@ -9,37 +9,39 @@ description: >
   budget", "audit ads", "verifica il tracciamento"). Routes the request to the
   skills in this library and enforces its operating rules.
 metadata:
-  library: eppc-ads-skills@1.0.0
+  library: eppc-ads-skills@1.1.0
   author: smartweb
-  version: "2.0"
+  version: "2.1"
   category: engine-frontdesk
 ---
 
 # Ads front desk
 
-This library holds **137 Google Ads audit skills** under `skills/` (curated from
-TrueClicks google-ads@1.8.0; see `README.md`, `skills/CATALOG.md`, `skills/MERGES.md`).
-Each skill is a Markdown recipe: data required, analysis steps, thresholds, output.
-You run them by reading the client's export and following the recipe. Nothing here
-executes changes in Google Ads.
+This library holds **137 Google Ads audit skills** under `skills/` (see `README.md`,
+`skills/CATALOG.md`, `skills/MERGES.md`). Each skill is a Markdown recipe: data
+required, analysis steps, thresholds, output. You run them by reading the client's
+export and following the recipe. Nothing here executes changes in Google Ads and
+nothing here calls a third-party service.
 
 ## Operating rules (non-negotiable)
 
-1. **Recommend only.** Every output is a recommendation with a fix. Never apply,
-   never write `pending_changes.json`, never call an execute or validate command.
-2. **Data intake.** Accept a manual Google Ads UI/Editor export (CSV/TSV) or a
-   `/google-ads:get` export directory. `/google-ads:get` and `/google-ads:get-custom`
-   send account data to TrueClicks' hosted API: use them **only** when the client
-   profile says `dpa_signed: true`. Never send account data anywhere else.
+1. **Recommend only.** Every output is a recommendation with a fix. Never apply a
+   change, never generate a change file to be executed, never call an execute or
+   validate command.
+2. **Data intake.** The input is an account export produced from Google Ads itself
+   (UI reports, Google Ads Editor, or the Google Ads API), laid out as in
+   `skills/_resources/DATA_CONTRACT.md`. Never send account data to any external
+   service, tool, or plugin.
 3. **Client profile first.** Read `ads/profile.yaml` (template:
    `skills/_resources/CLIENT_PROFILE.md`). If missing, ask for `report_language`,
-   `market`, `target_cpa`/`target_roas`, `brand_terms`, `data_source`, `dpa_signed`.
-4. **Currency from the account**, never assumed. Parameters (`skills/_resources/PARAMETERS.md`)
+   `market`, `target_cpa`/`target_roas`, `brand_terms`, `export_path`.
+4. **Currency from the export**, never assumed. Parameters (`skills/_resources/PARAMETERS.md`)
    resolve against target CPA and 30-day spend; state the resolved values in Evidence.
 5. **Language.** Write the report in `report_language` using
    `skills/_resources/OUTPUT_TEMPLATES.md`. Skill bodies stay in English.
 6. **Provenance.** Every report starts with the header block; every finding names
-   its skill id. Never fabricate metrics; if data is missing, say which skill was skipped and why.
+   its skill id. Never fabricate metrics; if a table is missing from the export, say
+   which skill was skipped and why.
 7. **No double reporting.** Related skills (`metadata.related`) may see the same
    entity; report it once under the more specific skill.
 8. **EEA accounts.** If any `market` is in the EEA, the tracking workflow always
@@ -79,8 +81,8 @@ lists kind and data source for each.
 
 1. Load the client profile and the export; note currency, date range, snapshot date.
 2. For each skill in the preset: read `skills/<id>/SKILL.md`, gather its Data
-   Requirements (skip and say so if unavailable), apply Analysis Steps and
-   Thresholds with resolved parameters, collect findings.
+   Requirements from the export (skip and say so if a table is missing), apply
+   Analysis Steps and Thresholds with resolved parameters, collect findings.
 3. Dedupe across related skills, group by severity, render with the template in
    `report_language`, header first.
 4. End with Recommendations ordered by impact in account currency, and a
@@ -90,6 +92,7 @@ lists kind and data source for each.
 
 - `skills/CATALOG.md` — every skill with category, kind, data source, markets
 - `skills/MERGES.md` — the 8 merged pairs and their threshold reconciliation
+- `skills/_resources/DATA_CONTRACT.md` — the export tables and fields the skills read
 - `skills/_resources/PARAMETERS.md` — named thresholds and formulas
 - `skills/_resources/OUTPUT_TEMPLATES.md` — report templates (en, it) and header
 - `skills/_resources/CLIENT_PROFILE.md` — profile template and rules

@@ -3,7 +3,7 @@ name: skill-032-ad-copy-ab-testing
 description: "Ensure continuous ad testing is in place with proper structure and statistical rigor."
 allowed-tools: Read, Grep, Glob
 metadata:
-  library: eppc-ads-skills@1.0.0
+  library: eppc-ads-skills@1.1.0
   category: creative
   kind: deterministic
   data_source: export

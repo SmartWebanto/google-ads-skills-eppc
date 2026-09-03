@@ -3,7 +3,7 @@ name: skill-082-product-feed-title-optimization
 description: "Audit product feed titles to ensure they follow the Brand + Product Type + Key Attributes format."
 allowed-tools: Read, Grep, Glob
 metadata:
-  library: eppc-ads-skills@1.0.0
+  library: eppc-ads-skills@1.1.0
   category: shopping_pmax
   kind: deterministic
   data_source: custom_query

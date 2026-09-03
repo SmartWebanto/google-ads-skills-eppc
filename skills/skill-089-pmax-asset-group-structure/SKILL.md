@@ -3,7 +3,7 @@ name: skill-089-pmax-asset-group-structure
 description: "Evaluate whether PMax asset groups are organized by distinct product categories or intent themes."
 allowed-tools: Read, Grep, Glob
 metadata:
-  library: eppc-ads-skills@1.0.0
+  library: eppc-ads-skills@1.1.0
   category: shopping_pmax
   kind: deterministic
   data_source: custom_query

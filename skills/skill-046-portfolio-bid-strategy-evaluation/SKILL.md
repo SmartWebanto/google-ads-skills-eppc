@@ -3,7 +3,7 @@ name: skill-046-portfolio-bid-strategy-evaluation
 description: "Assess whether campaigns grouped under portfolio bidding strategies are appropriately matched for optimal performance."
 allowed-tools: Read, Grep, Glob
 metadata:
-  library: eppc-ads-skills@1.0.0
+  library: eppc-ads-skills@1.1.0
   category: bidding
   kind: deterministic
   data_source: export

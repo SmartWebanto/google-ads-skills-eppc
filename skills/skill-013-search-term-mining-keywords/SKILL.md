@@ -3,7 +3,7 @@ name: skill-013-search-term-mining-keywords
 description: "Review search term reports to identify high-performing queries that are not yet added as keywords, representing opportunities for better control and optimization."
 allowed-tools: Read, Grep, Glob
 metadata:
-  library: eppc-ads-skills@1.0.0
+  library: eppc-ads-skills@1.1.0
   category: keywords
   kind: deterministic
   data_source: export

@@ -3,7 +3,7 @@ name: skill-018-duplicate-keyword-detection
 description: "Find duplicate keywords across ad groups and campaigns, considering match type and Quality Score to determine which instances to consolidate."
 allowed-tools: Read, Grep, Glob
 metadata:
-  library: eppc-ads-skills@1.0.0
+  library: eppc-ads-skills@1.1.0
   category: keywords
   kind: deterministic
   data_source: export

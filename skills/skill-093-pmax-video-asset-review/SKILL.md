@@ -3,7 +3,7 @@ name: skill-093-pmax-video-asset-review
 description: "Ensure Performance Max campaigns have custom video assets uploaded rather than relying on auto-generated videos."
 allowed-tools: Read, Grep, Glob
 metadata:
-  library: eppc-ads-skills@1.0.0
+  library: eppc-ads-skills@1.1.0
   category: shopping_pmax
   kind: deterministic
   data_source: custom_query

@@ -3,7 +3,7 @@ name: skill-057-ad-schedule-optimization
 description: "Analyze performance by hour of day and day of week to optimize ad scheduling and bid adjustments."
 allowed-tools: Read, Grep, Glob
 metadata:
-  library: eppc-ads-skills@1.0.0
+  library: eppc-ads-skills@1.1.0
   category: targeting
   kind: deterministic
   data_source: custom_query

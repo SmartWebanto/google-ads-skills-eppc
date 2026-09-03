@@ -3,7 +3,7 @@ name: skill-022-broad-match-smart-bidding-alignment
 description: "Verify that broad match keywords are paired with Smart Bidding strategies."
 allowed-tools: Read, Grep, Glob
 metadata:
-  library: eppc-ads-skills@1.0.0
+  library: eppc-ads-skills@1.1.0
   category: keywords
   kind: deterministic
   data_source: export

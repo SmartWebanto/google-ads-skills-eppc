@@ -3,7 +3,7 @@ name: skill-160-smart-bidding-exploration-configuration
 description: "Review Smart Bidding Exploration settings that use flexible ROAS targets to explore new traffic."
 allowed-tools: Read, Grep, Glob
 metadata:
-  library: eppc-ads-skills@1.0.0
+  library: eppc-ads-skills@1.1.0
   category: platform
   kind: deterministic
   data_source: custom_query

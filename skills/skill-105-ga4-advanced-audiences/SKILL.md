@@ -3,7 +3,7 @@ name: skill-105-ga4-advanced-audiences
 description: "Audit GA4 behavioral audiences (5+ sessions, pricing page visitors, engaged users) synced to Google Ads."
 allowed-tools: Read, Grep, Glob
 metadata:
-  library: eppc-ads-skills@1.0.0
+  library: eppc-ads-skills@1.1.0
   category: remarketing
   kind: deterministic
   data_source: custom_query

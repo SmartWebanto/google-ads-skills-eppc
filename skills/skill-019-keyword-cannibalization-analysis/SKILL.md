@@ -3,7 +3,7 @@ name: skill-019-keyword-cannibalization-analysis
 description: "Detect when multiple keywords within the account compete for the same search queries, leading to internal auction competition and suboptimal ad serving."
 allowed-tools: Read, Grep, Glob
 metadata:
-  library: eppc-ads-skills@1.0.0
+  library: eppc-ads-skills@1.1.0
   category: keywords
   kind: deterministic
   data_source: export

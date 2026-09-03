@@ -3,7 +3,7 @@ name: skill-106-ga4-google-ads-integration
 description: "Confirm GA4 is properly linked with bidirectional data flow, audiences syncing, and key events imported as conversions."
 allowed-tools: Read, Grep, Glob
 metadata:
-  library: eppc-ads-skills@1.0.0
+  library: eppc-ads-skills@1.1.0
   category: remarketing
   kind: deterministic
   data_source: custom_query

@@ -3,7 +3,7 @@ name: skill-142-trademark-policy-management
 description: "Monitor trademark usage in ads, track exemptions, and maintain compliance with trademark policies."
 allowed-tools: Read, Grep, Glob
 metadata:
-  library: eppc-ads-skills@1.0.0
+  library: eppc-ads-skills@1.1.0
   category: compliance
   kind: deterministic
   data_source: custom_query

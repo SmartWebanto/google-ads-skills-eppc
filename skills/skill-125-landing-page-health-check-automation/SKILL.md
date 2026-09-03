@@ -3,7 +3,7 @@ name: skill-125-landing-page-health-check-automation
 description: "Audit destination URLs for errors, redirects, and issues that waste ad spend and trigger disapprovals."
 allowed-tools: Read, Grep, Glob
 metadata:
-  library: eppc-ads-skills@1.0.0
+  library: eppc-ads-skills@1.1.0
   category: waste
   kind: operational
   data_source: custom_query

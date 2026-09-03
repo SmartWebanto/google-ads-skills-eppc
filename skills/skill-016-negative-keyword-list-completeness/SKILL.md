@@ -3,7 +3,7 @@ name: skill-016-negative-keyword-list-completeness
 description: "Verify shared negative lists exist, cover the universal waste categories, are applied to every campaign, and are backed by search-term evidence."
 allowed-tools: Read, Grep, Glob
 metadata:
-  library: eppc-ads-skills@1.0.0
+  library: eppc-ads-skills@1.1.0
   category: keywords
   kind: deterministic
   data_source: export

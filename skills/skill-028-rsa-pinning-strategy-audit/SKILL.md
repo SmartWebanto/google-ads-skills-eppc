@@ -3,7 +3,7 @@ name: skill-028-rsa-pinning-strategy-audit
 description: "Check for over-pinning in RSAs that limits Google's optimization ability."
 allowed-tools: Read, Grep, Glob
 metadata:
-  library: eppc-ads-skills@1.0.0
+  library: eppc-ads-skills@1.1.0
   category: creative
   kind: deterministic
   data_source: export

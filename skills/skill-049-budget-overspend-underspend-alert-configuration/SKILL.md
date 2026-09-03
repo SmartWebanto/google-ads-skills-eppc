@@ -3,7 +3,7 @@ name: skill-049-budget-overspend-underspend-alert-configuration
 description: "Configure alert thresholds for budget pacing issues and identify campaigns that need monitoring rules."
 allowed-tools: Read, Grep, Glob
 metadata:
-  library: eppc-ads-skills@1.0.0
+  library: eppc-ads-skills@1.1.0
   category: bidding
   kind: operational
   data_source: custom_query

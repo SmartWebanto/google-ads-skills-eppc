@@ -3,7 +3,7 @@ name: skill-051-bid-simulator-analysis-target-changes
 description: "Use bid simulators to model the impact of Target CPA or Target ROAS changes before implementing them."
 allowed-tools: Read, Grep, Glob
 metadata:
-  library: eppc-ads-skills@1.0.0
+  library: eppc-ads-skills@1.1.0
   category: bidding
   kind: deterministic
   data_source: custom_query

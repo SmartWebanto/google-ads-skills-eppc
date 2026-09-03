@@ -3,7 +3,7 @@ name: skill-107-conversion-value-accuracy
 description: "Verify that conversion values reflect actual business value (revenue, profit margin, LTV)."
 allowed-tools: Read, Grep, Glob
 metadata:
-  library: eppc-ads-skills@1.0.0
+  library: eppc-ads-skills@1.1.0
   category: remarketing
   kind: deterministic
   data_source: custom_query

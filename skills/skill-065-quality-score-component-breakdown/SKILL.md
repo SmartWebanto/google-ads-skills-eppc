@@ -3,7 +3,7 @@ name: skill-065-quality-score-component-breakdown
 description: "Track the three Quality Score components separately: Expected CTR, Ad Relevance, and Landing Page Experience."
 allowed-tools: Read, Grep, Glob
 metadata:
-  library: eppc-ads-skills@1.0.0
+  library: eppc-ads-skills@1.1.0
   category: quality
   kind: deterministic
   data_source: export

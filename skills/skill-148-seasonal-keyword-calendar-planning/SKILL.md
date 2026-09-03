@@ -3,7 +3,7 @@ name: skill-148-seasonal-keyword-calendar-planning
 description: "Build and execute a seasonal keyword calendar 4-6 weeks before peak periods."
 allowed-tools: Read, Grep, Glob
 metadata:
-  library: eppc-ads-skills@1.0.0
+  library: eppc-ads-skills@1.1.0
   category: seasonal
   kind: deterministic
   data_source: custom_query

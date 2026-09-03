@@ -3,7 +3,7 @@ name: skill-021-below-first-page-bid
 description: "Flag keywords with bids too low to appear on the first page of search results."
 allowed-tools: Read, Grep, Glob
 metadata:
-  library: eppc-ads-skills@1.0.0
+  library: eppc-ads-skills@1.1.0
   category: keywords
   kind: deterministic
   data_source: export

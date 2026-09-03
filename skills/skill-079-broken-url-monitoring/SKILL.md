@@ -3,7 +3,7 @@ name: skill-079-broken-url-monitoring
 description: "Scan landing pages for 4xx and 5xx HTTP errors that waste ad spend and damage user experience."
 allowed-tools: Read, Grep, Glob
 metadata:
-  library: eppc-ads-skills@1.0.0
+  library: eppc-ads-skills@1.1.0
   category: tracking
   kind: analyst
   data_source: external

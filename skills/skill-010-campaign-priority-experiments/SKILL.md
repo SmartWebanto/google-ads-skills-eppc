@@ -3,7 +3,7 @@ name: skill-010-campaign-priority-experiments
 description: "Ensure campaign priorities (especially for Shopping) are correctly configured and that experiments/drafts are properly structured."
 allowed-tools: Read, Grep, Glob
 metadata:
-  library: eppc-ads-skills@1.0.0
+  library: eppc-ads-skills@1.1.0
   category: structure
   kind: deterministic
   data_source: custom_query

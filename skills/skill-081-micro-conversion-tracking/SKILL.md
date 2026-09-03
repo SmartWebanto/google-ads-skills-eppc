@@ -3,7 +3,7 @@ name: skill-081-micro-conversion-tracking
 description: "Track intermediate actions (micro-conversions) that indicate user intent before the primary conversion."
 allowed-tools: Read, Grep, Glob
 metadata:
-  library: eppc-ads-skills@1.0.0
+  library: eppc-ads-skills@1.1.0
   category: tracking
   kind: deterministic
   data_source: export

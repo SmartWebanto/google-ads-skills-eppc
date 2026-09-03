@@ -20,7 +20,7 @@ name: skill-030-ad-extension-coverage-audit
 description: "Verify all extension types are active and linked at appropriate levels."
 allowed-tools: Read, Grep, Glob
 metadata:
-  library: eppc-ads-skills@1.0.0
+  library: eppc-ads-skills@1.1.0
   category: creative
   kind: deterministic
   data_source: export
@@ -118,7 +118,7 @@ When this skill is executed, Claude should output:
 ```markdown
 ## Ad Extension Coverage Audit — Acme Demo
 Account 123-456-7890 · currency EUR · data LAST_30_DAYS · snapshot 2026-09-03
-Library eppc-ads-skills@1.0.0 · skill skill-030-ad-extension-coverage-audit · profile defaults
+Library eppc-ads-skills@1.1.0 · skill skill-030-ad-extension-coverage-audit · profile defaults
 
 **Campaigns Analyzed:** 2
 

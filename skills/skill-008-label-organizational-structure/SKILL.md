@@ -3,7 +3,7 @@ name: skill-008-label-organizational-structure
 description: "Verify that campaigns, ad groups, keywords, and ads are properly labeled for segmentation, reporting, and automated rule targeting."
 allowed-tools: Read, Grep, Glob
 metadata:
-  library: eppc-ads-skills@1.0.0
+  library: eppc-ads-skills@1.1.0
   category: structure
   kind: deterministic
   data_source: custom_query

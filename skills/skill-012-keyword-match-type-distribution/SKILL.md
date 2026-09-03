@@ -3,7 +3,7 @@ name: skill-012-keyword-match-type-distribution
 description: "Analyze the distribution of broad, phrase, and exact match keywords across the account and compare performance by match type."
 allowed-tools: Read, Grep, Glob
 metadata:
-  library: eppc-ads-skills@1.0.0
+  library: eppc-ads-skills@1.1.0
   category: keywords
   kind: deterministic
   data_source: export

@@ -3,7 +3,7 @@ name: skill-015-ngram-analysis
 description: "Analyze 1-word, 2-word, and 3-word combinations (n-grams) within search terms to identify systemic patterns of waste or opportunity."
 allowed-tools: Read, Grep, Glob
 metadata:
-  library: eppc-ads-skills@1.0.0
+  library: eppc-ads-skills@1.1.0
   category: keywords
   kind: deterministic
   data_source: export

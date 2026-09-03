@@ -3,7 +3,7 @@ name: skill-078-landing-page-speed
 description: "Test landing page load times to ensure pages load in under 3 seconds."
 allowed-tools: Read, Grep, Glob
 metadata:
-  library: eppc-ads-skills@1.0.0
+  library: eppc-ads-skills@1.1.0
   category: tracking
   kind: analyst
   data_source: external

@@ -3,7 +3,7 @@ name: skill-041-smart-bidding-learning-phase-monitoring
 description: "Flag campaigns currently in Smart Bidding learning phase and assess impact on performance and decision-making."
 allowed-tools: Read, Grep, Glob
 metadata:
-  library: eppc-ads-skills@1.0.0
+  library: eppc-ads-skills@1.1.0
   category: bidding
   kind: deterministic
   data_source: custom_query

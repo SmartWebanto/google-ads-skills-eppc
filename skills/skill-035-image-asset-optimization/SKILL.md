@@ -3,7 +3,7 @@ name: skill-035-image-asset-optimization
 description: "Check that high-resolution, properly formatted image assets are uploaded for campaigns that support them."
 allowed-tools: Read, Grep, Glob
 metadata:
-  library: eppc-ads-skills@1.0.0
+  library: eppc-ads-skills@1.1.0
   category: creative
   kind: deterministic
   data_source: custom_query

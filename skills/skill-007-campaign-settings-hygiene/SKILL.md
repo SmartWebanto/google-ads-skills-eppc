@@ -3,7 +3,7 @@ name: skill-007-campaign-settings-hygiene
 description: "Audit all campaign-level settings including location targeting method, start/end dates, and network settings."
 allowed-tools: Read, Grep, Glob
 metadata:
-  library: eppc-ads-skills@1.0.0
+  library: eppc-ads-skills@1.1.0
   category: structure
   kind: deterministic
   data_source: custom_query

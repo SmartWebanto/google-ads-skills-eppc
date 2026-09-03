@@ -3,7 +3,7 @@ name: skill-014-search-term-mining-negatives
 description: "Identify irrelevant, wasteful, or poor-performing search queries that should be added as negative keywords to prevent future spend waste."
 allowed-tools: Read, Grep, Glob
 metadata:
-  library: eppc-ads-skills@1.0.0
+  library: eppc-ads-skills@1.1.0
   category: keywords
   kind: deterministic
   data_source: export

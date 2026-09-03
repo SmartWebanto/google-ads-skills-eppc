@@ -3,7 +3,7 @@ name: skill-009-account-defaults-audit
 description: "Review account-level settings including auto-tagging, conversion tracking defaults, auto-applied recommendations opt-ins, and linked accounts."
 allowed-tools: Read, Grep, Glob
 metadata:
-  library: eppc-ads-skills@1.0.0
+  library: eppc-ads-skills@1.1.0
   category: structure
   kind: deterministic
   data_source: custom_query

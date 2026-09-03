@@ -3,7 +3,7 @@ name: skill-141-landing-page-policy-compliance
 description: "Audit landing pages for policy compliance including privacy policy, SSL, and content requirements."
 allowed-tools: Read, Grep, Glob
 metadata:
-  library: eppc-ads-skills@1.0.0
+  library: eppc-ads-skills@1.1.0
   category: compliance
   kind: analyst
   data_source: custom_query

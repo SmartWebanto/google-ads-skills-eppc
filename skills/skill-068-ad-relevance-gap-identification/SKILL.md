@@ -3,7 +3,7 @@ name: skill-068-ad-relevance-gap-identification
 description: "Flag keywords where ad copy does not match keyword intent."
 allowed-tools: Read, Grep, Glob
 metadata:
-  library: eppc-ads-skills@1.0.0
+  library: eppc-ads-skills@1.1.0
   category: quality
   kind: deterministic
   data_source: export

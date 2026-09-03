@@ -3,7 +3,7 @@ name: skill-074-server-side-tagging-assessment
 description: "Evaluate the readiness and benefit of migrating from client-side to server-side tagging."
 allowed-tools: Read, Grep, Glob
 metadata:
-  library: eppc-ads-skills@1.0.0
+  library: eppc-ads-skills@1.1.0
   category: tracking
   kind: analyst
   data_source: external

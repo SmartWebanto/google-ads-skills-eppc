@@ -3,7 +3,7 @@ name: skill-038-spelling-editorial-error-detection
 description: "Scan all ad copy for spelling mistakes, grammar errors, excessive punctuation, and capitalization violations."
 allowed-tools: Read, Grep, Glob
 metadata:
-  library: eppc-ads-skills@1.0.0
+  library: eppc-ads-skills@1.1.0
   category: creative
   kind: analyst
   data_source: export

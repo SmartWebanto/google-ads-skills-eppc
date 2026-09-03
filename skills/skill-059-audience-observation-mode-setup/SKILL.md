@@ -3,7 +3,7 @@ name: skill-059-audience-observation-mode-setup
 description: "Add relevant audience segments in Observation mode to gather performance data without restricting reach."
 allowed-tools: Read, Grep, Glob
 metadata:
-  library: eppc-ads-skills@1.0.0
+  library: eppc-ads-skills@1.1.0
   category: targeting
   kind: deterministic
   data_source: export

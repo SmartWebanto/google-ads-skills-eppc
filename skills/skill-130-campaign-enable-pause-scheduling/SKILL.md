@@ -3,7 +3,7 @@ name: skill-130-campaign-enable-pause-scheduling
 description: "Identify campaigns needing scheduling rules for promotions, events, and time-bound activities."
 allowed-tools: Read, Grep, Glob
 metadata:
-  library: eppc-ads-skills@1.0.0
+  library: eppc-ads-skills@1.1.0
   category: competitive
   kind: operational
   data_source: export

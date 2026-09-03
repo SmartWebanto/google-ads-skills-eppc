@@ -3,7 +3,7 @@ name: skill-111-data-exclusion-tracking-incidents
 description: "Use data exclusions to prevent broken tracking periods from influencing Smart Bidding."
 allowed-tools: Read, Grep, Glob
 metadata:
-  library: eppc-ads-skills@1.0.0
+  library: eppc-ads-skills@1.1.0
   category: remarketing
   kind: deterministic
   data_source: custom_query

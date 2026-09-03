@@ -3,7 +3,7 @@ name: skill-062-audience-minimum-size-monitoring
 description: "Monitor remarketing and customer lists to ensure they maintain the minimum 1,000+ members required for Search targeting."
 allowed-tools: Read, Grep, Glob
 metadata:
-  library: eppc-ads-skills@1.0.0
+  library: eppc-ads-skills@1.1.0
   category: targeting
   kind: deterministic
   data_source: custom_query

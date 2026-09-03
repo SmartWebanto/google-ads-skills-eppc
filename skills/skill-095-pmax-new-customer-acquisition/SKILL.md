@@ -3,7 +3,7 @@ name: skill-095-pmax-new-customer-acquisition
 description: "Evaluate whether New Customer Acquisition (NCA) mode is enabled to bid more aggressively for new customers vs existing customers."
 allowed-tools: Read, Grep, Glob
 metadata:
-  library: eppc-ads-skills@1.0.0
+  library: eppc-ads-skills@1.1.0
   category: shopping_pmax
   kind: deterministic
   data_source: custom_query

@@ -3,7 +3,7 @@ name: skill-025-rsa-headline-diversity-completeness
 description: "Verify that RSAs have 10-15 unique headlines for optimal ad strength and combination testing."
 allowed-tools: Read, Grep, Glob
 metadata:
-  library: eppc-ads-skills@1.0.0
+  library: eppc-ads-skills@1.1.0
   category: creative
   kind: deterministic
   data_source: export

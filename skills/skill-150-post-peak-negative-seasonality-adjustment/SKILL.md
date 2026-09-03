@@ -3,7 +3,7 @@ name: skill-150-post-peak-negative-seasonality-adjustment
 description: "Apply negative seasonality adjustments after events when conversion rates drop."
 allowed-tools: Read, Grep, Glob
 metadata:
-  library: eppc-ads-skills@1.0.0
+  library: eppc-ads-skills@1.1.0
   category: seasonal
   kind: deterministic
   data_source: custom_query

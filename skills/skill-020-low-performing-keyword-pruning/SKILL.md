@@ -3,7 +3,7 @@ name: skill-020-low-performing-keyword-pruning
 description: "Identify keywords that exceed cost thresholds without generating conversions, representing candidates for pausing or removal to improve account efficiency."
 allowed-tools: Read, Grep, Glob
 metadata:
-  library: eppc-ads-skills@1.0.0
+  library: eppc-ads-skills@1.1.0
   category: keywords
   kind: deterministic
   data_source: export

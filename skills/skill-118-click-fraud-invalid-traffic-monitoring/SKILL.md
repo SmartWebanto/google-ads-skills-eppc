@@ -3,7 +3,7 @@ name: skill-118-click-fraud-invalid-traffic-monitoring
 description: "Monitor for suspicious click patterns and implement IP exclusions to protect against click fraud."
 allowed-tools: Read, Grep, Glob
 metadata:
-  library: eppc-ads-skills@1.0.0
+  library: eppc-ads-skills@1.1.0
   category: waste
   kind: deterministic
   data_source: custom_query

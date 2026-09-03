@@ -3,7 +3,7 @@ name: skill-110-conversion-tracking-breakage
 description: "Detect conversion tag firing drops below expected thresholds indicating tracking breakage."
 allowed-tools: Read, Grep, Glob
 metadata:
-  library: eppc-ads-skills@1.0.0
+  library: eppc-ads-skills@1.1.0
   category: remarketing
   kind: deterministic
   data_source: custom_query

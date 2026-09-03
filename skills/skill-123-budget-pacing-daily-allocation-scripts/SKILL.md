@@ -3,7 +3,7 @@ name: skill-123-budget-pacing-daily-allocation-scripts
 description: "Analyze day-of-week performance to recommend daily budget allocation and monthly pacing strategies."
 allowed-tools: Read, Grep, Glob
 metadata:
-  library: eppc-ads-skills@1.0.0
+  library: eppc-ads-skills@1.1.0
   category: waste
   kind: operational
   data_source: custom_query

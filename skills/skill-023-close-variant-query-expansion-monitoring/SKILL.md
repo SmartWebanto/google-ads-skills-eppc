@@ -3,7 +3,7 @@ name: skill-023-close-variant-query-expansion-monitoring
 description: "Monitor the queries triggered by broad/phrase expansion and exact/phrase close variants; flag irrelevant spend, same-meaning drift, and converting queries to add as keywords."
 allowed-tools: Read, Grep, Glob
 metadata:
-  library: eppc-ads-skills@1.0.0
+  library: eppc-ads-skills@1.1.0
   category: keywords
   kind: deterministic
   data_source: export

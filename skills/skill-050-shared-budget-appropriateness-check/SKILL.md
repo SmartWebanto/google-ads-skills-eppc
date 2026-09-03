@@ -3,7 +3,7 @@ name: skill-050-shared-budget-appropriateness-check
 description: "Evaluate whether shared budgets are being used appropriately and not causing budget allocation issues."
 allowed-tools: Read, Grep, Glob
 metadata:
-  library: eppc-ads-skills@1.0.0
+  library: eppc-ads-skills@1.1.0
   category: bidding
   kind: deterministic
   data_source: export

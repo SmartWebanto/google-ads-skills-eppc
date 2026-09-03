@@ -3,7 +3,7 @@ name: skill-067-expected-ctr-improvement
 description: "Find keywords with 'Below Average' Expected CTR and recommend improvements."
 allowed-tools: Read, Grep, Glob
 metadata:
-  library: eppc-ads-skills@1.0.0
+  library: eppc-ads-skills@1.1.0
   category: quality
   kind: deterministic
   data_source: export

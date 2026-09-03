@@ -3,7 +3,7 @@ name: skill-146-seasonality-bid-adjustment-deployment
 description: "Use Seasonality Adjustments for expected conversion rate changes during 1-7 day events."
 allowed-tools: Read, Grep, Glob
 metadata:
-  library: eppc-ads-skills@1.0.0
+  library: eppc-ads-skills@1.1.0
   category: seasonal
   kind: operational
   data_source: custom_query

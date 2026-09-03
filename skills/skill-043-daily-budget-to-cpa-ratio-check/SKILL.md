@@ -3,7 +3,7 @@ name: skill-043-daily-budget-to-cpa-ratio-check
 description: "Verify that campaign daily budgets are 5-10x the target or actual CPA to ensure Smart Bidding can optimize effectively."
 allowed-tools: Read, Grep, Glob
 metadata:
-  library: eppc-ads-skills@1.0.0
+  library: eppc-ads-skills@1.1.0
   category: bidding
   kind: deterministic
   data_source: export

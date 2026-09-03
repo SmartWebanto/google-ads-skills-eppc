@@ -3,7 +3,7 @@ name: skill-076-conversion-action-configuration
 description: "Review and optimize conversion action configuration including counting method, attribution model, value settings, and conversion windows."
 allowed-tools: Read, Grep, Glob
 metadata:
-  library: eppc-ads-skills@1.0.0
+  library: eppc-ads-skills@1.1.0
   category: tracking
   kind: deterministic
   data_source: export

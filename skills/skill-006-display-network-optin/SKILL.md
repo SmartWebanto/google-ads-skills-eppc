@@ -3,7 +3,7 @@ name: skill-006-display-network-optin
 description: "Check whether Search campaigns have inadvertently opted into the Google Display Network."
 allowed-tools: Read, Grep, Glob
 metadata:
-  library: eppc-ads-skills@1.0.0
+  library: eppc-ads-skills@1.1.0
   category: structure
   kind: deterministic
   data_source: custom_query

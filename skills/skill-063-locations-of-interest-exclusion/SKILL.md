@@ -3,7 +3,7 @@ name: skill-063-locations-of-interest-exclusion
 description: "Verify that local businesses use 'Presence' targeting instead of 'Presence or Interest' to avoid serving ads to users who cannot physically visit."
 allowed-tools: Read, Grep, Glob
 metadata:
-  library: eppc-ads-skills@1.0.0
+  library: eppc-ads-skills@1.1.0
   category: targeting
   kind: deterministic
   data_source: custom_query

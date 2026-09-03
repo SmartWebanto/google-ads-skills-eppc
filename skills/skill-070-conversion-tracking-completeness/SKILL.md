@@ -3,7 +3,7 @@ name: skill-070-conversion-tracking-completeness
 description: "Verify that all valuable business actions are being tracked as conversions in Google Ads."
 allowed-tools: Read, Grep, Glob
 metadata:
-  library: eppc-ads-skills@1.0.0
+  library: eppc-ads-skills@1.1.0
   category: tracking
   kind: deterministic
   data_source: export

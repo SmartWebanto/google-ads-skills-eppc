@@ -3,7 +3,7 @@ name: skill-048-bid-adjustment-layer-review
 description: "Audit device, location, schedule, and audience bid modifiers to ensure they are optimized and not conflicting with Smart Bidding."
 allowed-tools: Read, Grep, Glob
 metadata:
-  library: eppc-ads-skills@1.0.0
+  library: eppc-ads-skills@1.1.0
   category: bidding
   kind: deterministic
   data_source: export

@@ -3,7 +3,7 @@ name: skill-149-promotional-extensions-countdown-customizers
 description: "Deploy promotional extensions, countdown customizers, and seasonal ad copy during events."
 allowed-tools: Read, Grep, Glob
 metadata:
-  library: eppc-ads-skills@1.0.0
+  library: eppc-ads-skills@1.1.0
   category: seasonal
   kind: operational
   data_source: export

@@ -3,7 +3,7 @@ name: skill-024-keyword-intent-alignment
 description: "Evaluate whether keyword search intent matches campaign goals and landing page content."
 allowed-tools: Read, Grep, Glob
 metadata:
-  library: eppc-ads-skills@1.0.0
+  library: eppc-ads-skills@1.1.0
   category: keywords
   kind: analyst
   data_source: export

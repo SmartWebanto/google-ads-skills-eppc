@@ -3,7 +3,7 @@ name: skill-108-cross-device-conversion-tracking
 description: "Evaluate whether cross-device conversion paths are captured through Enhanced Conversions."
 allowed-tools: Read, Grep, Glob
 metadata:
-  library: eppc-ads-skills@1.0.0
+  library: eppc-ads-skills@1.1.0
   category: remarketing
   kind: deterministic
   data_source: custom_query

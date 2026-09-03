@@ -3,7 +3,7 @@ name: skill-001-campaign-type-separation
 description: "Verify that Search, Display, Shopping, Video, and Performance Max campaigns are never mixed in ways that compromise optimization signals."
 allowed-tools: Read, Grep, Glob
 metadata:
-  library: eppc-ads-skills@1.0.0
+  library: eppc-ads-skills@1.1.0
   category: structure
   kind: deterministic
   data_source: export

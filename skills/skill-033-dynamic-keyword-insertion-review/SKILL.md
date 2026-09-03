@@ -3,7 +3,7 @@ name: skill-033-dynamic-keyword-insertion-review
 description: "Assess whether Dynamic Keyword Insertion is used appropriately and safely."
 allowed-tools: Read, Grep, Glob
 metadata:
-  library: eppc-ads-skills@1.0.0
+  library: eppc-ads-skills@1.1.0
   category: creative
   kind: deterministic
   data_source: export

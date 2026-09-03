@@ -3,7 +3,7 @@ name: skill-037-ad-disapproval-monitoring
 description: "Find disapproved, limited, and under-review ads, prioritize by business impact (silenced ad groups, high-spend campaigns), and provide a resolution workflow."
 allowed-tools: Read, Grep, Glob
 metadata:
-  library: eppc-ads-skills@1.0.0
+  library: eppc-ads-skills@1.1.0
   category: creative
   kind: deterministic
   data_source: custom_query

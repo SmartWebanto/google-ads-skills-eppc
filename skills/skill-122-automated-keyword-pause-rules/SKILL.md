@@ -3,7 +3,7 @@ name: skill-122-automated-keyword-pause-rules
 description: "Identify keywords exceeding spend thresholds with zero conversions and recommend automated pause rules."
 allowed-tools: Read, Grep, Glob
 metadata:
-  library: eppc-ads-skills@1.0.0
+  library: eppc-ads-skills@1.1.0
   category: waste
   kind: operational
   data_source: export

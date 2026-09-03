@@ -3,7 +3,7 @@ name: skill-094-pmax-cannibalizing-search-detection
 description: "Monitor for search query overlap between Performance Max and standard Search campaigns."
 allowed-tools: Read, Grep, Glob
 metadata:
-  library: eppc-ads-skills@1.0.0
+  library: eppc-ads-skills@1.1.0
   category: shopping_pmax
   kind: deterministic
   data_source: custom_query

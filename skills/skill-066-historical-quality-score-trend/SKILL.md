@@ -3,7 +3,7 @@ name: skill-066-historical-quality-score-trend
 description: "Identify trending Quality Score degradation by comparing current QS to historical baselines."
 allowed-tools: Read, Grep, Glob
 metadata:
-  library: eppc-ads-skills@1.0.0
+  library: eppc-ads-skills@1.1.0
   category: quality
   kind: deterministic
   data_source: custom_query

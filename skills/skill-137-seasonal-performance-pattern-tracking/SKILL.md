@@ -3,7 +3,7 @@ name: skill-137-seasonal-performance-pattern-tracking
 description: "Analyze month-over-month performance patterns to identify seasonal trends, plan budgets, and set benchmarks."
 allowed-tools: Read, Grep, Glob
 metadata:
-  library: eppc-ads-skills@1.0.0
+  library: eppc-ads-skills@1.1.0
   category: competitive
   kind: deterministic
   data_source: custom_query

@@ -3,7 +3,7 @@ name: skill-115-display-youtube-placement-performance-review
 description: "Conduct placement reports to identify high-impression, low-conversion placements for optimization or exclusion."
 allowed-tools: Read, Grep, Glob
 metadata:
-  library: eppc-ads-skills@1.0.0
+  library: eppc-ads-skills@1.1.0
   category: waste
   kind: deterministic
   data_source: custom_query

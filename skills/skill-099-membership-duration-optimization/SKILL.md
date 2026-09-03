@@ -3,7 +3,7 @@ name: skill-099-membership-duration-optimization
 description: "Optimize audience membership durations (7-365 days) aligned to the business's buying cycle."
 allowed-tools: Read, Grep, Glob
 metadata:
-  library: eppc-ads-skills@1.0.0
+  library: eppc-ads-skills@1.1.0
   category: remarketing
   kind: deterministic
   data_source: export

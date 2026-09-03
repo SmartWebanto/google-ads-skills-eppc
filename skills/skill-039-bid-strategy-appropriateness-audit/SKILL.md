@@ -3,7 +3,7 @@ name: skill-039-bid-strategy-appropriateness-audit
 description: "Evaluate whether campaigns are using optimal bidding strategies based on goals, conversion volume, and maturity."
 allowed-tools: Read, Grep, Glob
 metadata:
-  library: eppc-ads-skills@1.0.0
+  library: eppc-ads-skills@1.1.0
   category: bidding
   kind: deterministic
   data_source: export

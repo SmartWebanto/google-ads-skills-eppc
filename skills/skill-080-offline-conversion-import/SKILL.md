@@ -3,7 +3,7 @@ name: skill-080-offline-conversion-import
 description: "Verify that offline conversions (sales calls, in-store purchases, CRM-tracked deals) are being imported back to Google Ads."
 allowed-tools: Read, Grep, Glob
 metadata:
-  library: eppc-ads-skills@1.0.0
+  library: eppc-ads-skills@1.1.0
   category: tracking
   kind: deterministic
   data_source: export

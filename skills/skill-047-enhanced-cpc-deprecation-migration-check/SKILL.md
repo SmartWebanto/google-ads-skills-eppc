@@ -3,7 +3,7 @@ name: skill-047-enhanced-cpc-deprecation-migration-check
 description: "Verify that no campaigns are still using deprecated Enhanced CPC (ECPC) bidding and plan migration to modern strategies."
 allowed-tools: Read, Grep, Glob
 metadata:
-  library: eppc-ads-skills@1.0.0
+  library: eppc-ads-skills@1.1.0
   category: bidding
   kind: deterministic
   data_source: export

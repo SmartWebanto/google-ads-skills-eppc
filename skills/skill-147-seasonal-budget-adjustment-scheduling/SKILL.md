@@ -3,7 +3,7 @@ name: skill-147-seasonal-budget-adjustment-scheduling
 description: "Schedule temporary budget increases for promotional periods with automatic reversion."
 allowed-tools: Read, Grep, Glob
 metadata:
-  library: eppc-ads-skills@1.0.0
+  library: eppc-ads-skills@1.1.0
   category: seasonal
   kind: operational
   data_source: custom_query

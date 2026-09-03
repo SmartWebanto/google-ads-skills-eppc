@@ -3,7 +3,7 @@ name: skill-040-target-cpa-roas-realism-check
 description: "Verify that Target CPA and Target ROAS values are achievable based on historical performance."
 allowed-tools: Read, Grep, Glob
 metadata:
-  library: eppc-ads-skills@1.0.0
+  library: eppc-ads-skills@1.1.0
   category: bidding
   kind: deterministic
   data_source: export

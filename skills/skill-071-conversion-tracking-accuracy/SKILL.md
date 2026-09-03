@@ -3,7 +3,7 @@ name: skill-071-conversion-tracking-accuracy
 description: "Cross-reference Google Ads conversion data with actual business data (CRM, e-commerce platform, order system) to verify tracking accuracy."
 allowed-tools: Read, Grep, Glob
 metadata:
-  library: eppc-ads-skills@1.0.0
+  library: eppc-ads-skills@1.1.0
   category: tracking
   kind: analyst
   data_source: external

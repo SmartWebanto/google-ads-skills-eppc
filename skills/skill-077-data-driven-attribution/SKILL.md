@@ -3,7 +3,7 @@ name: skill-077-data-driven-attribution
 description: "Verify that Data-Driven Attribution (DDA) is enabled for all eligible conversion actions."
 allowed-tools: Read, Grep, Glob
 metadata:
-  library: eppc-ads-skills@1.0.0
+  library: eppc-ads-skills@1.1.0
   category: tracking
   kind: deterministic
   data_source: export

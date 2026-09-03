@@ -3,7 +3,7 @@ name: skill-100-rlsa-campaign-strategy
 description: "Audit Remarketing Lists for Search Ads (RLSA) campaigns for proper audience targeting and bid adjustments."
 allowed-tools: Read, Grep, Glob
 metadata:
-  library: eppc-ads-skills@1.0.0
+  library: eppc-ads-skills@1.1.0
   category: remarketing
   kind: deterministic
   data_source: export

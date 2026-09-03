@@ -3,7 +3,7 @@ name: skill-061-customer-match-list-health
 description: "Audit Customer Match lists for presence, size, match rate, freshness, and application to campaigns."
 allowed-tools: Read, Grep, Glob
 metadata:
-  library: eppc-ads-skills@1.0.0
+  library: eppc-ads-skills@1.1.0
   category: targeting
   kind: deterministic
   data_source: custom_query

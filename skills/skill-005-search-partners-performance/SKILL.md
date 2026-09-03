@@ -3,7 +3,7 @@ name: skill-005-search-partners-performance
 description: "Segment and analyze Search Partners performance separately from Google Search."
 allowed-tools: Read, Grep, Glob
 metadata:
-  library: eppc-ads-skills@1.0.0
+  library: eppc-ads-skills@1.1.0
   category: structure
   kind: deterministic
   data_source: custom_query

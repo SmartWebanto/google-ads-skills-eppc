@@ -3,7 +3,7 @@ name: skill-073-enhanced-conversions-leads
 description: "Verify that Enhanced Conversions for Leads is properly configured to match offline CRM data back to Google Ads clicks."
 allowed-tools: Read, Grep, Glob
 metadata:
-  library: eppc-ads-skills@1.0.0
+  library: eppc-ads-skills@1.1.0
   category: tracking
   kind: deterministic
   data_source: custom_query

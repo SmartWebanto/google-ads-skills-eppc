@@ -3,7 +3,7 @@ name: skill-102-frequency-capping-management
 description: "Set appropriate frequency caps (typically 3-5 impressions per user per week) to prevent ad fatigue and wasted impressions."
 allowed-tools: Read, Grep, Glob
 metadata:
-  library: eppc-ads-skills@1.0.0
+  library: eppc-ads-skills@1.1.0
   category: remarketing
   kind: deterministic
   data_source: custom_query

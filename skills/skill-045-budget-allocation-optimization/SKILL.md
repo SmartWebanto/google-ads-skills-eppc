@@ -3,7 +3,7 @@ name: skill-045-budget-allocation-optimization
 description: "Reallocate budget from low-performing campaigns to high-performing campaigns to maximize overall account ROI."
 allowed-tools: Read, Grep, Glob
 metadata:
-  library: eppc-ads-skills@1.0.0
+  library: eppc-ads-skills@1.1.0
   category: bidding
   kind: deterministic
   data_source: custom_query

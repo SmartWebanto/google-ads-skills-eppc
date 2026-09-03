@@ -3,7 +3,7 @@ name: skill-161-automation-layering-strategy-audit
 description: "Evaluate whether Smart Bidding is layered with manual guardrails (scripts, rules, monitoring)."
 allowed-tools: Read, Grep, Glob
 metadata:
-  library: eppc-ads-skills@1.0.0
+  library: eppc-ads-skills@1.1.0
   category: platform
   kind: analyst
   data_source: external

@@ -3,7 +3,7 @@ name: skill-103-recent-converter-exclusion
 description: "Maintain exclusion lists for users who converted within an appropriate window (7-30 days)."
 allowed-tools: Read, Grep, Glob
 metadata:
-  library: eppc-ads-skills@1.0.0
+  library: eppc-ads-skills@1.1.0
   category: remarketing
   kind: deterministic
   data_source: export

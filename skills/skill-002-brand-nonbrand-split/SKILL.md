@@ -3,7 +3,7 @@ name: skill-002-brand-nonbrand-split
 description: "Ensure branded and non-branded keywords live in separate campaigns with independent budgets and targets."
 allowed-tools: Read, Grep, Glob
 metadata:
-  library: eppc-ads-skills@1.0.0
+  library: eppc-ads-skills@1.1.0
   category: structure
   kind: deterministic
   data_source: export

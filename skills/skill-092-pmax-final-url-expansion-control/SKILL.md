@@ -3,7 +3,7 @@ name: skill-092-pmax-final-url-expansion-control
 description: "Audit Performance Max Final URL Expansion settings to ensure appropriate control over landing page selection."
 allowed-tools: Read, Grep, Glob
 metadata:
-  library: eppc-ads-skills@1.0.0
+  library: eppc-ads-skills@1.1.0
   category: shopping_pmax
   kind: deterministic
   data_source: custom_query

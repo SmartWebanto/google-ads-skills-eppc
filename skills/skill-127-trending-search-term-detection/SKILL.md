@@ -3,7 +3,7 @@ name: skill-127-trending-search-term-detection
 description: "Track week-over-week search query volume shifts to identify emerging opportunities and declining terms."
 allowed-tools: Read, Grep, Glob
 metadata:
-  library: eppc-ads-skills@1.0.0
+  library: eppc-ads-skills@1.1.0
   category: waste
   kind: deterministic
   data_source: custom_query

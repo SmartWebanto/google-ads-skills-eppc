@@ -3,7 +3,7 @@ name: skill-128-performance-max-channel-performance
 description: "Analyze Performance Max campaign performance with available channel and placement insights."
 allowed-tools: Read, Grep, Glob
 metadata:
-  library: eppc-ads-skills@1.0.0
+  library: eppc-ads-skills@1.1.0
   category: waste
   kind: deterministic
   data_source: custom_query

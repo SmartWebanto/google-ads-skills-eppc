@@ -3,7 +3,7 @@ name: skill-124-performance-anomaly-alert-configuration
 description: "Identify performance anomalies and recommend automated alert configurations for key metric deviations."
 allowed-tools: Read, Grep, Glob
 metadata:
-  library: eppc-ads-skills@1.0.0
+  library: eppc-ads-skills@1.1.0
   category: waste
   kind: operational
   data_source: export

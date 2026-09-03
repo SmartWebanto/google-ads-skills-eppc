@@ -3,7 +3,7 @@ name: skill-030-ad-extension-coverage-audit
 description: "Verify all extension types are active and linked at appropriate levels."
 allowed-tools: Read, Grep, Glob
 metadata:
-  library: eppc-ads-skills@1.0.0
+  library: eppc-ads-skills@1.1.0
   category: creative
   kind: deterministic
   data_source: export

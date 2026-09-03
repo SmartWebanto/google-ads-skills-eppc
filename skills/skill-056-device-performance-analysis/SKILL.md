@@ -3,7 +3,7 @@ name: skill-056-device-performance-analysis
 description: "Analyze performance segmented by device type (desktop, mobile, tablet) and recommend bid adjustments to optimize spend allocation."
 allowed-tools: Read, Grep, Glob
 metadata:
-  library: eppc-ads-skills@1.0.0
+  library: eppc-ads-skills@1.1.0
   category: targeting
   kind: deterministic
   data_source: custom_query

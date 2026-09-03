@@ -3,7 +3,7 @@ name: skill-036-video-asset-presence
 description: "Verify that video assets are uploaded for Performance Max and Demand Gen campaigns."
 allowed-tools: Read, Grep, Glob
 metadata:
-  library: eppc-ads-skills@1.0.0
+  library: eppc-ads-skills@1.1.0
   category: creative
   kind: deterministic
   data_source: custom_query

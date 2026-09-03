@@ -3,7 +3,7 @@ name: skill-072-enhanced-conversions-web
 description: "Verify that Enhanced Conversions for Web is properly implemented to improve conversion measurement accuracy in a privacy-first world."
 allowed-tools: Read, Grep, Glob
 metadata:
-  library: eppc-ads-skills@1.0.0
+  library: eppc-ads-skills@1.1.0
   category: tracking
   kind: deterministic
   data_source: custom_query

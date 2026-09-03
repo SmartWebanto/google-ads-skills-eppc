@@ -3,7 +3,7 @@ name: skill-004-ad-group-thematic-tightness
 description: "Evaluate whether each ad group contains tightly themed, closely related keywords (ideally 5-20 per group)."
 allowed-tools: Read, Grep, Glob
 metadata:
-  library: eppc-ads-skills@1.0.0
+  library: eppc-ads-skills@1.1.0
   category: structure
   kind: deterministic
   data_source: export

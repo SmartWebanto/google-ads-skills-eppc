@@ -3,7 +3,7 @@ name: skill-069-landing-page-experience-assessment
 description: "Evaluate landing pages for relevance, speed, and mobile-friendliness."
 allowed-tools: Read, Grep, Glob
 metadata:
-  library: eppc-ads-skills@1.0.0
+  library: eppc-ads-skills@1.1.0
   category: quality
   kind: deterministic
   data_source: export

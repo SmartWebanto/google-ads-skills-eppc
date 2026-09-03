@@ -3,7 +3,7 @@ name: skill-075-consent-mode-v2
 description: "Verify that Consent Mode v2 is properly implemented to maintain conversion measurement accuracy while respecting user privacy choices."
 allowed-tools: Read, Grep, Glob
 metadata:
-  library: eppc-ads-skills@1.0.0
+  library: eppc-ads-skills@1.1.0
   category: tracking
   kind: deterministic
   data_source: custom_query

@@ -3,7 +3,7 @@ name: skill-162-creative-asset-quality-ai-campaign-optimization
 description: "Assess whether campaigns provide diverse, high-quality modular creative across text, image, and video."
 allowed-tools: Read, Grep, Glob
 metadata:
-  library: eppc-ads-skills@1.0.0
+  library: eppc-ads-skills@1.1.0
   category: platform
   kind: deterministic
   data_source: export

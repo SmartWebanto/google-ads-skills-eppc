@@ -3,7 +3,7 @@ name: skill-109-offline-conversion-freshness
 description: "Verify that offline conversion data is imported within 1-14 days of the lead event."
 allowed-tools: Read, Grep, Glob
 metadata:
-  library: eppc-ads-skills@1.0.0
+  library: eppc-ads-skills@1.1.0
   category: remarketing
   kind: deterministic
   data_source: custom_query

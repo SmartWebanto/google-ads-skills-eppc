@@ -3,7 +3,7 @@ name: skill-098-audience-segmentation-funnel-stage
 description: "Audit audience segments based on funnel position: homepage visitors, product viewers, cart abandoners, and past purchasers."
 allowed-tools: Read, Grep, Glob
 metadata:
-  library: eppc-ads-skills@1.0.0
+  library: eppc-ads-skills@1.1.0
   category: remarketing
   kind: deterministic
   data_source: export
