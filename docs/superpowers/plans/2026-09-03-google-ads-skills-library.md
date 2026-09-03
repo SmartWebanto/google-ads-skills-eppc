@@ -37,7 +37,7 @@
 **Interfaces:**
 - Produces: `python3 skills/_resources/scripts/lint.py [--root skills] [--allow-dollars] [--expect-count N] [--write-catalog]`; exit 0 when no errors. Functions `parse_frontmatter(text) -> (dict, body)`, `load_params(path) -> set[str]`, `check_skill(skill_dir, params, merges_text, skill_names, allow_dollars) -> list[str]`, `catalog_rows(root) -> list[dict]`, `render_catalog(rows) -> str`.
 
-- [ ] **Step 1: Rename the folder**
+- [x] **Step 1: Rename the folder**
 
 ```bash
 cd /Users/antonio/nuovo_clientes/google-ads-skills-eppc
@@ -45,7 +45,7 @@ git mv _harvest skills
 mkdir -p skills/_resources/scripts
 ```
 
-- [ ] **Step 2: Write the failing tests**
+- [x] **Step 2: Write the failing tests**
 
 Create `skills/_resources/scripts/test_lint.py`:
 
@@ -194,12 +194,12 @@ if __name__ == "__main__":
     unittest.main()
 ```
 
-- [ ] **Step 3: Run tests to verify they fail**
+- [x] **Step 3: Run tests to verify they fail**
 
 Run: `cd skills/_resources/scripts && python3 -m unittest test_lint -v`
 Expected: FAIL with `ModuleNotFoundError: No module named 'lint'`
 
-- [ ] **Step 4: Write lint.py**
+- [x] **Step 4: Write lint.py**
 
 Create `skills/_resources/scripts/lint.py`:
 
@@ -467,17 +467,17 @@ if __name__ == "__main__":
     sys.exit(main())
 ```
 
-- [ ] **Step 5: Run tests to verify they pass**
+- [x] **Step 5: Run tests to verify they pass**
 
 Run: `cd skills/_resources/scripts && python3 -m unittest test_lint -v`
 Expected: all 12 tests PASS.
 
-- [ ] **Step 6: Run the lint on the raw library to see the expected baseline failures**
+- [x] **Step 6: Run the lint on the raw library to see the expected baseline failures**
 
 Run: `cd /Users/antonio/nuovo_clientes/google-ads-skills-eppc && python3 skills/_resources/scripts/lint.py --allow-dollars --expect-count 145 | tail -3`
 Expected: `0 skills, 1 errors` (directories are not yet numbered so none match `skill-NNN-`; the count error is the only line). This proves the lint runs; Task 2 makes it meaningful.
 
-- [ ] **Step 7: Commit**
+- [x] **Step 7: Commit**
 
 ```bash
 git add -A
@@ -500,11 +500,11 @@ Claude-Session: https://claude.ai/code/session_01VjnJxS7dAa1HQnYHVhvR48"
 - Consumes: `lint.py` from Task 1.
 - Produces: every SKILL.md has the `metadata` block of spec section 4; body `**Data Source:**` line is one of `Standard`, `Custom GAQL Required`, `External (beyond Google Ads data)`; every command reference is `/google-ads:get-custom` or `/google-ads:get`.
 
-- [ ] **Step 1: Amend the spec so directory naming is explicit**
+- [x] **Step 1: Amend the spec so directory naming is explicit**
 
 In the spec, section 4, replace the sentence `` `name` keeps the upstream number and directory slug, except where a merge renames the canonical (section 6). `` with `` `name` keeps the upstream number and slug, and every skill directory is renamed to that full name (`skill-NNN-slug`, as in the upstream plugin), except where a merge renames the canonical (section 6). ``
 
-- [ ] **Step 2: Write the migration script**
+- [x] **Step 2: Write the migration script**
 
 Create `skills/_resources/scripts/migrate_2026_09_03.py`:
 
@@ -637,12 +637,12 @@ if __name__ == "__main__":
     sys.exit(main())
 ```
 
-- [ ] **Step 3: Run the migration**
+- [x] **Step 3: Run the migration**
 
 Run: `cd /Users/antonio/nuovo_clientes/google-ads-skills-eppc && python3 skills/_resources/scripts/migrate_2026_09_03.py`
 Expected: `migrated 145 skills`; `ls skills | head -3` shows `_resources`, `skill-001-campaign-type-separation`, `skill-002-brand-nonbrand-split`.
 
-- [ ] **Step 4: Verify with the lint and greps**
+- [x] **Step 4: Verify with the lint and greps**
 
 Run:
 ```bash
@@ -653,7 +653,7 @@ grep -h '^  kind:' skills/*/SKILL.md | sort | uniq -c
 ```
 Expected: `145 skills, 0 errors, 0 warnings`; `0`; exactly three Data Source strings (Standard 61, Custom GAQL Required 77, External 7); kind counts roughly deterministic ≈115, analyst ≈20, operational 10. Spot-check `skills/skill-058-demographic-performance-analysis/SKILL.md` shows `markets: us_only` and `skills/skill-044-monthly-budget-pacing-analysis/SKILL.md` shows `related: [skill-123-budget-pacing-daily-allocation-scripts]`.
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add -A
@@ -684,7 +684,7 @@ General procedure for every merge (the per-merge blocks below give only what cha
 4. Keep the canonical `## Data Requirements` and `## Output`, applying only the additions stated.
 5. Money literals inside the new thresholds are already parameters; keep `$[X]`-style output placeholders (Task 4 rewrites them globally).
 
-- [ ] **Step 1: Merge 121 + 133 → `skill-121-impression-share-loss-analysis`**
+- [x] **Step 1: Merge 121 + 133 → `skill-121-impression-share-loss-analysis`**
 
 ```bash
 git rm -r -q skills/skill-133-impression-share-loss-analysis
@@ -719,7 +719,7 @@ Sample size: judge impression share only above {{min_impressions}} impressions i
 ```
 Output: keep 121's; in **Detailed adds** insert as first bullet `- Loss summary by cause (budget / rank / both / optimized) with campaign counts and average loss`.
 
-- [ ] **Step 2: Merge 023 + 120 → `skill-023-close-variant-query-expansion-monitoring`**
+- [x] **Step 2: Merge 023 + 120 → `skill-023-close-variant-query-expansion-monitoring`**
 
 ```bash
 git rm -r -q skills/skill-120-close-variant-match-expansion-monitoring
@@ -756,7 +756,7 @@ Sample size: compare conversion rates only above {{min_clicks}} clicks per class
 ```
 Output: keep 023's; in **Detailed adds** insert `- Match analysis table: exact queries vs close variants vs expansions (conversion rate, CPA)`.
 
-- [ ] **Step 3: Merge 061 + 104 → `skill-061-customer-match-list-health`**
+- [x] **Step 3: Merge 061 + 104 → `skill-061-customer-match-list-health`**
 
 ```bash
 git rm -r -q skills/skill-104-customer-match-list-management
@@ -791,7 +791,7 @@ Thresholds:
 ```
 Output: keep 061's; change the header line to `**Account:** [Name] | **Lists Analyzed:** [X] | **Applied:** [Y] | **Issues:** [Z]`; in **Detailed adds** append `- Recommended list structure (all, high-value, recent, lapsed) and compliance checklist`.
 
-- [ ] **Step 4: Merge 037 + 139 → `skill-037-ad-disapproval-monitoring`**
+- [x] **Step 4: Merge 037 + 139 → `skill-037-ad-disapproval-monitoring`**
 
 ```bash
 git rm -r -q skills/skill-139-ad-disapproval-monitoring
@@ -826,7 +826,7 @@ Thresholds:
 ```
 Output: keep 037's; in **Detailed adds** append `- Resolution workflow by policy type, appeal guidance, prevention checklist`.
 
-- [ ] **Step 5: Merge 016 + 113 → `skill-016-negative-keyword-list-completeness`**
+- [x] **Step 5: Merge 016 + 113 → `skill-016-negative-keyword-list-completeness`**
 
 ```bash
 git rm -r -q skills/skill-113-proactive-negative-keyword-list-building
@@ -862,7 +862,7 @@ Thresholds:
 ```
 Output: keep 016's; change the header line to `**Account:** [Name] | **Shared Lists:** [X] | **Total Negatives:** [Y] | **Gaps:** [Z]`; in **Detailed** adds append `- Recommended universal list with match types`.
 
-- [ ] **Step 6: Merge 064 + 129 → `skill-064-quality-score-distribution-analysis`**
+- [x] **Step 6: Merge 064 + 129 → `skill-064-quality-score-distribution-analysis`**
 
 ```bash
 git rm -r -q skills/skill-129-quality-score-monitoring-alert-rules
@@ -897,7 +897,7 @@ Thresholds:
 ```
 Output: keep 064's; in **Detailed adds** append `- Spend on low-QS keywords by bucket` and `- Recommended alert rules (Google Ads automated rules configuration)`.
 
-- [ ] **Step 7: Merge 054 + 055 → `skill-054-geographic-performance-analysis`**
+- [x] **Step 7: Merge 054 + 055 → `skill-054-geographic-performance-analysis`**
 
 ```bash
 git rm -r -q skills/skill-055-underperforming-location-exclusion
@@ -934,7 +934,7 @@ Thresholds:
 ```
 Output: keep 054's; after the header line add `**Current Waste:** $[X]/month | **Projected Annual Savings:** $[Y]`; in **Detailed adds** append `- Low priority review table (borderline cases to monitor)`.
 
-- [ ] **Step 8: Merge 029 + 126 → `skill-029-rsa-asset-performance-analysis`**
+- [x] **Step 8: Merge 029 + 126 → `skill-029-rsa-asset-performance-analysis`**
 
 ```bash
 git rm -r -q skills/skill-126-rsa-asset-performance-bulk-analysis
@@ -971,7 +971,7 @@ Thresholds:
 ```
 Output: keep 029's; in **Detailed adds** append `- Ad strength distribution and top-performing headlines account-wide` and `- Pinning strategy assessment`.
 
-- [ ] **Step 9: Write `skills/MERGES.md`**
+- [x] **Step 9: Write `skills/MERGES.md`**
 
 ```markdown
 # Merges (2026-09-03)
@@ -1005,7 +1005,7 @@ Eight upstream skills checked the same condition on the same data as another ski
 Linked with `metadata.related` instead: 044/123 (monthly pacing vs day-of-week allocation), 013/014/127 (keyword mining, negative mining, trend detection), the conversion-tracking cluster (070, 071, 081, 107, 108, 110), the landing-page cluster (034, 069, 078, 079, 125, 141), and 064/065/066/067 (Quality Score facets).
 ```
 
-- [ ] **Step 10: Verify**
+- [x] **Step 10: Verify**
 
 Run:
 ```bash
@@ -1015,7 +1015,7 @@ grep -l 'merged_from' skills/*/SKILL.md | wc -l
 ```
 Expected: `137`; `137 skills, 0 errors, 0 warnings`; `8`. Open each of the 8 canonical files and confirm the title, name, five sections, and that no `## ` heading was lost.
 
-- [ ] **Step 11: Commit**
+- [x] **Step 11: Commit**
 
 ```bash
 git add -A
@@ -1038,7 +1038,7 @@ Claude-Session: https://claude.ai/code/session_01VjnJxS7dAa1HQnYHVhvR48"
 - Consumes: lint check 4 and 6.
 - Produces: `PARAMETERS.md` whose first table column defines every `{{name}}`; no `$<digit>` left in `skills/`.
 
-- [ ] **Step 1: Write PARAMETERS.md**
+- [x] **Step 1: Write PARAMETERS.md**
 
 ```markdown
 # Parameters
@@ -1068,7 +1068,7 @@ Every monetary or sample-size threshold in the skills is a named parameter writt
 - **Overrides** come from the client profile `parameter_overrides` map, keyed by parameter name without braces.
 ```
 
-- [ ] **Step 2: Write the parametrization script**
+- [x] **Step 2: Write the parametrization script**
 
 Create `skills/_resources/scripts/parametrize_2026_09_03.py`:
 
@@ -1152,7 +1152,7 @@ if __name__ == "__main__":
     sys.exit(main())
 ```
 
-- [ ] **Step 3: Run it and verify**
+- [x] **Step 3: Run it and verify**
 
 Run:
 ```bash
@@ -1163,7 +1163,7 @@ python3 skills/_resources/scripts/lint.py | tail -1
 ```
 Expected: `changed N files` with no `MISSING` lines; `0`; the second grep shows only lines where `$` is not a money literal (expected: none, or `$` inside GAQL comments — inspect and fix by hand if any); `137 skills, 0 errors, 0 warnings`.
 
-- [ ] **Step 4: Commit**
+- [x] **Step 4: Commit**
 
 ```bash
 git add -A
@@ -1184,7 +1184,7 @@ Claude-Session: https://claude.ai/code/session_01VjnJxS7dAa1HQnYHVhvR48"
 - Modify: `skills/_resources/SKILL_EXAMPLE.md`
 - Modify: `skills/_resources/README.md` (one banner line)
 
-- [ ] **Step 1: Write OUTPUT_TEMPLATES.md**
+- [x] **Step 1: Write OUTPUT_TEMPLATES.md**
 
 ```markdown
 # Output templates
@@ -1314,7 +1314,7 @@ English: `No issues found. <n> entities pass the audit criteria.` Italiano: `Nes
 7. No educational content.
 ```
 
-- [ ] **Step 2: Write CLIENT_PROFILE.md**
+- [x] **Step 2: Write CLIENT_PROFILE.md**
 
 ```markdown
 # Client profile
@@ -1342,7 +1342,7 @@ Rules:
 - `parameter_overrides` keys are parameter names from `PARAMETERS.md` without braces.
 ```
 
-- [ ] **Step 3: Update SKILL_SCHEMA.md**
+- [x] **Step 3: Update SKILL_SCHEMA.md**
 
 Apply these edits:
 
@@ -1398,7 +1398,7 @@ metadata:
 ```
 7. In `## Skill Categories`, change the table header note to `Category keys used in `metadata.category`:` and add a key column: structure, keywords, creative, bidding, targeting, quality, tracking, shopping_pmax, remarketing (096-112), waste, competitive, compliance, seasonal, platform. Add a line: `17 upstream numbers are absent (084, 086, 087, 091, 096, 097, 132, 134, 138, 140, 143, 144, 153-155, 157, 158) and 8 more were merged (see MERGES.md).`
 
-- [ ] **Step 4: Update SKILL_EXAMPLE.md**
+- [x] **Step 4: Update SKILL_EXAMPLE.md**
 
 In the "After" example: add the `metadata` block from Step 3 (with `name: skill-030-ad-extension-coverage-audit`, `category: creative`, `kind: deterministic`, `data_source: standard`), replace `/google-ads-get-custom` with `/google-ads:get-custom`, rename `## Output Schema` to `## Output`, and prefix the "Output Example" with the provenance header:
 ```
@@ -1407,11 +1407,11 @@ Account 123-456-7890 · currency EUR · data LAST_30_DAYS · snapshot 2026-09-03
 Library eppc-ads-skills@1.0.0 · skill skill-030-ad-extension-coverage-audit (upstream skill-030-ad-extension-coverage-audit@1.8.0) · profile defaults
 ```
 
-- [ ] **Step 5: Mark the upstream README and commands as upstream**
+- [x] **Step 5: Mark the upstream README and commands as upstream**
 
 Prepend to `skills/_resources/README.md`: `> Upstream document from TrueClicks google-ads@1.8.0, kept for reference. The commands under `commands/` call TrueClicks' hosted API (api.claudeppc.ai): use them only for a client with a signed DPA (see the root README).` Leave `commands/*.md` untouched.
 
-- [ ] **Step 6: Verify and commit**
+- [x] **Step 6: Verify and commit**
 
 Run: `python3 skills/_resources/scripts/lint.py | tail -1 && grep -c 'google-ads-get' skills/_resources/SKILL_SCHEMA.md skills/_resources/SKILL_EXAMPLE.md`
 Expected: `137 skills, 0 errors, 0 warnings`; both counts `0`.
@@ -1431,7 +1431,7 @@ Claude-Session: https://claude.ai/code/session_01VjnJxS7dAa1HQnYHVhvR48"
 **Files:**
 - Modify: `ads/SKILL.md` (full replacement)
 
-- [ ] **Step 1: Replace `ads/SKILL.md` with**
+- [x] **Step 1: Replace `ads/SKILL.md` with**
 
 ````markdown
 ---
@@ -1532,12 +1532,12 @@ lists kind and data source for each.
 - `skills/_resources/SKILL_SCHEMA.md` — how a skill is written
 ````
 
-- [ ] **Step 2: Verify**
+- [x] **Step 2: Verify**
 
 Run: `grep -c 'ads-OS\|pending_changes' ads/SKILL.md; for n in $(grep -oE '\b[0-9]{3}\b' ads/SKILL.md | sort -u); do ls -d skills/skill-$n-* >/dev/null 2>&1 || echo "no skill $n"; done`
 Expected: `0`; no `no skill` lines (every three-digit id in the front desk resolves to a directory; `1.8.0`/`2.0` are not three-digit tokens).
 
-- [ ] **Step 3: Commit**
+- [x] **Step 3: Commit**
 
 ```bash
 git add ads/SKILL.md
@@ -1555,12 +1555,12 @@ Claude-Session: https://claude.ai/code/session_01VjnJxS7dAa1HQnYHVhvR48"
 - Create: `README.md`
 - Create (generated): `skills/CATALOG.md`
 
-- [ ] **Step 1: Generate the catalog and review the classification**
+- [x] **Step 1: Generate the catalog and review the classification**
 
 Run: `python3 skills/_resources/scripts/lint.py --write-catalog && sed -n '1,12p' skills/CATALOG.md && grep -c '| analyst |' skills/CATALOG.md && grep -c '| operational |' skills/CATALOG.md`
 Expected: catalog written; operational count `10`; analyst count between 15 and 25. Read the analyst rows: each must be a skill that needs external data or judgment. If one is a plain threshold check, change its `kind` in the SKILL.md to `deterministic` and regenerate.
 
-- [ ] **Step 2: Write README.md**
+- [x] **Step 2: Write README.md**
 
 ````markdown
 # Google Ads skills library — eppc edition
@@ -1625,7 +1625,7 @@ Check the library: `python3 skills/_resources/scripts/lint.py` (add `--write-cat
 - **1.0.0 (2026-09-03)** — first curated release, from upstream 1.8.0. See `docs/superpowers/specs/2026-09-03-google-ads-skills-library-design.md`.
 ````
 
-- [ ] **Step 3: Final verification (the spec's done criteria)**
+- [x] **Step 3: Final verification (the spec's done criteria)**
 
 Run:
 ```bash
@@ -1640,7 +1640,7 @@ cd skills/_resources/scripts && python3 -m unittest test_lint 2>&1 | tail -1
 ```
 Expected: `137 skills, 0 errors, 0 warnings`; `137`; `0`; `0`; `0`; `0`; `files-ok`; `OK`.
 
-- [ ] **Step 4: Commit**
+- [x] **Step 4: Commit**
 
 ```bash
 git add -A
