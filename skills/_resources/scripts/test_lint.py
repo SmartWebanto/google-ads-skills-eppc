@@ -92,9 +92,10 @@ class CheckSkillTests(unittest.TestCase):
         bad = GOOD.replace("Cost >= {{spend_floor}}", "Cost >= $50")
         self.assertFalse(any("dollar" in i for i in self.issues(bad, allow_dollars=True)))
 
-    def test_hyphen_command_is_flagged(self):
-        bad = GOOD.replace("Run the reference query", "Run `/google-ads-get-custom`")
-        self.assertTrue(any("google-ads-get" in i for i in self.issues(bad)))
+    def test_plugin_command_reference_is_flagged(self):
+        for cmd in ("/google-ads-get-custom", "/google-ads:get-custom", "/google-ads:get"):
+            bad = GOOD.replace("Run the reference query", f"Run `{cmd}`")
+            self.assertTrue(any("plugin command" in i for i in self.issues(bad)), cmd)
 
     def test_section_order_is_enforced_ignoring_code_fences(self):
         bad = GOOD.replace("## Analysis Steps\n1. Step.\n\n", "")  # a required section is missing

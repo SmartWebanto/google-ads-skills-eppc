@@ -26,7 +26,7 @@ REQUIRED_META = ["library", "category", "kind", "data_source", "markets", "revie
 NAME_RE = re.compile(r"^skill-(\d{3})-[a-z0-9-]+$")
 PARAM_RE = re.compile(r"\{\{([a-z_]+)\}\}")
 DOLLAR_DIGIT_RE = re.compile(r"\$\d")
-HYPHEN_CMD_RE = re.compile(r"/google-ads-get")
+EXTERNAL_CMD_RE = re.compile(r"/google-ads[:-]get")  # plugin commands: the library is tool-neutral
 MAX_LINES = 130
 
 
@@ -158,8 +158,8 @@ def check_skill(skill_dir: Path, params: set[str], merges_text: str, skill_names
         for m in DOLLAR_DIGIT_RE.finditer(text):
             snippet = text[m.start(): m.start() + 12].split("\n")[0]
             issues.append(f"{skill_dir.name}: dollar literal '{snippet}' (use a {{{{parameter}}}})")
-    if HYPHEN_CMD_RE.search(text):
-        issues.append(f"{skill_dir.name}: broken command reference /google-ads-get… (upstream form is /google-ads:get…)")
+    if EXTERNAL_CMD_RE.search(text):
+        issues.append(f"{skill_dir.name}: external plugin command reference (describe the query, not a tool; see DATA_CONTRACT.md)")
     for p in set(PARAM_RE.findall(text)):
         if p not in params:
             issues.append(f"{skill_dir.name}: parameter '{{{{{p}}}}}' not defined in PARAMETERS.md")
