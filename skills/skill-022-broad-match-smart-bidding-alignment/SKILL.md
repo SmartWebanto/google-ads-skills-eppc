@@ -4,8 +4,6 @@ description: "Verify that broad match keywords are paired with Smart Bidding str
 allowed-tools: Read, Grep, Glob
 metadata:
   library: eppc-ads-skills@1.0.0
-  upstream: trueclicks/claude-plugins google-ads@1.8.0
-  upstream_skill: skill-022-broad-match-smart-bidding-alignment
   category: keywords
   kind: deterministic
   data_source: export

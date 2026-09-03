@@ -4,8 +4,6 @@ description: "Verify that Target CPA and Target ROAS values are achievable based
 allowed-tools: Read, Grep, Glob
 metadata:
   library: eppc-ads-skills@1.0.0
-  upstream: trueclicks/claude-plugins google-ads@1.8.0
-  upstream_skill: skill-040-target-cpa-roas-realism-check
   category: bidding
   kind: deterministic
   data_source: export

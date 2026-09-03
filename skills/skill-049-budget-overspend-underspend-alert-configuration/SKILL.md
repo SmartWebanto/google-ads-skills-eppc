@@ -4,8 +4,6 @@ description: "Configure alert thresholds for budget pacing issues and identify c
 allowed-tools: Read, Grep, Glob
 metadata:
   library: eppc-ads-skills@1.0.0
-  upstream: trueclicks/claude-plugins google-ads@1.8.0
-  upstream_skill: skill-049-budget-overspend-underspend-alert-configuration
   category: bidding
   kind: operational
   data_source: custom_query

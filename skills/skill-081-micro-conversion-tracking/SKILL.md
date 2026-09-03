@@ -4,8 +4,6 @@ description: "Track intermediate actions (micro-conversions) that indicate user 
 allowed-tools: Read, Grep, Glob
 metadata:
   library: eppc-ads-skills@1.0.0
-  upstream: trueclicks/claude-plugins google-ads@1.8.0
-  upstream_skill: skill-081-micro-conversion-tracking
   category: tracking
   kind: deterministic
   data_source: export

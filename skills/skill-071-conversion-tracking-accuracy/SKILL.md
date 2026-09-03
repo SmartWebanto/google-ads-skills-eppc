@@ -4,8 +4,6 @@ description: "Cross-reference Google Ads conversion data with actual business da
 allowed-tools: Read, Grep, Glob
 metadata:
   library: eppc-ads-skills@1.0.0
-  upstream: trueclicks/claude-plugins google-ads@1.8.0
-  upstream_skill: skill-071-conversion-tracking-accuracy
   category: tracking
   kind: analyst
   data_source: external

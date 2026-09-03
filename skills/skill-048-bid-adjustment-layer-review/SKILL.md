@@ -4,8 +4,6 @@ description: "Audit device, location, schedule, and audience bid modifiers to en
 allowed-tools: Read, Grep, Glob
 metadata:
   library: eppc-ads-skills@1.0.0
-  upstream: trueclicks/claude-plugins google-ads@1.8.0
-  upstream_skill: skill-048-bid-adjustment-layer-review
   category: bidding
   kind: deterministic
   data_source: export

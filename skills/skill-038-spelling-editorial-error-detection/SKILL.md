@@ -4,8 +4,6 @@ description: "Scan all ad copy for spelling mistakes, grammar errors, excessive 
 allowed-tools: Read, Grep, Glob
 metadata:
   library: eppc-ads-skills@1.0.0
-  upstream: trueclicks/claude-plugins google-ads@1.8.0
-  upstream_skill: skill-038-spelling-editorial-error-detection
   category: creative
   kind: analyst
   data_source: export

@@ -4,8 +4,6 @@ description: "Update Shopping/PMax product titles with seasonal keywords before 
 allowed-tools: Read, Grep, Glob
 metadata:
   library: eppc-ads-skills@1.0.0
-  upstream: trueclicks/claude-plugins google-ads@1.8.0
-  upstream_skill: skill-151-product-feed-seasonal-keyword-optimization
   category: seasonal
   kind: analyst
   data_source: external

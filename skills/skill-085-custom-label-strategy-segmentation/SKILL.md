@@ -4,8 +4,6 @@ description: "Evaluate and implement custom label strategies to enable margin-ba
 allowed-tools: Read, Grep, Glob
 metadata:
   library: eppc-ads-skills@1.0.0
-  upstream: trueclicks/claude-plugins google-ads@1.8.0
-  upstream_skill: skill-085-custom-label-strategy-segmentation
   category: shopping_pmax
   kind: deterministic
   data_source: custom_query

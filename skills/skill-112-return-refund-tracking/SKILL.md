@@ -4,8 +4,6 @@ description: "Track product returns and refunds to measure true ROAS."
 allowed-tools: Read, Grep, Glob
 metadata:
   library: eppc-ads-skills@1.0.0
-  upstream: trueclicks/claude-plugins google-ads@1.8.0
-  upstream_skill: skill-112-return-refund-tracking
   category: remarketing
   kind: analyst
   data_source: custom_query

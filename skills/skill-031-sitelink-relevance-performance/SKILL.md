@@ -4,8 +4,6 @@ description: "Evaluate sitelink extensions for relevance, completeness, and perf
 allowed-tools: Read, Grep, Glob
 metadata:
   library: eppc-ads-skills@1.0.0
-  upstream: trueclicks/claude-plugins google-ads@1.8.0
-  upstream_skill: skill-031-sitelink-relevance-performance
   category: creative
   kind: deterministic
   data_source: export

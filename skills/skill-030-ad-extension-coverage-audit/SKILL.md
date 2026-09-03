@@ -4,8 +4,6 @@ description: "Verify all extension types are active and linked at appropriate le
 allowed-tools: Read, Grep, Glob
 metadata:
   library: eppc-ads-skills@1.0.0
-  upstream: trueclicks/claude-plugins google-ads@1.8.0
-  upstream_skill: skill-030-ad-extension-coverage-audit
   category: creative
   kind: deterministic
   data_source: export

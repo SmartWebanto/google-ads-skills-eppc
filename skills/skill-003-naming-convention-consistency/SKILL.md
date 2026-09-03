@@ -4,8 +4,6 @@ description: "Audit naming conventions across all campaigns, ad groups, and labe
 allowed-tools: Read, Grep, Glob
 metadata:
   library: eppc-ads-skills@1.0.0
-  upstream: trueclicks/claude-plugins google-ads@1.8.0
-  upstream_skill: skill-003-naming-convention-consistency
   category: structure
   kind: analyst
   data_source: export

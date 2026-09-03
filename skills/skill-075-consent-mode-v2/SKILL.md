@@ -4,8 +4,6 @@ description: "Verify that Consent Mode v2 is properly implemented to maintain co
 allowed-tools: Read, Grep, Glob
 metadata:
   library: eppc-ads-skills@1.0.0
-  upstream: trueclicks/claude-plugins google-ads@1.8.0
-  upstream_skill: skill-075-consent-mode-v2
   category: tracking
   kind: deterministic
   data_source: custom_query

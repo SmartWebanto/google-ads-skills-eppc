@@ -4,8 +4,6 @@ description: "Use data exclusions to prevent broken tracking periods from influe
 allowed-tools: Read, Grep, Glob
 metadata:
   library: eppc-ads-skills@1.0.0
-  upstream: trueclicks/claude-plugins google-ads@1.8.0
-  upstream_skill: skill-111-data-exclusion-tracking-incidents
   category: remarketing
   kind: deterministic
   data_source: custom_query

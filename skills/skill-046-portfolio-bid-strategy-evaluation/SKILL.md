@@ -4,8 +4,6 @@ description: "Assess whether campaigns grouped under portfolio bidding strategie
 allowed-tools: Read, Grep, Glob
 metadata:
   library: eppc-ads-skills@1.0.0
-  upstream: trueclicks/claude-plugins google-ads@1.8.0
-  upstream_skill: skill-046-portfolio-bid-strategy-evaluation
   category: bidding
   kind: deterministic
   data_source: export

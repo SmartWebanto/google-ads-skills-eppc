@@ -4,8 +4,6 @@ description: "Evaluate the readiness and benefit of migrating from client-side t
 allowed-tools: Read, Grep, Glob
 metadata:
   library: eppc-ads-skills@1.0.0
-  upstream: trueclicks/claude-plugins google-ads@1.8.0
-  upstream_skill: skill-074-server-side-tagging-assessment
   category: tracking
   kind: analyst
   data_source: external

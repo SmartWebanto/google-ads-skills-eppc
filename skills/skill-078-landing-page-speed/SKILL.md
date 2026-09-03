@@ -4,8 +4,6 @@ description: "Test landing page load times to ensure pages load in under 3 secon
 allowed-tools: Read, Grep, Glob
 metadata:
   library: eppc-ads-skills@1.0.0
-  upstream: trueclicks/claude-plugins google-ads@1.8.0
-  upstream_skill: skill-078-landing-page-speed
   category: tracking
   kind: analyst
   data_source: external

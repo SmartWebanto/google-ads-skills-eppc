@@ -4,8 +4,6 @@ description: "Pre-launch compliance checklist for new ads covering prohibited co
 allowed-tools: Read, Grep, Glob
 metadata:
   library: eppc-ads-skills@1.0.0
-  upstream: trueclicks/claude-plugins google-ads@1.8.0
-  upstream_skill: skill-145-prelaunch-compliance-checklist
   category: compliance
   kind: operational
   data_source: external

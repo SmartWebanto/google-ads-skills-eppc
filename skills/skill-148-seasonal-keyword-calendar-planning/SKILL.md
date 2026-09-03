@@ -4,8 +4,6 @@ description: "Build and execute a seasonal keyword calendar 4-6 weeks before pea
 allowed-tools: Read, Grep, Glob
 metadata:
   library: eppc-ads-skills@1.0.0
-  upstream: trueclicks/claude-plugins google-ads@1.8.0
-  upstream_skill: skill-148-seasonal-keyword-calendar-planning
   category: seasonal
   kind: deterministic
   data_source: custom_query

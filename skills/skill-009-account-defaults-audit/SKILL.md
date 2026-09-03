@@ -4,8 +4,6 @@ description: "Review account-level settings including auto-tagging, conversion t
 allowed-tools: Read, Grep, Glob
 metadata:
   library: eppc-ads-skills@1.0.0
-  upstream: trueclicks/claude-plugins google-ads@1.8.0
-  upstream_skill: skill-009-account-defaults-audit
   category: structure
   kind: deterministic
   data_source: custom_query

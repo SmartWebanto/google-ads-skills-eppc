@@ -4,8 +4,6 @@ description: "Evaluate landing pages for relevance, speed, and mobile-friendline
 allowed-tools: Read, Grep, Glob
 metadata:
   library: eppc-ads-skills@1.0.0
-  upstream: trueclicks/claude-plugins google-ads@1.8.0
-  upstream_skill: skill-069-landing-page-experience-assessment
   category: quality
   kind: deterministic
   data_source: export

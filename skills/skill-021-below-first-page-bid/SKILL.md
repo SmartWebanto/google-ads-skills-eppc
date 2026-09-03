@@ -4,8 +4,6 @@ description: "Flag keywords with bids too low to appear on the first page of sea
 allowed-tools: Read, Grep, Glob
 metadata:
   library: eppc-ads-skills@1.0.0
-  upstream: trueclicks/claude-plugins google-ads@1.8.0
-  upstream_skill: skill-021-below-first-page-bid
   category: keywords
   kind: deterministic
   data_source: export

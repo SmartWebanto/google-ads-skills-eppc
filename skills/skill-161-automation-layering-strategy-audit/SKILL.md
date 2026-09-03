@@ -4,8 +4,6 @@ description: "Evaluate whether Smart Bidding is layered with manual guardrails (
 allowed-tools: Read, Grep, Glob
 metadata:
   library: eppc-ads-skills@1.0.0
-  upstream: trueclicks/claude-plugins google-ads@1.8.0
-  upstream_skill: skill-161-automation-layering-strategy-audit
   category: platform
   kind: analyst
   data_source: external

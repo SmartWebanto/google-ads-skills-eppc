@@ -4,8 +4,6 @@ description: "Monitor Quality Score distribution, flag high-spend low-QS keyword
 allowed-tools: Read, Grep, Glob
 metadata:
   library: eppc-ads-skills@1.0.0
-  upstream: trueclicks/claude-plugins google-ads@1.8.0
-  upstream_skill: skill-064-quality-score-distribution-analysis
   category: quality
   kind: deterministic
   data_source: export

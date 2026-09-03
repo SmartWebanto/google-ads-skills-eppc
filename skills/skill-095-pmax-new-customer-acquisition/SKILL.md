@@ -4,8 +4,6 @@ description: "Evaluate whether New Customer Acquisition (NCA) mode is enabled to
 allowed-tools: Read, Grep, Glob
 metadata:
   library: eppc-ads-skills@1.0.0
-  upstream: trueclicks/claude-plugins google-ads@1.8.0
-  upstream_skill: skill-095-pmax-new-customer-acquisition
   category: shopping_pmax
   kind: deterministic
   data_source: custom_query

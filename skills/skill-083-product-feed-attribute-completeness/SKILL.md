@@ -4,8 +4,6 @@ description: "Verify that critical product identifiers (GTIN, MPN, Brand) and ke
 allowed-tools: Read, Grep, Glob
 metadata:
   library: eppc-ads-skills@1.0.0
-  upstream: trueclicks/claude-plugins google-ads@1.8.0
-  upstream_skill: skill-083-product-feed-attribute-completeness
   category: shopping_pmax
   kind: deterministic
   data_source: custom_query

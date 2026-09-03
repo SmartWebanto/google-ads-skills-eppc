@@ -4,8 +4,6 @@ description: "Verify that conversion values reflect actual business value (reven
 allowed-tools: Read, Grep, Glob
 metadata:
   library: eppc-ads-skills@1.0.0
-  upstream: trueclicks/claude-plugins google-ads@1.8.0
-  upstream_skill: skill-107-conversion-value-accuracy
   category: remarketing
   kind: deterministic
   data_source: custom_query

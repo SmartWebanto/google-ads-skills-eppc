@@ -4,8 +4,6 @@ description: "Verify that campaigns use the correct location targeting method (\
 allowed-tools: Read, Grep, Glob
 metadata:
   library: eppc-ads-skills@1.0.0
-  upstream: trueclicks/claude-plugins google-ads@1.8.0
-  upstream_skill: skill-053-location-targeting-method-audit
   category: targeting
   kind: deterministic
   data_source: export

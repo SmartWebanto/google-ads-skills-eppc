@@ -4,8 +4,6 @@ description: "Optimize audience membership durations (7-365 days) aligned to the
 allowed-tools: Read, Grep, Glob
 metadata:
   library: eppc-ads-skills@1.0.0
-  upstream: trueclicks/claude-plugins google-ads@1.8.0
-  upstream_skill: skill-099-membership-duration-optimization
   category: remarketing
   kind: deterministic
   data_source: export

@@ -4,8 +4,6 @@ description: "Analyze the distribution of broad, phrase, and exact match keyword
 allowed-tools: Read, Grep, Glob
 metadata:
   library: eppc-ads-skills@1.0.0
-  upstream: trueclicks/claude-plugins google-ads@1.8.0
-  upstream_skill: skill-012-keyword-match-type-distribution
   category: keywords
   kind: deterministic
   data_source: export

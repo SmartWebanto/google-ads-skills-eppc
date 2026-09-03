@@ -4,8 +4,6 @@ description: "Audit Customer Match lists for presence, size, match rate, freshne
 allowed-tools: Read, Grep, Glob
 metadata:
   library: eppc-ads-skills@1.0.0
-  upstream: trueclicks/claude-plugins google-ads@1.8.0
-  upstream_skill: skill-061-customer-match-list-freshness
   category: targeting
   kind: deterministic
   data_source: custom_query

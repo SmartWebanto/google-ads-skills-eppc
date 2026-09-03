@@ -4,8 +4,6 @@ description: "Block low-quality websites, apps, and YouTube channels at the acco
 allowed-tools: Read, Grep, Glob
 metadata:
   library: eppc-ads-skills@1.0.0
-  upstream: trueclicks/claude-plugins google-ads@1.8.0
-  upstream_skill: skill-114-account-level-placement-exclusions
   category: waste
   kind: deterministic
   data_source: custom_query

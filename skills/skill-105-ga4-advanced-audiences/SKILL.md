@@ -4,8 +4,6 @@ description: "Audit GA4 behavioral audiences (5+ sessions, pricing page visitors
 allowed-tools: Read, Grep, Glob
 metadata:
   library: eppc-ads-skills@1.0.0
-  upstream: trueclicks/claude-plugins google-ads@1.8.0
-  upstream_skill: skill-105-ga4-advanced-audiences
   category: remarketing
   kind: deterministic
   data_source: custom_query

@@ -4,8 +4,6 @@ description: "Evaluate adoption of AI Max for Search, applying PMax-style AI to 
 allowed-tools: Read, Grep, Glob
 metadata:
   library: eppc-ads-skills@1.0.0
-  upstream: trueclicks/claude-plugins google-ads@1.8.0
-  upstream_skill: skill-159-ai-max-for-search-campaign-assessment
   category: platform
   kind: deterministic
   data_source: custom_query

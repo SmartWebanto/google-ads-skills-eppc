@@ -4,8 +4,6 @@ description: "Verify that RSAs have 10-15 unique headlines for optimal ad streng
 allowed-tools: Read, Grep, Glob
 metadata:
   library: eppc-ads-skills@1.0.0
-  upstream: trueclicks/claude-plugins google-ads@1.8.0
-  upstream_skill: skill-025-rsa-headline-diversity-completeness
   category: creative
   kind: deterministic
   data_source: export

@@ -4,8 +4,6 @@ description: "Evaluate whether the account leverages Google's 2025 recommended c
 allowed-tools: Read, Grep, Glob
 metadata:
   library: eppc-ads-skills@1.0.0
-  upstream: trueclicks/claude-plugins google-ads@1.8.0
-  upstream_skill: skill-011-power-pack-assessment
   category: structure
   kind: analyst
   data_source: export

@@ -4,8 +4,6 @@ description: "Assess whether Dynamic Keyword Insertion is used appropriately and
 allowed-tools: Read, Grep, Glob
 metadata:
   library: eppc-ads-skills@1.0.0
-  upstream: trueclicks/claude-plugins google-ads@1.8.0
-  upstream_skill: skill-033-dynamic-keyword-insertion-review
   category: creative
   kind: deterministic
   data_source: export

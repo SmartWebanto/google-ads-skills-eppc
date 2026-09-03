@@ -4,8 +4,6 @@ description: "Verify that campaign daily budgets are 5-10x the target or actual 
 allowed-tools: Read, Grep, Glob
 metadata:
   library: eppc-ads-skills@1.0.0
-  upstream: trueclicks/claude-plugins google-ads@1.8.0
-  upstream_skill: skill-043-daily-budget-to-cpa-ratio-check
   category: bidding
   kind: deterministic
   data_source: export

@@ -4,8 +4,6 @@ description: "Use Seasonality Adjustments for expected conversion rate changes d
 allowed-tools: Read, Grep, Glob
 metadata:
   library: eppc-ads-skills@1.0.0
-  upstream: trueclicks/claude-plugins google-ads@1.8.0
-  upstream_skill: skill-146-seasonality-bid-adjustment-deployment
   category: seasonal
   kind: operational
   data_source: custom_query

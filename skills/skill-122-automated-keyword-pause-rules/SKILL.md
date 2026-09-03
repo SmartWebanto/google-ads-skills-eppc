@@ -4,8 +4,6 @@ description: "Identify keywords exceeding spend thresholds with zero conversions
 allowed-tools: Read, Grep, Glob
 metadata:
   library: eppc-ads-skills@1.0.0
-  upstream: trueclicks/claude-plugins google-ads@1.8.0
-  upstream_skill: skill-122-automated-keyword-pause-rules
   category: waste
   kind: operational
   data_source: export

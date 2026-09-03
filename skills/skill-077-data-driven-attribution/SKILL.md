@@ -4,8 +4,6 @@ description: "Verify that Data-Driven Attribution (DDA) is enabled for all eligi
 allowed-tools: Read, Grep, Glob
 metadata:
   library: eppc-ads-skills@1.0.0
-  upstream: trueclicks/claude-plugins google-ads@1.8.0
-  upstream_skill: skill-077-data-driven-attribution
   category: tracking
   kind: deterministic
   data_source: export

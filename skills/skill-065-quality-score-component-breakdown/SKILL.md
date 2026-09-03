@@ -4,8 +4,6 @@ description: "Track the three Quality Score components separately: Expected CTR,
 allowed-tools: Read, Grep, Glob
 metadata:
   library: eppc-ads-skills@1.0.0
-  upstream: trueclicks/claude-plugins google-ads@1.8.0
-  upstream_skill: skill-065-quality-score-component-breakdown
   category: quality
   kind: deterministic
   data_source: export

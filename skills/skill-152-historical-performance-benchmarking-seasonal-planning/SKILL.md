@@ -4,8 +4,6 @@ description: "Analyze prior-year data for seasonal periods to set realistic targ
 allowed-tools: Read, Grep, Glob
 metadata:
   library: eppc-ads-skills@1.0.0
-  upstream: trueclicks/claude-plugins google-ads@1.8.0
-  upstream_skill: skill-152-historical-performance-benchmarking-seasonal-planning
   category: seasonal
   kind: deterministic
   data_source: custom_query

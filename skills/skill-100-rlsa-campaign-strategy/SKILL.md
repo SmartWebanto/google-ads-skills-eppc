@@ -4,8 +4,6 @@ description: "Audit Remarketing Lists for Search Ads (RLSA) campaigns for proper
 allowed-tools: Read, Grep, Glob
 metadata:
   library: eppc-ads-skills@1.0.0
-  upstream: trueclicks/claude-plugins google-ads@1.8.0
-  upstream_skill: skill-100-rlsa-campaign-strategy
   category: remarketing
   kind: deterministic
   data_source: export

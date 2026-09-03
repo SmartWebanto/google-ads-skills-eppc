@@ -4,8 +4,6 @@ description: "Flag campaigns currently in Smart Bidding learning phase and asses
 allowed-tools: Read, Grep, Glob
 metadata:
   library: eppc-ads-skills@1.0.0
-  upstream: trueclicks/claude-plugins google-ads@1.8.0
-  upstream_skill: skill-041-smart-bidding-learning-phase-monitoring
   category: bidding
   kind: deterministic
   data_source: custom_query

@@ -4,8 +4,6 @@ description: "Ensure continuous ad testing is in place with proper structure and
 allowed-tools: Read, Grep, Glob
 metadata:
   library: eppc-ads-skills@1.0.0
-  upstream: trueclicks/claude-plugins google-ads@1.8.0
-  upstream_skill: skill-032-ad-copy-ab-testing
   category: creative
   kind: deterministic
   data_source: export

@@ -4,8 +4,6 @@ description: "Track SERP positioning metrics to ensure ads appear in premium pos
 allowed-tools: Read, Grep, Glob
 metadata:
   library: eppc-ads-skills@1.0.0
-  upstream: trueclicks/claude-plugins google-ads@1.8.0
-  upstream_skill: skill-135-top-of-page-rate-monitoring
   category: competitive
   kind: deterministic
   data_source: custom_query

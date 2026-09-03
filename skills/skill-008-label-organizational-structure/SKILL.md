@@ -4,8 +4,6 @@ description: "Verify that campaigns, ad groups, keywords, and ads are properly l
 allowed-tools: Read, Grep, Glob
 metadata:
   library: eppc-ads-skills@1.0.0
-  upstream: trueclicks/claude-plugins google-ads@1.8.0
-  upstream_skill: skill-008-label-organizational-structure
   category: structure
   kind: deterministic
   data_source: custom_query

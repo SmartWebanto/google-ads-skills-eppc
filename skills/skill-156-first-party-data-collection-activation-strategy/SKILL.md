@@ -4,8 +4,6 @@ description: "Build robust first-party data collection through email signups, lo
 allowed-tools: Read, Grep, Glob
 metadata:
   library: eppc-ads-skills@1.0.0
-  upstream: trueclicks/claude-plugins google-ads@1.8.0
-  upstream_skill: skill-156-first-party-data-collection-activation-strategy
   category: platform
   kind: analyst
   data_source: custom_query

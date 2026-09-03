@@ -4,8 +4,6 @@ description: "Review and optimize conversion action configuration including coun
 allowed-tools: Read, Grep, Glob
 metadata:
   library: eppc-ads-skills@1.0.0
-  upstream: trueclicks/claude-plugins google-ads@1.8.0
-  upstream_skill: skill-076-conversion-action-configuration
   category: tracking
   kind: deterministic
   data_source: export

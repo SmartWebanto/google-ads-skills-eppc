@@ -21,8 +21,6 @@ description: "One-line description of what this skill checks."
 allowed-tools: Read, Grep, Glob
 metadata:
   library: eppc-ads-skills@1.0.0
-  upstream: trueclicks/claude-plugins google-ads@1.8.0
-  upstream_skill: skill-XXX-descriptive-name     # exact upstream name
   category: keywords                             # from the category table below
   kind: deterministic                            # deterministic | analyst | operational
   data_source: export                          # export | custom_query | external

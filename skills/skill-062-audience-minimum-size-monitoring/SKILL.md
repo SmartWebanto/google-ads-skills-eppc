@@ -4,8 +4,6 @@ description: "Monitor remarketing and customer lists to ensure they maintain the
 allowed-tools: Read, Grep, Glob
 metadata:
   library: eppc-ads-skills@1.0.0
-  upstream: trueclicks/claude-plugins google-ads@1.8.0
-  upstream_skill: skill-062-audience-minimum-size-monitoring
   category: targeting
   kind: deterministic
   data_source: custom_query

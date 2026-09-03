@@ -4,8 +4,6 @@ description: "Check for over-pinning in RSAs that limits Google's optimization a
 allowed-tools: Read, Grep, Glob
 metadata:
   library: eppc-ads-skills@1.0.0
-  upstream: trueclicks/claude-plugins google-ads@1.8.0
-  upstream_skill: skill-028-rsa-pinning-strategy-audit
   category: creative
   kind: deterministic
   data_source: export

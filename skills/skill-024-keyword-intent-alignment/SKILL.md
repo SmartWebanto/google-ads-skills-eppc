@@ -4,8 +4,6 @@ description: "Evaluate whether keyword search intent matches campaign goals and 
 allowed-tools: Read, Grep, Glob
 metadata:
   library: eppc-ads-skills@1.0.0
-  upstream: trueclicks/claude-plugins google-ads@1.8.0
-  upstream_skill: skill-024-keyword-intent-alignment
   category: keywords
   kind: analyst
   data_source: export

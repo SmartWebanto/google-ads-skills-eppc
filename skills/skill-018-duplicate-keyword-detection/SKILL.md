@@ -4,8 +4,6 @@ description: "Find duplicate keywords across ad groups and campaigns, considerin
 allowed-tools: Read, Grep, Glob
 metadata:
   library: eppc-ads-skills@1.0.0
-  upstream: trueclicks/claude-plugins google-ads@1.8.0
-  upstream_skill: skill-018-duplicate-keyword-detection
   category: keywords
   kind: deterministic
   data_source: export
