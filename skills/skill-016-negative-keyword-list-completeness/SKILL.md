@@ -1,6 +1,6 @@
 ---
 name: skill-016-negative-keyword-list-completeness
-description: "Verify that shared negative keyword lists exist and adequately cover common waste categories to prevent irrelevant traffic."
+description: "Verify shared negative lists exist, cover the universal waste categories, are applied to every campaign, and are backed by search-term evidence."
 allowed-tools: Read, Grep, Glob
 metadata:
   library: eppc-ads-skills@1.0.0
@@ -9,6 +9,7 @@ metadata:
   category: keywords
   kind: deterministic
   data_source: standard
+  merged_from: [skill-113-proactive-negative-keyword-list-building]
   markets: all
   gaql_verified: null
   reviewed: 2026-09-03
@@ -16,7 +17,8 @@ metadata:
 # Skill 016: Negative Keyword List Completeness Audit
 
 ## Purpose
-Verify that shared negative keyword lists exist and adequately cover common waste categories to prevent irrelevant traffic. Shared lists provide consistent protection and reduce maintenance burden.
+
+Shared negative lists are the cheapest waste prevention: build them proactively for universal waste (jobs, free, DIY, research, competitors), apply them everywhere, then confirm with search terms that nothing leaks through.
 
 ## Data Requirements
 
@@ -41,23 +43,43 @@ WHERE shared_set.type = 'NEGATIVE_KEYWORDS'
 ```
 Use `/google-ads:get-custom` if you need detailed shared set membership.
 
+**Reference GAQL (search terms):**
+```sql
+SELECT
+  campaign.name,
+  ad_group.name,
+  search_term_view.search_term,
+  metrics.impressions,
+  metrics.clicks,
+  metrics.cost_micros,
+  metrics.conversions
+FROM search_term_view
+WHERE segments.date DURING LAST_30_DAYS
+  AND metrics.clicks > 0
+ORDER BY metrics.cost_micros DESC
+LIMIT 5000
+```
+
 ## Analysis Steps
 
-1. **Inventory existing lists:** Document list names, keyword counts, and campaign assignments
-2. **Check standard waste categories:** Jobs/Careers, Free-seekers, DIY/Tutorial, Support/Login
-3. **Verify list application:** Check which campaigns have each list; flag gaps
-4. **Gap analysis:** Review search terms for waste patterns not blocked by negatives
-5. **Assess match types:** Phrase match recommended; flag broad match negatives (over-blocking risk)
+1. **Inventory existing lists:** Names, keyword counts, campaign assignments
+2. **Check universal categories:** Jobs/careers, free/DIY/tutorial, research/informational, support/login, competitor terms
+3. **Verify application:** Every active Search and Shopping campaign has the universal list
+4. **Gap analysis:** Search terms with waste patterns not blocked; high-spend zero-conversion terms
+5. **Assess match types:** Phrase preferred; flag broad negatives (over-blocking risk)
+6. **Recommend:** Universal (shared) vs campaign-specific negatives, with terms and match types
 
 ## Thresholds
 
 | Condition | Severity |
 |-----------|----------|
 | No shared negative lists exist | Critical |
-| Standard waste category not covered | Warning |
-| Shared list exists but not applied to all campaigns | Warning |
+| Universal waste category not covered (jobs, free/DIY, research, support) | Warning |
+| Shared list not applied to all campaigns | Warning |
 | Waste terms found in search terms not blocked | Warning |
+| Zero-conversion terms with Cost >= {{spend_floor}} not blocked | Warning |
 | Broad match negatives present | Info |
+| < 50 negative keywords in total | Info |
 
 ## Output
 
@@ -66,7 +88,7 @@ Use **Short** format by default. Use **Detailed** if user requests comprehensive
 **Short:**
 ```
 ## Negative List Completeness Audit
-**Account:** [Name] | **Shared Lists:** [X] | **Gaps:** [Y]
+**Account:** [Name] | **Shared Lists:** [X] | **Total Negatives:** [Y] | **Gaps:** [Z]
 
 ### Critical ([Count])
 - **No shared lists**: All negatives at campaign level → Create shared lists
@@ -86,3 +108,4 @@ Use **Short** format by default. Use **Detailed** if user requests comprehensive
 - Waste category coverage table (Category, Covered?, List Name, Sample Keywords, Gap?)
 - Campaigns missing coverage table
 - Recommended shared list structure
+- Recommended universal list with match types

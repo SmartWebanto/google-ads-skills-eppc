@@ -9,7 +9,7 @@ metadata:
   category: competitive
   kind: deterministic
   data_source: custom_gaql
-  related: [skill-121-impression-share-lost-analysis]
+  related: [skill-121-impression-share-loss-analysis]
   markets: all
   gaql_verified: null
   reviewed: 2026-09-03

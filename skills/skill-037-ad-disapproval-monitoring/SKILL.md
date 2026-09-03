@@ -1,6 +1,6 @@
 ---
-name: skill-037-ad-disapproval-limited-eligibility
-description: "Check ad approval status and resolve disapproved or limited eligibility ads."
+name: skill-037-ad-disapproval-monitoring
+description: "Find disapproved, limited, and under-review ads, prioritize by business impact (silenced ad groups, high-spend campaigns), and provide a resolution workflow."
 allowed-tools: Read, Grep, Glob
 metadata:
   library: eppc-ads-skills@1.0.0
@@ -8,20 +8,22 @@ metadata:
   upstream_skill: skill-037-ad-disapproval-limited-eligibility
   category: creative
   kind: deterministic
-  data_source: standard
+  data_source: custom_gaql
+  merged_from: [skill-139-ad-disapproval-monitoring]
   markets: all
   gaql_verified: null
   reviewed: 2026-09-03
 ---
-# Skill 037: Ad Disapproval and Limited Eligibility Monitoring
+# Skill 037: Ad Disapproval Monitoring
 
 ## Purpose
 
-Disapproved ads stop serving immediately, resulting in lost traffic and revenue. Limited eligibility ads serve in restricted contexts, reducing reach. Regular monitoring ensures maximum ad coverage and prevents revenue loss from undetected policy violations.
+Disapproved ads stop serving; limited ads serve in restricted contexts; ads stuck under review deliver nothing. Find every non-approved ad, extract the policy topic, size the impact (silenced ad groups, spend at risk), and order the fixes.
 
 ## Data Requirements
 
-**Data Source:** Standard
+**Data Source:** Custom GAQL Required
+Standard ads.md gives approval status; policy topic entries need the GAQL query.
 
 **Standard Data:**
 - `data/account/campaigns/*/*/ads.md` - Ad approval status and policy issues
@@ -48,21 +50,24 @@ Use `/google-ads:get-custom` for detailed policy topic entries.
 
 ## Analysis Steps
 
-1. **Categorize by approval status:** Approved, Approved Limited, Area of Interest Only, Limited, Disapproved, Under Review
-2. **Analyze disapproved ads:** Extract policy topic (reason), identify ad copy causing issues, check landing pages
-3. **Assess impact:** Find ad groups with only disapproved ads (silenced), high-value campaigns affected
-4. **Prioritize resolution:** Ad groups with no approved ads first, then high-spend campaigns, then simple editorial fixes
-5. **Plan remediation:** Fix/replace ads, appeal if incorrect, document patterns
+1. **Categorize by approval status:** Approved, Approved Limited, Area of Interest Only, Disapproved, Under Review
+2. **Extract policy topics:** For every non-approved ad; group repeated violations
+3. **Assess impact:** Ad groups with 0 approved ads (silenced), high-spend campaigns affected, share of ads disapproved
+4. **Prioritize resolution:** Silenced ad groups → high-spend campaigns → repeated violations → editorial quick fixes
+5. **Plan remediation:** Fix or replace, appeal if wrong, keep 2-3 approved ads per ad group
 
 ## Thresholds
 
 | Condition | Severity |
 |-----------|----------|
-| Ad group with all ads disapproved | Critical |
+| Ad group with 0 approved ads | Critical |
+| > 10% of ads disapproved | Critical |
+| Disapproved ad in a campaign above {{spend_significant}}/30d | Critical |
 | Any disapproved ad | Warning |
-| >10% of ads disapproved | Critical |
+| Multiple ads with the same policy violation | Warning |
 | Ad under review > 7 days | Warning |
-| Limited eligibility affecting reach | Info |
+| Limited eligibility or regional limitation affecting reach | Info |
+| Ad under review 3-7 days | Info |
 
 ## Output
 
@@ -95,3 +100,4 @@ Use `/google-ads:get-custom` for detailed policy topic entries.
 - Full disapproval list with policy topics
 - Common policy violations and fixes
 - Resolution priority queue with estimated fix time
+- Resolution workflow by policy type, appeal guidance, prevention checklist

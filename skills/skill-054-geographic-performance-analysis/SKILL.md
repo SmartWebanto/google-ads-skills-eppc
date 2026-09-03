@@ -1,6 +1,6 @@
 ---
 name: skill-054-geographic-performance-analysis
-description: "Analyze conversion performance by geographic location and recommend bid adjustments to optimize spend allocation across high and low performing areas."
+description: "Analyze performance by location, recommend bid adjustments for strong and weak areas, and quantify exclusion candidates with zero or very poor conversion."
 allowed-tools: Read, Grep, Glob
 metadata:
   library: eppc-ads-skills@1.0.0
@@ -9,6 +9,7 @@ metadata:
   category: targeting
   kind: deterministic
   data_source: custom_gaql
+  merged_from: [skill-055-underperforming-location-exclusion]
   markets: all
   gaql_verified: null
   reviewed: 2026-09-03
@@ -17,7 +18,7 @@ metadata:
 
 ## Purpose
 
-Geographic performance varies significantly, and optimizing bid adjustments by location can improve overall account efficiency. This skill analyzes performance by location, identifies high and low performers, and recommends bid adjustments.
+Geographic performance varies widely. Compare each location to the account average, propose bid adjustments where volume supports it, and exclude locations that spend without converting or sit outside the service area. Quantify waste and projected savings so exclusions are defensible.
 
 ## Data Requirements
 
@@ -47,27 +48,29 @@ WHERE segments.date DURING LAST_30_DAYS
   AND metrics.impressions > 0
 ```
 Run via `/google-ads:get-custom` with query name `geographic_performance`.
+For the exclusion pass, filter to `metrics.cost_micros > 0` and load current exclusions from `bid_adjustments.md`.
 
 ## Analysis Steps
 
-1. **Gather geographic performance data:** Use custom GAQL to fetch location-level performance, load current bid adjustments.
-
-2. **Calculate performance metrics by location:** CPA, Conversion Rate, ROAS, Cost Share, Conversion Share.
-
-3. **Identify optimization opportunities:** High performers (CPA >20% below average), underperformers (CPA >30% above average), exclusion candidates (CPA >3x average).
-
-4. **Generate bid adjustment recommendations:** Require minimum 10 conversions for increase recommendations, minimum 100 clicks for decrease recommendations.
+1. **Fetch location performance:** Custom GAQL plus current bid modifiers and exclusions
+2. **Compute per-location metrics:** CPA, conversion rate, ROAS, cost share, conversion share vs account average
+3. **Bid increases:** CPA well below average with >= {{min_conversions}} conversions
+4. **Bid decreases:** CPA well above average with >= {{min_clicks}} clicks
+5. **Exclusions:** Zero conversions above the spend floor, CPA > 3x average, CVR < 0.5x average with >= {{min_clicks}} clicks, outside the service area
+6. **Quantify and prioritize:** 30-day waste, projected annual savings, high/medium/low priority
 
 ## Thresholds
 
 | Condition | Severity |
 |-----------|----------|
-| CPA 40%+ below average (with volume) | Critical (increase bid) |
+| Location outside service area with any spend | Critical (exclude) |
+| Zero conversions with Cost > {{spend_significant}} | Critical (exclude) |
+| CPA 40%+ below average with >= {{min_conversions}} conversions | Critical (increase bid) |
+| CPA > 3x account average with >= {{min_clicks}} clicks | High (exclude) |
+| Zero conversions with Cost {{spend_floor}} to {{spend_significant}} | High (exclude) |
 | CPA 50%+ above average | High (decrease bid) |
-| Zero conversions with $50+ spend | High (exclude) |
-| CPA 20-40% below average | Warning (moderate increase) |
-| CPA 30-50% above average | Warning (moderate decrease) |
-| CPA within 10% of average | Info |
+| CPA 20-40% below or 30-50% above average | Warning (moderate adjustment) |
+| CVR < 0.5x average with >= {{min_clicks}} clicks | Warning |
 
 ## Output
 
@@ -76,6 +79,7 @@ Run via `/google-ads:get-custom` with query name `geographic_performance`.
 ## Geographic Performance Audit
 
 **Account:** [Name] | **Locations Analyzed:** [X] | **Optimization Opportunities:** [Y]
+**Current Waste:** $[X]/month | **Projected Annual Savings:** $[Y]
 
 ### Bid Increases ([Count])
 - **[Location]**: CPA $[X] ([Y]% below avg), [Z] conv → Increase to +[%]
@@ -96,3 +100,4 @@ Run via `/google-ads:get-custom` with query name `geographic_performance`.
 - Top performing locations table (location, conversions, CPA, vs avg, current adj, recommended)
 - Underperforming locations table (location, cost, conversions, CPA, vs avg, current adj, recommended)
 - Exclusion recommendations table (location, cost, conversions, reason)
+- Low priority review table (borderline cases to monitor)

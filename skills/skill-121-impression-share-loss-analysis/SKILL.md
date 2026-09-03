@@ -1,6 +1,6 @@
 ---
-name: skill-121-impression-share-lost-analysis
-description: "Distinguish between impression share lost due to budget constraints versus ad rank issues to prioritize optimization efforts."
+name: skill-121-impression-share-loss-analysis
+description: "Segment search impression share lost to budget vs ad rank, quantify the opportunity, and route each campaign to a budget or Quality Score fix."
 allowed-tools: Read, Grep, Glob
 metadata:
   library: eppc-ads-skills@1.0.0
@@ -9,16 +9,17 @@ metadata:
   category: waste
   kind: deterministic
   data_source: custom_gaql
+  merged_from: [skill-133-impression-share-loss-analysis]
   related: [skill-135-top-of-page-rate-monitoring]
   markets: all
   gaql_verified: null
   reviewed: 2026-09-03
 ---
-# Skill 121: Impression Share Lost Analysis
+# Skill 121: Impression Share Loss Analysis
 
 ## Purpose
 
-Analyze impression share loss to distinguish between budget-constrained campaigns (need more budget) and rank-constrained campaigns (need better Quality Score or bids). This prioritization ensures optimization efforts target the right root cause.
+Split impression-share loss into budget-constrained and rank-constrained causes so optimization effort targets the right root cause. Budget loss on a profitable campaign is missed conversions; rank loss points to Quality Score or bids, not budget. Quantify the opportunity per campaign before recommending spend.
 
 ## Data Requirements
 
@@ -51,11 +52,11 @@ Run via `/google-ads:get-custom` with query name `impression_share_loss`.
 
 ## Analysis Steps
 
-1. **Fetch impression share data:** Run custom GAQL query to get IS metrics by campaign
-2. **Categorize campaigns:** Group by primary loss cause (Budget >10%, Rank >20%, Both, or Optimized)
-3. **Calculate opportunity cost:** Estimate missed impressions, clicks, and conversions from lost IS
-4. **Diagnose root causes:** For budget loss, check exhaustion time; for rank loss, check Quality Scores
-5. **Prioritize recommendations:** Rank by potential recovery value and effort required
+1. **Fetch impression share data:** Run the GAQL query for search campaigns (IS, budget-lost IS, rank-lost IS, top/absolute-top IS)
+2. **Categorize campaigns:** Budget-constrained (budget lost >10%), rank-constrained (rank lost >20%), both (>15% each), or optimized
+3. **Calculate opportunity cost:** Missed impressions, clicks and conversions from lost IS using each campaign's CTR and conversion rate
+4. **Diagnose root causes:** Budget loss → check exhaustion time and profitability (conversions >= {{min_conversions}}); rank loss → check Quality Score components
+5. **Prioritize recommendations:** Rank fixes first (cheaper), then budget increases on profitable campaigns, ordered by recovery value
 
 ## Thresholds
 
@@ -63,9 +64,12 @@ Run via `/google-ads:get-custom` with query name `impression_share_loss`.
 |-----------|----------|
 | Budget Lost IS > 20% on profitable campaign | Critical |
 | Rank Lost IS > 30% | Critical |
+| Budget and rank lost > 15% each | Warning |
 | Budget Lost IS > 10% | Warning |
 | Rank Lost IS > 20% | Warning |
-| Either metric > 5% but < 10% | Info |
+| Any IS loss 5-10% | Info |
+
+Sample size: judge impression share only above {{min_impressions}} impressions in the period.
 
 ## Output
 
@@ -88,6 +92,7 @@ Run via `/google-ads:get-custom` with query name `impression_share_loss`.
 ```
 
 **Detailed adds:**
+- Loss summary by cause (budget / rank / both / optimized) with campaign counts and average loss
 - Campaign-by-campaign IS breakdown table
 - Opportunity cost calculations (missed impressions, clicks, conversions)
 - Root cause analysis for rank-constrained campaigns

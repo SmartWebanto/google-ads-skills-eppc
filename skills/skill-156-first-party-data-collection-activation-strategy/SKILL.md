@@ -9,7 +9,7 @@ metadata:
   category: platform
   kind: analyst
   data_source: custom_gaql
-  related: [skill-061-customer-match-list-freshness]
+  related: [skill-061-customer-match-list-health]
   markets: eea_relevant
   gaql_verified: null
   reviewed: 2026-09-03
