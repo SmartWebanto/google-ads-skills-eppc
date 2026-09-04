@@ -47,7 +47,7 @@ Run the reference query (API, UI report, or Editor export) if you need additiona
 
 ## Analysis Steps
 
-1. **Extract component ratings:** Read keywords.md files for Expected CTR, Ad Relevance, Landing Page ratings.
+1. **Extract component ratings:** Read **Keywords** for Expected CTR, Ad Relevance, Landing Page ratings.
 2. **Classify by component:** Count keywords with Below Average for each component.
 3. **Identify primary issues:** Which component has the most Below Average ratings?
 4. **Prioritize by spend:** Focus on high-spend keywords with component issues.
@@ -63,7 +63,7 @@ Run the reference query (API, UI report, or Editor export) if you need additiona
 | Ad Relevance Below Average | Warning |
 | >30% of keywords with any Below Average | Warning |
 
-Sample size: apply rate-based rows (CTR, CVR, CPA, ROAS) only above {{min_clicks}} clicks, and CPA/ROAS comparisons only above {{min_conversions}} conversions; below that, report "insufficient sample" as Info.
+Sample size: judge CTR rows only above {{min_impressions}} impressions, conversion-rate rows only above {{min_clicks}} clicks, and CPA/ROAS comparisons only above {{min_conversions}} conversions; below that, report "insufficient sample" as Info.
 
 ## Output
 

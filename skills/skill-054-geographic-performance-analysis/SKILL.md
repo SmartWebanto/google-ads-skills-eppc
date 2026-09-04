@@ -46,7 +46,7 @@ WHERE segments.date DURING LAST_30_DAYS
   AND metrics.impressions > 0
 ```
 Run the query through the Google Ads API, a UI custom report, or Google Ads Editor; save the result as `geographic_performance`.
-For the exclusion pass, filter to `metrics.cost_micros > 0` and load current exclusions from `bid_adjustments.md`.
+For the exclusion pass, filter to `metrics.cost_micros > 0` and load current exclusions from **Bid adjustments**.
 
 ## Analysis Steps
 
@@ -70,7 +70,7 @@ For the exclusion pass, filter to `metrics.cost_micros > 0` and load current exc
 | CPA 20-40% below or 30-50% above average | Warning (moderate adjustment) |
 | CVR < 0.5x average with >= {{min_clicks}} clicks | Warning |
 
-Sample size: apply rate-based rows (CTR, CVR, CPA, ROAS) only above {{min_clicks}} clicks, and CPA/ROAS comparisons only above {{min_conversions}} conversions; below that, report "insufficient sample" as Info.
+Sample size: judge CTR rows only above {{min_impressions}} impressions, conversion-rate rows only above {{min_clicks}} clicks, and CPA/ROAS comparisons only above {{min_conversions}} conversions; below that, report "insufficient sample" as Info.
 
 ## Output
 

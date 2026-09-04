@@ -21,7 +21,7 @@ Disapproved ads stop serving; limited ads serve in restricted contexts; ads stuc
 ## Data Requirements
 
 **Data Source:** Custom query required
-Standard ads.md gives approval status; policy topic entries need the GAQL query.
+The **Ads** table gives approval status; policy topic entries need the GAQL query.
 
 **Export data:**
 - **Ads** - Ad approval status and policy issues

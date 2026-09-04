@@ -46,7 +46,7 @@ Run the query through the Google Ads API, a UI custom report, or Google Ads Edit
 
 ## Analysis Steps
 
-1. **Load device performance data:** Use custom GAQL, load current bid adjustments from bid_adjustments.md files.
+1. **Load device performance data:** Use custom GAQL, load current bid adjustments from **Bid adjustments**.
 
 2. **Calculate device performance metrics:** Impression/Click/Cost/Conversion share by device, CPA, CVR, ROAS per device.
 

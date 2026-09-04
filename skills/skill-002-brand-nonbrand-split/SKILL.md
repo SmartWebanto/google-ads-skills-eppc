@@ -47,7 +47,7 @@ Run the reference query (API, UI report, or Editor export) if you need different
 ## Analysis Steps
 
 1. **Identify brand terms:** Extract brand name from account summary; generate variations including misspellings and abbreviations
-2. **Classify keywords:** Scan all keywords.md files and categorize each as Brand, Non-Brand, or Competitor
+2. **Classify keywords:** Scan the **Keywords** table and categorize each keyword as Brand, Non-Brand, or Competitor
 3. **Check campaign separation:** Flag campaigns containing BOTH brand and non-brand keywords
 4. **Analyze search term leakage:** Find brand searches triggering non-brand campaigns and vice versa
 5. **Evaluate negative protection:** Check if non-brand campaigns have brand terms as negatives
@@ -57,7 +57,7 @@ Run the reference query (API, UI report, or Editor export) if you need different
 | Condition | Severity |
 |-----------|----------|
 | Mixed brand/non-brand keywords in same campaign | Critical |
-| Brand search terms in non-brand campaigns (>5% of traffic) | Warning |
+| Brand search terms in a non-brand campaign (> 5% of that campaign's clicks in **Campaign metrics**) | Warning |
 | No brand negatives in non-brand campaigns | Warning |
 | Brand campaign without "brand" in name | Info |
 

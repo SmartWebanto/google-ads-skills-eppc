@@ -8,7 +8,7 @@ Save each entity as one table (CSV, TSV or Markdown) in an `export/` folder, nam
 
 | Entity | File | Required fields | Where to get it |
 |---|---|---|---|
-| **Account** | `account` | customer id, name, currency code, time zone, auto-tagging, conversion tracking status, date range of the export | UI: Admin → Account settings; API: `customer` |
+| **Account** | `account` | customer id, name, currency code, time zone, auto-tagging, conversion tracking status, date range of the export, snapshot date (when the export was taken) | UI: Admin → Account settings; API: `customer` |
 | **Campaigns** | `campaigns` | id, name, status, channel type, bidding strategy type, target CPA/ROAS, daily budget, shared budget flag, search partners, display network, geo targets and targeting method, languages, ad schedule, labels, start/end dates | UI: Campaigns (columns: settings); API: `campaign` |
 | **Ad groups** | `ad_groups` | id, campaign, name, status, type, default CPC bid | UI: Ad groups; API: `ad_group` |
 | **Keywords** | `keywords` | id, campaign, ad group, text, match type, status, Quality Score, expected CTR, ad relevance, landing page experience, final URL, first page bid estimate | UI: Search keywords (add the Quality Score columns); API: `keyword_view` |

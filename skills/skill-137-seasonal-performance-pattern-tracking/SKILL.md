@@ -54,7 +54,7 @@ Run the query through the Google Ads API, a UI custom report, or Google Ads Edit
 | Budget flat despite clear seasonal performance swings | Warning |
 | CPA increases >25% in specific months year-over-year | Info |
 
-Sample size: apply rate-based rows (CTR, CVR, CPA, ROAS) only above {{min_clicks}} clicks, and CPA/ROAS comparisons only above {{min_conversions}} conversions; below that, report "insufficient sample" as Info.
+Sample size: judge CTR rows only above {{min_impressions}} impressions, conversion-rate rows only above {{min_clicks}} clicks, and CPA/ROAS comparisons only above {{min_conversions}} conversions; below that, report "insufficient sample" as Info.
 
 ## Output
 

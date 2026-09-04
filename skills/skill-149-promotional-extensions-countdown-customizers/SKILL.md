@@ -42,7 +42,7 @@ Run the reference query (API, UI report, or Editor export) if you need asset-lev
 
 ## Analysis Steps
 
-1. **Review promotion extensions:** Check `ext_promotion.md` for active, scheduled, and expired promotions
+1. **Review promotion extensions:** Check **Assets: promotion** for active, scheduled, and expired promotions
 2. **Verify promotion coverage:** Ensure upcoming events have extensions with correct dates and discounts
 3. **Audit countdown customizers:** Search ad copy for `{COUNTDOWN(...)}` syntax
 4. **Check countdown accuracy:** Verify countdown dates are current and match actual promotion end dates

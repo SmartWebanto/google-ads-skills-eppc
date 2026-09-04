@@ -72,7 +72,7 @@ Run the query through the Google Ads API, a UI custom report, or Google Ads Edit
 | Video view rate <10% | Warning |
 | >20% spend on non-converting placements | Warning |
 
-Sample size: apply rate-based rows (CTR, CVR, CPA, ROAS) only above {{min_clicks}} clicks, and CPA/ROAS comparisons only above {{min_conversions}} conversions; below that, report "insufficient sample" as Info.
+Sample size: judge CTR rows only above {{min_impressions}} impressions, conversion-rate rows only above {{min_clicks}} clicks, and CPA/ROAS comparisons only above {{min_conversions}} conversions; below that, report "insufficient sample" as Info.
 
 ## Output
 

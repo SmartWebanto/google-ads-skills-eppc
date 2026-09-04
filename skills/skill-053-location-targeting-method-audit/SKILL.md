@@ -41,7 +41,7 @@ Run the reference query (API, UI report, or Editor export) if geo target type se
 
 ## Analysis Steps
 
-1. **Load campaign data:** Read account summary to understand business type, read each campaign.md for geo targeting settings.
+1. **Load campaign data:** Read account summary to understand business type, read each row of **Campaigns** for geo targeting settings.
 
 2. **Identify location targeting settings:** Extract positiveGeoTargetType and negativeGeoTargetType values (Presence vs PresenceOrInterest).
 

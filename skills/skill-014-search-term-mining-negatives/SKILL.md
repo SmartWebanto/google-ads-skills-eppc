@@ -47,9 +47,9 @@ Run the reference query (API, UI report, or Editor export) if you need different
 
 ## Analysis Steps
 
-1. **Find high-spend zero-conversion terms:** Filter Conversions = 0, Cost >= 2x target CPA or {{spend_floor}} minimum
-2. **Identify low-engagement terms:** CTR < 1% AND Impressions >= 100 OR Clicks >= 10 AND Conv = 0
-3. **Detect waste patterns:** Scan for "jobs", "free", "how to", "login", "support", competitor research terms
+1. **Find high-spend zero-conversion terms:** Filter Conversions = 0 AND Cost >= 2 × the campaign's target CPA; when the campaign has no target CPA use {{spend_significant}}
+2. **Identify low-engagement terms:** Conversions = 0 AND Impressions >= {{min_impressions}} AND CTR < 1%
+3. **Detect waste patterns:** Scan for "jobs", "free", "how to", "login", "support", "review"; add competitor names when the client profile lists them
 4. **Check against existing negatives:** Verify candidates not already blocked
 5. **Recommend negative level:** Account-wide patterns → shared list; campaign-specific → campaign negative
 
@@ -57,12 +57,12 @@ Run the reference query (API, UI report, or Editor export) if you need different
 
 | Condition | Severity |
 |-----------|----------|
-| Cost >= 3x Target CPA AND Conv = 0 | Critical |
-| Cost >= 2x Target CPA AND Conv = 0 | Warning |
-| Clicks >= 20 AND Conv = 0 AND CTR < 1% | Warning |
-| Contains waste pattern ("free", "jobs") AND Conv = 0 | Warning |
+| Cost >= 3 × target CPA (or >= {{spend_material}} when the campaign has no target CPA) AND Conv = 0 | Critical |
+| Cost >= 2 × target CPA (or >= {{spend_significant}} when the campaign has no target CPA) AND Conv = 0 | Warning |
+| Impressions >= {{min_impressions}} AND CTR < 1% AND Conv = 0 | Warning |
+| Contains waste pattern ("free", "jobs", "how to") AND Conv = 0 | Warning |
 
-Sample size: apply rate-based rows (CTR, CVR, CPA, ROAS) only above {{min_clicks}} clicks, and CPA/ROAS comparisons only above {{min_conversions}} conversions; below that, report "insufficient sample" as Info.
+Sample size: judge CTR rows only above {{min_impressions}} impressions, conversion-rate rows only above {{min_clicks}} clicks, and CPA/ROAS comparisons only above {{min_conversions}} conversions; below that, report "insufficient sample" as Info.
 
 ## Output
 

@@ -69,7 +69,7 @@ Run the reference query (API, UI report, or Editor export) if you need portfolio
 | Portfolio <30 conv/month total | Warning |
 | Campaign <10 conv/month in large portfolio | Info |
 
-Sample size: apply rate-based rows (CTR, CVR, CPA, ROAS) only above {{min_clicks}} clicks, and CPA/ROAS comparisons only above {{min_conversions}} conversions; below that, report "insufficient sample" as Info.
+Sample size: judge CTR rows only above {{min_impressions}} impressions, conversion-rate rows only above {{min_clicks}} clicks, and CPA/ROAS comparisons only above {{min_conversions}} conversions; below that, report "insufficient sample" as Info.
 
 ## Output
 

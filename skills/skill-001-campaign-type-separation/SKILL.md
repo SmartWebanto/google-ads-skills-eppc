@@ -42,7 +42,7 @@ Run the reference query (API, UI report, or Editor export) if you need additiona
 ## Analysis Steps
 
 1. **Load all campaign files:**
-   - Read each `campaign.md` file from **Campaigns**
+   - Read each row of **Campaigns**
    - Extract: Campaign Name, Type, Network Settings, Status
 
 2. **Classify campaigns by type:**

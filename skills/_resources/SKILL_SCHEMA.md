@@ -125,6 +125,7 @@ Report ONLY issues found. Do not list passed items.
 2. [Specific action]
 ```
 - Short by default, Detailed on request; both rendered from `OUTPUT_TEMPLATES.md` in the client's `report_language`
+- The skill's Output block says what to include; `OUTPUT_TEMPLATES.md` governs the header, the severity groups and the language
 - Every report starts with the provenance header; every finding names the skill id
 - Never show "OK" or "Pass" items
 

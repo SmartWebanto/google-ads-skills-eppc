@@ -40,7 +40,7 @@ Run the reference query (API, UI report, or Editor export) if you need audience 
 
 ## Analysis Steps
 
-1. **Inventory Current Audiences:** Read all audience_targeting.md files; compile complete list
+1. **Inventory Current Audiences:** Read **Audiences**; compile the complete list
 2. **Classify by Funnel Stage:** Map each audience to Top (awareness), Mid (consideration), Bottom (intent), Post-conversion
 3. **Identify Segmentation Gaps:** Check for missing critical segments (cart abandoners, purchasers)
 4. **Evaluate Membership Durations:** Review if durations match buying cycle

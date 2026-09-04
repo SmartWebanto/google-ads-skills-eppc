@@ -20,6 +20,6 @@ Every monetary or sample-size threshold in the skills is a named parameter writt
 - **Target CPA** is the campaign's target if set, else the account-level target from the client profile, else absent (the EUR floor applies).
 - **30-day account spend** is the sum of `metrics.cost_micros` over the report's date range, converted to currency units (divide by 1,000,000).
 - **Placeholder-value checks** are written as "valued at exactly 1 {{currency}}"; zero-value checks as "zero value". Never as `$1` or `$0`.
-- **Rate-based conditions** (CTR, CVR, CPA vs average, ROAS) apply only above `{{min_clicks}}` clicks, and CPA/ROAS comparisons only above `{{min_conversions}}` conversions. Below that, the skill reports "insufficient sample" as Info, never Critical.
+- **Rate-based conditions** apply only above a minimum sample: CTR rows above `{{min_impressions}}` impressions, conversion-rate rows above `{{min_clicks}}` clicks, CPA/ROAS comparisons above `{{min_conversions}}` conversions. Below that, the skill reports "insufficient sample" as Info, never Critical.
 - **Report values** are always written in `{{currency}}` with the ISO code or symbol of the account (EUR → €), formatted for `report_language`.
 - **Overrides** come from the client profile `parameter_overrides` map, keyed by parameter name without braces.

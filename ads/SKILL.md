@@ -37,8 +37,9 @@ nothing here calls a third-party service.
    `market`, `target_cpa`/`target_roas`, `brand_terms`, `export_path`.
 4. **Currency from the export**, never assumed. Parameters (`skills/_resources/PARAMETERS.md`)
    resolve against target CPA and 30-day spend; state the resolved values in Evidence.
-5. **Language.** Write the report in `report_language` using
-   `skills/_resources/OUTPUT_TEMPLATES.md`. Skill bodies stay in English.
+5. **Language and shape.** Write the report in `report_language` using
+   `skills/_resources/OUTPUT_TEMPLATES.md`: the template governs header, severity
+   groups and language; the skill's Output block says what to include. Skill bodies stay in English.
 6. **Provenance.** Every report starts with the header block; every finding names
    its skill id. Never fabricate metrics; if a table is missing from the export, say
    which skill was skipped and why.
@@ -97,3 +98,4 @@ lists kind and data source for each.
 - `skills/_resources/OUTPUT_TEMPLATES.md` — report templates (en, it) and header
 - `skills/_resources/CLIENT_PROFILE.md` — profile template and rules
 - `skills/_resources/SKILL_SCHEMA.md` — how a skill is written
+- `skills/_selftest/SKILL.md` — library self-test (`ads-selftest`): synthetic export with planted defects, run after any change to skills, parameters, templates or the data contract

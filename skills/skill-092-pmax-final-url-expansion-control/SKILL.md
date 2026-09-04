@@ -55,7 +55,7 @@ Run the query through the Google Ads API, a UI custom report, or Google Ads Edit
 
 ## Analysis Steps
 
-1. **Check URL Expansion Status:** Read `Asset Automation Settings` from `campaign.md` for each PMax campaign. Look for `FinalUrlExpansionTextAssetAutomation: OptedOut`. If absent, URL expansion is enabled (default)
+1. **Check URL Expansion Status:** Read the asset automation settings from **Campaigns** for each PMax campaign. Look for `FinalUrlExpansionTextAssetAutomation: OptedOut`. If absent, URL expansion is enabled (default)
 2. **Analyze Landing Page Distribution:** Compare intended URLs vs. actual URLs receiving traffic
 3. **Assess URL Quality:** Identify non-commercial pages, outdated content, policy-risk pages
 4. **Evaluate Business Impact:** Calculate conversion rate by landing page; identify wasted spend
