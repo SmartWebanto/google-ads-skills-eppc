@@ -1,0 +1,53 @@
+keyword_id,text,match_type,campaign_name,ad_group_name,impressions,clicks,cost,conversions,conversion_value,quality_score
+3001,acme,EXACT,Search - Brand,Brand core,537,157,48.31,8.8,704.0,9
+3002,acme tools,PHRASE,Search - Brand,Brand core,896,134,44.66,6.5,520.0,8
+3003,acme drill,EXACT,Search - Brand,Brand core,1281,112,30.22,3.8,304.0,8
+3101,cordless drill,PHRASE,Search - Generic Tools,Cordless drills,3199,64,50.05,1.3,104.0,7
+3102,cordless drill 18v,EXACT,Search - Generic Tools,Cordless drills,2108,104,92.25,1.2,96.0,7
+3103,cordless drill set,PHRASE,Search - Generic Tools,Cordless drills,2529,73,58.13,2.1,168.0,6
+3104,best cordless drill,BROAD,Search - Generic Tools,Cordless drills,2304,160,113.02,3.4,272.0,5
+3105,cordless drill battery,PHRASE,Search - Generic Tools,Cordless drills,3222,145,115.37,2.5,200.0,6
+3106,cordless drill brushless,EXACT,Search - Generic Tools,Cordless drills,2491,142,99.88,1.7,136.0,7
+3107,cordless drill with case,PHRASE,Search - Generic Tools,Cordless drills,1924,131,91.98,3.2,256.0,6
+3108,acme drill,EXACT,Search - Generic Tools,Cordless drills,2024,118,107.57,2.2,176.0,8
+3201,hammer,PHRASE,Search - Generic Tools,Mixed tools,486,16,11.27,0.1,8.0,6
+3202,claw hammer,BROAD,Search - Generic Tools,Mixed tools,342,13,9.73,0.0,0.0,5
+3203,circular saw blade,PHRASE,Search - Generic Tools,Mixed tools,314,14,130.0,0,0,3
+3204,saw blade 190mm,BROAD,Search - Generic Tools,Mixed tools,398,7,5.04,0.0,0.0,3
+3205,garden hose 20m,BROAD,Search - Generic Tools,Mixed tools,254,11,110.0,0,0,2
+3206,garden hose reel,BROAD,Search - Generic Tools,Mixed tools,594,14,10.0,0.1,8.0,2
+3207,aluminium ladder,PHRASE,Search - Generic Tools,Mixed tools,233,7,5.58,0.0,0.0,4
+3208,step ladder,BROAD,Search - Generic Tools,Mixed tools,532,8,5.48,0.0,0.0,4
+3209,paint roller,BROAD,Search - Generic Tools,Mixed tools,413,13,9.04,0.0,0.0,3
+3210,paint brush set,BROAD,Search - Generic Tools,Mixed tools,543,17,13.54,0.1,8.0,3
+3211,screwdriver set,BROAD,Search - Generic Tools,Mixed tools,382,16,14.17,0.1,8.0,5
+3212,torx screwdriver,PHRASE,Search - Generic Tools,Mixed tools,423,10,7.18,0.0,0.0,4
+3213,workbench,PHRASE,Search - Generic Tools,Mixed tools,360,8,7.16,0.0,0.0,3
+3214,tool chest,BROAD,Search - Generic Tools,Mixed tools,243,13,8.2,0.1,8.0,3
+3215,socket set,BROAD,Search - Generic Tools,Mixed tools,414,17,13.33,0.0,0.0,4
+3216,wrench set,BROAD,Search - Generic Tools,Mixed tools,283,10,7.9,0.1,8.0,4
+3217,pliers,PHRASE,Search - Generic Tools,Mixed tools,440,11,6.98,0.1,8.0,3
+3218,tape measure,BROAD,Search - Generic Tools,Mixed tools,591,11,7.63,0.0,0.0,5
+3219,spirit level,BROAD,Search - Generic Tools,Mixed tools,499,14,10.41,0.1,8.0,4
+3220,utility knife,BROAD,Search - Generic Tools,Mixed tools,406,8,7.08,0.0,0.0,3
+3221,safety glasses,BROAD,Search - Generic Tools,Mixed tools,476,16,13.24,0.1,8.0,2
+3222,work gloves,PHRASE,Search - Generic Tools,Mixed tools,457,7,5.98,0.0,0.0,2
+3223,extension cord,BROAD,Search - Generic Tools,Mixed tools,563,10,6.67,0.1,8.0,3
+3224,drill bits,BROAD,Search - Generic Tools,Mixed tools,401,13,10.19,0.1,8.0,6
+3225,masonry drill bit,BROAD,Search - Generic Tools,Mixed tools,503,8,5.37,0.0,0.0,5
+3226,jigsaw,BROAD,Search - Generic Tools,Mixed tools,521,8,5.98,0.0,0.0,4
+3227,sander,PHRASE,Search - Generic Tools,Mixed tools,595,15,11.13,0.1,8.0,4
+3228,heat gun,PHRASE,Search - Generic Tools,Mixed tools,442,10,8.43,0.1,8.0,3
+3229,glue gun,BROAD,Search - Generic Tools,Mixed tools,339,17,10.61,0.1,8.0,3
+3230,chisel set,BROAD,Search - Generic Tools,Mixed tools,388,10,7.45,0.1,8.0,3
+3231,hand saw,PHRASE,Search - Generic Tools,Mixed tools,444,6,5.24,0.0,0.0,3
+3232,hacksaw,BROAD,Search - Generic Tools,Mixed tools,457,16,10.18,0.1,8.0,3
+3233,wheelbarrow,BROAD,Search - Generic Tools,Mixed tools,484,8,6.93,0.0,0.0,2
+3234,pressure washer,BROAD,Search - Generic Tools,Mixed tools,454,7,6.19,0.0,0.0,2
+3235,air compressor,PHRASE,Search - Generic Tools,Mixed tools,385,14,8.76,0.0,0.0,3
+3301,tool repair,PHRASE,Search - Repair Services,Repair service,1791,21,23.94,0.5,40.0,7
+3302,drill repair near me,EXACT,Search - Repair Services,Repair service,1387,44,50.26,1.1,88.0,6
+3303,power tool repair,PHRASE,Search - Repair Services,Repair service,1724,26,29.15,0.3,24.0,7
+3304,tool repair service,PHRASE,Search - Repair Services,Repair service,1559,49,45.34,1.5,120.0,6
+3401,angle grinder,PHRASE,Search - Generic Tools,Angle grinders,958,89,70.32,2.4,192.0,6
+3402,angle grinder 125mm,EXACT,Search - Generic Tools,Angle grinders,791,42,37.82,1.1,88.0,6

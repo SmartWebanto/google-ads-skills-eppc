@@ -1,0 +1,4 @@
+id,name,category,status,type,counting,include_in_conversions,primary_for_goal,value_settings,attribution_model,click_window_days,enhanced_conversions,last_conversion_date
+5001,Purchase,PURCHASE,ENABLED,WEBSITE,ONE_PER_CLICK,true,true,transaction-specific,DATA_DRIVEN,30,true,2026-09-01
+5002,Contact form,LEAD,ENABLED,WEBSITE,ONE_PER_CLICK,true,true,15 EUR,DATA_DRIVEN,30,false,2026-08-30
+5003,Page view /catalog,PAGE_VIEW,ENABLED,WEBSITE,MANY_PER_CLICK,true,false,0,LAST_CLICK,30,false,2026-09-02

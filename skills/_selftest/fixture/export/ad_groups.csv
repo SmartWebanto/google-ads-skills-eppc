@@ -1,0 +1,6 @@
+id,campaign_id,campaign_name,name,status,type,default_cpc
+2001,1001,Search - Brand,Brand core,ENABLED,STANDARD,0.5
+2002,1002,Search - Generic Tools,Cordless drills,ENABLED,STANDARD,0.9
+2003,1002,Search - Generic Tools,Mixed tools,ENABLED,STANDARD,0.8
+2004,1003,Search - Repair Services,Repair service,ENABLED,STANDARD,1.1
+2005,1002,Search - Generic Tools,Angle grinders,ENABLED,STANDARD,0.9

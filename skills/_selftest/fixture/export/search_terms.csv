@@ -1,0 +1,38 @@
+search_term,campaign_id,campaign_name,ad_group_id,ad_group_name,matched_keyword,match_type,added_excluded,impressions,clicks,cost,conversions,conversion_value
+acme,1001,Search - Brand,2001,Brand core,acme,EXACT,ADDED,5000,900,270.0,50,4000
+acme tools,1001,Search - Brand,2001,Brand core,acme tools,PHRASE,ADDED,3000,500,150.0,25,2000
+acme drill,1001,Search - Brand,2001,Brand core,acme drill,EXACT,ADDED,1500,250,75.0,10,800
+acme tools shop,1001,Search - Brand,2001,Brand core,acme tools,PHRASE,NONE,900,120,36.0,5,400
+free cordless drill,1002,Search - Generic Tools,2002,Cordless drills,cordless drill,PHRASE,NONE,900,65,130.0,0,0
+cordless drill jobs,1002,Search - Generic Tools,2002,Cordless drills,cordless drill,BROAD,NONE,300,18,27.0,0,0
+cordless drill 18v review,1002,Search - Generic Tools,2002,Cordless drills,best cordless drill,BROAD,NONE,1400,52,93.6,0,0
+drill,1002,Search - Generic Tools,2002,Cordless drills,cordless drill,PHRASE,NONE,3200,25,42.5,0,0
+best cordless drill 18v,1002,Search - Generic Tools,2002,Cordless drills,best cordless drill,BROAD,NONE,2100,110,99.0,4,320
+cordless drill brushless 18v,1002,Search - Generic Tools,2002,Cordless drills,cordless drill brushless,EXACT,NONE,800,60,51.0,3,240
+acme cordless drill,1002,Search - Generic Tools,2002,Cordless drills,cordless drill,PHRASE,NONE,400,40,20.0,3,240
+cordless drill set 18v,1002,Search - Generic Tools,2002,Cordless drills,cordless drill set,PHRASE,ADDED,1200,70,59.5,2,160
+tool repair jobs,1003,Search - Repair Services,2004,Repair service,tool repair,PHRASE,NONE,150,12,14.0,0,0
+how to repair a drill,1003,Search - Repair Services,2004,Repair service,drill repair near me,EXACT,NONE,600,30,33.0,0,0
+power tool repair milan,1003,Search - Repair Services,2004,Repair service,power tool repair,PHRASE,NONE,700,45,49.5,2,160
+drill repair near me,1003,Search - Repair Services,2004,Repair service,drill repair near me,EXACT,ADDED,500,38,41.8,2,160
+angle grinder 125mm,1002,Search - Generic Tools,2005,Angle grinders,angle grinder 125mm,EXACT,ADDED,1300,55,49.5,1,80
+hammer online,1002,Search - Generic Tools,2003,Mixed tools,hammer,BROAD,NONE,246,7,8.53,0,0
+claw hammer online,1002,Search - Generic Tools,2003,Mixed tools,claw hammer,BROAD,NONE,111,14,6.25,1,80
+circular saw blade online,1002,Search - Generic Tools,2003,Mixed tools,circular saw blade,BROAD,NONE,378,11,7.05,0,0
+saw blade 190mm online,1002,Search - Generic Tools,2003,Mixed tools,saw blade 190mm,BROAD,NONE,352,5,8.28,0,0
+garden hose 20m online,1002,Search - Generic Tools,2003,Mixed tools,garden hose 20m,BROAD,NONE,305,15,4.2,0,0
+garden hose reel online,1002,Search - Generic Tools,2003,Mixed tools,garden hose reel,BROAD,NONE,156,5,3.7,0,0
+aluminium ladder online,1002,Search - Generic Tools,2003,Mixed tools,aluminium ladder,BROAD,NONE,364,3,5.91,1,80
+step ladder online,1002,Search - Generic Tools,2003,Mixed tools,step ladder,BROAD,NONE,134,11,2.68,0,0
+paint roller online,1002,Search - Generic Tools,2003,Mixed tools,paint roller,BROAD,NONE,221,3,11.27,1,80
+paint brush set online,1002,Search - Generic Tools,2003,Mixed tools,paint brush set,BROAD,NONE,367,3,11.12,0,0
+screwdriver set online,1002,Search - Generic Tools,2003,Mixed tools,screwdriver set,BROAD,NONE,306,8,9.35,0,0
+torx screwdriver online,1002,Search - Generic Tools,2003,Mixed tools,torx screwdriver,BROAD,NONE,221,10,8.1,1,80
+workbench online,1002,Search - Generic Tools,2003,Mixed tools,workbench,BROAD,NONE,339,6,10.39,0,0
+tool chest online,1002,Search - Generic Tools,2003,Mixed tools,tool chest,BROAD,NONE,366,6,12.08,0,0
+socket set online,1002,Search - Generic Tools,2003,Mixed tools,socket set,BROAD,NONE,293,4,6.71,0,0
+wrench set online,1002,Search - Generic Tools,2003,Mixed tools,wrench set,BROAD,NONE,117,13,4.89,0,0
+pliers online,1002,Search - Generic Tools,2003,Mixed tools,pliers,BROAD,NONE,188,13,5.63,0,0
+tape measure online,1002,Search - Generic Tools,2003,Mixed tools,tape measure,BROAD,NONE,159,14,9.72,0,0
+spirit level online,1002,Search - Generic Tools,2003,Mixed tools,spirit level,BROAD,NONE,153,7,12.59,1,80
+utility knife online,1002,Search - Generic Tools,2003,Mixed tools,utility knife,BROAD,NONE,192,14,13.43,1,80

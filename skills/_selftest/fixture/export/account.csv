@@ -1,0 +1,2 @@
+customer_id,name,currency_code,time_zone,auto_tagging,conversion_tracking,date_range_start,date_range_end,snapshot_date,brand_terms,rates_format
+123-456-7890,Acme Demo Tools,EUR,Europe/Rome,true,enabled,2026-08-04,2026-09-02,2026-09-03,acme; acme tools,fraction

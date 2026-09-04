@@ -27,6 +27,10 @@ LICENSE                   MIT
 
 Check the library: `python3 skills/_resources/scripts/lint.py` (add `--write-catalog` to regenerate `skills/CATALOG.md`). Tests: `cd skills/_resources/scripts && python3 -m unittest test_lint`.
 
+## Self-test
+
+`skills/_selftest/` holds a synthetic export with planted defects and the findings each covered skill must produce. Ask the agent to run the self-test (skill `ads-selftest`) after editing skills, parameters, templates or the data contract: it runs each case as a fresh sub-agent with the skill's own tool restriction, grades the report against `fixture/expected.json`, and returns the runners' execution notes, which are the recipe feedback. First run (2026-09-04): 4 cases, 4 passes after the recipe fixes it surfaced. It proves recipes are executable and yield the planted findings; it does not calibrate thresholds for a real account.
+
 ## How a skill is built
 
 - Frontmatter `metadata`: `category`, `kind` (deterministic / analyst / operational), `data_source` (export / custom_query / external), `markets` (all / us_only / eea_relevant), `related`, `merged_from`, `reviewed`.

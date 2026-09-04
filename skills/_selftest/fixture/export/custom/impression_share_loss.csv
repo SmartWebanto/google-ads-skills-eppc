@@ -1,0 +1,4 @@
+campaign_name,campaign_id,campaign_status,campaign_budget_amount,impressions,clicks,cost,conversions,search_impression_share,search_budget_lost_impression_share,search_rank_lost_impression_share,search_top_impression_share,search_absolute_top_impression_share
+Search - Brand,1001,ENABLED,30,12000,1800,540.0,90,0.88,0.05,0.02,0.8,0.6
+Search - Generic Tools,1002,ENABLED,50,85000,3400,2720.0,62,0.55,0.25,0.1,0.4,0.2
+Search - Repair Services,1003,ENABLED,25,30000,900,990.0,21,0.42,0.08,0.35,0.3,0.12

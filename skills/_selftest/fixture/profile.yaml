@@ -1,0 +1,10 @@
+slug: acme-demo
+report_language: en
+market: [IT]
+currency_override: null
+target_cpa: null          # campaign-level targets are in export/campaigns.csv
+target_roas: null
+monthly_spend: null       # computed from export/campaign_metrics.csv
+brand_terms: [acme, acme tools]
+export_path: export/
+parameter_overrides: {}

@@ -16,6 +16,7 @@ message:
 from __future__ import annotations
 
 import argparse
+import json
 import re
 import sys
 from pathlib import Path
@@ -190,6 +191,27 @@ def check_skill(skill_dir: Path, params: set[str], merges_text: str, skill_names
     return issues
 
 
+def check_selftest(root: Path, skill_names: set[str]) -> list[str]:
+    """Every case in _selftest/fixture/expected.json must point at an existing skill."""
+    path = root / "_selftest" / "fixture" / "expected.json"
+    if not path.exists():
+        return []
+    try:
+        cases = json.loads(path.read_text()).get("cases", [])
+    except (ValueError, AttributeError) as e:
+        return [f"_selftest: expected.json unreadable: {e}"]
+    issues = []
+    for i, case in enumerate(cases):
+        skill = case.get("skill")
+        if skill not in skill_names:
+            issues.append(f"_selftest: case {i} references unknown skill '{skill}'")
+        for key in ("expect", "reject"):
+            for item in case.get(key, []):
+                if not item.get("must_contain"):
+                    issues.append(f"_selftest: case {i} ({skill}) has a {key} item without must_contain")
+    return issues
+
+
 def warn_skill(skill_dir: Path) -> list[str]:
     """Rules: line count over MAX_LINES is a warning, never an error — must not affect exit code."""
     n = len((skill_dir / "SKILL.md").read_text().split("\n"))
@@ -271,6 +293,7 @@ def main(argv: list[str] | None = None) -> int:
         warnings += warn_skill(d)
     if len(dirs) != args.expect_count:
         errors.append(f"expected {args.expect_count} skill directories, found {len(dirs)}")
+    errors += check_selftest(root, names)
 
     if args.write_catalog:
         (root / "CATALOG.md").write_text(render_catalog(catalog_rows(root)))

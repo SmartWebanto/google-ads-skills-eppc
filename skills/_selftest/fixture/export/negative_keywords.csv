@@ -1,0 +1,4 @@
+text,match_type,level,campaign_id,campaign_name,ad_group_id,ad_group_name
+cheap,PHRASE,campaign,1002,Search - Generic Tools,,
+repair,PHRASE,campaign,1002,Search - Generic Tools,,
+cheap,PHRASE,campaign,1003,Search - Repair Services,,

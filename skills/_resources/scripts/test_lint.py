@@ -149,6 +149,27 @@ class CheckSkillTests(unittest.TestCase):
         self.assertTrue(any("kind" in i for i in self.issues(bad)))
 
 
+class SelftestTests(unittest.TestCase):
+    def test_cases_must_reference_existing_skills_and_carry_must_contain(self):
+        import json
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            make_skill(root, "skill-004-ad-group-thematic-tightness", GOOD)
+            (root / "_selftest" / "fixture").mkdir(parents=True)
+            (root / "_selftest" / "fixture" / "expected.json").write_text(json.dumps({"cases": [
+                {"skill": "skill-004-ad-group-thematic-tightness", "expect": [{"severity": "Critical", "must_contain": ["x"]}]},
+                {"skill": "skill-999-ghost", "expect": [{"severity": "Critical"}]},
+            ]}))
+            issues = lint.check_selftest(root, {"skill-004-ad-group-thematic-tightness"})
+            self.assertTrue(any("skill-999-ghost" in i for i in issues))
+            self.assertTrue(any("without must_contain" in i for i in issues))
+            self.assertEqual(len(issues), 2)
+
+    def test_no_selftest_folder_is_fine(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            self.assertEqual(lint.check_selftest(Path(tmp), set()), [])
+
+
 class CatalogTests(unittest.TestCase):
     def test_catalog_row_and_render(self):
         """Rules: row fields and rendered column order are the CATALOG.md contract."""

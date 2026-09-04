@@ -1,0 +1,53 @@
+id,campaign_id,campaign_name,ad_group_id,ad_group_name,text,match_type,status,quality_score,expected_ctr,ad_relevance,landing_page_experience,final_url
+3001,1001,Search - Brand,2001,Brand core,acme,EXACT,ENABLED,9,ABOVE_AVERAGE,ABOVE_AVERAGE,ABOVE_AVERAGE,https://acme-tools.example/
+3002,1001,Search - Brand,2001,Brand core,acme tools,PHRASE,ENABLED,8,ABOVE_AVERAGE,ABOVE_AVERAGE,ABOVE_AVERAGE,https://acme-tools.example/
+3003,1001,Search - Brand,2001,Brand core,acme drill,EXACT,ENABLED,8,ABOVE_AVERAGE,ABOVE_AVERAGE,ABOVE_AVERAGE,https://acme-tools.example/
+3101,1002,Search - Generic Tools,2002,Cordless drills,cordless drill,PHRASE,ENABLED,7,ABOVE_AVERAGE,ABOVE_AVERAGE,ABOVE_AVERAGE,https://acme-tools.example/
+3102,1002,Search - Generic Tools,2002,Cordless drills,cordless drill 18v,EXACT,ENABLED,7,ABOVE_AVERAGE,ABOVE_AVERAGE,ABOVE_AVERAGE,https://acme-tools.example/
+3103,1002,Search - Generic Tools,2002,Cordless drills,cordless drill set,PHRASE,ENABLED,6,AVERAGE,AVERAGE,AVERAGE,https://acme-tools.example/
+3104,1002,Search - Generic Tools,2002,Cordless drills,best cordless drill,BROAD,ENABLED,5,AVERAGE,AVERAGE,AVERAGE,https://acme-tools.example/
+3105,1002,Search - Generic Tools,2002,Cordless drills,cordless drill battery,PHRASE,ENABLED,6,AVERAGE,AVERAGE,AVERAGE,https://acme-tools.example/
+3106,1002,Search - Generic Tools,2002,Cordless drills,cordless drill brushless,EXACT,ENABLED,7,ABOVE_AVERAGE,ABOVE_AVERAGE,ABOVE_AVERAGE,https://acme-tools.example/
+3107,1002,Search - Generic Tools,2002,Cordless drills,cordless drill with case,PHRASE,ENABLED,6,AVERAGE,AVERAGE,AVERAGE,https://acme-tools.example/
+3108,1002,Search - Generic Tools,2002,Cordless drills,acme drill,EXACT,ENABLED,8,ABOVE_AVERAGE,ABOVE_AVERAGE,ABOVE_AVERAGE,https://acme-tools.example/
+3201,1002,Search - Generic Tools,2003,Mixed tools,hammer,PHRASE,ENABLED,6,AVERAGE,AVERAGE,AVERAGE,https://acme-tools.example/
+3202,1002,Search - Generic Tools,2003,Mixed tools,claw hammer,BROAD,ENABLED,5,AVERAGE,AVERAGE,AVERAGE,https://acme-tools.example/
+3203,1002,Search - Generic Tools,2003,Mixed tools,circular saw blade,PHRASE,ENABLED,3,BELOW_AVERAGE,BELOW_AVERAGE,BELOW_AVERAGE,https://acme-tools.example/
+3204,1002,Search - Generic Tools,2003,Mixed tools,saw blade 190mm,BROAD,ENABLED,3,BELOW_AVERAGE,BELOW_AVERAGE,BELOW_AVERAGE,https://acme-tools.example/
+3205,1002,Search - Generic Tools,2003,Mixed tools,garden hose 20m,BROAD,ENABLED,2,BELOW_AVERAGE,BELOW_AVERAGE,BELOW_AVERAGE,https://acme-tools.example/
+3206,1002,Search - Generic Tools,2003,Mixed tools,garden hose reel,BROAD,ENABLED,2,BELOW_AVERAGE,BELOW_AVERAGE,BELOW_AVERAGE,https://acme-tools.example/
+3207,1002,Search - Generic Tools,2003,Mixed tools,aluminium ladder,PHRASE,ENABLED,4,BELOW_AVERAGE,BELOW_AVERAGE,BELOW_AVERAGE,https://acme-tools.example/
+3208,1002,Search - Generic Tools,2003,Mixed tools,step ladder,BROAD,ENABLED,4,BELOW_AVERAGE,BELOW_AVERAGE,BELOW_AVERAGE,https://acme-tools.example/
+3209,1002,Search - Generic Tools,2003,Mixed tools,paint roller,BROAD,ENABLED,3,BELOW_AVERAGE,BELOW_AVERAGE,BELOW_AVERAGE,https://acme-tools.example/
+3210,1002,Search - Generic Tools,2003,Mixed tools,paint brush set,BROAD,ENABLED,3,BELOW_AVERAGE,BELOW_AVERAGE,BELOW_AVERAGE,https://acme-tools.example/
+3211,1002,Search - Generic Tools,2003,Mixed tools,screwdriver set,BROAD,ENABLED,5,AVERAGE,AVERAGE,AVERAGE,https://acme-tools.example/
+3212,1002,Search - Generic Tools,2003,Mixed tools,torx screwdriver,PHRASE,ENABLED,4,BELOW_AVERAGE,BELOW_AVERAGE,BELOW_AVERAGE,https://acme-tools.example/
+3213,1002,Search - Generic Tools,2003,Mixed tools,workbench,PHRASE,ENABLED,3,BELOW_AVERAGE,BELOW_AVERAGE,BELOW_AVERAGE,https://acme-tools.example/
+3214,1002,Search - Generic Tools,2003,Mixed tools,tool chest,BROAD,ENABLED,3,BELOW_AVERAGE,BELOW_AVERAGE,BELOW_AVERAGE,https://acme-tools.example/
+3215,1002,Search - Generic Tools,2003,Mixed tools,socket set,BROAD,ENABLED,4,BELOW_AVERAGE,BELOW_AVERAGE,BELOW_AVERAGE,https://acme-tools.example/
+3216,1002,Search - Generic Tools,2003,Mixed tools,wrench set,BROAD,ENABLED,4,BELOW_AVERAGE,BELOW_AVERAGE,BELOW_AVERAGE,https://acme-tools.example/
+3217,1002,Search - Generic Tools,2003,Mixed tools,pliers,PHRASE,ENABLED,3,BELOW_AVERAGE,BELOW_AVERAGE,BELOW_AVERAGE,https://acme-tools.example/
+3218,1002,Search - Generic Tools,2003,Mixed tools,tape measure,BROAD,ENABLED,5,AVERAGE,AVERAGE,AVERAGE,https://acme-tools.example/
+3219,1002,Search - Generic Tools,2003,Mixed tools,spirit level,BROAD,ENABLED,4,BELOW_AVERAGE,BELOW_AVERAGE,BELOW_AVERAGE,https://acme-tools.example/
+3220,1002,Search - Generic Tools,2003,Mixed tools,utility knife,BROAD,ENABLED,3,BELOW_AVERAGE,BELOW_AVERAGE,BELOW_AVERAGE,https://acme-tools.example/
+3221,1002,Search - Generic Tools,2003,Mixed tools,safety glasses,BROAD,ENABLED,2,BELOW_AVERAGE,BELOW_AVERAGE,BELOW_AVERAGE,https://acme-tools.example/
+3222,1002,Search - Generic Tools,2003,Mixed tools,work gloves,PHRASE,ENABLED,2,BELOW_AVERAGE,BELOW_AVERAGE,BELOW_AVERAGE,https://acme-tools.example/
+3223,1002,Search - Generic Tools,2003,Mixed tools,extension cord,BROAD,ENABLED,3,BELOW_AVERAGE,BELOW_AVERAGE,BELOW_AVERAGE,https://acme-tools.example/
+3224,1002,Search - Generic Tools,2003,Mixed tools,drill bits,BROAD,ENABLED,6,AVERAGE,AVERAGE,AVERAGE,https://acme-tools.example/
+3225,1002,Search - Generic Tools,2003,Mixed tools,masonry drill bit,BROAD,ENABLED,5,AVERAGE,AVERAGE,AVERAGE,https://acme-tools.example/
+3226,1002,Search - Generic Tools,2003,Mixed tools,jigsaw,BROAD,ENABLED,4,BELOW_AVERAGE,BELOW_AVERAGE,BELOW_AVERAGE,https://acme-tools.example/
+3227,1002,Search - Generic Tools,2003,Mixed tools,sander,PHRASE,ENABLED,4,BELOW_AVERAGE,BELOW_AVERAGE,BELOW_AVERAGE,https://acme-tools.example/
+3228,1002,Search - Generic Tools,2003,Mixed tools,heat gun,PHRASE,ENABLED,3,BELOW_AVERAGE,BELOW_AVERAGE,BELOW_AVERAGE,https://acme-tools.example/
+3229,1002,Search - Generic Tools,2003,Mixed tools,glue gun,BROAD,ENABLED,3,BELOW_AVERAGE,BELOW_AVERAGE,BELOW_AVERAGE,https://acme-tools.example/
+3230,1002,Search - Generic Tools,2003,Mixed tools,chisel set,BROAD,ENABLED,3,BELOW_AVERAGE,BELOW_AVERAGE,BELOW_AVERAGE,https://acme-tools.example/
+3231,1002,Search - Generic Tools,2003,Mixed tools,hand saw,PHRASE,ENABLED,3,BELOW_AVERAGE,BELOW_AVERAGE,BELOW_AVERAGE,https://acme-tools.example/
+3232,1002,Search - Generic Tools,2003,Mixed tools,hacksaw,BROAD,ENABLED,3,BELOW_AVERAGE,BELOW_AVERAGE,BELOW_AVERAGE,https://acme-tools.example/
+3233,1002,Search - Generic Tools,2003,Mixed tools,wheelbarrow,BROAD,ENABLED,2,BELOW_AVERAGE,BELOW_AVERAGE,BELOW_AVERAGE,https://acme-tools.example/
+3234,1002,Search - Generic Tools,2003,Mixed tools,pressure washer,BROAD,ENABLED,2,BELOW_AVERAGE,BELOW_AVERAGE,BELOW_AVERAGE,https://acme-tools.example/
+3235,1002,Search - Generic Tools,2003,Mixed tools,air compressor,PHRASE,ENABLED,3,BELOW_AVERAGE,BELOW_AVERAGE,BELOW_AVERAGE,https://acme-tools.example/
+3301,1003,Search - Repair Services,2004,Repair service,tool repair,PHRASE,ENABLED,7,ABOVE_AVERAGE,ABOVE_AVERAGE,ABOVE_AVERAGE,https://acme-tools.example/
+3302,1003,Search - Repair Services,2004,Repair service,drill repair near me,EXACT,ENABLED,6,AVERAGE,AVERAGE,AVERAGE,https://acme-tools.example/
+3303,1003,Search - Repair Services,2004,Repair service,power tool repair,PHRASE,ENABLED,7,ABOVE_AVERAGE,ABOVE_AVERAGE,ABOVE_AVERAGE,https://acme-tools.example/
+3304,1003,Search - Repair Services,2004,Repair service,tool repair service,PHRASE,ENABLED,6,AVERAGE,AVERAGE,AVERAGE,https://acme-tools.example/
+3401,1002,Search - Generic Tools,2005,Angle grinders,angle grinder,PHRASE,ENABLED,6,AVERAGE,AVERAGE,AVERAGE,https://acme-tools.example/
+3402,1002,Search - Generic Tools,2005,Angle grinders,angle grinder 125mm,EXACT,ENABLED,6,AVERAGE,AVERAGE,AVERAGE,https://acme-tools.example/
