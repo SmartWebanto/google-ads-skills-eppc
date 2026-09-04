@@ -1,6 +1,6 @@
 id,name,status,channel_type,bidding_strategy_type,target_cpa,target_roas,daily_budget,shared_budget,search_partners,display_network,geo_targets,geo_target_method,languages,ad_schedule,labels
 1001,Search - Brand,ENABLED,SEARCH,TARGET_CPA,20,,30,false,false,false,Italy,PRESENCE,it,none,brand
-1002,Search - Generic Tools,ENABLED,SEARCH,TARGET_CPA,40,,50,false,true,false,Italy,PRESENCE_OR_INTEREST,it,none,generic
-1003,Search - Repair Services,ENABLED,SEARCH,MAXIMIZE_CONVERSIONS,,,25,false,false,false,Italy,PRESENCE,it,none,generic
+1002,Search - Generic Tools,ENABLED,SEARCH,TARGET_CPA,40,,90,false,true,false,Italy,PRESENCE_OR_INTEREST,it,none,generic
+1003,Search - Repair Services,ENABLED,SEARCH,MAXIMIZE_CONVERSIONS,,,33,false,false,false,Italy,PRESENCE,it,none,generic
 1004,Shopping - All Products,ENABLED,SHOPPING,TARGET_ROAS,,4.0,40,false,false,false,Italy,PRESENCE,it,none,shopping
 1005,PMax - Catalog,ENABLED,PERFORMANCE_MAX,MAXIMIZE_CONVERSION_VALUE,,,45,false,,,Italy,PRESENCE,it,none,pmax

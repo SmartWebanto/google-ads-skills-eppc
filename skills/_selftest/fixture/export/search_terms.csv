@@ -6,7 +6,7 @@ acme tools shop,1001,Search - Brand,2001,Brand core,acme tools,PHRASE,NONE,900,1
 free cordless drill,1002,Search - Generic Tools,2002,Cordless drills,cordless drill,PHRASE,NONE,900,65,130.0,0,0
 cordless drill jobs,1002,Search - Generic Tools,2002,Cordless drills,cordless drill,BROAD,NONE,300,18,27.0,0,0
 cordless drill 18v review,1002,Search - Generic Tools,2002,Cordless drills,best cordless drill,BROAD,NONE,1400,52,93.6,0,0
-drill,1002,Search - Generic Tools,2002,Cordless drills,cordless drill,PHRASE,NONE,3200,25,42.5,0,0
+drill,1002,Search - Generic Tools,2002,Cordless drills,best cordless drill,BROAD,NONE,3200,25,42.5,0,0
 best cordless drill 18v,1002,Search - Generic Tools,2002,Cordless drills,best cordless drill,BROAD,NONE,2100,110,99.0,4,320
 cordless drill brushless 18v,1002,Search - Generic Tools,2002,Cordless drills,cordless drill brushless,EXACT,NONE,800,60,51.0,3,240
 acme cordless drill,1002,Search - Generic Tools,2002,Cordless drills,cordless drill,PHRASE,NONE,400,40,20.0,3,240

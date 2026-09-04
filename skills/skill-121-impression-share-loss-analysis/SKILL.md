@@ -53,7 +53,7 @@ Run the query through the Google Ads API, a UI custom report, or Google Ads Edit
 1. **Fetch impression share data:** Run the GAQL query for search campaigns (IS, budget-lost IS, rank-lost IS, top/absolute-top IS)
 2. **Categorize campaigns:** Budget-constrained (budget lost >10%), rank-constrained (rank lost >20%), both (>15% each), or optimized
 3. **Calculate opportunity cost:** Missed impressions, clicks and conversions from lost IS using each campaign's CTR and conversion rate
-4. **Diagnose root causes:** Budget loss → check exhaustion time and profitability (conversions >= {{min_conversions}}); rank loss → check Quality Score components
+4. **Diagnose root causes:** Budget loss → confirm the campaign spends its full daily budget (30-day cost ≈ daily budget × days) and is profitable; rank loss → check Quality Score components and bid headroom
 5. **Prioritize recommendations:** Rank fixes first (cheaper), then budget increases on profitable campaigns, ordered by recovery value
 
 ## Thresholds
@@ -65,7 +65,9 @@ Run the query through the Google Ads API, a UI custom report, or Google Ads Edit
 | Budget and rank lost > 15% each | Warning |
 | Budget Lost IS > 10% | Warning |
 | Rank Lost IS > 20% | Warning |
-| Any IS loss 5-10% | Info |
+| Any IS loss between 5% and 10% (inclusive) | Info |
+
+Profitable: conversions >= {{min_conversions}} and CPA at or below the campaign's target CPA (or ROAS at or above target ROAS); without a target, conversions >= {{min_conversions}}.
 
 Sample size: judge impression share only above {{min_impressions}} impressions in the period.
 

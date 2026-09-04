@@ -1,6 +1,6 @@
 campaign_id,campaign_name,channel_type,impressions,clicks,cost,conversions,conversion_value,ctr,avg_cpc,cpa,roas,search_impression_share,search_budget_lost_is,search_rank_lost_is,search_top_is,search_abs_top_is
-1001,Search - Brand,SEARCH,12000,1800,540.0,90,5400,0.15,0.3,6.0,10.0,0.88,0.05,0.02,0.8,0.6
-1002,Search - Generic Tools,SEARCH,85000,3400,2720.0,62,4960,0.04,0.8,43.87,1.82,0.55,0.25,0.1,0.4,0.2
-1003,Search - Repair Services,SEARCH,30000,900,990.0,21,2100,0.03,1.1,47.14,2.12,0.42,0.08,0.35,0.3,0.12
-1004,Shopping - All Products,SHOPPING,60000,1500,1050.0,45,5850,0.025,0.7,23.33,5.57,0.3,0.12,0.4,,
+1001,Search - Brand,SEARCH,12000,1800,540.0,90,5400,0.15,0.3,6.0,10.0,0.88,0.05,0.07,0.8,0.6
+1002,Search - Generic Tools,SEARCH,85000,3400,2720.0,70,5600,0.04,0.8,38.86,2.06,0.6,0.25,0.15,0.4,0.2
+1003,Search - Repair Services,SEARCH,30000,900,990.0,21,2100,0.03,1.1,47.14,2.12,0.57,0.08,0.35,0.3,0.12
+1004,Shopping - All Products,SHOPPING,60000,1500,1050.0,45,5850,0.025,0.7,23.33,5.57,0.48,0.12,0.4,,
 1005,PMax - Catalog,PERFORMANCE_MAX,200000,2600,1300.0,58,6960,0.013,0.5,22.41,5.35,,,,,

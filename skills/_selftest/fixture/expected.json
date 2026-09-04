@@ -50,14 +50,14 @@
       "skill": "skill-121-impression-share-loss-analysis",
       "tools": "Read, Grep, Glob",
       "expect": [
-        {"severity": "Critical", "must_contain": ["Search - Generic Tools"], "any_of": ["budget", "25%"], "why": "budget-lost IS 25% on a profitable campaign (62 conversions)"},
+        {"severity": "Critical", "must_contain": ["Search - Generic Tools"], "any_of": ["budget", "25%"], "why": "budget-lost IS 25% on a profitable campaign (70 conversions, CPA 38.86 <= target 40)"},
         {"severity": "Critical", "must_contain": ["Search - Repair Services"], "any_of": ["rank", "35%"], "why": "rank-lost IS 35%"},
         {"severity": "Info", "must_contain": ["Search - Brand"], "why": "budget-lost 5%, in the 5-10% band"}
       ],
       "reject": [
         {"must_contain": ["Shopping"], "why": "the skill covers Search campaigns only"},
         {"must_contain": ["PMax"], "why": "the skill covers Search campaigns only"},
-        {"severity": "Warning", "must_contain": ["Search - Generic Tools"], "any_of": ["rank"], "why": "rank-lost 10% is under the 20% Warning row"}
+        {"severity": "Warning", "must_contain": ["Search - Generic Tools"], "any_of": ["rank"], "why": "rank-lost 15% is under the 20% Warning row and outside the 5-10% Info band"}
       ]
     }
   ]
