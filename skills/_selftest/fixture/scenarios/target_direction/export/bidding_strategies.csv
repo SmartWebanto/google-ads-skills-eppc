@@ -1,0 +1,3 @@
+id,type,target_cpa,status,campaign_ids,target_roas
+s1,TARGET_CPA,30,ENABLED,CPA-TIGHT,
+s2,TARGET_ROAS,,ENABLED,ROAS-RELAXED,3

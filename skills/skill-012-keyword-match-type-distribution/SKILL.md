@@ -1,92 +1,89 @@
 ---
 name: skill-012-keyword-match-type-distribution
-description: "Analyze the distribution of broad, phrase, and exact match keywords across the account and compare performance by match type."
-allowed-tools: Read, Grep, Glob
+description: "Describe match-type distribution and comparable outcomes without broad-match adoption quotas or causal mix assumptions."
+allowed-tools: Read, Grep, Glob, Bash
 metadata:
-  library: eppc-ads-skills@1.1.0
+  library: eppc-ads-skills@2.0.0
   category: keywords
-  kind: deterministic
+  kind: analyst
   data_source: export
+  related: [skill-022-broad-match-smart-bidding-alignment, skill-023-close-variant-query-expansion-monitoring]
   markets: all
   gaql_verified: null
-  reviewed: 2026-09-03
+  reviewed: 2026-09-06
+  agent: "gpt-6-astra | openai | 2026-09-06 | FixStructureKeywords | evidence-led audit correction"
 ---
-# Skill 012: Keyword Match Type Distribution Analysis
+# Skill 012: Keyword Match Type Distribution
 
 ## Purpose
-Analyze the distribution of broad, phrase, and exact match keywords across the account and compare performance by match type. Identifies over-reliance on single match types, performance disparities, and Smart Bidding alignment issues.
+
+Describe match-type distribution and comparable outcomes without broad-match adoption quotas or causal mix assumptions.
+Recommendations are review proposals, not account changes or causal forecasts.
 
 ## Data Requirements
 
-**Data Source:** Account export
+**Applicability:** Search campaigns with explicit keyword match-type fields; not Shopping or keywordless campaigns.
 
-**Export data:**
-- **Keywords** - Keyword settings with match type
-- **Keyword metrics (30 days)** - Keyword performance metrics
-- **Campaigns** - Campaign bidding strategy (for Smart Bidding alignment)
+**Required inputs:**
+- `export/account` and the base schemas in [DATA_CONTRACT.md](../_resources/DATA_CONTRACT.md).
+- `export/campaigns`, `export/keywords`, `export/keyword_metrics`, `export/bidding_strategies`.
+- Keyword IDs with explicit match type; metric grain account/campaign/ad_group/keyword/window.
+- Campaign objectives, goal/value scope and strategy membership; use `export/campaign_metrics` only as separate totals.
+- Client profile: business type, campaign objectives, service area, approved constraints,
+  conversion lag and sales cycle, and applicable CPA/ROAS goals; never infer goals from bidding alone.
 
-**Reference GAQL:**
-```sql
-SELECT
-  campaign.name,
-  ad_group.name,
-  ad_group_criterion.keyword.text,
-  ad_group_criterion.keyword.match_type,
-  metrics.impressions,
-  metrics.clicks,
-  metrics.cost_micros,
-  metrics.conversions,
-  metrics.conversions_value
-FROM keyword_view
-WHERE ad_group_criterion.status = 'ENABLED'
-  AND segments.date DURING LAST_30_DAYS
-```
-Run the reference query (API, UI report, or Editor export) if you need different date ranges or additional metrics.
+**Missing inputs:** Without explicit match type keep Unknown; do not derive type from brackets/quotes. Without compatible goals omit pooled performance comparisons.
+Skip only dependent subchecks; list missing filenames/columns and retain supported inventory.
+Unknown settings are not equivalent to disabled controls; never report an incomplete check as passed.
 
 ## Analysis Steps
 
-1. **Collect all keywords:** Parse match types using notation: `[keyword]` = Exact, `"keyword"` = Phrase, bare = Broad
-2. **Aggregate performance:** Sum metrics by match type; calculate CTR, CPC, CPA, ROAS, Conv Rate
-3. **Calculate distribution:** Keyword count %, spend %, conversion % per match type
-4. **Check Smart Bidding alignment:** For campaigns using Smart Bidding, flag if broad match < 30%
-5. **Identify imbalances:** Single match type > 80%, high spend but low conversions on a match type
+1. Establish account, snapshot, currency, export window, conversion date basis and reporting coverage.
+   Use stable account/campaign/ad-group/entity IDs, not names, for joins; reject metric fan-out.
+   Separate current settings from historical performance; exclude incomplete days and immature conversions.
+
+2. Parse the explicit BROAD/PHRASE/EXACT field; preserve Unknown values.
+   UI punctuation in keyword text is not the authoritative match-type source.
+
+3. Deduplicate IDs at the declared metric grain and aggregate sums within campaign/objective.
+   Calculate distinct-keyword count share separately from cost and conversion shares.
+
+4. Derive CTR, CPC, CVR, CPA and ROAS from summed numerators/denominators.
+   Separate conversion-count and value-led campaigns; never average row-level CPAs.
+
+5. Apply mature sample gates to both compared types before interpreting disparities.
+   Account-wide shares can reflect brand, geography, product and goal mix rather than match-type effects.
+
+6. Review target deviations only with an applicable target or comparable mature benchmark.
+   Without either retain descriptive distribution, not an invented target.
+
+7. Delegate strategy/control fit to 022 and query relevance to 023.
+   No minimum broad percentage, exact share or mandatory match-type diversification applies.
+
+8. Propose an optional scoped experiment only for a business-defined reach/control question.
+   Historical distribution does not establish incremental conversions from another match type.
 
 ## Thresholds
 
+Resolve [PARAMETERS.md](../_resources/PARAMETERS.md) and profile overrides before screening.
+Numerical decision cutoffs below are triage heuristics, not platform requirements or causal proof.
+Compare CTR only with {{min_impressions}} impressions and conversion rates with {{min_clicks}} clicks
+on each side; CPA/ROAS comparisons require {{min_conversions}} mature conversions on each side.
+Zero-conversion screening is an exception to the conversion-count gate, not permission to pause:
+require working tracking, a mature comparable window, relevance review and {{spend_floor}}.
+Do not divide by zero; absent targets use an applicable profile target, otherwise omit target comparisons.
+
 | Condition | Severity |
 |-----------|----------|
-| Broad match < 30% in Smart Bidding campaigns | Critical |
-| Match type has > 40% spend but < 20% conversions | Critical |
-| Single match type > 80% of keywords | Warning |
-| Exact match < 10% with significantly better CPA | Warning |
-| No broad match keywords in account | Info |
-
-Sample size: judge CTR rows only above {{min_impressions}} impressions, conversion-rate rows only above {{min_clicks}} clicks, and CPA/ROAS comparisons only above {{min_conversions}} conversions; below that, report "insufficient sample" as Info.
+| Mature type CPA >2× an applicable target or comparable benchmark after context review | Warning |
+| Single-type concentration, no broad match or unequal spend/conversion shares alone | Info |
+| Unknown match type, absent target or insufficient comparable sample | Info |
 
 ## Output
 
-Use **Short** format by default. Use **Detailed** if user requests comprehensive analysis.
-
-**Short:**
-```
-## Match Type Distribution Audit
-**Account:** [Name] | **Keywords:** [X] | **Issues:** [Y]
-
-### Critical ([Count])
-- **[Campaign]**: Smart Bidding with only [X]% broad match → Add broad match keywords
-- **Phrase match**: [X]% of spend, only [Y]% of conversions → Review and consolidate
-
-### Warnings ([Count])
-- **Over-reliance**: [X]% of keywords are [Type] → Diversify match types
-- **Under-utilized exact**: [X]% lower CPA → Expand exact match coverage
-
-### Recommendations
-1. Increase broad match in Smart Bidding campaigns to 30%+
-2. Expand exact match for high-performing terms
-```
-
-**Detailed** adds:
-- What Was Checked (match type parsing, Smart Bidding alignment)
-- Distribution table (Match Type, Keywords, % Total, Cost, % Spend, Conv, % Conv)
-- Performance table (Match Type, Impressions, Clicks, CTR, CPC, Conv, CPA, ROAS)
-- Campaign-level breakdown for Smart Bidding alignment
+Use [OUTPUT_TEMPLATES.md](../_resources/OUTPUT_TEMPLATES.md), Short by default.
+For every finding include stable entity IDs, condition key, observed evidence and window,
+sample/coverage, resolved thresholds, recommendation, uncertainty and responsible owner.
+Separate confirmed observations, analyst interpretation, optional opportunities and skipped checks.
+Historical cost is exposure, not guaranteed savings; do not sum overlapping findings as recoverable spend.
+Show denominators, objective cohorts and descriptive distributions with no adoption score.

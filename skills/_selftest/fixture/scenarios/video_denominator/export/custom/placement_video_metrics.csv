@@ -1,0 +1,2 @@
+account_id,campaign_id,ad_group_id,date,placement_id,format,video_views,native_view_rate,denominator_name,denominator_count,eligible_video_impressions,measurable_impressions,viewable_impressions,measurement_definition
+demo,VIDEO,VG,2026-08-10,YOUTUBE-1,skippable_instream,3000,0.3,eligible_video_impressions,10000,10000,8000,6000,synthetic view-based skippable format

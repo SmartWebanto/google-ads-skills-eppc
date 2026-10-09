@@ -15,4 +15,44 @@ packages:
 
 cross_cutting_patterns: {}
 
-agent_sessions: []
+agent_sessions:
+  - agent: "claude-opus-5-5"
+    provider: "anthropic"
+    date: "2026-09-28"
+    session_id: "s_20260928_windsor_b"
+    task: "No MCP search terms; import sanitized search terms from skill-173"
+    changed: ["skills/skill-174-windsor-mcp-intake/scripts/check.py","skills/skill-174-windsor-mcp-intake/tests/test_check.py","skills/skill-174-windsor-mcp-intake/tests/__init__.py","skills/skill-174-windsor-mcp-intake/SKILL.md","ads/SKILL.md","README.md","docs/windsor-phase0-screening.md","skills/CATALOG.md"]
+    visited: ["skills/skill-173-export-intake-preflight/tests/test_check.py","skills/_resources/DATA_CONTRACT.md"]
+    message: "Search terms never pulled via Windsor MCP (invariant 8); 174 normalize --search-terms-from imports a skill-173 export after customer/currency/window/basis checks. Shares aggregated only for proven Search-only campaigns. MCP-to-file step still untested live."
+  - agent: "claude-opus-5-5"
+    provider: "anthropic"
+    date: "2026-09-28"
+    session_id: "s_20260928_windsor_c"
+    task: "Local phone/email re-check on 173 search-term import; real 173 test"
+    changed: ["skills/skill-174-windsor-mcp-intake/scripts/check.py","skills/skill-174-windsor-mcp-intake/tests/test_check.py","skills/skill-174-windsor-mcp-intake/SKILL.md"]
+    visited: ["skills/skill-173-export-intake-preflight/scripts/check.py","skills/skill-173-export-intake-preflight/tests/test_check.py"]
+    message: "skill-173 _PHONE only matches +/00 numbers; 174 import re-blanks 8+ digit and email-like search terms. 173 itself still has the narrower regex."
+  - agent: "claude-opus-5-5"
+    provider: "anthropic"
+    date: "2026-09-28"
+    session_id: "s_20260928_windsor_d"
+    task: "Drop whole search-term rows with personal-like text in any text column"
+    changed: ["skills/skill-174-windsor-mcp-intake/scripts/check.py","skills/skill-174-windsor-mcp-intake/tests/test_check.py","skills/skill-174-windsor-mcp-intake/SKILL.md"]
+    visited: ["skills/skill-173-export-intake-preflight/scripts/check.py"]
+    message: "Exemption is by column name (metric/segment/_id), never by cell value: a bare mobile number in search_term must be caught."
+  - agent: "claude-opus-5-5"
+    provider: "anthropic"
+    date: "2026-09-28"
+    session_id: "s_20260928_packs"
+    task: "Split ads bundle into five category packages"
+    changed: ["skills/_resources/scripts/build_app_skills.py","skills/_resources/scripts/test_build.py","README.md"]
+    visited: ["ads/SKILL.md","command-center/SKILL.md"]
+    message: "Packages: ads (front desk+platform/structure/compliance/competitive), ads-search-keywords, ads-creative-audiences, ads-bidding-tracking, ads-shopping-seasonal; mapping by metadata category in PACKS; staged front desk gets Installed packages section + PACKS.md."
+  - agent: "claude-opus-5-5"
+    provider: "anthropic"
+    date: "2026-09-28"
+    session_id: "s_20260928_packs_b"
+    task: "Upload contract: exactly one SKILL.md per ZIP"
+    changed: ["skills/_resources/scripts/build_app_skills.py","skills/_resources/scripts/test_build.py","README.md"]
+    visited: ["skills/_resources/RUNTIME.md","ads/SKILL.md"]
+    message: "Nested SKILL.md packaged as RECIPE.md with Markdown refs rewritten; _write_zip refuses any ZIP whose only SKILL.md is not at root. Upload error was 'Zip must contain exactly one SKILL.md file. Currently there are 24' (ads-bidding-tracking)."

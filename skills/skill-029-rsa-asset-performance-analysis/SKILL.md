@@ -1,121 +1,83 @@
 ---
 name: skill-029-rsa-asset-performance-analysis
-description: "Rate RSA headlines and descriptions account-wide using Google's asset performance labels and ad-level metrics; replace Low assets with patterns from Best ones."
-allowed-tools: Read, Grep, Glob
+description: "Join RSA asset associations and ad outcomes by stable IDs; use contextual labels as review evidence, not account-wide rankings."
+allowed-tools: Read, Grep, Glob, Bash
 metadata:
-  library: eppc-ads-skills@1.1.0
+  library: eppc-ads-skills@2.0.0
   category: creative
-  kind: deterministic
+  kind: analyst
   data_source: custom_query
   merged_from: [skill-126-rsa-asset-performance-bulk-analysis]
   markets: all
   gaql_verified: null
-  reviewed: 2026-09-03
+  reviewed: 2026-09-06
+  agent: "gpt-6-astra | openai | 2026-09-06 | FixCreativeBidding | evidence-led audit correction"
 ---
-# Skill 029: RSA Asset Performance Analysis
+# Skill 029: Contextual RSA Asset Performance Analysis
 
 ## Purpose
 
-Google labels each RSA asset Best, Good, Low, or Learning. Aggregate labels and ad-level performance across the account to find assets to replace, patterns to replicate, and ads whose strength or pinning limits combinations.
+Find context-specific copy hypotheses from RSA asset reports without treating Low as an automatic replacement rule or Best as universal creative quality.
+
+Recommendations are review-only; this recipe never changes an account.
 
 ## Data Requirements
 
-**Data Source:** Custom query required
+**Applicability:** RSA headline/description associations only; never pool PMax, display or unrelated asset types into RSA label rankings.
 
-A basic account export does not include asset-level performance ratings.
+**Required inputs:**
+- Read `../_resources/DATA_CONTRACT.md`, `../_resources/PARAMETERS.md` and the supplied client profile.
+- `export/account`, `export/campaigns`, `export/ad_groups`, `export/ads`, `export/ad_metrics`: complete RSA inventory and ad-ID keyed mature metrics.
+- `export/custom/rsa_asset_labels.csv`: one association snapshot per account_id/campaign_id/ad_group_id/ad_id/asset_id/field_type/snapshot_at; ad_type, text, pin, association_status, performance_label, label_availability_reason, source_ref. Use a current Ads UI asset report or supported API export; keep unavailable labels explicit.
+- Optional `export/custom/rsa_asset_metrics.csv`: one association/date/segment row keyed by the same IDs plus date and segment_keys; impressions, clicks, cost, conversions, conversion_value, metric_scope and attribution_definition. Window matches ad metrics; unsupported metrics remain null.
 
-**Export data:**
-- **Ads** - RSA headlines, descriptions, ad strength
+Use account currency, timezone, export window, snapshot and completeness declarations.
+Keep missing values distinct from zero and disabled; join on stable IDs, never names.
 
-**GAQL Query:**
-```sql
-SELECT
-  campaign.name,
-  ad_group.name,
-  ad_group_ad.ad.id,
-  ad_group_ad_asset_view.field_type,
-  ad_group_ad_asset_view.performance_label,
-  asset.text_asset.text,
-  asset.type,
-  metrics.impressions,
-  metrics.clicks
-FROM ad_group_ad_asset_view
-WHERE ad_group_ad.status = 'ENABLED'
-  AND segments.date DURING LAST_30_DAYS
-ORDER BY ad_group_ad_asset_view.performance_label DESC
-```
-Run the query through the Google Ads API, a UI custom report, or Google Ads Editor; save the result as `asset_performance`.
-
-**GAQL Query (ad-level metrics):**
-```sql
-SELECT
-  campaign.name,
-  ad_group.name,
-  ad_group_ad.ad.responsive_search_ad.headlines,
-  ad_group_ad.ad.responsive_search_ad.descriptions,
-  ad_group_ad.policy_summary.approval_status,
-  metrics.impressions,
-  metrics.clicks,
-  metrics.cost_micros,
-  metrics.conversions
-FROM ad_group_ad
-WHERE ad_group_ad.ad.type = 'RESPONSIVE_SEARCH_AD'
-  AND ad_group_ad.status = 'ENABLED'
-  AND segments.date DURING LAST_30_DAYS
-ORDER BY metrics.impressions DESC
-```
-Run the query through the Google Ads API, a UI custom report, or Google Ads Editor; save the result as `rsa_ad_performance`.
+**Missing inputs:** Without ad ID or association keys skip label-to-ad joins; absent labels are unavailable, not Low. Without label history never infer a persistent downgrade.
+Skip only the dependent subcheck; report its exact missing file/columns and coverage.
+Do not treat absent evidence as a defect or a passed check.
 
 ## Analysis Steps
 
-1. **Fetch asset labels and ad metrics:** Asset view for labels; ad_group_ad for RSA-level impressions, CTR, conversions, ad strength
-2. **Categorize assets by label:** Best (replicate), Good (keep), Low (replace), Learning (wait), Unrated
-3. **Aggregate across ads:** Assets reused in many ads; account-wide top and bottom performers
-4. **Analyze patterns:** What Best assets share (benefit, CTA, length) that Low assets lack
-5. **Flag ads:** Poor strength with spend, multiple Low assets, no Best headline, heavy pinning
-6. **Generate replacements:** Based on Best patterns, keeping headline diversity
+1. Start from all in-scope RSA ads, then left-join association snapshots. Require ad_type=RESPONSIVE_SEARCH_AD and headline/description field types; reconcile asset coverage to full RSA arrays.
+
+2. Join by account, campaign, ad group and ad ID plus asset/field identity. Reject name-only joins and duplicate association keys; the same text can have different IDs and context-specific labels.
+
+3. Use the current supplied label vocabulary; preserve Learning, Pending, Unrated and unknown availability states rather than inventing Best/Low values. Record observation date and source.
+
+4. Summarize labels within ad and field type. Count reused assets once per association in context summaries and once per asset in reuse summaries; do not sum overlapping ad metrics into asset totals.
+
+5. Ad performance stays at ad grain. Only use asset-attributed metrics if their definitions and denominators are supplied; an ad CTR is not the CTR of each headline.
+
+6. Compare outcomes only for matched goals, language, traffic role and mature samples. Normal serving and contextual labels cannot identify causal winners across ads.
+
+7. Review Low-associated text for a specific copy hypothesis, keeping legal/brand constraints. Best patterns elsewhere are inspiration, not universal replacement instructions; no Best label is not a defect.
+
+8. Produce an optional controlled-test brief through 032; route duplication to 025/026 and pin constraints to 028. Preserve bulk coverage inherited from 126 without automatic bulk changes.
 
 ## Thresholds
 
+Numerical screens are triage heuristics, not platform requirements or causal proof.
+Use resolved `{{min_impressions}}` for CTR/IS, `{{min_clicks}}` for CVR and
+`{{min_conversions}}` for CPA/ROAS comparisons; both comparison cohorts must qualify.
+Use mature, comparable goals/windows; exclude incomplete days and conversion lag.
+A zero denominator yields unavailable, never infinity or an invented zero rate.
+
 | Condition | Severity |
-|-----------|----------|
-| > 20% of assets rated Low | Critical |
-| Low asset in a campaign above {{spend_significant}}/30d | Critical |
-| Ad strength Poor with spend above {{spend_significant}}/30d | Critical |
-| Multiple Low assets in one ad | Warning |
-| Any asset rated Low | Warning |
-| No Best-rated headline in an RSA | Warning |
-| Heavy pinning (3+ pins) reducing combinations | Info |
-| All assets Learning (new RSA, < {{min_impressions}} impressions) | Info |
+|---|---|
+| Low labels, no Best asset or all Learning/Unrated | Info |
+| Matched mature ad outcomes outside business guardrail plus corroborated copy issue | Warning |
+| Missing association IDs, labels or metric attribution | Info |
+
+Critical requires directly evidenced material delivery, measurement or safety failure.
+Historical spend is exposure, not guaranteed savings; any forecast requires an explicit model.
 
 ## Output
 
-**Short (default):**
-```
-## RSA Asset Performance Audit
-**Account:** [Name] | **Assets:** [X] | **Low-rated:** [Y]%
-
-### Replace (Low-rated) ([Count])
-- **[Campaign] / [Ad Group]**: "[Low asset text]" -> Suggested: "[replacement based on Best patterns]"
-
-### Top Performers to Replicate
-- "[Best asset text]" - [X] campaigns, [Y]% CTR
-
-### Summary
-| Rating | Headlines | Descriptions |
-|--------|-----------|--------------|
-| Best | X | X |
-| Good | X | X |
-| Low | X | X |
-| Learning | X | X |
-
-### Recommendations
-1. [Priority replacement action]
-```
-
-**Detailed adds:**
-- Full table of Low assets with replacement suggestions
-- Pattern analysis (what Best assets have that Low assets lack)
-- Campaign priority based on spend
-- Ad strength distribution and top-performing headlines account-wide
-- Pinning strategy assessment
+Use `../_resources/OUTPUT_TEMPLATES.md`; do not create a competing report format.
+Include stable entity IDs, condition key, observed evidence/window, sample, resolved
+thresholds, recommendation, uncertainty and the responsible owner.
+Separate confirmed findings, opportunities, insufficient evidence and not-applicable checks.
+- Association-level label table, source/snapshot/coverage and non-duplicated ad performance context.
+- Review candidates with hypotheses and constraint-preserving test proposals; no account-wide asset winner list.

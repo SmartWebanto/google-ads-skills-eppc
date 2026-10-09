@@ -1,0 +1,4 @@
+id,campaign_id,ad_group_id,text,match_type,status
+K1,NEG,G1,red shoes,EXACT,ENABLED
+K2,NEG,G1,buy red shoes,EXACT,ENABLED
+K3,NEG,G1,shoes red,PHRASE,ENABLED

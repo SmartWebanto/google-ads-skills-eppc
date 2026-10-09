@@ -1,94 +1,84 @@
 ---
 name: skill-136-geographic-competitive-intelligence
-description: "Analyze regional competitive dynamics and identify geographic opportunities based on impression share by location."
-allowed-tools: Read, Grep, Glob
+description: "Describe regional outcomes and service relevance without inventing regional impression share or competition."
+allowed-tools: Read, Grep, Glob, Bash
 metadata:
-  library: eppc-ads-skills@1.1.0
+  library: eppc-ads-skills@2.0.0
   category: competitive
-  kind: deterministic
-  data_source: custom_query
+  kind: analyst
+  data_source: external
   markets: all
   gaql_verified: null
-  reviewed: 2026-09-03
+  reviewed: 2026-09-06
+  agent: "gpt-6-astra | openai | 2026-09-06 | FixOperationsSeasonal | corrected evidence, controls, thresholds and request-only outputs"
 ---
-# Skill 136: Geographic Competitive Intelligence
+# Skill 136: Geographic Performance Analysis
 
 ## Purpose
 
-Analyze competitive dynamics by geography to identify regions with strong positioning (defend), underserved markets (expand), and areas with poor ROI (evaluate). Geographic insights enable location-based bid adjustments and budget allocation.
+Describe regional outcomes and service relevance without inventing regional impression share or competition.
+
+This is a local evidence review. Recommendations are proposals, not permission to act on an account or disclose client data.
 
 ## Data Requirements
 
-**Data Source:** Custom query required
+**Applicability:** Campaigns with geographic reporting and known service area, location basis and objectives.
 
-Geographic performance data requires custom GAQL queries.
+**Required inputs:**
+- Base `export/` tables: account, campaigns, campaign_metrics, bid_adjustments, using [DATA_CONTRACT](../_resources/DATA_CONTRACT.md).
+- Read client objectives, parameter overrides, currency, timezone, snapshot, report completeness, conversion-date basis and lag maturity.
+- `export/custom/geographic_daily.csv`: account_id/campaign_id/date/location_id/location_basis grain; location_name, country_id, region_id, device, network, impressions, clicks, cost, conversions, conversion_value, goal_id, unknown_location_flag; Ads geographic report for 8 complete weeks, basis explicitly user-location versus matched-location.
+- `export/external/regional_business.csv`: campaign_id/location_id/effective_range grain; service_available, objective, capacity, maximum_cpa_or_minimum_roas, margin_basis_if_used, owner; client service/target plan covering analysis dates.
 
-**GAQL Query:**
-```sql
-SELECT
-  campaign.name,
-  geographic_view.country_criterion_id,
-  segments.geo_target_region,
-  metrics.impressions,
-  metrics.clicks,
-  metrics.cost_micros,
-  metrics.conversions
-FROM geographic_view
-WHERE segments.date DURING LAST_30_DAYS
-  AND metrics.impressions > 0
-```
-Run the query through the Google Ads API, a UI custom report, or Google Ads Editor; save the result as `geo_performance`.
+Keep original source labels and stable IDs; filenames are suggested local intake paths, not assumed existing files.
+Custom/configuration schemas describe UI/export evidence, not a claim of live API field verification.
+
+**Missing inputs:** List exact missing files/columns, source dates and affected subchecks.
+Continue independent inventory or arithmetic with available evidence; skip only dependent checks.
+Optional evidence gates only its stated deeper comparison, forecast or test-result analysis.
+Unknown settings, authorization, coverage or policy applicability are not false/disabled and are not a passed check.
 
 ## Analysis Steps
 
-1. **Fetch geographic data:** Run GAQL query for location-level metrics
-2. **Map performance by region:** Calculate IS, CPA, and conversion rate per location
-3. **Identify competition patterns:** Low IS indicates high competition; high IS suggests dominance
-4. **Create strategy matrix:** Categorize regions (Defend, Expand, Optimize, Evaluate)
-5. **Recommend bid adjustments:** Suggest location modifiers based on efficiency
+1. Keep user and matched-location reports separate and preserve unknown geography; do not sum overlapping country/region hierarchies.
+
+2. Compute regional CTR, CVR, CPA and ROAS from counts with mature comparable samples. ROI requires real margin/profit inputs; ROAS is not ROI.
+
+3. Compare within campaign/goal/device/network where supplied, not arbitrary account averages. Review local availability and value mix before judging performance.
+
+4. No eligible-impression denominator is supplied: do not calculate regional IS. Even measured low IS would not uniquely establish competition, dominance or underserved demand.
+
+5. Trends need aligned complete weeks, not aggregate regional totals. Propose service/creative review or a bounded geography test; manual location CPC modifiers require supported strategy and are not a default under Smart Bidding.
+
+Use matched IDs and declared grain before joining; never multiply entity metrics across many-to-many associations.
+For comparisons, align goals, traffic scope and complete periods; exclude incomplete days and conversion reporting lag.
+Use {{min_impressions}} for CTR/share, {{min_clicks}} for CVR and {{min_conversions}} for CPA/ROAS, on both comparison sides.
+A zero-conversion spend screen may bypass min_conversions only after maturity, working tracking and relevance review at {{spend_floor}}.
+Do not divide by zero; preserve censored, suppressed and unknown values rather than treating them as zero.
+Historical non-converting cost is exposure, not guaranteed savings; observational changes are not causal uplift.
 
 ## Thresholds
 
-| Condition | Severity |
-|-----------|----------|
-| High-converting region with IS < 40% | Critical |
-| Region with CPA > 2x account average | Warning |
-| Strong IS region with declining conversion rate | Warning |
-| Low IS + low conversion rate region | Info |
+Numerical cutoffs here are triage heuristics unless explicitly tied to a sourced platform requirement.
+Resolve parameters through [PARAMETERS](../_resources/PARAMETERS.md); business tolerances require a declared value.
 
-Sample size: judge CTR rows only above {{min_impressions}} impressions, conversion-rate rows only above {{min_clicks}} clicks, and CPA/ROAS comparisons only above {{min_conversions}} conversions; below that, report "insufficient sample" as Info.
+| Condition | Severity |
+|---|---|
+| Observed material delivery into a documented prohibited service region | Critical |
+| Mature regional outcomes miss the stated client efficiency tolerance | Warning |
+| Sparse/unknown geography or unsupported competition hypothesis | Info |
+
+Insufficient evidence or sample is Info. Critical requires directly evidenced material delivery, measurement or safety failure.
 
 ## Output
 
-**Short format (default):**
-```
-## Geographic Competitive Audit
+Use [OUTPUT_TEMPLATES](../_resources/OUTPUT_TEMPLATES.md), not a conflicting report format.
+Each finding includes skill/entity IDs, condition key, severity, observed values and evidence references, exact window,
+sample, resolved threshold, recommendation, uncertainty, responsible owner and dependent skipped subchecks.
 
-**Account:** [Name] | **Regions Analyzed:** [X] | **Opportunities:** [Y]
+- Region IDs and reporting basis, date windows, goal metrics, sample and service constraints.
+- Regional performance hypotheses and supported-control review; no competition matrix or automatic bid percentages.
 
-### Geographic Performance Overview
-| Region | Impressions | IS | Conv Rate | CPA | Strategy |
-|--------|-------------|-----|-----------|-----|----------|
-| California | [X] | [Y]% | [Z]% | {{currency}} [A] | Expand |
-| Texas | [X] | [Y]% | [Z]% | {{currency}} [A] | Defend |
-| New York | [X] | [Y]% | [Z]% | {{currency}} [A] | Optimize |
-
-### Expansion Opportunities (Low IS + Good Performance)
-- **[Region]**: [X]% IS, [Y]% conv rate → Increase bids +[Z]%
-
-### Defensive Priorities (High IS + Good Performance)
-- **[Region]**: Maintain current strategy
-
-### Optimization Needed (High IS + Poor Performance)
-- **[Region]**: [X]% IS but poor CPA → Improve targeting/copy
-
-### Recommendations
-1. Increase bid modifier +[X]% for [Region]
-2. Reduce spend in [Region] (poor ROI)
-```
-
-**Detailed adds:**
-- Full regional performance table
-- Bid modifier recommendations
-- Regional competitive inference
-- Geographic expansion strategy
+Separate observations, hypotheses and requested changes. No account writes, rule installation, subscriptions,
+notifications, exclusions, feed edits, legal certification or external data transfers occur in this review.
+Any implementation request must name exact scope/values, approval owner, monitoring and recovery conditions.

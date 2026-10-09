@@ -1,86 +1,82 @@
 ---
 name: skill-033-dynamic-keyword-insertion-review
-description: "Assess whether Dynamic Keyword Insertion is used appropriately and safely."
-allowed-tools: Read, Grep, Glob
+description: "Review DKI syntax, keyword insertions and fallback text with explicit brand and authorization context."
+allowed-tools: Read, Grep, Glob, Bash
 metadata:
-  library: eppc-ads-skills@1.1.0
+  library: eppc-ads-skills@2.0.0
   category: creative
-  kind: deterministic
-  data_source: export
+  kind: analyst
+  data_source: external
   markets: all
   gaql_verified: null
-  reviewed: 2026-09-03
+  reviewed: 2026-09-06
+  agent: "gpt-6-astra | openai | 2026-09-06 | FixCreativeBidding | evidence-led audit correction"
 ---
-# Skill 033: Dynamic Keyword Insertion Usage Review
+# Skill 033: Dynamic Keyword Insertion Review
 
 ## Purpose
 
-Dynamic Keyword Insertion (DKI) automatically inserts triggering keywords into ad copy, increasing relevance. However, improper DKI creates awkward, unprofessional, or policy-violating ads. This review ensures DKI is used strategically and identifies potential issues.
+Detect credible insertion/fallback risks without assuming oversized keywords overflow or broad match inserts the user query.
+
+Recommendations are review-only; this recipe never changes an account.
 
 ## Data Requirements
 
-**Data Source:** Account export
+**Applicability:** Ads containing supported keyword insertion syntax; distinguish other customizers and countdown syntax.
 
-**Export data:**
-- **Ads** - RSA ad copy (check for DKI syntax)
-- **Keywords** - Keywords that might trigger DKI
+**Required inputs:**
+- Read `../_resources/DATA_CONTRACT.md`, `../_resources/PARAMETERS.md` and the supplied client profile.
+- `export/account`, `export/campaigns`, `export/ad_groups`, `export/ads`, `export/keywords`: full text templates, final URLs, keyword text/match/status and stable IDs.
+- Client profile: brand_terms, competitor_terms, excluded_intents and campaign objectives.
+- `export/external/dki_review.csv`: one account_id/ad_id/field/keyword_id/review_at row, language, rendered_preview, fallback_preview, preview_source, allowed_term_status, authorization_ref, reviewer_role and rationale; client-provided Ads preview/brand review current at snapshot.
 
-**Reference GAQL:**
-```sql
-SELECT
-  campaign.name,
-  ad_group.name,
-  ad_group_ad.ad.id,
-  ad_group_ad.ad.responsive_search_ad.headlines,
-  ad_group_ad.ad.responsive_search_ad.descriptions,
-  ad_group_ad.status
-FROM ad_group_ad
-WHERE ad_group_ad.ad.type = 'RESPONSIVE_SEARCH_AD'
-  AND ad_group_ad.status != 'REMOVED'
-```
-Run the reference query (API, UI report, or Editor export) if you need to filter by specific campaigns.
+Use account currency, timezone, export window, snapshot and completeness declarations.
+Keep missing values distinct from zero and disabled; join on stable IDs, never names.
+
+**Missing inputs:** Missing keyword coverage limits preview completeness. Unknown competitor status or authorization is a request for specialist review, not a proven trademark violation.
+Skip only the dependent subcheck; report its exact missing file/columns and coverage.
+Do not treat absent evidence as a defect or a passed check.
 
 ## Analysis Steps
 
-1. **Identify DKI usage:** Search for `{KeyWord:...}` syntax variants in ads
-2. **Check implementation:** Correct capitalization ({KeyWord:} for Title Case), default text present, character limit accommodates longest keyword
-3. **Evaluate keyword compatibility:** Flag keywords too long (overflow), awkward phrasing, competitor names, sensitive terms
-4. **Assess ad group suitability:** Tight themes = DKI works well, broad/varied = DKI risky
-5. **Preview DKI results:** Simulate with actual keywords to catch issues
+1. Extract insertion tokens and record exact ad field, syntax variant and fallback text; do not classify every brace-delimited customizer as DKI.
+
+2. Check balanced syntax and fallback presence against current supported insertion format. Suspected parse errors need an Ads preview or policy diagnosis before claiming delivery failure.
+
+3. Join eligible keyword text within the same campaign/ad group. DKI uses the triggering keyword, not arbitrary search-query text; broad match alone does not establish unsafe inserted content.
+
+4. Preview capitalization variants in the actual field context. Respect local language, brand case and acronym exceptions rather than universally rejecting capitals.
+
+5. When an insertion cannot fit the field, assess whether the fallback fits and remains coherent. A long keyword with a valid fallback is expected behavior, not automatic overflow.
+
+6. Review keyword and fallback combinations for grammar, sensitive claims and business relevance with literal examples. Check the complete rendered text, not token length alone.
+
+7. Use explicit competitor terms and supplied authorization/context. Potential trademark or policy questions go to the responsible owner; never infer ownership, prohibition or legal clearance from a name.
+
+8. Propose corrected fallback/template wording preserving the intended offer and any mandatory qualification. Unsupported previews remain hypotheses; no automatic keyword exclusions or DKI removals.
 
 ## Thresholds
 
+Numerical screens are triage heuristics, not platform requirements or causal proof.
+Use resolved `{{min_impressions}}` for CTR/IS, `{{min_clicks}}` for CVR and
+`{{min_conversions}}` for CPA/ROAS comparisons; both comparison cohorts must qualify.
+Use mature, comparable goals/windows; exclude incomplete days and conversion lag.
+A zero denominator yields unavailable, never infinity or an invented zero rate.
+
 | Condition | Severity |
-|-----------|----------|
-| DKI without default text | Critical |
-| Competitor keywords in DKI ad group | Critical |
-| Keyword longer than available space | Warning |
-| DKI with {KEYWORD:} all caps | Warning |
-| Broad match ad group + DKI | Warning |
+|---|---|
+| Confirmed invalid template/fallback or materially misleading rendered message | Warning |
+| Potential competitor/sensitive insertion requiring authorization review | Info |
+| Oversized keyword with valid fallback, broad match alone or uppercase acronym | Info |
+
+Critical requires directly evidenced material delivery, measurement or safety failure.
+Historical spend is exposure, not guaranteed savings; any forecast requires an explicit model.
 
 ## Output
 
-**Short (default):**
-```
-## DKI Usage Audit
-**Account:** [Name] | **RSAs with DKI:** [X] | **Issues:** [Y]
-
-### Critical ([Count])
-- **[Campaign] / [Ad Group]**: DKI without default text: `{KeyWord:}` -> Add default
-- **[Campaign] / [Ad Group]**: Competitor keyword + DKI -> Remove DKI
-
-### Warnings ([Count])
-- **[Campaign] / [Ad Group]**: Keyword "[text]" (35 chars) exceeds headline space (30 chars)
-
-### DKI Inventory
-| Ad Group | DKI Syntax | Position | Default | Status |
-|----------|------------|----------|---------|--------|
-
-### Recommendations
-1. [Priority action]
-```
-
-**Detailed adds:**
-- Keyword compatibility analysis per ad group
-- DKI preview with actual keywords
-- Ad group theme tightness assessment
+Use `../_resources/OUTPUT_TEMPLATES.md`; do not create a competing report format.
+Include stable entity IDs, condition key, observed evidence/window, sample, resolved
+thresholds, recommendation, uncertainty and the responsible owner.
+Separate confirmed findings, opportunities, insufficient evidence and not-applicable checks.
+- Template/keyword/fallback preview matrix keyed by ad field and keyword ID, with evidence timestamps.
+- Owner-reviewed corrections and explicit unverified preview/authorization items, not policy certification.

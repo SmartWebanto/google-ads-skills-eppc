@@ -1,0 +1,2 @@
+account_id,campaign_id,ad_group_id,ad_or_keyword_id,URL,date,clicks,cost,conversions,device
+demo,OUTAGE,OG,OUTAGE-AD,https://example.invalid/checkout,2026-08-20,1000,1440,40,MOBILE

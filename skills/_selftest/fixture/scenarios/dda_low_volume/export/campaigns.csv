@@ -1,0 +1,2 @@
+id,campaign_id,customer_id,name,status,channel_type,bidding_strategy_type,strategy_id,budget_id,target_cpa,target_roas,daily_budget,shared_budget,goal_ids,goal_set_id,geo_targets,geo_target_method,languages,brand_policy,custom_goal_id,goal_selection,objective
+LOW-VOLUME,LOW-VOLUME,demo,LOW-VOLUME,ENABLED,SEARCH,MAXIMIZE_CONVERSIONS,s1,b1,,,100,False,LEAD,LEAD,Italy,PRESENCE,it,any,,LEAD,count qualified leads

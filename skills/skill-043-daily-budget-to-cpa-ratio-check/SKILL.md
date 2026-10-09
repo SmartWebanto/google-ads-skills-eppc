@@ -1,92 +1,82 @@
 ---
 name: skill-043-daily-budget-to-cpa-ratio-check
-description: "Verify that campaign daily budgets are 5-10x the target or actual CPA to ensure Smart Bidding can optimize effectively."
-allowed-tools: Read, Grep, Glob
+description: "Calculate descriptive budget-to-CPA ratios at the correct budget scope without universal minimums or automatic increases."
+allowed-tools: Read, Grep, Glob, Bash
 metadata:
-  library: eppc-ads-skills@1.1.0
+  library: eppc-ads-skills@2.0.0
   category: bidding
-  kind: deterministic
+  kind: analyst
   data_source: export
   markets: all
   gaql_verified: null
-  reviewed: 2026-09-03
+  reviewed: 2026-09-06
+  agent: "gpt-6-astra | openai | 2026-09-06 | FixCreativeBidding | evidence-led audit correction"
 ---
-# Skill 043: Daily Budget-to-CPA Ratio Check
+# Skill 043: Daily Budget-to-CPA Diagnostic
 
 ## Purpose
 
-Smart Bidding algorithms need sufficient daily budget to test bids, gather conversion data, and optimize effectively. Google recommends daily budgets of at least 5-10x the target CPA. This skill identifies campaigns with budget-to-CPA ratios below recommended thresholds and provides budget adjustment recommendations.
+Describe budget scale relative to acquisition costs while separating planning ratios from demand, bidding eligibility and profitability.
+
+Recommendations are review-only; this recipe never changes an account.
 
 ## Data Requirements
 
-**Data Source:** Account export
+**Applicability:** Acquisition-oriented campaigns or comparable shared pools with a positive CPA target or mature achieved CPA; ROAS campaigns have no universal CPA-ratio equivalent.
 
-**Export data:**
-- **Campaigns** - Budget, Target CPA, bidding strategy
-- **Campaign metrics (30 days)** - Actual CPA, conversions, spend
+**Required inputs:**
+- Read `../_resources/DATA_CONTRACT.md`, `../_resources/PARAMETERS.md` and the supplied client profile.
+- `export/account`, `export/campaigns`, `export/budgets`, `export/bidding_strategies`, `export/campaign_metrics`: budget and strategy IDs, daily amount/unit, targets, mature cost/conversions/value, explicit goal cohorts.
+- Client profile: campaign objectives, approved budget constraints, approved CPA/ROAS economics and reporting/lag window.
+- Full shared-budget membership and current target source, including embedded/portfolio targets, are required for the relevant scope; unknown member targets remain unknown.
 
-**Reference GAQL:**
-```sql
-SELECT
-  campaign.id,
-  campaign.name,
-  campaign_budget.amount_micros,
-  campaign.bidding_strategy_type,
-  campaign.target_cpa.target_cpa_micros,
-  metrics.cost_micros,
-  metrics.conversions,
-  metrics.average_cpc,
-  campaign.status
-FROM campaign
-WHERE campaign.status = 'ENABLED'
-  AND segments.date DURING LAST_30_DAYS
-```
-Run the reference query (API, UI report, or Editor export) if you need target CPA values not in basic account export.
+Use account currency, timezone, export window, snapshot and completeness declarations.
+Keep missing values distinct from zero and disabled; join on stable IDs, never names.
+
+**Missing inputs:** Zero conversions or missing positive targets make the respective CPA ratio unavailable. Missing shared membership prevents pool ratios; do not allocate the entire pool budget to each campaign.
+Skip only the dependent subcheck; report its exact missing file/columns and coverage.
+Do not treat absent evidence as a defect or a passed check.
 
 ## Analysis Steps
 
-1. **Calculate budget-to-CPA ratios:** Using Target CPA: Ratio = Daily Budget / Target CPA. Using Actual CPA: Ratio = Daily Budget / (30-day Cost / 30-day Conversions).
+1. Resolve daily-budget type and budget ID; total/lifetime budgets cannot be labeled daily without an explicit valid schedule. Separate shared from standalone budgets.
 
-2. **Apply ratio thresholds:** <2x = Critical (severely constrained), 2-5x = Low (limited optimization), 5-10x = Adequate, 10-20x = Good, >20x = Excellent.
+2. For standalone budgets calculate target ratio=daily amount/positive effective CPA target and achieved ratio=daily amount/(mature cost/conversions), keeping the two definitions separate.
 
-3. **Assess Smart Bidding eligibility:** Cross-reference ratio with bidding strategy type and conversion volume.
+3. For shared pools deduplicate amount by budget ID and sum mature cost/conversions only across comparable conversion goals and value definitions. Do not sum targets or average incompatible campaign CPAs.
 
-4. **Identify ROAS equivalent issues:** For Target ROAS campaigns, check budget supports 5-10 conversions/day at target efficiency.
+4. Compute a target-based pool ratio only when members genuinely share one target/goal basis; otherwise show per-member targets descriptively with the shared amount and no false campaign capacity.
 
-5. **Calculate recommended budgets:** Minimum = CPA * 5, Recommended = CPA * 10.
+5. An achieved CPA requires `{{min_conversions}}`; zero conversions yield unavailable. Any zero-conversion spend screen requires mature tracking/relevance review and `{{spend_floor}}`, not division by zero or an automatic pause.
+
+6. Report ratios as descriptors. Remove five-to-ten-times requirements, low-ratio Smart Bidding ineligibility and one-conversion-per-day quotas; a low ratio may be fully intentional.
+
+7. Check business efficiency, actual demand and base budget-lost IS before considering scale review. A high ratio does not imply excellent performance and a low ratio is not itself a delivery failure.
+
+8. If a business need remains unmet, route to 042 and 045 for dated constraints and marginal analysis. Do not multiply CPA by five/ten to produce a required budget or predict daily conversions.
 
 ## Thresholds
 
+Numerical screens are triage heuristics, not platform requirements or causal proof.
+Use resolved `{{min_impressions}}` for CTR/IS, `{{min_clicks}}` for CVR and
+`{{min_conversions}}` for CPA/ROAS comparisons; both comparison cohorts must qualify.
+Use mature, comparable goals/windows; exclude incomplete days and conversion lag.
+A zero denominator yields unavailable, never infinity or an invented zero rate.
+
 | Condition | Severity |
-|-----------|----------|
-| Ratio <2x + Smart Bidding | Critical |
-| Ratio 2-3x + Smart Bidding | High |
-| Ratio 3-5x + Smart Bidding | Warning |
-| Conv/day <1 at current budget | Warning |
-| Ratio <5x + Manual CPC | Info |
-| Ratio >20x + low spend | Info |
+|---|---|
+| Any ratio alone, including below 2x or above 20x | Info |
+| Mature zero-conversion spend above {{spend_floor}} with working tracking and relevance concern | Warning |
+| Ratio unavailable because target, comparable pool membership or mature conversions are missing | Info |
+
+Critical requires directly evidenced material delivery, measurement or safety failure.
+Historical spend is exposure, not guaranteed savings; any forecast requires an explicit model.
 
 ## Output
 
-**Short (default):**
-```
-## Budget-to-CPA Ratio Audit
-
-**Account:** [Name] | **Campaigns Analyzed:** [X] | **Below 5x Threshold:** [Y]
-
-### Critical ([Count])
-- **[Campaign]**: [X]x ratio ({{currency}} [Budget] / {{currency}} [CPA]) → Increase to {{currency}} [Recommended]/day (5x)
-
-### Warnings ([Count])
-- **[Campaign]**: [X]x ratio, [Y] conv/day capacity → Consider budget increase
-
-### Recommendations
-1. [Priority action]
-2. [Secondary action]
-```
-
-**Detailed adds:**
-- Budget-to-CPA ratio table with budget, target CPA, actual CPA, ratio (target), ratio (actual), status
-- Campaigns below threshold with current ratio, minimum recommended, budget gap
-- Daily conversion capacity analysis per campaign
-- Budget recommendations with estimated additional conversions
+Use `../_resources/OUTPUT_TEMPLATES.md`; do not create a competing report format.
+Include stable entity IDs, condition key, observed evidence/window, sample, resolved
+thresholds, recommendation, uncertainty and the responsible owner.
+Separate confirmed findings, opportunities, insufficient evidence and not-applicable checks.
+- Budget-scope target/achieved ratios with source, denominator, shared membership and explicit unavailable cases.
+- Business-context review notes; no minimum recommended budget or deterministic conversion capacity.

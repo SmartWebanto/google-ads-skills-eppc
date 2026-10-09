@@ -1,0 +1,2 @@
+id,campaign_id,ad_group_id,status,type,final_url
+OUTAGE-AD,OUTAGE,OG,ENABLED,RESPONSIVE_SEARCH_AD,https://example.invalid/checkout

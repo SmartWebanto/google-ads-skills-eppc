@@ -1,84 +1,90 @@
 ---
 name: skill-022-broad-match-smart-bidding-alignment
-description: "Verify that broad match keywords are paired with Smart Bidding strategies."
-allowed-tools: Read, Grep, Glob
+description: "Review broad-match use against bidding objectives, measurement readiness and observed relevance without prescribing universal migration."
+allowed-tools: Read, Grep, Glob, Bash
 metadata:
-  library: eppc-ads-skills@1.1.0
+  library: eppc-ads-skills@2.0.0
   category: keywords
-  kind: deterministic
+  kind: analyst
   data_source: export
+  related: [skill-012-keyword-match-type-distribution, skill-023-close-variant-query-expansion-monitoring]
   markets: all
   gaql_verified: null
-  reviewed: 2026-09-03
+  reviewed: 2026-09-06
+  agent: "gpt-6-astra | openai | 2026-09-06 | FixStructureKeywords | evidence-led audit correction"
 ---
-# Skill 022: Broad Match + Smart Bidding Alignment Check
+# Skill 022: Broad Match and Bidding Context
 
 ## Purpose
 
-Google recommends using broad match keywords with Smart Bidding because the algorithm can adjust bids in real-time based on conversion likelihood. Broad match without Smart Bidding creates high risk of overpaying for irrelevant queries. This skill identifies misalignments where broad match lacks proper bid optimization.
+Review broad-match use against bidding objectives, measurement readiness and observed relevance without prescribing universal migration.
+Recommendations are review proposals, not account changes or causal forecasts.
 
 ## Data Requirements
 
-**Data Source:** Account export
+**Applicability:** Search campaigns with explicit match types and resolved campaign/portfolio strategy; historical exports retain their dated platform context.
 
-**Export data:**
-- **Campaigns** - Campaign bidding strategy
-- **Keywords** - Keyword match types
-- **Bidding strategies** - Portfolio bidding strategies
-- **Keyword metrics (30 days)** - Performance by match type
+**Required inputs:**
+- `export/account` and the base schemas in [DATA_CONTRACT.md](../_resources/DATA_CONTRACT.md).
+- `export/campaigns`, `export/keywords`, `export/keyword_metrics`, `export/bidding_strategies`,
+  `export/search_terms`, `export/campaign_metrics`, `export/conversion_actions`.
+- Campaign objective, selected conversion goals, tracking health, applicable target and portfolio membership.
+- Explicit strategy type/effective date and account snapshot; missing goal-selection evidence limits readiness conclusions.
+- Client profile: business type, campaign objectives, service area, approved constraints,
+  conversion lag and sales cycle, and applicable CPA/ROAS goals; never infer goals from bidding alone.
 
-**Reference GAQL:**
-```sql
-SELECT
-  campaign.name,
-  campaign.bidding_strategy_type,
-  ad_group.name,
-  ad_group_criterion.keyword.text,
-  ad_group_criterion.keyword.match_type,
-  metrics.impressions,
-  metrics.conversions,
-  metrics.cost_micros
-FROM keyword_view
-WHERE ad_group_criterion.status = 'ENABLED'
-  AND segments.date DURING LAST_30_DAYS
-```
-Run the reference query (API, UI report, or Editor export) if you need to analyze performance differences by match type.
+**Missing inputs:** Without effective strategy leave classification Unknown; without measurement/goals do not recommend migration; missing query data prevents relevance conclusions.
+Skip only dependent subchecks; list missing filenames/columns and retain supported inventory.
+Unknown settings are not equivalent to disabled controls; never report an incomplete check as passed.
 
 ## Analysis Steps
 
-1. **Classify campaign bidding strategies:** Smart Bidding (tCPA, tROAS, Max Conv, Max Conv Value) vs Non-Smart (Manual CPC, ECPC, Max Clicks, Target Impression Share)
-2. **Inventory match types by campaign:** Count broad, phrase, exact keywords and calculate percentages
-3. **Flag misalignments:** Broad + Manual CPC, Smart Bidding + 0% broad, Heavy broad (>50%) + Manual CPC
-4. **Assess performance impact:** Compare efficiency (CPA/ROAS) of broad match across bidding strategies
+1. Establish account, snapshot, currency, export window, conversion date basis and reporting coverage.
+   Use stable account/campaign/ad-group/entity IDs, not names, for joins; reject metric fan-out.
+   Separate current settings from historical performance; exclude incomplete days and immature conversions.
+
+2. Resolve campaign strategy through its strategy ID/portfolio membership before classifying controls.
+   Conversion/value Smart Bidding includes target CPA/ROAS and maximize conversions/value variants.
+
+3. Distinguish Manual CPC, Maximize Clicks and Target Impression Share by their actual objectives.
+   Do not treat non-conversion objectives as incorrectly configured merely because broad match exists.
+
+4. Treat ECPC in old exports as historical evidence: record date, channel and supplied control status.
+   Do not recommend enabling ECPC or assume current availability from a legacy strategy label.
+
+5. Inventory broad keyword count and spend within campaign context; distribution belongs to 012.
+   Neither high broad share with Manual CPC nor zero broad with Smart Bidding is a quota violation.
+
+6. Inspect mature broad-triggered query relevance and outcomes against approved goals.
+   Cross-strategy CPA differences are observational and confounded by brand/product/market mix.
+
+7. Review conversion/value measurement readiness before suggesting a Smart Bidding trial.
+   Broken tracking is a measurement issue, not a reason to force automated optimization.
+
+8. Offer optional pairing/match-type tests only for a documented control or reach need with safeguards.
+   Preserve legitimate manual and non-conversion setups; never promise improved efficiency from migration.
 
 ## Thresholds
 
+Resolve [PARAMETERS.md](../_resources/PARAMETERS.md) and profile overrides before screening.
+Numerical decision cutoffs below are triage heuristics, not platform requirements or causal proof.
+Compare CTR only with {{min_impressions}} impressions and conversion rates with {{min_clicks}} clicks
+on each side; CPA/ROAS comparisons require {{min_conversions}} mature conversions on each side.
+Zero-conversion screening is an exception to the conversion-count gate, not permission to pause:
+require working tracking, a mature comparable window, relevance review and {{spend_floor}}.
+Do not divide by zero; absent targets use an applicable profile target, otherwise omit target comparisons.
+
 | Condition | Severity |
 |-----------|----------|
-| Broad >= 50% AND Manual CPC | Critical |
-| Any broad AND Manual CPC | Warning |
-| Smart Bidding AND Broad < 20% | Info |
-| Smart Bidding AND Broad = 0% | Info |
-| ECPC + Broad match | Warning |
+| Mature broad-query exposure contradicts approved relevance/objective requirements | Warning |
+| Proposed conversion optimization lacks confirmed measurement readiness | Info |
+| Broad/manual combination, any broad share or absence of broad alone | Info |
 
 ## Output
 
-**Short (default):**
-```
-## Broad Match + Smart Bidding Audit
-**Account:** [Name] | **Campaigns:** [X] | **Misalignments:** [Y]
-
-### Critical ([Count])
-- **[Campaign]**: [X]% broad match + Manual CPC ([Y] keywords) -> Switch to Smart Bidding or narrow match types
-
-### Warnings ([Count])
-- **[Campaign]**: [Issue] -> [Fix]
-
-### Recommendations
-1. [Priority action]
-```
-
-**Detailed adds:**
-- Campaign-level alignment matrix (bidding strategy vs match type %)
-- Performance comparison table (broad in Smart Bidding vs Manual)
-- Specific keyword counts affected per campaign
+Use [OUTPUT_TEMPLATES.md](../_resources/OUTPUT_TEMPLATES.md), Short by default.
+For every finding include stable entity IDs, condition key, observed evidence and window,
+sample/coverage, resolved thresholds, recommendation, uncertainty and responsible owner.
+Separate confirmed observations, analyst interpretation, optional opportunities and skipped checks.
+Historical cost is exposure, not guaranteed savings; do not sum overlapping findings as recoverable spend.
+Return strategy × objective × match inventory and prerequisites, not a migration score.

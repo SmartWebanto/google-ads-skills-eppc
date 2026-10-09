@@ -1,103 +1,98 @@
 ---
 name: skill-054-geographic-performance-analysis
-description: "Analyze performance by location, recommend bid adjustments for strong and weak areas, and quantify exclusion candidates with zero or very poor conversion."
-allowed-tools: Read, Grep, Glob
+description: "Review geographic efficiency and service-area exposure without unsupported exclusion savings."
+allowed-tools: Read, Grep, Glob, Bash
 metadata:
-  library: eppc-ads-skills@1.1.0
+  library: eppc-ads-skills@2.0.0
   category: targeting
   kind: deterministic
   data_source: custom_query
   merged_from: [skill-055-underperforming-location-exclusion]
+  related: [skill-053-location-targeting-method-audit]
   markets: all
   gaql_verified: null
-  reviewed: 2026-09-03
+  reviewed: 2026-09-06
+  agent: "gpt-6-astra | openai | 2026-09-06 | FixTargetingQuality | evidence-led audit corrections"
 ---
 # Skill 054: Geographic Performance Analysis
 
 ## Purpose
 
-Geographic performance varies widely. Compare each location to the account average, propose bid adjustments where volume supports it, and exclude locations that spend without converting or sit outside the service area. Quantify waste and projected savings so exclusions are defensible.
+Compare geographic segments within comparable campaigns and identify defensible review
+candidates for service-area alignment and performance. Retain former skill-055 exclusion
+coverage, but do not equate non-converting spend with recoverable savings.
 
 ## Data Requirements
 
-**Data Source:** Custom query required
+**Applicability:** Campaigns with geographic reporting; adjustment proposals require a
+supported channel, strategy and geographic control. Presence and matched geography differ.
 
-A basic account export does not include location-segmented performance metrics.
+**Required inputs:** [DATA_CONTRACT](../_resources/DATA_CONTRACT.md) base files
+`account`, `campaigns`, `campaign_metrics`, `bid_adjustments` and `bidding_strategies`.
+Load campaign goals, lag maturity, location methods, current targets, exclusions and modifiers.
+Client profile must supply service_area and campaign_objectives with intended remote buyers.
+- `export/custom/geographic_performance.csv`: supplied Google Ads Locations report,
+  one row per account_id, campaign_id, date, geo_level, geo_criterion_id, location_type,
+  report_basis (user_location or matched_location), and any additional report segments.
+  Columns: location_name, country_criterion_id, impressions, clicks, cost, conversions,
+  conversion_value, source, currency, reporting_completeness; preserve unknown locations.
+  Use the common mature 30-day window or declared longer window for sparse locations.
+- Supplied geographic criterion lookup must be in `export/custom/geo_lookup.csv`:
+  one row per geo_criterion_id, with name, parent_id, country_code, geo_level, source,
+  snapshot_date from Google Ads geo-target data/UI. Radius targets retain center/radius.
 
-**Export data:**
-- **Bid adjustments (campaign level)** - Current location bid modifiers
-
-**GAQL Query:**
-```sql
-SELECT
-  campaign.name,
-  geographic_view.country_criterion_id,
-  geographic_view.location_type,
-  segments.geo_target_region,
-  segments.geo_target_metro,
-  segments.geo_target_city,
-  metrics.impressions,
-  metrics.clicks,
-  metrics.cost_micros,
-  metrics.conversions,
-  metrics.conversions_value
-FROM geographic_view
-WHERE segments.date DURING LAST_30_DAYS
-  AND metrics.impressions > 0
-```
-Run the query through the Google Ads API, a UI custom report, or Google Ads Editor; save the result as `geographic_performance`.
-For the exclusion pass, filter to `metrics.cost_micros > 0` and load current exclusions from **Bid adjustments**.
+**Missing inputs:** Without service area, skip relevance/exclusion claims. Missing location
+basis or hierarchy prevents geographic rollups. Missing strategy blocks modifier proposals.
+Metrics can still be summarized; unknown/withheld geography is not out-of-area traffic.
 
 ## Analysis Steps
 
-1. **Fetch location performance:** Custom GAQL plus current bid modifiers and exclusions
-2. **Compute per-location metrics:** CPA, conversion rate, ROAS, cost share, conversion share vs account average
-3. **Bid increases:** CPA well below average with >= {{min_conversions}} conversions
-4. **Bid decreases:** CPA well above average with >= {{min_clicks}} clicks
-5. **Exclusions:** Zero conversions above the spend floor, CPA > 3x average, CVR < 0.5x average with >= {{min_clicks}} clicks, outside the service area
-6. **Quantify and prioritize:** 30-day waste, projected annual savings, high/medium/low priority
+1. Reconcile each campaign's geographic reporting coverage to campaign totals. Separate
+   user-location from matched-location reports; never sum the two or parent/child levels.
+2. Map one mutually exclusive level at a time to the service area. Check intended travelers,
+   shipping coverage and existing exclusions before labeling apparently outside traffic.
+3. Calculate CPA = cost/conversions, CVR = conversions/clicks and ROAS = value/cost.
+   Compare each location with the rest of the SAME campaign and eligible goal cohort;
+   account averages are descriptive only. Do not blend incompatible conversion goals.
+4. Review CPA >1.5x or CVR <0.5x comparable baseline as adverse signals; CPA <0.7x is
+   an opportunity hypothesis. Require corresponding sample gates on both sides.
+   For zero conversions use the separate spend-floor review rule, never divide by zero.
+5. Prioritize confirmed service mismatch and adverse efficiency by historical cost exposed.
+   A small location sample, modeled location or conversion lag can explain apparent issues.
+   Neither CPA differences nor out-of-area matched locations prove exclusion benefits.
+6. For Manual CPC only, a supported modifier test may use raw multiplier = baseline CPA /
+   location CPA; cap the incremental multiplier to 0.9–1.1 and multiply the existing positive
+   bid multiplier. Record current/proposed values and verify platform range/interactions.
+   This is a cautious test heuristic, not an optimum; no formula at zero CPA/conversions.
+7. Smart Bidding already uses location signals: do not propose ordinary CPC adjustments.
+   Consider geographic eligibility changes only for confirmed business coverage reasons,
+   with owner review and measured trade-offs; do not auto-exclude expensive segments.
+   Route positive/negative location-method conflicts to skill-053.
 
 ## Thresholds
 
 | Condition | Severity |
 |-----------|----------|
-| Location outside service area with any spend | Critical (exclude) |
-| Zero conversions with Cost > {{spend_significant}} | Critical (exclude) |
-| CPA 40%+ below average with >= {{min_conversions}} conversions | Critical (increase bid) |
-| CPA > 3x account average with >= {{min_clicks}} clicks | High (exclude) |
-| Zero conversions with Cost {{spend_floor}} to {{spend_significant}} | High (exclude) |
-| CPA 50%+ above average | High (decrease bid) |
-| CPA 20-40% below or 30-50% above average | Warning (moderate adjustment) |
-| CVR < 0.5x average with >= {{min_clicks}} clicks | Warning |
+| Confirmed non-serviceable traffic with mature spend >= {{spend_floor}} | Warning |
+| CPA >1.5x or CVR <0.5x comparable baseline with required samples | Warning |
+| Zero conversions, verified tracking, mature spend >= {{spend_floor}} | Warning |
+| CPA <0.7x comparable baseline with required samples | Info |
+| Missing basis, intent, strategy, geography or sufficient sample | Info |
 
-Sample size: judge CTR rows only above {{min_impressions}} impressions, conversion-rate rows only above {{min_clicks}} clicks, and CPA/ROAS comparisons only above {{min_conversions}} conversions; below that, report "insufficient sample" as Info.
+Use [PARAMETERS](../_resources/PARAMETERS.md): CTR needs {{min_impressions}}, CVR
+needs {{min_clicks}}, and CPA/ROAS needs {{min_conversions}} on BOTH comparison sides.
+Exclude incomplete days and immature conversion-lag periods; align goals and date basis.
+Undefined denominators produce N/A, not zero or infinity. Zero-conversion screening is
+a separate exception: mature tracking-verified data and cost >= {{spend_floor}} permit
+a Warning review, not an automatic pause. Numeric cutoffs below are triage heuristics.
 
 ## Output
 
-**Short (default):**
-```
-## Geographic Performance Audit
-
-**Account:** [Name] | **Locations Analyzed:** [X] | **Optimization Opportunities:** [Y]
-**Current Waste:** {{currency}} [X]/month | **Projected Annual Savings:** {{currency}} [Y]
-
-### Bid Increases ([Count])
-- **[Location]**: CPA {{currency}} [X] ([Y]% below avg), [Z] conv → Increase to +[%]
-
-### Bid Decreases ([Count])
-- **[Location]**: CPA {{currency}} [X] ([Y]% above avg) → Decrease to -[%]
-
-### Exclusion Candidates ([Count])
-- **[Location]**: {{currency}} [X] spend, 0 conversions → Exclude
-
-### Recommendations
-1. [Priority adjustment]
-2. [Secondary adjustment]
-```
-
-**Detailed adds:**
-- Account performance baseline table (total conversions, average CPA, average ROAS)
-- Top performing locations table (location, conversions, CPA, vs avg, current adj, recommended)
-- Underperforming locations table (location, cost, conversions, CPA, vs avg, current adj, recommended)
-- Exclusion recommendations table (location, cost, conversions, reason)
-- Low priority review table (borderline cases to monitor)
+Use [OUTPUT_TEMPLATES](../_resources/OUTPUT_TEMPLATES.md), not a separate format.
+Include stable account/campaign/ad-group/entity IDs, condition key, observed evidence and window,
+sample, resolved thresholds, recommendation, uncertainty, and responsible owner.
+List exact missing fields and dependent checks skipped; unknown does not mean passed.
+Recommendations are request-only proposals; do not modify accounts or export files.
+Historical exposure is not savings; no uplift forecast without an explicit counterfactual model.
+Include geography level/basis, criterion IDs, service-area decision, within-campaign
+baseline, sample on both sides, current exclusions, and supported control/test proposal.

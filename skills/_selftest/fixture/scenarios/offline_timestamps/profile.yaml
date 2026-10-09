@@ -1,0 +1,26 @@
+{
+  "slug": "regression",
+  "report_language": "en",
+  "market": [
+    "IT"
+  ],
+  "business_type": "lead_generation",
+  "objectives": [
+    "qualified offline leads; expected hourly upload cadence"
+  ],
+  "brand_terms": [
+    "acme"
+  ],
+  "competitor_terms": [],
+  "excluded_intents": [],
+  "service_area": [
+    "Italy"
+  ],
+  "conversion_lag_days": 2,
+  "sales_cycle_days": 30,
+  "monthly_budget": 10000,
+  "parameter_overrides": {},
+  "target_cpa": null,
+  "target_roas": null,
+  "export_path": "export/"
+}

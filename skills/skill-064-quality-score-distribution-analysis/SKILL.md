@@ -1,9 +1,9 @@
 ---
 name: skill-064-quality-score-distribution-analysis
-description: "Monitor Quality Score distribution, flag high-spend low-QS keywords with their weak component, and recommend monitoring alerts."
-allowed-tools: Read, Grep, Glob
+description: "Inventory diagnostic Quality Score coverage and low-score spend exposure without CPC savings claims."
+allowed-tools: Read, Grep, Glob, Bash
 metadata:
-  library: eppc-ads-skills@1.1.0
+  library: eppc-ads-skills@2.0.0
   category: quality
   kind: deterministic
   data_source: export
@@ -11,93 +11,82 @@ metadata:
   related: [skill-065-quality-score-component-breakdown, skill-066-historical-quality-score-trend, skill-067-expected-ctr-improvement]
   markets: all
   gaql_verified: null
-  reviewed: 2026-09-03
+  reviewed: 2026-09-06
+  agent: "gpt-6-astra | openai | 2026-09-06 | FixTargetingQuality | evidence-led audit corrections"
 ---
 # Skill 064: Quality Score Distribution Analysis
 
 ## Purpose
 
-Low Quality Scores raise CPCs and lower positions. Measure the distribution and impression-weighted average, isolate high-spend keywords at QS 1-5 with the component that drags them (expected CTR, ad relevance, landing page), quantify the spend exposed, and propose alert rules so regressions surface without a manual audit.
+Use keyword Quality Score (QS) to prioritize diagnostic review, not to optimize an account
+KPI. QS is not an auction input and does not establish a CPC multiplier or recoverable
+savings. Preserve useful inventory, spend exposure and request-only alert planning.
+Source: [Google Ads: About Quality Score](https://support.google.com/google-ads/answer/6167118?hl=en).
 
 ## Data Requirements
 
-**Data Source:** Account export
+**Applicability:** Search keywords with reported current QS. Do not invent QS for other
+channels, excluded entity types or unavailable ratings; preserve null/unknown separately.
 
-**Export data:**
-- **Keywords** - Keyword Quality Score data including overall QS and components
-- **Keyword metrics (30 days)** - Keyword performance metrics
+**Required inputs:** [DATA_CONTRACT](../_resources/DATA_CONTRACT.md):
+- `account`: snapshot, window, units and completeness.
+- `campaigns`, `ad_groups` and `keywords`: stable account/campaign/ad-group/criterion
+  IDs, statuses, match type, current QS and expected CTR/ad relevance/LP components.
+- `keyword_metrics`: matching IDs, window, impressions, clicks, cost, conversions and
+  conversion value; missing metric rows are not assumed zero unless export is complete.
+- Optional history uses skill-066's `export/custom/quality_score_history.csv` schema;
+  never infer historical scores from a current-state query over a historical date range.
+- Client profile goals and resolved monetary parameters for prioritization, not QS targets.
 
-**Reference GAQL:**
-```sql
-SELECT
-  campaign.name,
-  ad_group.name,
-  ad_group_criterion.keyword.text,
-  ad_group_criterion.keyword.match_type,
-  ad_group_criterion.quality_info.quality_score,
-  ad_group_criterion.quality_info.creative_quality_score,
-  ad_group_criterion.quality_info.post_click_quality_score,
-  ad_group_criterion.quality_info.search_predicted_ctr,
-  metrics.impressions,
-  metrics.clicks,
-  metrics.cost_micros
-FROM keyword_view
-WHERE ad_group_criterion.status = 'ENABLED'
-  AND campaign.status = 'ENABLED'
-  AND segments.date DURING LAST_30_DAYS
-```
-Run the reference query (API, UI report, or Editor export) if you need additional metrics or different date ranges.
+**Missing inputs:** Missing QS blocks that keyword's rating check, not spend inventory.
+Missing components blocks attribution to a component. Missing historical evidence blocks
+trend alerts only. If metrics are absent, report counts without fabricated spend rankings.
 
 ## Analysis Steps
 
-1. **Load keyword QS data:** Quality Score and the three components per enabled keyword
-2. **Calculate distribution:** Keywords by bucket (1-3, 4-5, 6-7, 8-10, N/A) and impression-weighted average (target > 6)
-3. **Flag high-spend low QS:** Cost >= {{spend_significant}} at QS 1-3; Cost >= {{spend_material}} at QS 4-5
-4. **Identify the weak component:** For every flagged keyword, which component is Below Average
-5. **Quantify exposure:** Spend on QS 1-3 keywords as a share of total spend
-6. **Recommend alert rules:** QS <= 3 with impressions > {{min_impressions}}; QS drop of 2+ points (operational follow-up)
+1. Define the eligible keyword universe from campaigns/ad groups/keywords, not only metric
+   rows with impressions. Separate enabled serving inventory from paused/removed entities.
+2. Normalize valid QS 1–10, unavailable and invalid source values. Never turn N/A into 0.
+   Count buckets 1–3, 4–5, 6–7, 8–10 and N/A; report full inventory count explicitly.
+3. Bucket count share uses all eligible keywords including N/A. A rated-only distribution
+   may also be shown but must name its non-null denominator. Report score availability.
+   Do not convert a weighted account average into a target or optimization KPI.
+4. Join period cost to current rating, labeled CURRENT-SNAPSHOT exposure rather than a
+   historical QS time series. Show each bucket's spend share of all eligible keyword cost,
+   including an N/A bucket; ensure every criterion's cost is counted only once.
+5. Prioritize QS 1–3 with cost >= {{spend_significant}} or QS 4–5 with cost >=
+   {{spend_material}}. These are review heuristics, not proof of poor economics.
+   Attach observed weak components; multiple weak components do not reveal causal weights.
+6. Delegate component ownership to 065 and concrete CTR/relevance/LP review to 067/068/069.
+   Preserve profitable low-QS keywords for review rather than pausing them to improve a score.
+   Compare business outcomes only with mature comparable goals and sample gates.
+7. Recommend request-only monitoring: condition key, stable entity IDs, snapshot cadence,
+   owner and review/reset state. QS <=3 with {{min_impressions}} or a 2-point historical
+   decline can open a diagnostic review; score-only alerts are never automatic bid/pause rules.
+   Route historical changes to 066 so current exposure and historical decline are not duplicate loss.
 
 ## Thresholds
 
 | Condition | Severity |
 |-----------|----------|
-| Keyword QS 1-3 with Cost > {{spend_significant}}/30d | Critical |
-| Keyword QS 1-3 with Impressions > {{min_impressions}} | Critical |
-| > 20% of keywords have QS 1-3 | Critical |
-| Weighted average QS < 5 | Critical |
-| Keyword QS 4-5 with Cost > {{spend_material}}/30d | Warning |
-| Any component Below Average on a keyword above {{spend_significant}}/30d | Warning |
-| Weighted average QS 5-6 | Warning |
-| QS dropped 2+ points vs previous snapshot (when history is available) | Warning |
+| QS 1–3 and current-snapshot period cost >= {{spend_significant}} | Warning |
+| QS 4–5 and current-snapshot period cost >= {{spend_material}} | Warning |
+| Weak component with period cost >= {{spend_significant}} | Warning |
+| Low-QS keyword count/share, no corroborating cost or business issue | Info |
+| Missing score, components, metrics or optional history | Info |
+
+No QS-only condition is Critical. Score boundaries and spend priority are triage heuristics.
+Apply [PARAMETERS](../_resources/PARAMETERS.md) to business comparisons: {{min_impressions}}
+for CTR, {{min_clicks}} for CVR, {{min_conversions}} for CPA/ROAS on both mature sides.
+A score's availability does not make its associated business performance sample sufficient.
 
 ## Output
 
-**Short (default):**
-```
-## Quality Score Distribution Audit
-
-**Account:** [Name] | **Keywords Analyzed:** [X] | **Weighted Avg QS:** [Y]
-
-### Distribution
-| QS Range | Count | % |
-|----------|-------|---|
-| 8-10 | [X] | [%] |
-| 6-7 | [X] | [%] |
-| 4-5 | [X] | [%] |
-| 1-3 | [X] | [%] |
-
-### Critical ([Count])
-- **[Keyword]** in [Ad Group]: QS [X], {{currency}} [Cost] -> [Primary issue component]
-
-### Recommendations
-1. [Priority action]
-2. [Secondary action]
-```
-
-**Detailed adds:**
-- Full keyword list with QS and components
-- QS by campaign breakdown
-- Component analysis (CTR, Relevance, LP)
-- Estimated CPC savings from QS improvements
-- Spend on low-QS keywords by bucket
-- Recommended alert rules (Google Ads automated rules configuration)
+Use [OUTPUT_TEMPLATES](../_resources/OUTPUT_TEMPLATES.md), not a separate format.
+Include stable account/campaign/ad-group/entity IDs, condition key, observed evidence and window,
+sample, resolved thresholds, recommendation, uncertainty, and responsible owner.
+List exact missing fields and dependent checks skipped; unknown does not mean passed.
+Recommendations are request-only proposals; do not modify accounts or export files.
+Historical exposure is not savings; no uplift forecast without an explicit counterfactual model.
+Add bucket counts/denominators, N/A coverage, deduplicated spend exposure and snapshot date,
+component routing and proposed alert owner/cadence; never estimate CPC savings from QS.

@@ -1,91 +1,95 @@
 ---
 name: skill-014-search-term-mining-negatives
-description: "Identify irrelevant, wasteful, or poor-performing search queries that should be added as negative keywords to prevent future spend waste."
-allowed-tools: Read, Grep, Glob
+description: "Identify business-inappropriate query exposure and contextual negative proposals after scope and desired-traffic checks."
+allowed-tools: Read, Grep, Glob, Bash
 metadata:
-  library: eppc-ads-skills@1.1.0
+  library: eppc-ads-skills@2.0.0
   category: keywords
-  kind: deterministic
+  kind: analyst
   data_source: export
-  related: [skill-013-search-term-mining-keywords, skill-127-trending-search-term-detection]
+  related: [skill-013-search-term-mining-keywords, skill-127-trending-search-term-detection, skill-017-negative-keyword-conflict-detection, skill-015-ngram-analysis, skill-023-close-variant-query-expansion-monitoring]
   markets: all
   gaql_verified: null
-  reviewed: 2026-09-03
+  reviewed: 2026-09-06
+  agent: "gpt-6-astra | openai | 2026-09-06 | FixStructureKeywords | evidence-led audit correction"
 ---
-# Skill 014: Search Term Mining for Negative Keywords
+# Skill 014: Search Term Mining for Negatives
 
 ## Purpose
-Identify irrelevant, wasteful, or poor-performing search queries that should be added as negative keywords to prevent future spend waste. Proactive negative keyword management reclaims budget for better-performing queries.
+
+Identify business-inappropriate query exposure and contextual negative proposals after scope and desired-traffic checks.
+Recommendations are review proposals, not account changes or causal forecasts.
 
 ## Data Requirements
 
-**Data Source:** Account export
+**Applicability:** Search query data and negative controls supported by the campaign type; never extrapolate to every channel.
 
-**Export data:**
-- **Search terms (30 days)** - Search query performance
-- **Negative keywords (campaign level)** - Existing campaign negatives
-- **Negative keywords (ad group level)** - Existing ad group negatives
-- **Shared negative lists** - Shared negative keyword lists
-- **Keywords** - Active keywords (to avoid conflicts)
+**Required inputs:**
+- `export/account` and the base schemas in [DATA_CONTRACT.md](../_resources/DATA_CONTRACT.md).
+- `export/campaigns`, `export/campaign_metrics`, `export/ad_groups`, `export/keywords`, `export/search_terms`.
+- `export/negative_keywords`, `export/shared_negative_lists`, including effective scope and list links.
+- Query metrics at account/campaign/ad_group/query/matched_keyword/window plus declared segments;
+  use matched keyword ID, explicit keyword match type and report match classification where available.
+- Profile brand_terms, competitor_terms, excluded_intents and campaign-specific goals; reporting filters/completeness.
+- `export/keyword_metrics` is optional contextual evidence, never substituted for a query's metrics.
+- Client profile: business type, campaign objectives, service area, approved constraints,
+  conversion lag and sales cycle, and applicable CPA/ROAS goals; never infer goals from bidding alone.
 
-**Reference GAQL:**
-```sql
-SELECT
-  campaign.name,
-  ad_group.name,
-  search_term_view.search_term,
-  search_term_view.status,
-  metrics.impressions,
-  metrics.clicks,
-  metrics.cost_micros,
-  metrics.conversions
-FROM search_term_view
-WHERE segments.date DURING LAST_30_DAYS
-  AND metrics.cost_micros > 0
-```
-Run the reference query (API, UI report, or Editor export) if you need different date ranges.
+**Missing inputs:** Without approved excluded intents or relevance context classify uncertain terms as review candidates; missing positive/negative inventory blocks safe exclusion proposals.
+Skip only dependent subchecks; list missing filenames/columns and retain supported inventory.
+Unknown settings are not equivalent to disabled controls; never report an incomplete check as passed.
 
 ## Analysis Steps
 
-1. **Find high-spend zero-conversion terms:** Filter Conversions = 0 AND Cost >= 2 × the campaign's target CPA; when the campaign has no target CPA use {{spend_significant}}
-2. **Identify low-engagement terms:** Conversions = 0 AND Impressions >= {{min_impressions}} AND CTR < 1%
-3. **Detect waste patterns:** Scan for "jobs", "free", "how to", "login", "support", "review"; add competitor names when the client profile lists them
-4. **Check against existing negatives:** Verify candidates not already blocked
-5. **Recommend negative level:** Account-wide patterns → shared list; campaign-specific → campaign negative
+1. Establish account, snapshot, currency, export window, conversion date basis and reporting coverage.
+   Use stable account/campaign/ad-group/entity IDs, not names, for joins; reject metric fan-out.
+   Separate current settings from historical performance; exclude incomplete days and immature conversions.
+
+2. Reconcile reported-query clicks/cost with compatible campaign totals and report coverage.
+   Privacy-omitted terms and filters limit conclusions; never assume an unreported query has zero traffic.
+
+3. Screen mature zero-conversion queries at {{spend_floor}} with working tracking.
+   This is exposure for review, not proof of waste; check objective, conversion lag and relevance.
+
+4. Match explicit business exclusions with brand_terms precedence over competitor_terms.
+   Jobs, free, research, support and competitors are not universal waste; preserve intentional traffic.
+
+5. Use low CTR only as a sampled engagement diagnostic, never standalone negative justification.
+   High CPA comparisons need mature samples and an applicable target/benchmark.
+
+6. Resolve existing campaign/ad-group/attached-list coverage under 017 literal-query semantics.
+   Compare metric window to negative effective/snapshot date; current protection may postdate historical exposure.
+
+7. For each proposed negative run a local scope review against active positive texts and observed desirable queries.
+   Phrase requires contiguous ordered tokens; exact only literal equality; broad requires all tokens regardless of order.
+
+8. Choose the narrowest justified scope and match type; phrase/shared-list proposals require every affected campaign reviewed.
+   Show desired queries that would be blocked, including converting terms; do not recommend removal of intentional routing.
+
+9. Deduplicate proposals with 015/023 by normalized negative, match type and scope.
+   014 owns the final negative proposal; economic exposure is the union of affected query rows, not stacked totals.
 
 ## Thresholds
 
+Resolve [PARAMETERS.md](../_resources/PARAMETERS.md) and profile overrides before screening.
+Numerical decision cutoffs below are triage heuristics, not platform requirements or causal proof.
+Compare CTR only with {{min_impressions}} impressions and conversion rates with {{min_clicks}} clicks
+on each side; CPA/ROAS comparisons require {{min_conversions}} mature conversions on each side.
+Zero-conversion screening is an exception to the conversion-count gate, not permission to pause:
+require working tracking, a mature comparable window, relevance review and {{spend_floor}}.
+Do not divide by zero; absent targets use an applicable profile target, otherwise omit target comparisons.
+
 | Condition | Severity |
 |-----------|----------|
-| Cost >= 3 × target CPA (or >= {{spend_material}} when the campaign has no target CPA) AND Conv = 0 | Critical |
-| Cost >= 2 × target CPA (or >= {{spend_significant}} when the campaign has no target CPA) AND Conv = 0 | Warning |
-| Impressions >= {{min_impressions}} AND CTR < 1% AND Conv = 0 | Warning |
-| Contains waste pattern ("free", "jobs", "how to") AND Conv = 0 | Warning |
-
-Sample size: judge CTR rows only above {{min_impressions}} impressions, conversion-rate rows only above {{min_clicks}} clicks, and CPA/ROAS comparisons only above {{min_conversions}} conversions; below that, report "insufficient sample" as Info.
+| Confirmed business-excluded query with material observed exposure and reviewed scope | Warning |
+| Mature zero-conversion query at {{spend_floor}} after tracking/relevance review | Warning |
+| Generic token, low CTR alone, uncertain relevance or insufficient sample | Info |
 
 ## Output
 
-Use **Short** format by default. Use **Detailed** if user requests comprehensive analysis.
-
-**Short:**
-```
-## Negative Keyword Mining Audit
-**Account:** [Name] | **Search Terms:** [X] | **Negatives Needed:** [Y]
-
-### Critical ([Count])
-- **"[search term]"**: {{currency}} [X] spent, 0 conversions → Add as [phrase] negative
-
-### Warnings ([Count])
-- **"[pattern]" pattern**: [X] terms, {{currency}} [Y] wasted → Add "[pattern]" to shared negative list
-
-### Recommendations
-1. Add [X] negative keywords (saves ~{{currency}} [Y]/month)
-2. Create shared list for "[pattern]" terms
-```
-
-**Detailed** adds:
-- What Was Checked (spend thresholds, waste patterns)
-- High-spend zero-conversion table (Term, Campaign, Cost, Clicks, CTR, Recommendation)
-- Waste pattern summary (Pattern, Terms Found, Total Cost, Action)
-- Recommended negatives list (Keyword, Match Type, Level, Wasted Spend)
+Use [OUTPUT_TEMPLATES.md](../_resources/OUTPUT_TEMPLATES.md), Short by default.
+For every finding include stable entity IDs, condition key, observed evidence and window,
+sample/coverage, resolved thresholds, recommendation, uncertainty and responsible owner.
+Separate confirmed observations, analyst interpretation, optional opportunities and skipped checks.
+Historical cost is exposure, not guaranteed savings; do not sum overlapping findings as recoverable spend.
+Report exact blocked/desirable query examples, effective scope and review owner; no guaranteed savings.

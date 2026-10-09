@@ -1,0 +1,2 @@
+merchant_id,item_id,descriptor,genuine_attribute,product_page_snapshot_ref,applicable_season_or_event,truthful_use_rationale,owner
+M1,REUSED-ID,Christmas pattern,True,synthetic source missing locale,Christmas,upstream record does not identify feed label or language,synthetic owner

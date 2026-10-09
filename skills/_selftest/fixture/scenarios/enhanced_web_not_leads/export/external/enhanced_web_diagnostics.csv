@@ -1,0 +1,2 @@
+account_id,action_id,window_start,window_end,implementation_method,eligible_events,enhanced_events,accepted_events,diagnostic_code,diagnostic_status,metric_name,metric_numerator,metric_denominator,processing_mature,source_reference
+demo,WEB-ACTION,2026-08-01,2026-08-30,Google tag automatic hashing,100,100,100,NONE,ACTIVE_NO_ISSUES,accepted_eligible_events,100,100,True,synthetic current Web diagnostic

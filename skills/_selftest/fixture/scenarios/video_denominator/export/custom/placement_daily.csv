@@ -1,0 +1,2 @@
+account_id,campaign_id,ad_group_id,date,placement_id,format,placement_type,URL_or_app_id,app_category_id,category_source,network,objective,impressions,clicks,cost,conversions,conversion_value
+demo,VIDEO,VG,2026-08-10,YOUTUBE-1,skippable_instream,YOUTUBE_VIDEO,synthetic-video,,not_applicable,YOUTUBE,purchase,10000,100,500,30,1500

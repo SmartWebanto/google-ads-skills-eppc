@@ -1,90 +1,96 @@
 ---
 name: skill-020-low-performing-keyword-pruning
-description: "Identify keywords that exceed cost thresholds without generating conversions, representing candidates for pausing or removal to improve account efficiency."
-allowed-tools: Read, Grep, Glob
+description: "Screen mature keyword exposure and goal-relative outcomes for contextual review rather than immediate pruning or guaranteed savings."
+allowed-tools: Read, Grep, Glob, Bash
 metadata:
-  library: eppc-ads-skills@1.1.0
+  library: eppc-ads-skills@2.0.0
   category: keywords
-  kind: deterministic
+  kind: analyst
   data_source: export
+  related: [skill-014-search-term-mining-negatives]
   markets: all
   gaql_verified: null
-  reviewed: 2026-09-03
+  reviewed: 2026-09-06
+  agent: "gpt-6-astra | openai | 2026-09-06 | FixStructureKeywords | evidence-led audit correction; gpt-6-astra | openai | 2026-09-06 | s_20260906_fix | portfolio target precedence"
 ---
-# Skill 020: Low-Performing Keyword Pruning
+# Skill 020: Low-Performing Keyword Review
 
 ## Purpose
-Identify keywords that exceed cost thresholds without generating conversions, representing candidates for pausing or removal to improve account efficiency. Pruning non-performers reclaims budget for better keywords.
+
+Screen mature keyword exposure and goal-relative outcomes for contextual review rather than immediate pruning or guaranteed savings.
+Recommendations are review proposals, not account changes or causal forecasts.
 
 ## Data Requirements
 
-**Data Source:** Account export
+**Applicability:** Search keywords with conversion/value objectives; awareness keywords require their own agreed success metrics.
 
-**Export data:**
-- **Keyword metrics (30 days)** - Keyword performance
-- **Keywords** - Keyword settings (status, QS)
-- **Campaigns** - Campaign target CPA/ROAS and bidding strategy
+**Required inputs:**
+- `export/account` and the base schemas in [DATA_CONTRACT.md](../_resources/DATA_CONTRACT.md).
+- `export/campaigns`, `export/keywords`, `export/keyword_metrics`, `export/campaign_metrics`,
+  `export/bidding_strategies`, `export/search_terms`, `export/conversion_actions`.
+- Campaign/profile CPA or ROAS target, objective, strategy, tracking status, conversion lag and maturity.
+- Keyword metrics at account/campaign/ad_group/keyword/window; query evidence is a separate relevance breakdown.
+- Client profile: business type, campaign objectives, service area, approved constraints,
+  conversion lag and sales cycle, and applicable CPA/ROAS goals; never infer goals from bidding alone.
 
-**Reference GAQL:**
-```sql
-SELECT
-  campaign.name,
-  ad_group.name,
-  ad_group_criterion.keyword.text,
-  ad_group_criterion.keyword.match_type,
-  ad_group_criterion.quality_info.quality_score,
-  metrics.impressions,
-  metrics.clicks,
-  metrics.cost_micros,
-  metrics.conversions
-FROM keyword_view
-WHERE ad_group_criterion.status = 'ENABLED'
-  AND segments.date DURING LAST_30_DAYS
-```
-Run the reference query (API, UI report, or Editor export) if you need different date ranges or longer lookback windows.
+**Missing inputs:** Without working-tracking evidence or conversion maturity retain exposure inventory but defer pruning; without a target use a comparable mature benchmark only if justified.
+Skip only dependent subchecks; list missing filenames/columns and retain supported inventory.
+Unknown settings are not equivalent to disabled controls; never report an incomplete check as passed.
 
 ## Analysis Steps
 
-1. **Establish thresholds:** Use campaign target CPA (prune at 2-3x with 0 conversions) or {{spend_floor}} minimum
-2. **Find zero-conversion keywords:** Filter Conversions = 0, Cost >= threshold, sort by Cost descending
-3. **Find high-CPA keywords:** Filter Conversions >= 1, CPA > target CPA x 1.5
-4. **Assess engagement signals:** Check CTR < 1% (poor relevance), QS < 5 (landing page/ad issues)
-5. **Consider context:** New keywords in learning, conversion tracking issues, top-of-funnel awareness
+1. Establish account, snapshot, currency, export window, conversion date basis and reporting coverage.
+   Use stable account/campaign/ad-group/entity IDs, not names, for joins; reject metric fan-out.
+   Separate current settings from historical performance; exclude incomplete days and immature conversions.
+
+2. Resolve the applicable target through PARAMETERS: campaign target (including an embedded
+   Maximize Conversions/Value target), then linked portfolio target, then compatible campaign-objective/
+   profile target, else absent. Record its source and use the SAME resolved target for outcome screening
+   and money parameters. Keep CPA and ROAS objectives distinct; a profile target cannot override an
+   applicable portfolio target. Resolve {{spend_floor}} even without a target; average CPC is not a target.
+
+3. Screen zero-conversion keywords at {{spend_floor}} only after tracking, maturity and relevance checks.
+   Above 2×/3× a target may sort exposure but does not create a separate automatic-pause severity.
+
+4. For positive-conversion keywords use one consistent screen: CPA >2× applicable target/benchmark.
+   Require {{min_conversions}} on the entity and any empirical comparator; target goals/windows must be compatible.
+
+5. For value-based objectives inspect mature ROAS against an applicable value target and value quality.
+   Do not prune high-value traffic just because its CPA is relatively high.
+
+6. Without target or suitable benchmark, omit relative-performance flags; retain mature zero-conversion spend review.
+   Do not substitute an unrelated account-wide average.
+
+7. Review actual query relevance, tracking problems, recent changes, learning and intended funnel role.
+   Low CTR or Quality Score alone cannot diagnose landing-page failure or justify a pause.
+
+8. Propose monitoring, messaging/query review or an owner-reviewed pause trial with explicit tradeoffs.
+   Keyword CPC bid proposals apply only to supported manual controls; do not reduce keyword bids under Smart Bidding.
+
+9. Keep exposure separate from savings and state unknown counterfactual delivery after a pause.
+   Route negative opportunities to 014; no immediate account changes.
 
 ## Thresholds
 
+Resolve [PARAMETERS.md](../_resources/PARAMETERS.md) and profile overrides before screening.
+Numerical decision cutoffs below are triage heuristics, not platform requirements or causal proof.
+Compare CTR only with {{min_impressions}} impressions and conversion rates with {{min_clicks}} clicks
+on each side; CPA/ROAS comparisons require {{min_conversions}} mature conversions on each side.
+Zero-conversion screening is an exception to the conversion-count gate, not permission to pause:
+require working tracking, a mature comparable window, relevance review and {{spend_floor}}.
+Do not divide by zero; absent targets use an applicable profile target, otherwise omit target comparisons.
+
 | Condition | Severity |
 |-----------|----------|
-| Cost >= 3x Target CPA AND Conv = 0 | Critical |
-| Cost >= 2x Target CPA AND Conv = 0 | Warning |
-| Cost >= {{spend_significant}} AND Conv = 0 AND CTR < 1% | Warning |
-| CPA > 2x Target AND Conv >= 1 | Warning |
-| Cost >= Target CPA AND Conv = 0 AND QS >= 7 | Info |
-
-Sample size: judge CTR rows only above {{min_impressions}} impressions, conversion-rate rows only above {{min_clicks}} clicks, and CPA/ROAS comparisons only above {{min_conversions}} conversions; below that, report "insufficient sample" as Info.
+| Mature zero-conversion keyword at {{spend_floor}} after required contextual checks | Warning |
+| Mature keyword CPA >2× applicable target or comparable benchmark | Warning |
+| Insufficient tracking/maturity, absent benchmark or diagnostic score alone | Info |
 
 ## Output
 
-Use **Short** format by default. Use **Detailed** if user requests comprehensive analysis.
-
-**Short:**
-```
-## Keyword Pruning Audit
-**Account:** [Name] | **Keywords Analyzed:** [X] | **Prune Candidates:** [Y]
-
-### Critical ([Count])
-- **[keyword]** ([match]): {{currency}} [X] spent, 0 conversions, [Y] QS → Pause immediately
-
-### Warnings ([Count])
-- **[keyword]**: CPA {{currency}} [X] vs target {{currency}} [Y] (+[Z]% over) → Reduce bid or pause
-
-### Recommendations
-1. Pause [X] zero-conversion keywords (saves ~{{currency}} [Y]/month)
-2. Reduce bids on [X] high-CPA keywords
-```
-
-**Detailed** adds:
-- What Was Checked (cost thresholds, engagement signals, context factors)
-- Zero-conversion table (Keyword, Match, Campaign/AG, Cost, Clicks, CTR, QS, Recommendation)
-- High-CPA table (Keyword, Match, Cost, Conv, CPA, Target CPA, % Over, Action)
-- Pruning summary (Category, Keywords, Total Cost, Potential Savings)
+Use [OUTPUT_TEMPLATES.md](../_resources/OUTPUT_TEMPLATES.md), Short by default.
+For every finding include stable entity IDs, condition key, observed evidence and window,
+sample/coverage, resolved thresholds, recommendation, uncertainty and responsible owner.
+Separate confirmed observations, analyst interpretation, optional opportunities and skipped checks.
+Historical cost is exposure, not guaranteed savings; do not sum overlapping findings as recoverable spend.
+Include resolved fallback source, eligibility/strategy, query evidence and review decision; do not label all screened spend waste.

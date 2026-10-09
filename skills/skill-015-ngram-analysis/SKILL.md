@@ -1,89 +1,95 @@
 ---
 name: skill-015-ngram-analysis
-description: "Analyze 1-word, 2-word, and 3-word combinations (n-grams) within search terms to identify systemic patterns of waste or opportunity."
-allowed-tools: Read, Grep, Glob
+description: "Aggregate deduplicated query patterns within business context to identify hypotheses, not additive savings or automatic phrase exclusions."
+allowed-tools: Read, Grep, Glob, Bash
 metadata:
-  library: eppc-ads-skills@1.1.0
+  library: eppc-ads-skills@2.0.0
   category: keywords
-  kind: deterministic
+  kind: analyst
   data_source: export
+  related: [skill-013-search-term-mining-keywords, skill-014-search-term-mining-negatives, skill-017-negative-keyword-conflict-detection]
   markets: all
   gaql_verified: null
-  reviewed: 2026-09-03
+  reviewed: 2026-09-06
+  agent: "gpt-6-astra | openai | 2026-09-06 | FixStructureKeywords | evidence-led audit correction"
 ---
-# Skill 015: N-gram Analysis for Search Term Patterns
+# Skill 015: N-gram Query Pattern Analysis
 
 ## Purpose
-Analyze 1-word, 2-word, and 3-word combinations (n-grams) within search terms to identify systemic patterns of waste or opportunity. N-gram analysis reveals patterns invisible at the individual query level.
+
+Aggregate deduplicated query patterns within business context to identify hypotheses, not additive savings or automatic phrase exclusions.
+Recommendations are review proposals, not account changes or causal forecasts.
 
 ## Data Requirements
 
-**Data Source:** Account export
+**Applicability:** Reported Search queries with consistent tokenization and campaign-specific goals.
 
-**Export data:**
-- **Search terms (30 days)** - Search query performance
-- **Negative keywords (campaign level)** - Existing negatives
-- **Shared negative lists** - Shared negative lists
+**Required inputs:**
+- `export/account` and the base schemas in [DATA_CONTRACT.md](../_resources/DATA_CONTRACT.md).
+- `export/campaigns`, `export/campaign_metrics`, `export/ad_groups`, `export/keywords`, `export/search_terms`.
+- `export/negative_keywords`, `export/shared_negative_lists`, including effective scope and list links.
+- Query metrics at account/campaign/ad_group/query/matched_keyword/window plus declared segments;
+  use matched keyword ID, explicit keyword match type and report match classification where available.
+- Profile brand_terms, competitor_terms, excluded_intents and campaign-specific goals; reporting filters/completeness.
+- `export/keyword_metrics` is optional contextual evidence, never substituted for a query's metrics.
+- Client profile: business type, campaign objectives, service area, approved constraints,
+  conversion lag and sales cycle, and applicable CPA/ROAS goals; never infer goals from bidding alone.
 
-**Reference GAQL:**
-```sql
-SELECT
-  search_term_view.search_term,
-  metrics.impressions,
-  metrics.clicks,
-  metrics.cost_micros,
-  metrics.conversions,
-  metrics.conversions_value
-FROM search_term_view
-WHERE segments.date DURING LAST_30_DAYS
-  AND metrics.impressions > 0
-```
-Run the reference query (API, UI report, or Editor export) if you need different date ranges or additional metrics.
+**Missing inputs:** Without query identity/grain do not aggregate; without positive/negative inventory retain pattern discovery but skip exclusion proposals.
+Skip only dependent subchecks; list missing filenames/columns and retain supported inventory.
+Unknown settings are not equivalent to disabled controls; never report an incomplete check as passed.
 
 ## Analysis Steps
 
-1. **Extract n-grams:** Tokenize search terms into 1-grams, 2-grams, and 3-grams; normalize (lowercase, remove punctuation)
-2. **Aggregate metrics:** For each n-gram, sum metrics from all containing search terms
-3. **Identify waste patterns:** Flag n-grams with Cost >= {{spend_floor}} AND Conversions = 0, or appearing in 5+ zero-conversion terms
-4. **Identify opportunity patterns:** Flag n-grams with Conv >= 3 AND CPA below target, or Conv Rate >= 5%
-5. **Cross-reference negatives:** Check if wasteful n-grams already covered by existing negatives
+1. Establish account, snapshot, currency, export window, conversion date basis and reporting coverage.
+   Use stable account/campaign/ad-group/entity IDs, not names, for joins; reject metric fan-out.
+   Separate current settings from historical performance; exclude incomplete days and immature conversions.
+
+2. Reconcile reported-query clicks/cost with compatible campaign totals and report coverage.
+   Privacy-omitted terms and filters limit conclusions; never assume an unreported query has zero traffic.
+
+3. Normalize Unicode/case and whitespace; tokenize using a declared language-aware rule.
+   Preserve original query text and order; separate punctuation deliberately and do not silently stem or remove stop words.
+
+4. Generate contiguous 1-, 2- and 3-token sequences as a set per source query row.
+   A repeated token/phrase contributes that row only once to the same n-gram, not once per occurrence.
+
+5. Deduplicate duplicate exports at the full query/trigger/segment/window grain before summing.
+   Aggregate within campaign/objective; count distinct normalized query strings separately from source-row count.
+
+6. Calculate cost, conversions and value once per row/n-gram membership; derive rates from sums.
+   Patterns overlap: union the underlying row IDs for combined exposure, never sum n-gram totals.
+
+7. Screen zero-conversion patterns at {{spend_floor}} after maturity/tracking review.
+   Ten zero-conversion terms with negligible spend are not a severe issue; query count is descriptive.
+
+8. For positive patterns apply mature target/benchmark comparisons; no target means no favorable-CPA claim.
+   An n-gram can mix desired and undesired meanings; inspect contributing examples and goal context.
+
+9. Before any phrase proposal review ordered containment, existing scope and desirable query/keyword conflicts using 017.
+   Route final negative decisions to 014 and keyword additions to 013; do not create duplicate recommendations.
 
 ## Thresholds
 
+Resolve [PARAMETERS.md](../_resources/PARAMETERS.md) and profile overrides before screening.
+Numerical decision cutoffs below are triage heuristics, not platform requirements or causal proof.
+Compare CTR only with {{min_impressions}} impressions and conversion rates with {{min_clicks}} clicks
+on each side; CPA/ROAS comparisons require {{min_conversions}} mature conversions on each side.
+Zero-conversion screening is an exception to the conversion-count gate, not permission to pause:
+require working tracking, a mature comparable window, relevance review and {{spend_floor}}.
+Do not divide by zero; absent targets use an applicable profile target, otherwise omit target comparisons.
+
 | Condition | Severity |
 |-----------|----------|
-| N-gram Cost >= {{spend_significant}} AND Conv = 0 | Critical |
-| N-gram in 10+ terms AND Conv = 0 | Critical |
-| N-gram Cost >= {{spend_floor}} AND Conv = 0 | Warning |
-| N-gram Conv >= 5 AND CPA <= Target CPA | Info (opportunity) |
-
-Sample size: judge CTR rows only above {{min_impressions}} impressions, conversion-rate rows only above {{min_clicks}} clicks, and CPA/ROAS comparisons only above {{min_conversions}} conversions; below that, report "insufficient sample" as Info.
+| Mature zero-conversion pattern at {{spend_floor}} with relevance review | Warning |
+| Pattern supported by mature favorable goal-relative outcomes | Info |
+| Pattern frequency, low-spend zero-conversion cluster or unknown context alone | Info |
 
 ## Output
 
-Use **Short** format by default. Use **Detailed** if user requests comprehensive analysis.
-
-**Short:**
-```
-## N-gram Analysis Audit
-**Account:** [Name] | **Search Terms:** [X] | **Patterns Found:** [Y]
-
-### Critical ([Count])
-- **"[n-gram]"**: {{currency}} [X] spent across [Y] terms, 0 conversions → Add as phrase negative
-
-### Warnings ([Count])
-- **"[n-gram]"**: {{currency}} [X] spent, 0 conversions → Add as phrase negative
-
-### Opportunities ([Count])
-- **"[n-gram]"**: [X] conversions at {{currency}} [Y] CPA → Create dedicated ad group
-
-### Recommendations
-1. Add "[n-gram]" as negative (saves ~{{currency}} [X]/month)
-2. Create ad group for "[n-gram]" theme
-```
-
-**Detailed** adds:
-- What Was Checked (n-gram extraction, aggregation method)
-- Waste n-grams table (N-gram, Type, Terms, Cost, Conv, Recommendation)
-- Opportunity n-grams table (N-gram, Type, Terms, Cost, Conv, CPA, Conv Rate)
-- Statistical summary (unique 1/2/3-grams, with conversions, zero-conv high-spend)
+Use [OUTPUT_TEMPLATES.md](../_resources/OUTPUT_TEMPLATES.md), Short by default.
+For every finding include stable entity IDs, condition key, observed evidence and window,
+sample/coverage, resolved thresholds, recommendation, uncertainty and responsible owner.
+Separate confirmed observations, analyst interpretation, optional opportunities and skipped checks.
+Historical cost is exposure, not guaranteed savings; do not sum overlapping findings as recoverable spend.
+Return n-gram, tokenizer rule, campaign/objective, distinct terms, contributing row keys and non-additive exposure.

@@ -1,69 +1,83 @@
 ---
 name: ads-selftest
 description: >
-  Self-test of the Google Ads skills library. Runs chosen skills as fresh sub-agents
-  against a synthetic export with planted defects and grades their findings against
-  the expected ones. Use after editing skills, parameters, templates or the data
-  contract, or when asked "le skill funzionano?", "testa le skill", "self-test",
-  "smoke test della libreria".
+  Execute canonical Google Ads recipes against synthetic exports and adversarial
+  counterexamples. Use after recipe/contract changes or requests to test whether
+  the library works. Tests finding behavior, not real-account calibration.
 allowed-tools: Read, Grep, Glob, Bash, Agent
 metadata:
-  library: eppc-ads-skills@1.1.0
+  library: eppc-ads-skills@2.0.0
   author: smartweb
-  version: "1.0"
+  version: "2.1"
   category: library-selftest
+  agent: gpt-6-astra | openai | 2026-09-06 | s_20260906_fix | grounded counterexamples; gpt-6-astra | openai | 2026-09-07 | s_20260907_context_opt | scoped reads and compact evidence handoffs; claude-opus-5-5 | anthropic | 2026-09-25 | s_20260925_runtime | deterministic script grading section
 ---
 
 # Library self-test
 
-Proves that a skill recipe is executable by an agent and yields the planted findings,
-nothing more. It does not prove thresholds are right for a real account: only a
-real export does that.
+Proves that the exercised recipe can consume the provided evidence, identify planted defects and avoid the specified false positives. A passing test does not validate every GAQL query, calibrate heuristics on real accounts, or prove causal advertising impact.
 
-## What is here
+## Inputs
 
-- `make_fixture.py` — generates `fixture/export/` (12 CSV tables + `custom/impression_share_loss.csv`, per `_resources/DATA_CONTRACT.md`) and `fixture/profile.yaml`. Deterministic (seeded). The planted defects are commented in the script.
-- `fixture/expected.json` — the cases: which skill to run, which tools the runner may use, the findings that must appear (`expect`) and those that must not (`reject`).
+- `make_fixture.py`: deterministic synthetic base export and scenario evidence generator. Writes only beneath `fixture/`.
+- `fixture/expected.json`: cases, export/profile location overrides, expected and rejected findings, and required observations that prove the core check actually ran.
+- Base cases use `fixture/export/` and `fixture/profile.yaml`. A case may name a scenario-local export/profile instead. All domains and identifiers are synthetic.
 
 ## Procedure
 
-1. **Regenerate the fixture** so it matches the generator: `python3 skills/_selftest/make_fixture.py`.
-2. **Read `fixture/expected.json`.** Run every case, or only the cases the user names.
-3. **Run each case in a fresh sub-agent**, all cases in parallel, with this prompt (fill the placeholders; keep the tool restriction exactly as the case says, it mirrors the skill's `allowed-tools`):
+1. Generate fresh evidence: `python3 skills/_selftest/make_fixture.py`. Do not substitute a manually altered generated export for the generator.
+2. Read `fixture/expected.json` as coordinator. A requested full self-test runs every case. For a scoped recipe correction, select all cases for the affected canonical IDs (including consolidated ownership), plus cases whose evidence/contracts changed; state selection and untested scope. Shared-rule changes require representative affected boundaries and an explicit coverage rationale; never label a subset a full self-test.
+3. Run each selected case in a fresh analysis agent. Pass only case ID, canonical recipe path, evidence/profile paths and the short prompt below—never expected.json, scenarios.json, generator source, grading predicates or another runner's output. Preserve isolation; do not reuse another case's conclusions. Independent cases may run concurrently once source edits are complete.
+4. The runner reads the assigned recipe and task-relevant canonical contract sections, computes locally, and returns one **Worker handoff** per OUTPUT_TEMPLATES. No front desk, catalog, unrelated schemas/language templates or duplicate polished report. Local read-only Read/Grep/Glob/Bash/Python only; no network/account actions. Temporary calculations are not account change files.
+5. Grade findings and required observations. A case with only rejected findings cannot pass by skipping everything: its required observations must prove the relevant evidence was inspected and the correct calculation/interpretation was made.
+6. Record failures with actual output and missing evidence. Fix the recipe or fixture only when the evidence demonstrates which is wrong; never weaken a behavior expectation to make a broken recipe pass. Rerun affected cases after a correction.
 
-   ```
-   You are a Google Ads audit agent running ONE skill from a Markdown skill library against a client's export. Follow the recipe literally.
-   Library root: <absolute repo root>
-   Read, in this order: ads/SKILL.md (operating rules; ignore routing), skills/_resources/PARAMETERS.md, skills/_resources/DATA_CONTRACT.md, skills/_resources/OUTPUT_TEMPLATES.md, then the skill: skills/<skill>/SKILL.md
-   Client profile: <repo>/skills/_selftest/fixture/profile.yaml
-   Export folder: <repo>/skills/_selftest/fixture/export/ (CSV tables named per the data contract; custom query results under export/custom/)
-   TOOL RESTRICTION: you may ONLY use <tools>. Do not run anything else; do every count and calculation yourself. Do not open any file outside the library root, the profile and the export folder; in particular never open expected.json or make_fixture.py.
-   Deliverable: (1) the Short report in English exactly per OUTPUT_TEMPLATES.md, header first, findings grouped Critical / Warnings / Info, every finding line ending with the skill id, then Recommendations; (2) a section "## Execution notes": parameter values resolved and how, tables used, anything ambiguous, missing or unexecutable in the recipe, and a 1-5 confidence score on your numbers with the reason.
-   Never invent data. If a table the skill needs is missing, say so and skip that step.
-   ```
+## Runner prompt
 
-4. **Grade each report.** A finding line is a bullet under a severity heading (`### Critical`, `### Warnings`, `### Info`). An `expect` item is **found** when a line in that section contains every `must_contain` string (case-insensitive) and, if `any_of` is present, at least one of those. It is a **severity mismatch** when such a line exists only under another heading, and **missing** otherwise. A `reject` item **fails** when a matching line exists in the named section (any section if `severity` is absent). Verdict per case: **pass** when nothing is missing, nothing mismatched and nothing rejected; otherwise **fail**.
-5. **Report** a table, then the details:
+```text
+Execute case <id>, recipe <canonical path>, profile <path>, evidence <folder>.
+Read the complete assigned recipe, not the front desk/catalog/other recipes.
+Shared root: skills/_resources/ (not repository root).
+From DATA_CONTRACT.md read scope, Files and provenance, Calculation and decision invariants,
+and Base entities introduction/used rows. Read Supplemental evidence if needed.
+Read PARAMETERS.md for used comparisons/parameters, not unused money thresholds.
+From OUTPUT_TEMPLATES.md read Worker handoff and Severity and reporting rules.
+Locate/read exact sections, raw/verbatim if needed to avoid expanded table previews.
+Consult skills/_resources/CLIENT_PROFILE.md only for ambiguous fields.
+Use local read-only calculations; no network, account changes or raw identifiers.
+Never read expected.json, scenarios.json, make_fixture.py, other cases or runner reports.
+Return Worker handoff: findings, actual nondefect observations/calculations, used parameters,
+source/period/maturity, check-level coverage and a read log. No duplicate final report.
+Missing evidence is not a pass. Read extra dependencies only when necessary; explain why.
+```
 
-   ```
-   | Case | Expected | Found | Mismatched | Missing | Rejected hits | Agent confidence | Verdict |
-   ```
-   For every failure quote the offending or absent finding and the agent's execution notes. Reproduce the "Execution notes" of every run in full under a heading per case: they are the recipe feedback (ambiguities, missing data, unreachable rows) and the reason this test exists.
-6. **Never edit a skill from inside this test.** List the recipe fixes the notes suggest; the user decides.
+## Grading
 
-## Determinism check (optional)
+For each `expect` or `reject` item, `must_contain` strings are case-insensitive evidence/entity matches on genuine handoff findings (or finding bullets), not arbitrary wording or negated nondefects. If `any_of` exists, at least one alternative must also occur. `severity`, when supplied, selects Critical/Warning/Info (plural report headings map to these singular values). A positive match under the wrong severity is a mismatch, not a pass.
 
-Run one case twice, or once with the case's tools and once with `Bash` added (so the runner can use Python over the CSVs), and diff the two sets of (severity, entity) pairs. Identical sets mean the recipe is executable by hand at this table size; a difference shows where mental arithmetic breaks and a computed pass is needed.
+`observations` strings describe semantic facts the coordinator verifies in the handoff's observations, calculations and coverage. They are not prompts given to the runner. Record an exact supporting quote/calculation for each. Missing/contrary evidence fails; a clean report or shorter output is not proof of execution. Distinguish missing fixture inputs from a recipe inventing a defect.
 
-## Adding a case
+Report per case: Expected / Found / Mismatched / Missing / Rejected hits / Observations satisfied / Verdict. Save complete handoffs and grading evidence when numerous cases run. User summaries distinguish tested cases/skills from untested scope. Include recipe/resource reads when evaluating context savings; do not extrapolate word counts into billed token costs.
 
-1. Plant the defect in `make_fixture.py` with a comment naming the skill it targets; regenerate.
-2. Add the case to `fixture/expected.json` with `expect` items that a correct run must produce and `reject` items that a sloppy run would produce (false positives, wrong denominators, out-of-scope campaigns).
-3. Keep `must_contain` to entity names and unmistakable numbers; put wording alternatives in `any_of`.
-4. Run the case once with its tools and once with Bash before trusting it.
+## Deterministic script grading
 
-## Known limits
+`python3 skills/_selftest/grade_scripts.py [--case <id>]` runs each case's recipe `scripts/check.py` on the case evidence. It grades the case against `expected.json` from the coordinator side; scripts never read the oracle.
 
-- The fixture is small (5 campaigns, 52 keywords, 37 search terms): it tests recipe logic and wording, not scale. Real search-term reports are 100x larger, where a runner without Bash will lose precision.
-- The grading is textual. A run that finds the defect but names the entity differently is reported as missing: read the quoted lines before concluding the recipe is broken.
-- Runs cost sub-agent time; four cases take a few minutes.
+| Verdict | Meaning |
+|---|---|
+| PASS | Every expectation is met by a deterministic finding and no rejected finding appears |
+| PENDING_AI | An expected severity is reachable only through an `ai_review` outcome; the AI step still has to decide it |
+| FAIL / ERROR | A rejected finding appears, an expectation is unreachable, or the script crashed |
+
+`observations` stay semantic and are graded by the procedure above.
+
+## Maintaining cases
+
+- Add both a real defect and a plausible valid setup/counterexample when a decision boundary is uncertain. Pin business behavior, IDs and clear metrics—not decorative wording or a false default mandate.
+- Keep schema, window, grain, units, completeness and maturity explicit. Empty inventories have column headers and complete-manifest evidence; missing inputs remain genuinely missing.
+- Never let tests see expected answers. Formula-only reimplementation is not a recipe execution test. Scoped reading must preserve source provenance, measurement/maturity, currency/target precedence, sample, privacy and severity gates.
+- Optional determinism check: run a case twice and compare entity/condition/severity plus coverage; wording may differ. Use local arithmetic in both runs rather than introducing avoidable numerical error.
+
+## Limits
+
+Fixtures are small and synthetic. They test recipe logic and evidence handling, not export-scale performance, actual account false-positive rates, provider policy approval, or live GAQL compatibility. Those require separate, explicitly documented verification.

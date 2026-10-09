@@ -1,93 +1,87 @@
 ---
 name: skill-124-performance-anomaly-alert-configuration
-description: "Identify performance anomalies and recommend automated alert configurations for key metric deviations."
-allowed-tools: Read, Grep, Glob
+description: "Use dated, complete-period baselines to propose alerts; anomalies are not diagnosed failures."
+allowed-tools: Read, Grep, Glob, Bash
 metadata:
-  library: eppc-ads-skills@1.1.0
+  library: eppc-ads-skills@2.0.0
   category: waste
   kind: operational
-  data_source: export
+  data_source: external
   markets: all
   gaql_verified: null
-  reviewed: 2026-09-03
+  reviewed: 2026-09-06
+  agent: "gpt-6-astra | openai | 2026-09-06 | FixOperationsSeasonal | corrected evidence, controls, thresholds and request-only outputs"
 ---
-# Skill 124: Performance Anomaly Alert Configuration
+# Skill 124: Performance Anomaly Alert Proposals
 
 ## Purpose
 
-Establish baseline metrics and detect significant deviations that indicate problems requiring immediate attention. Configure alert thresholds to catch issues like conversion drops, impression losses, or cost spikes before they cause major damage.
+Use dated, complete-period baselines to propose alerts; anomalies are not diagnosed failures.
+
+This is a local evidence review. Recommendations are proposals, not permission to act on an account or disclose client data.
 
 ## Data Requirements
 
-**Data Source:** Account export
+**Applicability:** Campaigns or ad groups with daily history at the same stable entity grain.
 
-**Export data:**
-- **Campaign metrics (30 days)** - Campaign performance
-- **Ad group metrics (30 days)** - Ad group performance
-- **Campaigns** - Budget settings
+**Required inputs:**
+- Base `export/` tables: account, campaigns, campaign_metrics, using [DATA_CONTRACT](../_resources/DATA_CONTRACT.md).
+- Read client objectives, parameter overrides, currency, timezone, snapshot, report completeness, conversion-date basis and lag maturity.
+- `export/custom/anomaly_daily.csv`: one row per account_id/campaign_id/date: budget_id, strategy_id, goal_id, impressions, clicks, cost, conversions, conversion_value, conversion_date_basis, maturity; Ads UI daily report, account timezone, complete dates including historical inactive campaigns and coverage/suppression notes; 8 full baseline weeks plus candidate dates. For ad-group alerts additionally supply ad_group_id and do not mix grains.
+- `export/custom/anomaly_context.csv`: account_id/entity_id/event_id grain; start_at, end_at, event_type, affected_metrics, incident_confirmed, evidence_ref; Ads change/status history and supplied tracking/seasonal incident log covering baseline/current dates.
+- `export/external/alert_policy.csv`: policy_id/entity_scope/metric grain; relative_threshold, absolute_threshold, minimum_baseline_periods, cadence, cooldown, recipient_role, owner, approved_spend_cap, confirmation_required; client monitoring policy at snapshot.
 
-**Reference GAQL:**
-```sql
-SELECT
-  campaign.name,
-  metrics.impressions,
-  metrics.clicks,
-  metrics.cost_micros,
-  metrics.conversions,
-  metrics.ctr,
-  metrics.average_cpc
-FROM campaign
-WHERE segments.date DURING LAST_30_DAYS
-  AND campaign.status = 'ENABLED'
-```
-Run the reference query (API, UI report, or Editor export) for period comparisons or daily granularity.
+Keep original source labels and stable IDs; filenames are suggested local intake paths, not assumed existing files.
+Custom/configuration schemas describe UI/export evidence, not a claim of live API field verification.
+
+**Missing inputs:** List exact missing files/columns, source dates and affected subchecks.
+Continue independent inventory or arithmetic with available evidence; skip only dependent checks.
+Optional evidence gates only its stated deeper comparison, forecast or test-result analysis.
+Unknown settings, authorization, coverage or policy applicability are not false/disabled and are not a passed check.
 
 ## Analysis Steps
 
-1. **Calculate baselines:** Compute 30-day averages and standard deviations for key metrics
-2. **Define normal ranges:** Set upper/lower bounds at mean +/- 2 standard deviations
-3. **Detect current anomalies:** Compare recent performance against baselines
-4. **Categorize by severity:** Critical (immediate action) vs Warning (monitor)
-5. **Generate alert rules:** Provide specific configurations for automated monitoring
+1. Exclude partial dates and immature conversion periods; baseline each candidate against the same weekday in prior 8 complete weeks, excluding documented incidents/promotions with reasons.
+
+2. For counts use comparable daily observations; for CTR/CVR pool underlying numerator/denominator, not average percentages. CPA/ROAS needs mature sample in candidate and comparator.
+
+3. Calculate relative change and descriptive mean/sample SD from eligible observations. Default screen is BOTH absolute deviation >2 SD AND relative change >30%, with the client absolute-impact floor and baseline minimum. These are triage heuristics, not statistical significance.
+
+4. If baseline mean or SD is zero, relative/Z scores are undefined or degenerate; use client absolute threshold and report that branch. Sparse history yields Info, not an alert-worthy defect.
+
+5. Cross-reference change/lag/demand context; stable clicks and falling conversions do not prove tracking failure. Escalate Critical only with independently confirmed material failure.
+
+6. Draft alert-only configuration with time basis, exclusions, cadence, recipient role, dedupe/cooldown, evidence link, recovery condition and approval owner. Do not configure subscriptions or send alerts.
+
+Use matched IDs and declared grain before joining; never multiply entity metrics across many-to-many associations.
+For comparisons, align goals, traffic scope and complete periods; exclude incomplete days and conversion reporting lag.
+Use {{min_impressions}} for CTR/share, {{min_clicks}} for CVR and {{min_conversions}} for CPA/ROAS, on both comparison sides.
+A zero-conversion spend screen may bypass min_conversions only after maturity, working tracking and relevance review at {{spend_floor}}.
+Do not divide by zero; preserve censored, suppressed and unknown values rather than treating them as zero.
+Historical non-converting cost is exposure, not guaranteed savings; observational changes are not causal uplift.
 
 ## Thresholds
 
-| Condition | Severity |
-|-----------|----------|
-| Impressions -50% day-over-day | Critical |
-| Conversions -80% week-over-week | Critical |
-| CPA +100% vs target | Critical |
-| CTR -50% day-over-day | Critical |
-| Impressions -25% week-over-week | Warning |
-| Conversions -30% week-over-week | Warning |
+Numerical cutoffs here are triage heuristics unless explicitly tied to a sourced platform requirement.
+Resolve parameters through [PARAMETERS](../_resources/PARAMETERS.md); business tolerances require a declared value.
 
-Sample size: judge CTR rows only above {{min_impressions}} impressions, conversion-rate rows only above {{min_clicks}} clicks, and CPA/ROAS comparisons only above {{min_conversions}} conversions; below that, report "insufficient sample" as Info.
+| Condition | Severity |
+|---|---|
+| Independently confirmed material delivery/measurement failure | Critical |
+| Complete mature deviation meets BOTH 2-SD and 30% screens plus policy impact floor | Warning |
+| Sparse/degenerate baseline or unexplained anomaly below screen | Info |
+
+Insufficient evidence or sample is Info. Critical requires directly evidenced material delivery, measurement or safety failure.
 
 ## Output
 
-**Short format (default):**
-```
-## Anomaly Alert Audit
+Use [OUTPUT_TEMPLATES](../_resources/OUTPUT_TEMPLATES.md), not a conflicting report format.
+Each finding includes skill/entity IDs, condition key, severity, observed values and evidence references, exact window,
+sample, resolved threshold, recommendation, uncertainty, responsible owner and dependent skipped subchecks.
 
-**Account:** [Name] | **Period:** Last 30 days | **Anomalies:** [X]
+- Per-entity baseline dates, counts, SD, absolute/relative deviations and exact trigger branch.
+- Request-only alert configuration plus suspected explanations, owner and dependent skipped checks.
 
-### Critical Alerts ([Count])
-- **[Campaign]**: Impressions -[X]% vs baseline → Investigate immediately
-- **[Campaign]**: Conversions dropped [X]% → Check tracking
-
-### Warnings ([Count])
-- **[Campaign]**: CTR declining [X]% week-over-week → Monitor ad fatigue
-
-### Recommended Alert Configuration
-| Metric | Threshold | Frequency |
-|--------|-----------|-----------|
-| Impression drop | -50% DoD | Daily |
-| Conversion drop | -30% WoW | Daily |
-| CPA spike | +100% vs target | Daily |
-```
-
-**Detailed adds:**
-- Baseline metrics table with normal ranges
-- Full anomaly detection results
-- Alert rule specifications for Google Ads
-- False positive mitigation strategies
+Separate observations, hypotheses and requested changes. No account writes, rule installation, subscriptions,
+notifications, exclusions, feed edits, legal certification or external data transfers occur in this review.
+Any implementation request must name exact scope/values, approval owner, monitoring and recovery conditions.

@@ -1,0 +1,2 @@
+campaign_id,ad_group_id,matched_keyword_id,search_term,match_type,impressions,clicks,cost,conversions,conversion_value
+SEARCH,G1,K1,acme tools,EXACT,5000,500,500,10,1000

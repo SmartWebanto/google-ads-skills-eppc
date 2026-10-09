@@ -1,0 +1,2 @@
+id,campaign_id,customer_id,name,status,channel_type,bidding_strategy_type,strategy_id,budget_id,target_cpa,target_roas,daily_budget,shared_budget,goal_ids,goal_set_id,geo_targets,geo_target_method,languages,brand_policy
+NEG,NEG,demo,NEG,ENABLED,SEARCH,TARGET_CPA,s1,b1,50,,100,False,purchase,purchase,Italy,PRESENCE,it,any

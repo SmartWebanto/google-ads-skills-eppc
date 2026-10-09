@@ -1218,24 +1218,7 @@ Library eppc-ads-skills@1.0.0 · skill <skill-id> (upstream <upstream_skill>@1.8
 2. <secondary action>
 ```
 
-## Short — Italiano
-
-```
-<header>
-
-### Critici (<n>)
-- **<Entità>**: <problema> → <intervento> · <skill-id>
-
-### Avvisi (<n>)
-- **<Entità>**: <problema> → <intervento> · <skill-id>
-
-### Informativi (<n>)
-- **<Entità>**: <nota> · <skill-id>
-
-### Raccomandazioni
-1. <azione prioritaria> (<impatto stimato in CUR>)
-2. <azione secondaria>
-```
+Other report languages (for example `it`) are translated from the English templates at render time.
 
 ## Detailed — English
 
@@ -1268,40 +1251,11 @@ Library eppc-ads-skills@1.0.0 · skill <skill-id> (upstream <upstream_skill>@1.8
 1. **<priority action>** — <rationale>
 ```
 
-## Detailed — Italiano
-
-```
-<header>
-
-### Cosa è stato verificato
-- <aspetto>
-
-### Problemi critici (<n>)
-1. **<Entità>**: <problema> · <skill-id>
-   - Impatto: <cosa causa, in CUR dove possibile>
-   - Evidenza: <dati, con i valori dei parametri usati, es. spend_significant = 120 EUR>
-   - Intervento: <azione specifica>
-
-### Avvisi (<n>)
-1. **<Entità>**: <problema> · <skill-id>
-   - Intervento: <azione specifica>
-
-### Riepilogo
-| Metrica | Valore |
-|--------|-------|
-| Entità analizzate | <n> |
-| Problemi trovati | <n> |
-| Critici | <n> |
-| Avvisi | <n> |
-| Campione insufficiente (saltati) | <n> |
-
-### Raccomandazioni
-1. **<azione prioritaria>** — <motivazione>
-```
+Other report languages are translated at render time.
 
 ## No issues
 
-English: `No issues found. <n> entities pass the audit criteria.` Italiano: `Nessun problema rilevato. <n> entità superano i criteri di audit.` The header block is still required.
+English: `No issues found. <n> entities pass the audit criteria.` (other report languages are translated at render time) The header block is still required.
 
 ## Rules
 
@@ -1385,7 +1339,7 @@ metadata:
 - Every report starts with the provenance header; every finding names the skill id
 - Never show "OK" or "Pass" items
 ```
-5. In `## OUTPUT Schema (What Claude Should Report)`, insert at the top: `The canonical templates, in English and Italian, live in `OUTPUT_TEMPLATES.md`; the examples below are the English short/detailed forms.` Replace every `$` money literal in the examples (`$[X]`) with `{{currency}} [X]`.
+5. In `## OUTPUT Schema (What Claude Should Report)`, insert at the top: `The canonical templates, in English (other report languages are translated at render time), live in `OUTPUT_TEMPLATES.md`; the examples below are the English short/detailed forms.` Replace every `$` money literal in the examples (`$[X]`) with `{{currency}} [X]`.
 6. Add a new section before `## Skill Categories`:
 ```
 ## Kinds
@@ -1441,8 +1395,8 @@ description: >
   structure/keyword/bidding/budget review, conversion tracking, Quality Score,
   Shopping/PMax, audiences/geo/device, compliance/disapprovals, seasonality,
   wasted-spend hunting, "why did CPA/ROAS change", or a campaign launch review —
-  including vague requests ("controlla l'account Google Ads", "dove sto sprecando
-  budget", "audit ads", "verifica il tracciamento"). Routes the request to the
+  including vague requests ("check the Google Ads account", "where am I wasting
+  budget", "audit ads", "check the tracking"). Routes the request to the
   skills in this library and enforces its operating rules.
 metadata:
   library: eppc-ads-skills@1.0.0
@@ -1494,22 +1448,22 @@ lists kind and data source for each.
 
 | Request | Preset | Skills |
 |---|---|---|
-| "audit", "controlla l'account", anything vague | Full audit | Every skill with `kind` ≠ operational, in category order (structure → keywords → creative → bidding → targeting → quality → tracking → shopping_pmax → remarketing → waste → competitive → compliance → seasonal → platform) |
-| "sprechi", "dove butto budget", waste | Waste | 005, 006, 013, 014, 015, 020, 023, 054, 056, 057, 114, 115, 116, 117, 118, 119, 121 |
+| "audit", "check the account", anything vague | Full audit | Every skill with `kind` ≠ operational, in category order (structure → keywords → creative → bidding → targeting → quality → tracking → shopping_pmax → remarketing → waste → competitive → compliance → seasonal → platform) |
+| "wasted spend", "where am I throwing budget away", waste | Waste | 005, 006, 013, 014, 015, 020, 023, 054, 056, 057, 114, 115, 116, 117, 118, 119, 121 |
 | search terms, query | Search terms | 013, 014, 015, 023, 127 |
 | keyword hygiene, match types, negatives | Keyword hygiene | 004, 012, 016, 017, 018, 019, 020, 021, 022, 024 |
-| annunci, RSA, creatività, estensioni | Creative | 025, 026, 027, 028, 029, 030, 031, 032, 033, 034, 035, 036, 037, 038 |
+| ads, RSA, creatives, extensions | Creative | 025, 026, 027, 028, 029, 030, 031, 032, 033, 034, 035, 036, 037, 038 |
 | budget, bidding, target CPA/ROAS, pacing | Budget and bidding | 039, 040, 041, 042, 043, 044, 045, 046, 047, 048, 050, 051, 052, 121 |
-| tracciamento, conversioni, tag, consent | Tracking | 070, 071, 072, 073, 074, 075, 076, 077, 078, 079, 080, 081, 106, 107, 108, 109, 110, 111, 112 |
+| tracking, conversions, tag, consent | Tracking | 070, 071, 072, 073, 074, 075, 076, 077, 078, 079, 080, 081, 106, 107, 108, 109, 110, 111, 112 |
 | Shopping, feed, PMax | PMax and Shopping | 082, 083, 085, 088, 089, 090, 092, 093, 094, 095, 128 |
 | audience, geo, device, remarketing | Audience, geo, device | 053, 054, 056, 057, 058, 059, 060, 061, 062, 063, 098, 099, 100, 101, 102, 103, 105 |
 | Quality Score, landing page | Quality Score | 064, 065, 066, 067, 068, 069 |
-| struttura account, naming, settings | Structure | 001, 002, 003, 004, 005, 006, 007, 008, 009, 010, 011 |
-| stagionalità, picchi, Black Friday | Seasonality | 137, 148, 150, 151, 152 (+ operational 146, 147, 149 on request) |
-| policy, disapprovazioni, trademark | Compliance | 037, 141, 142 (+ operational 145 before a launch) |
-| "cosa è cambiato", change history, automation | Change history and automation | 119, 131, 159, 160, 161, 162 |
-| review mensile, "perché è cambiato il CPA" | Monthly review | 044, 045, 121, 131, 135, 136, 137, 152 |
-| lancio campagna, pre-launch | Launch review | 001, 002, 003, 004, 007, 012, 016, 025, 030, 053, 070, 076 (+ operational 145) |
+| account structure, naming, settings | Structure | 001, 002, 003, 004, 005, 006, 007, 008, 009, 010, 011 |
+| seasonality, peaks, Black Friday | Seasonality | 137, 148, 150, 151, 152 (+ operational 146, 147, 149 on request) |
+| policy, disapprovals, trademark | Compliance | 037, 141, 142 (+ operational 145 before a launch) |
+| "what changed", change history, automation | Change history and automation | 119, 131, 159, 160, 161, 162 |
+| monthly review, "why did CPA change" | Monthly review | 044, 045, 121, 131, 135, 136, 137, 152 |
+| campaign launch, pre-launch | Launch review | 001, 002, 003, 004, 007, 012, 016, 025, 030, 053, 070, 076 (+ operational 145) |
 
 ## How to run a preset
 
@@ -1598,7 +1552,7 @@ docs/superpowers/         design spec and implementation plan
 
 1. In a client repo, create `ads/profile.yaml` from `skills/_resources/CLIENT_PROFILE.md`.
 2. Export the account from the Google Ads UI (or `/google-ads:get`, only with a signed DPA).
-3. Ask the agent ("audit the account", "dove sto sprecando budget", "verifica il tracciamento"). The front desk picks the preset, runs the skills, and writes the report in `report_language`.
+3. Ask the agent ("audit the account", "where am I wasting budget", "check the tracking"). The front desk picks the preset, runs the skills, and writes the report in `report_language`.
 4. To run one skill by hand: read `skills/<id>/SKILL.md`, resolve its `{{parameters}}`, follow it.
 
 Check the library: `python3 skills/_resources/scripts/lint.py` (add `--write-catalog` to regenerate `skills/CATALOG.md`). Tests: `cd skills/_resources/scripts && python3 -m unittest test_lint`.

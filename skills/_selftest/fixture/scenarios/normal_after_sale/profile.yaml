@@ -1,0 +1,34 @@
+{
+  "slug": "regression",
+  "report_language": "en",
+  "market": [
+    "IT"
+  ],
+  "business_type": "ecommerce",
+  "objectives": [
+    "requested seasonality proposal review; do not change account"
+  ],
+  "brand_terms": [
+    "acme"
+  ],
+  "competitor_terms": [],
+  "excluded_intents": [],
+  "service_area": [
+    "Italy"
+  ],
+  "conversion_lag_days": 2,
+  "sales_cycle_days": 30,
+  "monthly_budget": 10000,
+  "parameter_overrides": {},
+  "target_cpa": null,
+  "target_roas": null,
+  "export_path": "export/",
+  "campaign_objectives": {
+    "SALE": {
+      "role": "product_sales",
+      "goal_ids": [
+        "purchase"
+      ]
+    }
+  }
+}

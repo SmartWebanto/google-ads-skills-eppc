@@ -1,0 +1,3 @@
+merchant_id,item_id,descriptor,genuine_attribute,product_page_snapshot_ref,applicable_season_or_event,truthful_use_rationale,owner,feed_label,language
+M1,PROMO-TITLE,Black Friday Deal,False,synthetic product data: Acme drill 18V only,temporary sale,promotion not product characteristic,catalog owner,IT,it
+M1,TRUE-DESCRIPTOR,Christmas-pattern,True,synthetic product data: woven tree pattern,intrinsic product design,actual product pattern,catalog owner,IT,it

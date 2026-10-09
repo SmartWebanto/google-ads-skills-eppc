@@ -1,0 +1,2 @@
+account_id,conversion_customer_id,action_id,snapshot,web_enabled,action_web_status,implementation_method,tag_destination_id,supported_identifier_types,consent_policy_reference,owner
+demo,demo,WEB-ACTION,2026-09-06,True,ACTIVE,Google tag automatic hashing,synthetic-destination,email OR other supported combination; email only used,synthetic policy permit enhancement only granted,synthetic QA

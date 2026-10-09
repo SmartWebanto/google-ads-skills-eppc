@@ -1,0 +1,3 @@
+id,campaign_id,name,status,type
+G-ADS,CREATIVE,Ads,ENABLED,STANDARD
+G-EMPTY,CREATIVE,Empty,ENABLED,STANDARD

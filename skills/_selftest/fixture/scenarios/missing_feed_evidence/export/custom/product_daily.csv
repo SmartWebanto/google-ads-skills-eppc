@@ -1,0 +1,2 @@
+account_id,campaign_id,offer_id,date,impressions,clicks,cost,conversions,conversion_value,goal_set_id
+demo,RETAIL,PRODUCT-SAMPLE,2026-08-20,10000,100,100,10,500,purchase

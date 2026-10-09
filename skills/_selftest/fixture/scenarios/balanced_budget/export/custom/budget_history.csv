@@ -1,0 +1,2 @@
+account_id,budget_id,effective_from,effective_to,amount,amount_unit,shared_flag,member_campaign_ids,source_ref
+demo,b1,2026-08-01,2026-08-31,200,currency,True,EQUAL-A;EQUAL-B,synthetic complete settings history

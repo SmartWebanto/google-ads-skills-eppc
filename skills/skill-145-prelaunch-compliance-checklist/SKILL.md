@@ -1,97 +1,89 @@
 ---
 name: skill-145-prelaunch-compliance-checklist
-description: "Pre-launch compliance checklist for new ads covering prohibited content, editorial standards, and policy requirements."
-allowed-tools: Read, Grep, Glob
+description: "Review actual launch drafts and evidence for internal readiness, never certify legal compliance or promise platform approval."
+allowed-tools: Read, Grep, Glob, Bash
 metadata:
-  library: eppc-ads-skills@1.1.0
+  library: eppc-ads-skills@2.0.0
   category: compliance
   kind: operational
   data_source: external
   markets: all
   gaql_verified: null
-  reviewed: 2026-09-03
+  reviewed: 2026-09-06
+  agent: "gpt-6-astra | openai | 2026-09-06 | FixOperationsSeasonal | corrected evidence, controls, thresholds and request-only outputs; claude-opus-5-5 | anthropic | 2026-09-25 | s_20260925_builders | copy_format validation (index #114)"
 ---
-# Skill 145: Pre-Launch Compliance Checklist
+# Skill 145: Prelaunch Policy Readiness Checklist
 
 ## Purpose
 
-Provide a systematic pre-launch review checklist to catch policy violations before ads go live. Prevents disapprovals, delays, and potential strikes by ensuring all ads meet Google Ads policy requirements.
+Review actual launch drafts and evidence for internal readiness, never certify legal compliance or promise platform approval.
+
+This is a local evidence review. Recommendations are proposals, not permission to act on an account or disclose client data.
 
 ## Data Requirements
 
-**Data Source:** External (beyond Google Ads data)
+**Applicability:** An explicitly scoped launch package with target markets, product and intended launch dates.
 
-**Export data:**
-- **Ads** - Existing approved ads (for reference)
-- **Assets (all types)** - Extension templates
+**Required inputs:**
+- Base `export/` tables: account, campaigns, ads, assets (existing material is reference only), using [DATA_CONTRACT](../_resources/DATA_CONTRACT.md).
+- Read client objectives, parameter overrides, currency, timezone, snapshot, report completeness, conversion-date basis and lag maturity.
+- `export/external/launch_drafts.csv`: launch_id/draft_id/version grain; proposed_campaign_id, ad_group_or_asset_group_id, ad_type, full_copy, assets_refs, final_urls, product_or_service, claims, target_markets, languages, audiences, network, launch_at, owner; actual current client launch drafts, local temporary IDs allowed.
+- `export/external/launch_evidence.csv`: launch_id/draft_id/requirement_id grain; official_policy_url, checked_at, applicable_market/product, prohibited_or_restricted_or_editorial, claim_substantiation_ref, certification_or_authorization_ref, scope, valid_from/to, page_snapshot_ref, technical_diagnostics_ref, reviewer_role, review_status; client claim documents, target settings and page evidence current to proposed launch.
+- Optional pre-upload copy validation: `launch_drafts.csv` columns headlines and descriptions (JSON list or ` | `-separated), path1 and path2 for ad_type RSA.
 
-This skill is primarily a checklist guide rather than data analysis.
+Keep original source labels and stable IDs; filenames are suggested local intake paths, not assumed existing files.
+Custom/configuration schemas describe UI/export evidence, not a claim of live API field verification.
+
+**Missing inputs:** List exact missing files/columns, source dates and affected subchecks.
+Continue independent inventory or arithmetic with available evidence; skip only dependent checks.
+Optional evidence gates only its stated deeper comparison, forecast or test-result analysis.
+Unknown settings, authorization, coverage or policy applicability are not false/disabled and are not a passed check.
+Without headlines/descriptions columns the copy-format check is skipped; non-RSA drafts and drafts without structured copy are not format-validated.
 
 ## Analysis Steps
 
-1. **Check prohibited content:** Verify product/service is allowed
-2. **Review editorial standards:** Check headlines and descriptions for formatting
-3. **Verify claims:** Ensure all claims are substantiated
-4. **Audit landing page:** Confirm destination compliance
-5. **Check targeting alignment:** Verify audience/content appropriateness
-6. **Review extensions:** Validate extension compliance
+1. Freeze package version and inventory every draft/asset/target. Existing approved ads do not establish new-draft readiness.
+
+2. Identify applicable prohibited versus restricted content separately; restricted content can be allowed with market-specific conditions. Do not label all adult/restricted categories prohibited.
+
+3. Check claims against dated evidence, offers and landing-page snapshots. Missing substantiation stays unresolved, not an invented confirmed false claim.
+
+4. Check editorial issues with language, brand and acronym exceptions; verify destination functionality and applicable privacy/data requirements through supplied evidence.
+   Before any upload, check RSA copy against [official limits](https://support.google.com/google-ads/answer/7684791) (consulted 2026-09-25), exact duplicate values and uploadable http(s) final URLs; each violation is a confirmed draft conflict (not_met).
+
+5. Check actual targeting and authorization/certification scope and validity. Refer legal or regulated-service interpretation to qualified owners, not assistant certification.
+
+6. Assign each check met/not_met/unknown/not_applicable with evidence. Internal readiness is ready_for_owner_review, changes_required or evidence_incomplete; never APPROVED meaning Google approval. No launch, submission or policy appeal occurs.
+
+Use matched IDs and declared grain before joining; never multiply entity metrics across many-to-many associations.
+For comparisons, align goals, traffic scope and complete periods; exclude incomplete days and conversion reporting lag.
+Use {{min_impressions}} for CTR/share, {{min_clicks}} for CVR and {{min_conversions}} for CPA/ROAS, on both comparison sides.
+A zero-conversion spend screen may bypass min_conversions only after maturity, working tracking and relevance review at {{spend_floor}}.
+Do not divide by zero; preserve censored, suppressed and unknown values rather than treating them as zero.
+Historical non-converting cost is exposure, not guaranteed savings; observational changes are not causal uplift.
 
 ## Thresholds
 
+Numerical cutoffs here are triage heuristics unless explicitly tied to a sourced platform requirement.
+Resolve parameters through [PARAMETERS](../_resources/PARAMETERS.md); business tolerances require a declared value.
+
 | Condition | Severity |
-|-----------|----------|
-| Prohibited content detected | Critical |
-| Restricted content without certification | Critical |
-| Unsubstantiated claim ("Best", "#1") | Warning |
-| Editorial issue (caps, punctuation) | Warning |
-| Landing page missing required elements | Warning |
+|---|---|
+| Directly evidenced prohibited or material safety issue in the scoped launch package | Critical |
+| Confirmed draft conflict with applicable requirement or required scoped authorization | Warning |
+| Missing draft/page/claim evidence or unresolved policy interpretation | Info |
+
+Insufficient evidence or sample is Info. Critical requires directly evidenced material delivery, measurement or safety failure.
 
 ## Output
 
-**Short format (default):**
-```
-## Pre-Launch Compliance Checklist
+Use [OUTPUT_TEMPLATES](../_resources/OUTPUT_TEMPLATES.md), not a conflicting report format.
+Each finding includes skill/entity IDs, condition key, severity, observed values and evidence references, exact window,
+sample, resolved threshold, recommendation, uncertainty, responsible owner and dependent skipped subchecks.
 
-**Campaign:** [Name] | **Ads to Review:** [X]
+- Versioned draft-by-requirement checklist with applicability, sources, unknowns and responsible owner.
+- Internal readiness decision and blocking prerequisites; explicit not legal certification, not Google approval and no launch execution.
 
-### Prohibited Content Check
-| Check | Status |
-|-------|--------|
-| Not counterfeit goods | [ ] Pass |
-| Not dangerous products | [ ] Pass |
-| Not enabling dishonest behavior | [ ] Pass |
-| No adult content | [ ] Pass |
-
-### Editorial Standards
-| Check | Status | Issue |
-|-------|--------|-------|
-| No excessive CAPS | [ ] Pass/Fail | [Detail] |
-| No gimmicky punctuation | [ ] Pass/Fail | [Detail] |
-| Correct spelling | [ ] Pass/Fail | [Detail] |
-| Proper grammar | [ ] Pass/Fail | [Detail] |
-
-### Claims Verification
-| Claim | Type | Substantiated |
-|-------|------|---------------|
-| "[Claim]" | Price | [ ] Yes/No |
-| "[Claim]" | Comparison | [ ] Yes/No |
-
-### Landing Page Compliance
-| Requirement | Status |
-|-------------|--------|
-| URL accessible | [ ] Pass |
-| SSL valid | [ ] Pass |
-| Privacy policy present | [ ] Pass |
-| Content matches ad | [ ] Pass |
-
-### Launch Decision
-[ ] APPROVED - All checks passed
-[ ] CONDITIONAL - Fix noted issues first
-[ ] NOT APPROVED - Critical violations
-```
-
-**Detailed adds:**
-- Full checklist by category
-- Common rejection reasons quick reference
-- Extension compliance checklist
-- Post-launch monitoring guidance
+Separate observations, hypotheses and requested changes. No account writes, rule installation, subscriptions,
+notifications, exclusions, feed edits, legal certification or external data transfers occur in this review.
+Any implementation request must name exact scope/values, approval owner, monitoring and recovery conditions.

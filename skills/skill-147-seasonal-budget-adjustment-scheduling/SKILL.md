@@ -1,83 +1,85 @@
 ---
 name: skill-147-seasonal-budget-adjustment-scheduling
-description: "Schedule temporary budget increases for promotional periods with automatic reversion."
-allowed-tools: Read, Grep, Glob
+description: "Review approved temporary budgets, caps and reversion plans without requiring event-driven budget increases."
+allowed-tools: Read, Grep, Glob, Bash
 metadata:
-  library: eppc-ads-skills@1.1.0
+  library: eppc-ads-skills@2.0.0
   category: seasonal
   kind: operational
-  data_source: custom_query
+  data_source: external
   markets: all
   gaql_verified: null
-  reviewed: 2026-09-03
+  reviewed: 2026-09-06
+  agent: "gpt-6-astra | openai | 2026-09-06 | FixOperationsSeasonal | corrected evidence, controls, thresholds and request-only outputs"
 ---
-# Skill 147: Seasonal Budget Adjustment Scheduling
+# Skill 147: Seasonal Budget Schedule Proposals
 
 ## Purpose
-Ensure campaigns have scheduled budget increases for peak periods and automatic reversion afterward. Under-funded campaigns miss profitable opportunities during high-demand windows, while forgetting to reduce budgets post-peak wastes spend during lower-intent periods.
+
+Review approved temporary budgets, caps and reversion plans without requiring event-driven budget increases.
+
+This is a local evidence review. Recommendations are proposals, not permission to act on an account or disclose client data.
 
 ## Data Requirements
 
-**Data Source:** Custom query required
+**Applicability:** Events with known budget owners, approved envelope and supported budget/rule settings.
 
-A basic account export shows current budgets but not historical spend patterns or impression share lost to budget during prior peaks.
+**Required inputs:**
+- Base `export/` tables: account, campaigns, budgets, bidding_strategies, using [DATA_CONTRACT](../_resources/DATA_CONTRACT.md).
+- Read client objectives, parameter overrides, currency, timezone, snapshot, report completeness, conversion-date basis and lag maturity.
+- `export/external/seasonal_budget_plan.csv`: one row per event_id/campaign_id: name, start_at, end_at, timezone, objective, offer, expected_cvr_change, rationale, owner, approval_status, normal_baseline_dates; client calendar snapshot covering relevant past events and next 60 days; add budget_id, approved_total_cap, baseline_daily_budget, proposed_event_budget, post_event_budget, economic_target, response_assumptions, approval_ref.
+- `export/custom/seasonal_budget_daily.csv`: one row per account_id/campaign_id/date: budget_id, strategy_id, goal_id, impressions, clicks, cost, conversions, conversion_value, conversion_date_basis, maturity; Ads UI daily report, account timezone, complete dates including historical inactive campaigns and coverage/suppression notes; prior event, surrounding normal weeks and full current MTD; add budget_lost_is_if_supported.
+- `export/custom/seasonal_budget_rules.csv`: account_id/budget_id/rule_id/snapshot_at grain; current_amount, historical_amounts_and_effective_dates, member_campaign_ids, action, scheduled_at, timezone, enabled, last_result, reversion_amount, manual_override_owner; Ads budget history and rule settings covering event and recovery dates.
 
-**Export data:**
-- **Campaigns** - Current budget settings
-- **Budgets** - Shared budget configuration
+Keep original source labels and stable IDs; filenames are suggested local intake paths, not assumed existing files.
+Custom/configuration schemas describe UI/export evidence, not a claim of live API field verification.
 
-**GAQL Query (Historical Peak Spend):**
-```sql
-SELECT
-  campaign.name,
-  campaign.campaign_budget,
-  segments.date,
-  metrics.cost_micros,
-  metrics.impressions,
-  metrics.search_impression_share,
-  metrics.search_budget_lost_impression_share
-FROM campaign
-WHERE campaign.status = 'ENABLED'
-  AND segments.date BETWEEN '[PRIOR_YEAR_PEAK_START]' AND '[PRIOR_YEAR_PEAK_END]'
-```
-Run via a custom query (API, UI report, or Editor export) to analyze prior-year peak periods.
+**Missing inputs:** List exact missing files/columns, source dates and affected subchecks.
+Continue independent inventory or arithmetic with available evidence; skip only dependent checks.
+Optional evidence gates only its stated deeper comparison, forecast or test-result analysis.
+Unknown settings, authorization, coverage or policy applicability are not false/disabled and are not a passed check.
 
 ## Analysis Steps
 
-1. **Review current budgets:** Read campaign budget settings from the export
-2. **Identify upcoming peaks:** Map promotional calendar to budget requirements
-3. **Analyze historical spend:** Query prior-year peak periods for spend patterns and budget limitations
-4. **Check impression share loss:** Identify campaigns that were budget-limited during prior peaks
-5. **Review automated rules:** Verify budget increase/decrease rules exist with correct triggers
+1. Reconcile shared-budget membership, actual MTD spend and approved cap once per budget pool. Current amounts do not establish historical utilization.
+
+2. Compare prior event demand and outcomes to normal periods with mature samples. Lost IS alone cannot prove profitable incremental demand.
+
+3. Evaluate explicit marginal-response scenarios and cash/capacity limits before recommending any change. Keeping a flat or lower budget is a valid decision.
+
+4. For an already approved temporary change, compare rules or documented manual handoff with event dates/timezone and approved post-event amount. Automatic reversion is not mandatory if accountable manual control exists.
+
+5. Draft a bounded budget-ID schedule with start/end, cap, monitoring, override, owner and approval. Do not schedule or apply; month-long planning does not imply a bid seasonality adjustment.
+
+Use matched IDs and declared grain before joining; never multiply entity metrics across many-to-many associations.
+For comparisons, align goals, traffic scope and complete periods; exclude incomplete days and conversion reporting lag.
+Use {{min_impressions}} for CTR/share, {{min_clicks}} for CVR and {{min_conversions}} for CPA/ROAS, on both comparison sides.
+A zero-conversion spend screen may bypass min_conversions only after maturity, working tracking and relevance review at {{spend_floor}}.
+Do not divide by zero; preserve censored, suppressed and unknown values rather than treating them as zero.
+Historical non-converting cost is exposure, not guaranteed savings; observational changes are not causal uplift.
 
 ## Thresholds
 
+Numerical cutoffs here are triage heuristics unless explicitly tied to a sourced platform requirement.
+Resolve parameters through [PARAMETERS](../_resources/PARAMETERS.md); business tolerances require a declared value.
+
 | Condition | Severity |
-|-----------|----------|
-| Peak event within 14 days with no budget increase scheduled | Critical |
-| Campaign lost >20% IS to budget during prior peak | Critical |
-| No automatic budget reversion rule for post-peak | Warning |
-| Shared budget likely to misallocate during peak | Warning |
-| Budget increase planned but no pacing buffer | Info |
+|---|---|
+| Directly evidenced material breach of approved spending cap | Critical |
+| Approved temporary schedule or post-event restoration conflicts with actual configuration | Warning |
+| Upcoming event without increase, lost IS alone or missing response model | Info |
+
+Insufficient evidence or sample is Info. Critical requires directly evidenced material delivery, measurement or safety failure.
 
 ## Output
 
-**Short format (default):**
-```
-## Seasonal Budget Audit
-**Account:** [Name] | **Events (60d):** [X] | **Budget gaps:** [Y]
+Use [OUTPUT_TEMPLATES](../_resources/OUTPUT_TEMPLATES.md), not a conflicting report format.
+Each finding includes skill/entity IDs, condition key, severity, observed values and evidence references, exact window,
+sample, resolved threshold, recommendation, uncertainty, responsible owner and dependent skipped subchecks.
 
-### Critical ([Count])
-- **[Campaign]**: Lost [X]% IS to budget in prior peak -> Increase from {{currency}} [X] to {{currency}} [Y]/day
+- Historical/normal/event economics, shared-pool cap reconciliation and scenario assumptions.
+- Request-only dated budget schedule, manual/automated restoration responsibility and verification plan.
 
-### Warnings ([Count])
-- **[Event]**: No auto-revert rule -> Schedule budget decrease for [date]
-
-### Recommendations
-1. [Specific budget change with campaign, amount, and dates]
-```
-
-**Detailed adds:**
-- Historical spend vs. budget utilization table by campaign
-- Recommended budget schedule with increase/decrease dates
-- Automation rule configuration checklist
+Separate observations, hypotheses and requested changes. No account writes, rule installation, subscriptions,
+notifications, exclusions, feed edits, legal certification or external data transfers occur in this review.
+Any implementation request must name exact scope/values, approval owner, monitoring and recovery conditions.

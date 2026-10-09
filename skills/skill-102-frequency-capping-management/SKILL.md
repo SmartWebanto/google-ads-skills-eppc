@@ -1,82 +1,82 @@
 ---
 name: skill-102-frequency-capping-management
-description: "Set appropriate frequency caps (typically 3-5 impressions per user per week) to prevent ad fatigue and wasted impressions."
-allowed-tools: Read, Grep, Glob
+description: "Review supported frequency controls using measured reach and exposure rather than cap absence or universal limits."
+allowed-tools: Read, Grep, Glob, Bash
 metadata:
-  library: eppc-ads-skills@1.1.0
+  library: eppc-ads-skills@2.0.0
   category: remarketing
-  kind: deterministic
-  data_source: custom_query
+  kind: analyst
+  data_source: external
+  related: [skill-128-performance-max-channel-performance, skill-162-creative-asset-quality-ai-campaign-optimization]
   markets: all
   gaql_verified: null
-  reviewed: 2026-09-03
+  reviewed: 2026-09-06
+  agent: "gpt-6-astra | openai | 2026-09-06 | FixShoppingAudiences | evidence contracts and contextual decision rules"
 ---
-# Skill 102: Frequency Capping Management
+# Skill 102: Frequency Capping and Exposure Review
 
 ## Purpose
-Set appropriate frequency caps to prevent ad fatigue and wasted impressions. Uncapped remarketing wastes spend on users who have decided not to convert and damages brand perception.
+
+Distinguish configured caps from actual delivered exposure and investigate potential fatigue in context. No explicit cap does not mean unlimited delivered impressions or proven waste.
 
 ## Data Requirements
 
-**Data Source:** Custom query required
+**Applicability:** Display/Video and other campaign subtypes only where current platform evidence exposes frequency reports or supports a relevant control; do not promise PMax per-channel caps.
 
-**GAQL Query:**
-```sql
-SELECT
-  campaign.name,
-  campaign.frequency_caps,
-  metrics.impressions,
-  metrics.clicks,
-  metrics.conversions,
-  metrics.cost_micros
-FROM campaign
-WHERE campaign.advertising_channel_type IN ('DISPLAY', 'VIDEO')
-  AND campaign.status = 'ENABLED'
-  AND segments.date DURING LAST_30_DAYS
-```
-Run the query through the Google Ads API, a UI custom report, or Google Ads Editor; save the result as `frequency_analysis`.
+**Required inputs:**
 
-**Export data:**
-- **Campaigns** - Campaign settings
+- Base [DATA_CONTRACT.md](../_resources/DATA_CONTRACT.md): `export/account`, `export/campaigns`, `export/campaign_metrics`; client objectives and parameter overrides.
+- Record export window, account timezone/currency, snapshot time, source, filters, completeness and conversion-date basis.
+- `export/external/frequency_controls.csv`: current Ads configuration review, one row per account_id, campaign_id and cap/control_id; subtype, objective, audience_role, strategy, cap_status (explicit/automatic/not_supported/unknown), event_type (impression/view), entity_level, maximum_count, period, timezone, supported_controls, source_url/reference and observed_at. Preserve all layered caps and supported target-frequency modes.
+- `export/custom/frequency_exposure.csv`: actual Ads unique-reach/frequency report for complete matched 7/28-day or supported report windows, one row per account_id, campaign_id, report_start/end, population_scope and reported_frequency_bucket; impressions, unique_users, average_impression_frequency when exposed, reach_by_bucket, report_definition, deduplication_scope, modeled_status, privacy/suppression flags and report_source. Totals are separate rows; do not sum unique users across dates/buckets/campaigns.
+- `export/custom/frequency_outcomes.csv`: optional actually available exposure-cohort outcomes, same window/population/bucket keys; exposed_people, clicks, cost, conversions, conversion_value, goal_set_id, attribution_definition and coverage. If no frequency-bucket outcome report is available, use campaign outcomes descriptively, never fabricate it.
+- `export/external/frequency_plan.csv`: current client plan at campaign_id and audience_role; approved exposure objective/bounds, creative_rotation, sales_cycle, budget constraint, actual fatigue evidence reference, approved_test_metric and owner.
+
+**Missing inputs:** Without unique reach/exposure no delivered-frequency or excess-impression estimate is possible; without control evidence no cap proposal. Missing outcome cohorts means fatigue is a hypothesis, not a diagnosis. Skip only the dependent subcheck and list exact missing fields; continue supported inventory. Omitted settings are unknown, not enabled or disabled.
+
+These local intake schemas describe evidence, not asserted API field names. No live GAQL verification is claimed.
 
 ## Analysis Steps
 
-1. **Identify Display/Video Campaigns:** Filter for campaigns where frequency capping applies
-2. **Check Current Cap Settings:** Review frequency cap configurations
-3. **Analyze Reach vs. Frequency:** Compare impressions to estimated unique reach
-4. **Benchmark Against Best Practices:** 3-5/week for remarketing, 2-3/week for prospecting
+1. Inventory subtype, objective and every actual cap including event type, period and level. Distinguish manual cap, automated/target-frequency mode, unsupported control and unknown settings; do not conflate video-view caps with impression caps.
+
+2. Calculate impressions / unique_users only for a matching nonzero deduplicated population/window where the report defines the same quantities. Prefer the platform-reported average when definitions differ. Do not sum daily or cross-campaign unique reach or mechanically convert daily caps into observed weekly exposure.
+
+3. Inspect the actual exposure distribution and modeled/privacy limitations. High average frequency does not show every user overexposed; bucket counts must be nonoverlapping or clearly labeled cumulative before deriving percentages.
+
+4. Compare exposure with the client goal, creative rotation and buying cycle. Repeated exposure can be intentional for awareness or complex purchases; a low cap can limit a stated reach/frequency objective, but no universal 3–5/week benchmark applies.
+
+5. Use matched mature outcomes or documented customer/creative evidence to screen fatigue, controlling for time, audience mix and selection into higher frequency. Correlation between frequency and declining response is not proof additional impressions caused harm; do not compute wasted spend by subtracting a chosen cap.
+
+6. If supported and evidence-led, propose a bounded cap/target-frequency or creative-rotation test with explicit event, level, period, metrics and rollback. Delegate creative critique to 162 and PMax channel diagnostics to 128; do not invent control availability.
 
 ## Thresholds
 
 | Condition | Severity |
-|-----------|----------|
-| No frequency cap on remarketing campaign | Critical |
-| Caps above 10 impressions/week | Warning |
-| No frequency cap on any Display campaign | Warning |
-| Caps below 2/week (under-exposure) | Info |
+|---|---|
+| Measured exposure contradicts an approved campaign constraint or corroborated fatigue evidence warrants review | Warning |
+| No explicit cap, high/low configured cap alone or an intentional repeated-exposure setup | Info |
+| Supported bounded exposure/creative test with evidence but no causal harm proof | Info |
+| Unavailable reach distribution, suppressed data, insufficient samples or unknown control applicability | Info |
+
+Use [PARAMETERS.md](../_resources/PARAMETERS.md) and resolved client overrides.
+CTR comparisons require {{min_impressions}}, conversion-rate comparisons {{min_clicks}},
+and CPA/ROAS comparisons {{min_conversions}} on **both** comparable sides.
+Use mature, equal-length windows with matched goals, currency and attribution basis;
+exclude incomplete days and conversion lag, and never divide by zero.
+Numerical screens without a cited platform requirement are triage heuristics, not proof of harm.
+Critical requires directly evidenced material delivery, measurement or safety failure.
+Missing evidence and optional-feature absence are Info, not a failed or passed check.
 
 ## Output
 
-**Short (default):**
-```
-## Frequency Capping Audit
-**Account:** [name] | **Display/Video Campaigns:** [count] | **Without Caps:** [count]
+Use [OUTPUT_TEMPLATES.md](../_resources/OUTPUT_TEMPLATES.md), not a separate competing template.
+Report stable entity IDs, condition key, observed evidence/window, sample denominators,
+resolved thresholds, recommendation, uncertainty and the owning skill.
 
-### Critical
-- **[campaign]**: No frequency cap - Unlimited impressions per user
+- Show campaign/control IDs, subtype, event/period/level and explicit/automatic/unsupported/unknown status.
+- Report measured average and exposure distribution with population/window/unique-reach denominator and modeling limitations.
+- Separate configured caps, delivered exposure and fatigue hypotheses; include applicable proposal details without universal limits or savings estimates.
 
-### Warnings
-- **[campaign]**: Cap at 15/week - Reduce to 5/week
-- **[count] campaigns without caps** - Add 3-5 impressions/week
-
-### Recommendations
-1. Set 5 impressions/week cap on all remarketing campaigns
-2. Set 3 impressions/week cap on prospecting Display
-3. Consider 3/week cap for YouTube TrueView
-```
-
-**Detailed adds:**
-- Campaign frequency cap inventory
-- Recommended caps by campaign type table
-- Estimated wasted impressions from over-exposure
-- Layered approach recommendation (weekly + daily)
+Recommendations are request-only proposals; do not modify accounts, feeds, tags or audience lists.
+Historical spend is exposure, not guaranteed savings. Do not forecast uplift without a stated model or controlled test.

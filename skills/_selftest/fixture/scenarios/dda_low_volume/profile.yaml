@@ -1,0 +1,37 @@
+{
+  "slug": "regression",
+  "report_language": "en",
+  "market": [
+    "IT"
+  ],
+  "business_type": "lead_generation",
+  "objectives": [
+    "count distinct qualified leads; Every is intended for multiple distinct leads from one click; unit values intentional"
+  ],
+  "brand_terms": [
+    "acme"
+  ],
+  "competitor_terms": [],
+  "excluded_intents": [],
+  "service_area": [
+    "Italy"
+  ],
+  "conversion_lag_days": 2,
+  "sales_cycle_days": 7,
+  "monthly_budget": 10000,
+  "parameter_overrides": {},
+  "target_cpa": null,
+  "target_roas": null,
+  "export_path": "export/",
+  "campaign_objectives": {
+    "LOW-VOLUME": {
+      "goal_ids": [
+        "LEAD"
+      ],
+      "role": "count qualified leads",
+      "counting": "Every",
+      "value_policy": "unit value",
+      "attribution": "DDA selected; no expected minimum eligibility volume"
+    }
+  }
+}

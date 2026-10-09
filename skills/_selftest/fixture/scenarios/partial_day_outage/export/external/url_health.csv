@@ -1,0 +1,3 @@
+test_id,URL,device,checked_at,requested_url,resolved_url,redirect_chain,http_status,tls_valid,tls_error,load_metric_name,load_value_ms,test_region,user_agent,mobile_task_result,evidence_ref
+PROBE-1,https://example.invalid/checkout,MOBILE,2026-08-20T10:00:00+02:00,https://example.invalid/checkout,https://example.invalid/checkout,,503,True,,LCP,,IT,synthetic user browser,checkout unavailable at probe,synthetic probe record
+PROBE-2,https://example.invalid/checkout,MOBILE,2026-08-20T10:05:00+02:00,https://example.invalid/checkout,https://example.invalid/checkout,,200,True,,LCP,1500,IT,synthetic user browser,checkout succeeds at probe,synthetic recovery probe

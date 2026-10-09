@@ -1,94 +1,94 @@
 ---
 name: skill-056-device-performance-analysis
-description: "Analyze performance segmented by device type (desktop, mobile, tablet) and recommend bid adjustments to optimize spend allocation."
-allowed-tools: Read, Grep, Glob
+description: "Compare device performance with strategy-specific controls and mature campaign-relative evidence."
+allowed-tools: Read, Grep, Glob, Bash
 metadata:
-  library: eppc-ads-skills@1.1.0
+  library: eppc-ads-skills@2.0.0
   category: targeting
   kind: deterministic
   data_source: custom_query
   markets: all
   gaql_verified: null
-  reviewed: 2026-09-03
+  reviewed: 2026-09-06
+  agent: "gpt-6-astra | openai | 2026-09-06 | FixTargetingQuality | evidence-led audit corrections"
 ---
 # Skill 056: Device Performance Analysis
 
 ## Purpose
 
-Device performance varies significantly by business type. This skill analyzes performance by device (desktop, mobile, tablet), identifies efficiency differences, and recommends bid adjustments for Manual CPC campaigns or exclusions for Smart Bidding.
+Diagnose device efficiency and conversion experience without treating device membership
+as a cause of poor performance. Separate Manual CPC adjustments, tCPA device target
+behavior, and supported device exclusions instead of a blanket Smart Bidding exception.
 
 ## Data Requirements
 
-**Data Source:** Custom query required
+**Applicability:** Campaigns with device metrics. Available devices and controls depend on
+channel, campaign subtype and bidding strategy; connected TV is not necessarily comparable.
 
-A basic account export does not include device-segmented performance metrics.
+**Required inputs:** [DATA_CONTRACT](../_resources/DATA_CONTRACT.md) files `account`,
+`campaigns`, `campaign_metrics`, `bidding_strategies` and `bid_adjustments`: stable IDs,
+goals, targets, strategy type/ID, device exclusions/modifiers, lag maturity and units.
+- `export/custom/device_performance.csv` from Google Ads campaign report segmented by
+  date and device; key account_id/campaign_id/date/device plus any report segments.
+  Columns: impressions, clicks, cost, conversions, conversion_value, source and window.
+  Cover the common mature 30 days, preserving all device categories and unknowns.
+- For control proposals, `export/custom/device_controls.csv` from current campaign
+  Devices/bidding settings UI: account_id, campaign_id, device, snapshot_date,
+  control_type (CPC_multiplier, CPA_target_adjustment, exclusion, unsupported),
+  current_value, permitted_min, permitted_max, strategy_type, support_source_url.
+  One row per campaign/device/control; omitted controls remain unknown.
 
-**Export data:**
-- **Bid adjustments (campaign level)** - Current device bid modifiers
-
-**GAQL Query:**
-```sql
-SELECT
-  campaign.name,
-  campaign.id,
-  segments.device,
-  metrics.impressions,
-  metrics.clicks,
-  metrics.cost_micros,
-  metrics.conversions,
-  metrics.conversions_value,
-  metrics.average_cpc
-FROM campaign
-WHERE segments.date DURING LAST_30_DAYS
-  AND metrics.impressions > 0
-```
-Run the query through the Google Ads API, a UI custom report, or Google Ads Editor; save the result as `device_performance`. Device values: DESKTOP, MOBILE, TABLET, CONNECTED_TV.
+**Missing inputs:** Missing controls means diagnostic-only output, not assumed applicability.
+Missing industry benchmarks does not block within-campaign comparisons; do not invent them.
+Missing mature goals/metrics blocks efficiency judgments, not the device inventory.
 
 ## Analysis Steps
 
-1. **Load device performance data:** Use custom GAQL, load current bid adjustments from **Bid adjustments**.
-
-2. **Calculate device performance metrics:** Impression/Click/Cost/Conversion share by device, CPA, CVR, ROAS per device.
-
-3. **Analyze device efficiency:** Device Efficiency Index = (Campaign Avg CPA / Device CPA) - 1. Positive = outperforms, Negative = underperforms.
-
-4. **Generate bid adjustment recommendations:** Based on efficiency index. Note: For Smart Bidding, only -100% (exclude) is honored.
+1. Join settings and metrics by campaign IDs, normalize units and separate strategy changes
+   into stable windows. Reconcile device totals to campaign totals before calculating shares.
+2. Report cost, impressions, clicks, conversion and value shares. Calculate CPA, CVR and ROAS
+   only when denominators are positive; zero-conversion CPA is N/A.
+3. Compare each device against other devices within the same campaign/goal/window.
+   Efficiency index = baseline CPA / device CPA - 1. Different acquisition mix, tracking,
+   landing-page experience and lag can explain differences; no causal device claim.
+4. Triage index < -0.2 as adverse review and > +0.2 as an opportunity. Inspect persistence
+   across complete weeks before proposing a change; large deviations still need evidence.
+   Retain zero-conversion spend as a tracking/relevance investigation, not automatic exclusion.
+5. For supported Manual CPC adjustments, set raw incremental multiplier = 1 + index;
+   cap to 0.9–1.1, multiply current bid multiplier and respect exported control bounds.
+   Do not adjust already excluded devices or calculate a multiplier for N/A metrics.
+   This bounded initial test is a heuristic, not estimated optimal bid sizing.
+6. Under tCPA, a device adjustment can change the CPA target rather than CPC; verify the
+   actual subtype/control and describe that target effect. Do not reuse the CPC formula.
+   Under other Smart Bidding strategies, ordinary device modifiers are generally ignored;
+   propose no adjustment unless current supported-control evidence establishes behavior.
+7. A -100% or other device exclusion is not universally available or advisable. Confirm
+   control support and business necessity, incremental conversion risk and owner intent.
+   For poor device performance propose tracking/UX review before any eligibility restriction.
 
 ## Thresholds
 
 | Condition | Severity |
 |-----------|----------|
-| Device with zero conversions + >{{spend_material}} spend | Critical |
-| Device efficiency index < -0.40 | High |
-| Device efficiency index > +0.40 | High (increase opportunity) |
-| Device efficiency index -0.40 to -0.20 | Warning |
-| Device efficiency index +0.20 to +0.40 | Warning (increase opportunity) |
-| Device efficiency within +/-0.10 | Info |
+| Device efficiency index < -0.2 with comparable mature samples | Warning |
+| Zero conversions with working tracking and mature cost >= {{spend_floor}} | Warning |
+| Device efficiency index > +0.2 with comparable mature samples | Info |
+| Unknown control, sparse sample, missing benchmark or unresolved tracking | Info |
+
+Use [PARAMETERS](../_resources/PARAMETERS.md): CTR needs {{min_impressions}}, CVR
+needs {{min_clicks}}, and CPA/ROAS needs {{min_conversions}} on BOTH comparison sides.
+Exclude incomplete days and immature conversion-lag periods; align goals and date basis.
+Undefined denominators produce N/A, not zero or infinity. Zero-conversion screening is
+a separate exception: mature tracking-verified data and cost >= {{spend_floor}} permit
+a Warning review, not an automatic pause. Numeric cutoffs below are triage heuristics.
 
 ## Output
 
-**Short (default):**
-```
-## Device Performance Audit
-
-**Account:** [Name] | **Campaigns Analyzed:** [X]
-
-### Account-Level Summary
-| Device | Cost | Conv | CPA | vs Avg |
-|--------|------|------|-----|--------|
-| Desktop | {{currency}} [X] | [Y] | {{currency}} [Z] | [%] |
-| Mobile | {{currency}} [X] | [Y] | {{currency}} [Z] | [%] |
-| Tablet | {{currency}} [X] | [Y] | {{currency}} [Z] | [%] |
-
-### Recommendations ([Count])
-- **[Campaign]**: Mobile CPA [X]% above average → Adjust to -[Y]%
-- **[Campaign]**: Desktop outperforming → Increase to +[Y]%
-
-Note: Device bid adjustments (except -100%) are ignored on Smart Bidding campaigns.
-```
-
-**Detailed adds:**
-- Account-level device summary table (device, impressions, clicks, cost, conversions, CPA, CVR, ROAS)
-- Campaign-level device analysis (campaign, device, cost, conv, CPA, vs avg, current adj, recommended)
-- Recommendations summary table per campaign (desktop, mobile, tablet adjustments)
-- Industry benchmark comparison
+Use [OUTPUT_TEMPLATES](../_resources/OUTPUT_TEMPLATES.md), not a separate format.
+Include stable account/campaign/ad-group/entity IDs, condition key, observed evidence and window,
+sample, resolved thresholds, recommendation, uncertainty, and responsible owner.
+List exact missing fields and dependent checks skipped; unknown does not mean passed.
+Recommendations are request-only proposals; do not modify accounts or export files.
+Historical exposure is not savings; no uplift forecast without an explicit counterfactual model.
+Include device, baseline cohort, current modifier, strategy and control semantics,
+raw index, bounded test values only when supported, and excluded/unobserved devices.

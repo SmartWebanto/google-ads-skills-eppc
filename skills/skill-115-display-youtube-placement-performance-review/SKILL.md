@@ -1,107 +1,89 @@
 ---
 name: skill-115-display-youtube-placement-performance-review
-description: "Conduct placement reports to identify high-impression, low-conversion placements for optimization or exclusion."
-allowed-tools: Read, Grep, Glob
+description: "Review website, YouTube and app placements plus inherited exclusion governance without blanket blocking or fraud claims."
+allowed-tools: Read, Grep, Glob, Bash
 metadata:
-  library: eppc-ads-skills@1.1.0
+  library: eppc-ads-skills@2.0.0
   category: waste
-  kind: deterministic
-  data_source: custom_query
+  kind: analyst
+  data_source: external
+  merged_from: [skill-114-account-level-placement-exclusions, skill-116-mobile-app-placement-exclusion]
   markets: all
   gaql_verified: null
-  reviewed: 2026-09-03
+  reviewed: 2026-09-06
+  agent: "gpt-6-astra | openai | 2026-09-06 | FixOperationsSeasonal | corrected evidence, controls, thresholds and request-only outputs"
 ---
-# Skill 115: Display/YouTube Placement Performance Review
+# Skill 115: Placement Performance and Exclusion Governance
 
 ## Purpose
-Conduct placement reports to identify high-impression, low-conversion placements for optimization or exclusion. Monthly placement reviews can recover 10-30% of Display/Video spend.
+
+Review website, YouTube and app placements plus inherited exclusion governance without blanket blocking or fraud claims.
+
+This is a local evidence review. Recommendations are proposals, not permission to act on an account or disclose client data.
 
 ## Data Requirements
 
-**Data Source:** Custom query required
+**Applicability:** Placement-reporting campaigns only where the subtype supports the proposed control; incomplete PMax reporting is partial coverage.
 
-**GAQL Query - Display Placements:**
-```sql
-SELECT
-  detail_placement_view.display_name,
-  detail_placement_view.placement,
-  detail_placement_view.placement_type,
-  detail_placement_view.target_url,
-  campaign.name,
-  metrics.impressions,
-  metrics.clicks,
-  metrics.cost_micros,
-  metrics.conversions,
-  metrics.conversions_value
-FROM detail_placement_view
-WHERE segments.date DURING LAST_30_DAYS
-  AND metrics.impressions > 0
-```
+**Required inputs:**
+- Base `export/` tables: account, campaigns, campaign_metrics, using [DATA_CONTRACT](../_resources/DATA_CONTRACT.md).
+- Read client objectives, parameter overrides, currency, timezone, snapshot, report completeness, conversion-date basis and lag maturity.
+- `export/custom/placement_daily.csv`: account_id/campaign_id/ad_group_id/date/placement_id/format grain; placement_type, URL_or_app_id, app_category_id, category_source, network, objective, impressions, clicks, cost, conversions, conversion_value; complete mature 30-day Ads report including websites AND apps, with suppressed coverage stated.
+- `export/custom/placement_video_metrics.csv`: same key where supported; video_views, native_view_rate, denominator_name, denominator_count, eligible_video_impressions, measurable_impressions, viewable_impressions, measurement_definition; same-window Ads format report. Preserve campaign/format grain if placement metrics unavailable.
+- `export/custom/placement_controls.csv`: account_id/scope_type/scope_id/control_id/snapshot_at grain; control_type, placement_or_category_id, enabled, included_or_excluded, inherited_from, supported_subtypes, source_screen; current Ads content-suitability/exclusion settings including inherited controls.
+- `export/external/placement_policy.csv`: policy_id/placement_or_category_id grain; campaign_scope, suitability_rationale, evidence_ref, approved_by, valid_from/to; current client policy and local content-review evidence.
 
-**GAQL Query - YouTube Placements:**
-```sql
-SELECT
-  detail_placement_view.display_name,
-  detail_placement_view.placement,
-  campaign.name,
-  campaign.advertising_channel_type,
-  metrics.impressions,
-  metrics.clicks,
-  metrics.cost_micros,
-  metrics.conversions
-FROM detail_placement_view
-WHERE segments.date DURING LAST_30_DAYS
-  AND campaign.advertising_channel_type = 'VIDEO'
-```
-Note: CTR and view rate not directly available on `detail_placement_view` — calculate client-side from clicks/impressions.
-Run the query through the Google Ads API, a UI custom report, or Google Ads Editor; save the result as `placement_review`.
+Keep original source labels and stable IDs; filenames are suggested local intake paths, not assumed existing files.
+Custom/configuration schemas describe UI/export evidence, not a claim of live API field verification.
+
+**Missing inputs:** List exact missing files/columns, source dates and affected subchecks.
+Continue independent inventory or arithmetic with available evidence; skip only dependent checks.
+Optional evidence gates only its stated deeper comparison, forecast or test-result analysis.
+Unknown settings, authorization, coverage or policy applicability are not false/disabled and are not a passed check.
 
 ## Analysis Steps
 
-1. **Pull Placement Performance:** Get top placements by spend and impressions
-2. **Identify Red Flags:** High spend + zero conversions, abnormal CTR, low video view rates
-3. **Categorize Placements:** Top performers, potential, underperformers, exclude
-4. **Calculate Waste:** Total spend on non-converting placements
+1. Reconcile reported placement cost to campaign totals, preserving unknown inventory. Separate formats and objectives; app categories require provenance.
+
+2. CTR = clicks/impressions. Video view rate = views/documented format-specific eligible impressions or the native reported rate, NEVER CTR. Active View viewability = viewable/measurable impressions. Do not substitute all impressions for a different view-rate denominator; non-view-based formats are not applicable.
+
+3. Compare apps and websites only within comparable campaign/format/goals and mature samples on both sides. Use CPA/ROAS or qualified outcomes, not CVR alone; games or children categories do not prove waste.
+
+4. Screen zero-conversion placements at {{spend_floor}} after tracking, lag and relevance review. CTR anomalies are not fraud; route billing-linked concerns to skill-118. Historical exposure is not recoverable savings.
+
+5. Resolve account/campaign/list inheritance against approved suitability restrictions. No account-level exclusions is not a defect. Never use the obsolete all-app domain shortcut; propose only documented current app-ID/category controls and supported scope.
+
+6. For each candidate provide narrow scope, useful coverage at risk, existing overlap, rationale, approval owner and monitoring plan; account-wide scope needs cross-campaign suitability evidence.
+
+Use matched IDs and declared grain before joining; never multiply entity metrics across many-to-many associations.
+For comparisons, align goals, traffic scope and complete periods; exclude incomplete days and conversion reporting lag.
+Use {{min_impressions}} for CTR/share, {{min_clicks}} for CVR and {{min_conversions}} for CPA/ROAS, on both comparison sides.
+A zero-conversion spend screen may bypass min_conversions only after maturity, working tracking and relevance review at {{spend_floor}}.
+Do not divide by zero; preserve censored, suppressed and unknown values rather than treating them as zero.
+Historical non-converting cost is exposure, not guaranteed savings; observational changes are not causal uplift.
 
 ## Thresholds
 
-| Condition | Severity |
-|-----------|----------|
-| Placement with >{{spend_significant}} spend and 0 conversions | Critical |
-| CTR >5% (potential click fraud) | Warning |
-| Video view rate <10% | Warning |
-| >20% spend on non-converting placements | Warning |
+Numerical cutoffs here are triage heuristics unless explicitly tied to a sourced platform requirement.
+Resolve parameters through [PARAMETERS](../_resources/PARAMETERS.md); business tolerances require a declared value.
 
-Sample size: judge CTR rows only above {{min_impressions}} impressions, conversion-rate rows only above {{min_clicks}} clicks, and CPA/ROAS comparisons only above {{min_conversions}} conversions; below that, report "insufficient sample" as Info.
+| Condition | Severity |
+|---|---|
+| Confirmed live material exposure contrary to an approved safety restriction | Critical |
+| Mature zero-conversion spend above {{spend_floor}} after context review | Warning |
+| No exclusions, CTR anomaly alone or incomplete view evidence | Info |
+
+Insufficient evidence or sample is Info. Critical requires directly evidenced material delivery, measurement or safety failure.
 
 ## Output
 
-**Short (default):**
-```
-## Placement Performance Review
-**Account:** [name] | **Period:** Last 30 days | **Placements Analyzed:** [count]
+Use [OUTPUT_TEMPLATES](../_resources/OUTPUT_TEMPLATES.md), not a conflicting report format.
+Each finding includes skill/entity IDs, condition key, severity, observed values and evidence references, exact window,
+sample, resolved threshold, recommendation, uncertainty, responsible owner and dependent skipped subchecks.
 
-### Summary
-- **Total Display/Video Spend:** {{currency}} [amount]
-- **Non-Converting Placement Spend:** {{currency}} [amount] ([%])
+- Placement ledger with IDs, format, sample, spend, goal outcomes, CTR, native view rate and exact denominator, viewability and coverage.
+- App-versus-website cohorts and category provenance; governance matrix with inheritance, policy evidence and narrow request-only proposals.
 
-### Critical - Exclude Immediately
-| Placement | Type | Cost | Conv | Reason |
-|-----------|------|------|------|--------|
-| [name] | [type] | {{currency}} [amount] | 0 | Zero conversions |
-
-### Warnings
-- **[count] placements with suspicious CTR** - Potential click fraud
-- **[count] YouTube placements with <10% view rate** - Poor engagement
-
-### Recommendations
-1. Exclude [count] zero-conversion placements - Save {{currency}} [amount]/month
-2. Investigate [count] high-CTR placements for fraud
-3. Set up monthly placement review
-```
-
-**Detailed adds:**
-- Top 20 placements by spend with performance
-- Placement type distribution table
-- Month-over-month comparison if available
-- Targeting refinement suggestions
+Separate observations, hypotheses and requested changes. No account writes, rule installation, subscriptions,
+notifications, exclusions, feed edits, legal certification or external data transfers occur in this review.
+Any implementation request must name exact scope/values, approval owner, monitoring and recovery conditions.

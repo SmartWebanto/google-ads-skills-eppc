@@ -1,98 +1,85 @@
 ---
 name: skill-118-click-fraud-invalid-traffic-monitoring
-description: "Monitor for suspicious click patterns and implement IP exclusions to protect against click fraud."
-allowed-tools: Read, Grep, Glob
+description: "Separate filtered invalid traffic from suspected charged traffic and prepare evidence-led review requests."
+allowed-tools: Read, Grep, Glob, Bash
 metadata:
-  library: eppc-ads-skills@1.1.0
+  library: eppc-ads-skills@2.0.0
   category: waste
-  kind: deterministic
-  data_source: custom_query
+  kind: analyst
+  data_source: external
   markets: all
   gaql_verified: null
-  reviewed: 2026-09-03
+  reviewed: 2026-09-06
+  agent: "gpt-6-astra | openai | 2026-09-06 | FixOperationsSeasonal | corrected evidence, controls, thresholds and request-only outputs"
 ---
-# Skill 118: Click Fraud and Invalid Traffic Monitoring
+# Skill 118: Invalid Traffic and Billing Evidence Review
 
 ## Purpose
-Monitor for suspicious click patterns indicating click fraud or invalid traffic. Early detection prevents budget waste and protects Smart Bidding from learning on fraudulent data.
+
+Separate filtered invalid traffic from suspected charged traffic and prepare evidence-led review requests.
+
+This is a local evidence review. Recommendations are proposals, not permission to act on an account or disclose client data.
 
 ## Data Requirements
 
-**Data Source:** Custom query required
+**Applicability:** Supported invalid-click reporting; hourly/IP checks require corresponding authorized local evidence.
 
-**GAQL Query - Click Analysis:**
-```sql
-SELECT
-  campaign.name,
-  segments.date,
-  metrics.clicks,
-  metrics.impressions,
-  metrics.cost_micros,
-  metrics.conversions,
-  metrics.invalid_clicks,
-  metrics.invalid_click_rate
-FROM campaign
-WHERE segments.date DURING LAST_14_DAYS
-  AND campaign.status = 'ENABLED'
-```
+**Required inputs:**
+- Base `export/` tables: account, campaigns, campaign_metrics, using [DATA_CONTRACT](../_resources/DATA_CONTRACT.md).
+- Read client objectives, parameter overrides, currency, timezone, snapshot, report completeness, conversion-date basis and lag maturity.
+- `export/custom/invalid_click_daily.csv`: account_id/campaign_id/date/network grain; impressions, clicks, cost, conversions, invalid_clicks, invalid_click_rate, denominator_definition; Ads report for 8 complete weeks and incident dates.
+- `export/external/invalid_traffic_billing.csv`: account_id/adjustment_or_case_id grain; service_start/end, billed_cost, invalid_activity_credit, currency, case_status, confirmed_charged_invalid_amount, evidence_ref, checked_at; client statements/support outcomes for incident and later credit periods.
+- Optional `export/external/traffic_incidents.csv`: incident_id/time_bucket/campaign_id grain; bucket_start/end, timezone, clicks, privacy_safe_source_id, location_basis, suspicious_behavior, charge_link_ref, collection_authorization_ref; approved local hourly server summaries for burst checks, no raw IP/personal data.
 
-**GAQL Query - Geographic Analysis:**
-```sql
-SELECT
-  campaign.name,
-  geographic_view.country_criterion_id,
-  metrics.clicks,
-  metrics.impressions,
-  metrics.cost_micros,
-  metrics.conversions
-FROM geographic_view
-WHERE segments.date DURING LAST_30_DAYS
-```
-Run the query through the Google Ads API, a UI custom report, or Google Ads Editor; save the result as `fraud_detection`.
+Keep original source labels and stable IDs; filenames are suggested local intake paths, not assumed existing files.
+Custom/configuration schemas describe UI/export evidence, not a claim of live API field verification.
+
+**Missing inputs:** List exact missing files/columns, source dates and affected subchecks.
+Continue independent inventory or arithmetic with available evidence; skip only dependent checks.
+Optional evidence gates only its stated deeper comparison, forecast or test-result analysis.
+Unknown settings, authorization, coverage or policy applicability are not false/disabled and are not a passed check.
 
 ## Analysis Steps
 
-1. **Check Invalid Click Metrics:** Review Google's invalid click data and refunds
-2. **Identify CTR Anomalies:** Flag campaigns/periods with CTR >5-10%
-3. **Analyze Click Patterns:** Look for click bursts, unusual geographic concentration
-4. **Cross-Reference Conversions:** High clicks with zero conversions = suspicious
+1. Use the native invalid-click denominator; filtered invalid clicks are not billed fraud. Do not calculate invalid rate from paid clicks alone.
+
+2. Compare complete weekday/network baselines; CTR and invalid-rate changes can reflect brand terms, promotions or traffic mix.
+
+3. Hourly bursts require hourly observations; daily rows cannot establish them. Location does not prove bad actors or justify geographic exclusions.
+
+4. Reconcile dated billed charges and later credits; do not allocate account credits to campaigns without evidence. Distinguish filtered counts, suspected paid exposure and authoritative confirmed charged-invalid amounts.
+
+5. Prepare a support-review pack with campaign IDs, dates, evidence and uncertainty. Vendor, IP or geographic control proposals require independent relevance, current supported controls, privacy and owner review; no automatic exclusion or data transmission.
+
+Use matched IDs and declared grain before joining; never multiply entity metrics across many-to-many associations.
+For comparisons, align goals, traffic scope and complete periods; exclude incomplete days and conversion reporting lag.
+Use {{min_impressions}} for CTR/share, {{min_clicks}} for CVR and {{min_conversions}} for CPA/ROAS, on both comparison sides.
+A zero-conversion spend screen may bypass min_conversions only after maturity, working tracking and relevance review at {{spend_floor}}.
+Do not divide by zero; preserve censored, suppressed and unknown values rather than treating them as zero.
+Historical non-converting cost is exposure, not guaranteed savings; observational changes are not causal uplift.
 
 ## Thresholds
 
-| Condition | Severity |
-|-----------|----------|
-| Invalid click rate >5% | Critical |
-| CTR >10% on Search, >2% on Display | Warning |
-| Click burst (>2 std dev above average) | Warning |
-| High clicks from non-target geographies | Warning |
+Numerical cutoffs here are triage heuristics unless explicitly tied to a sourced platform requirement.
+Resolve parameters through [PARAMETERS](../_resources/PARAMETERS.md); business tolerances require a declared value.
 
-Sample size: judge CTR rows only above {{min_impressions}} impressions, conversion-rate rows only above {{min_clicks}} clicks, and CPA/ROAS comparisons only above {{min_conversions}} conversions; below that, report "insufficient sample" as Info.
+| Condition | Severity |
+|---|---|
+| Authoritatively confirmed material charged invalid activity after credits | Critical |
+| Unresolved billing-linked suspicious activity | Warning |
+| Elevated filtered-invalid rate or CTR alone | Info |
+
+Insufficient evidence or sample is Info. Critical requires directly evidenced material delivery, measurement or safety failure.
 
 ## Output
 
-**Short (default):**
-```
-## Click Fraud Analysis
-**Account:** [name] | **Period:** Last 14 days | **Invalid Click Rate:** [%]
+Use [OUTPUT_TEMPLATES](../_resources/OUTPUT_TEMPLATES.md), not a conflicting report format.
+Each finding includes skill/entity IDs, condition key, severity, observed values and evidence references, exact window,
+sample, resolved threshold, recommendation, uncertainty, responsible owner and dependent skipped subchecks.
 
-### Summary
-- **Total Clicks:** [count]
-- **Invalid Clicks:** [count] ([%])
-- **Google Refunds:** {{currency}} [amount]
+- Invalid-click baseline table and exact source definitions; no invented hourly observations or refunds.
+- Case-level charged/credited/unresolved reconciliation and request-only support evidence pack.
 
-### Suspicious Activity
-- **[campaign]**: CTR [%] - Abnormally high
-- **[date] [hour]**: [count] clicks in 1 hour - Possible click burst
-- **Clicks from [location]**: [count] - Not in target geography
-
-### Recommendations
-1. Request manual review from Google for [campaign]
-2. Add geographic exclusions for [locations]
-3. Consider third-party click fraud protection
-```
-
-**Detailed adds:**
-- Invalid click summary by campaign
-- CTR anomaly table with dates/hours
-- Geographic click distribution analysis
-- IP exclusion and monitoring setup guide
+Separate observations, hypotheses and requested changes. No account writes, rule installation, subscriptions,
+notifications, exclusions, feed edits, legal certification or external data transfers occur in this review.
+Any implementation request must name exact scope/values, approval owner, monitoring and recovery conditions.

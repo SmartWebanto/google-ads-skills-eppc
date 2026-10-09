@@ -1,0 +1,33 @@
+# profile_template.yaml — Client profile to fill in (copy, rename to profile.yaml, upload it in the chat).
+# Golden rule: if you don't know a value, leave it null. "null" = unknown, NOT zero.
+# Full field reference: skills/_resources/CLIENT_PROFILE.md
+
+# --- REQUIRED (5 minutes) ---
+slug: client-name                # short, no spaces
+report_language: en              # en | it
+market: [IT]                     # served countries (ISO codes)
+business_type: null              # e.g. ecommerce, lead_generation, local
+brand_terms: []                  # brand names and variants, e.g. [acme, acme tools]
+conversion_lag_days: null        # typical days between click and conversion; null if unknown
+
+# --- RECOMMENDED ---
+objectives: []                   # e.g. [online sales, qualified leads]
+target_cpa: null                 # target CPA in account currency (number), null if none
+target_roas: null                # 4.0 = 400%; never a substitute for CPA
+monthly_budget: null             # monthly budget approved by the client
+service_area: []                 # served areas, e.g. [Italy] or [Milan, Monza]
+competitor_terms: []             # identification only, they do NOT become automatic negatives
+excluded_intents: []             # intents the client does NOT want, e.g. [jobs, free]
+
+# --- PER CAMPAIGN (optional, but greatly improves the analysis) ---
+# Key = campaign ID (number from Google Ads). Example:
+# campaign_objectives:
+#   "1234567890": {role: brand, brand_policy: brand_only, target_cpa: 20}
+#   "2345678901": {role: acquisition, brand_policy: nonbrand_only, target_cpa: 40}
+campaign_objectives: {}
+
+# --- ADVANCED (leave empty if you don't know what they are) ---
+parameter_overrides: {}
+currency_floors: {}              # required only for accounts NOT in EUR
+tracking_verified: {}            # goal -> {status: verified, verified_from, verified_through, source_ref}
+column_map: {}                   # not needed with the intake (skill-173): it already writes standard names

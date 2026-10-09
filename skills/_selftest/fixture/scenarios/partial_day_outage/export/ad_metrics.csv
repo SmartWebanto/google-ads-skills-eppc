@@ -1,0 +1,2 @@
+ad_id,campaign_id,ad_group_id,impressions,clicks,cost,conversions,conversion_value
+OUTAGE-AD,OUTAGE,OG,10000,1000,1440,40,4000

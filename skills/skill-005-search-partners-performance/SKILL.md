@@ -1,87 +1,90 @@
 ---
 name: skill-005-search-partners-performance
-description: "Segment and analyze Search Partners performance separately from Google Search."
-allowed-tools: Read, Grep, Glob
+description: "Compare Search Partners outcomes with Google Search within comparable campaigns without treating conversion rate as profitability."
+allowed-tools: Read, Grep, Glob, Bash
 metadata:
-  library: eppc-ads-skills@1.1.0
+  library: eppc-ads-skills@2.0.0
   category: structure
-  kind: deterministic
+  kind: analyst
   data_source: custom_query
   markets: all
   gaql_verified: null
-  reviewed: 2026-09-03
+  reviewed: 2026-09-06
+  agent: "gpt-6-astra | openai | 2026-09-06 | FixStructureKeywords | evidence-led audit correction"
 ---
-# Skill 005: Search Partners Network Performance Review
+# Skill 005: Search Partners Performance Review
 
 ## Purpose
-Segment and analyze Search Partners performance separately from Google Search. Search Partners often underperform on conversion rate by 30-50%; disabling them can immediately improve ROAS.
+
+Compare Search Partners outcomes with Google Search within comparable campaigns without treating conversion rate as profitability.
+Recommendations are review proposals, not account changes or causal forecasts.
 
 ## Data Requirements
 
-**Data Source:** Custom query required
+**Applicability:** Search campaigns with partner eligibility and explicit network evidence.
 
-A basic account export does not include network-segmented metrics.
+**Required inputs:**
+- `export/account` and the base schemas in [DATA_CONTRACT.md](../_resources/DATA_CONTRACT.md).
+- `export/campaigns`, `export/campaign_metrics`: IDs, channel, network settings, goal and target.
+- `export/custom/network_daily.csv` from Campaigns UI report segmented by day/network, bounded to export dates:
+  one account_id/campaign_id/date/ad_network_type row; impressions, clicks, cost, conversions,
+  conversion_value, goal_scope, conversion_date_basis. Declare units, filters and completeness.
+- Distinguish SEARCH, SEARCH_PARTNERS and CONTENT using the export's explicit network mapping.
+- Client profile: business type, campaign objectives, service area, approved constraints,
+  conversion lag and sales cycle, and applicable CPA/ROAS goals; never infer goals from bidding alone.
 
-**GAQL Query:**
-```sql
-SELECT
-  campaign.id,
-  campaign.name,
-  campaign.network_settings.target_search_network,
-  segments.ad_network_type,
-  metrics.impressions,
-  metrics.clicks,
-  metrics.cost_micros,
-  metrics.conversions,
-  metrics.conversions_value
-FROM campaign
-WHERE segments.date DURING LAST_30_DAYS
-  AND campaign.status = 'ENABLED'
-  AND campaign.advertising_channel_type = 'SEARCH'
-```
-Run the query through the Google Ads API, a UI custom report, or Google Ads Editor; save the result as `search_partners_performance`.
+**Missing inputs:** Without segmented metrics retain settings inventory only; without comparable conversion/value scope omit economic comparisons.
+Skip only dependent subchecks; list missing filenames/columns and retain supported inventory.
+Unknown settings are not equivalent to disabled controls; never report an incomplete check as passed.
 
 ## Analysis Steps
 
-1. **Fetch network-segmented data:** Run custom GAQL query; separate SEARCH vs SEARCH_PARTNERS segments
-2. **Calculate performance by network:** For each campaign, calculate CTR, CPC, Conv Rate, CPA, ROAS for both networks
-3. **Compare performance:** Calculate delta between Search Partners and Google Search metrics
-4. **Identify underperformers:** Flag campaigns where Search Partners conv rate is >30% lower than Google Search
-5. **Calculate waste:** Estimate monthly savings from disabling Search Partners on underperforming campaigns
+1. Establish account, snapshot, currency, export window, conversion date basis and reporting coverage.
+   Use stable account/campaign/ad-group/entity IDs, not names, for joins; reject metric fan-out.
+   Separate current settings from historical performance; exclude incomplete days and immature conversions.
+
+2. Reconcile summed network cost/clicks to the same campaign/date totals.
+   Explain omitted networks and report completeness; unknown network values remain separate.
+
+3. Within each campaign compute cost/click, conversions/click, cost/conversion and value/cost from sums.
+   Zero denominators are unavailable, not zero; exclude immature days consistently.
+
+4. Compare partner and Google Search outcomes against the campaign objective and approved target.
+   Lower conversion rate may coexist with better CPA or ROAS; do not rank networks on CVR alone.
+
+5. Use a 2× CPA ratio only as a contextual review screen after both sides meet mature conversion gates.
+   For value-led objectives prioritize ROAS and value quality; do not pool unrelated campaigns.
+
+6. Screen zero partner conversions only at {{spend_floor}} with working tracking and relevance review.
+   Investigate lead quality, conversion lag and network mix rather than prescribe immediate exclusion.
+
+7. Offer monitoring or an owner-approved network-setting test if economic underperformance is sustained.
+   Verify the control applies to this campaign; separate temporal change from a randomized test.
+
+8. Retain profitable/strategically useful partner traffic; absence of partner adoption is not a defect.
+   Historical network cost is exposure, not savings from switching it off.
 
 ## Thresholds
 
+Resolve [PARAMETERS.md](../_resources/PARAMETERS.md) and profile overrides before screening.
+Numerical decision cutoffs below are triage heuristics, not platform requirements or causal proof.
+Compare CTR only with {{min_impressions}} impressions and conversion rates with {{min_clicks}} clicks
+on each side; CPA/ROAS comparisons require {{min_conversions}} mature conversions on each side.
+Zero-conversion screening is an exception to the conversion-count gate, not permission to pause:
+require working tracking, a mature comparable window, relevance review and {{spend_floor}}.
+Do not divide by zero; absent targets use an applicable profile target, otherwise omit target comparisons.
+
 | Condition | Severity |
 |-----------|----------|
-| Search Partners conv rate >50% lower than Google Search | Critical |
-| Search Partners enabled with 0 conversions and >{{spend_significant}} spend | Critical |
-| Search Partners conv rate >30% lower than Google Search | Warning |
-| Search Partners CPA >2x Google Search CPA | Warning |
-
-Sample size: judge CTR rows only above {{min_impressions}} impressions, conversion-rate rows only above {{min_clicks}} clicks, and CPA/ROAS comparisons only above {{min_conversions}} conversions; below that, report "insufficient sample" as Info.
+| Mature partner CPA >2× comparable Google CPA and worse than applicable objective benchmark | Warning |
+| Zero partner conversions at {{spend_floor}} after tracking/maturity/relevance checks | Warning |
+| Lower CVR alone, no benchmark, or insufficient sample | Info |
 
 ## Output
 
-Use **Short** format by default. Use **Detailed** if user requests comprehensive analysis.
-
-**Short:**
-```
-## Search Partners Performance Audit
-**Account:** [Name] | **Analyzed:** [X] campaigns | **Issues:** [Y]
-
-### Critical ([Count])
-- **[Campaign]**: Search Partners CPA {{currency}} [X] vs Google {{currency}} [Y] (>50% worse) → Disable Search Partners
-
-### Warnings ([Count])
-- **[Campaign]**: Search Partners conv rate [X]% vs Google [Y]% → Monitor or disable
-
-### Recommendations
-1. Disable Search Partners on [X] campaigns (saves ~{{currency}} [Y]/month)
-2. Keep Search Partners on [X] campaigns where performance is within 15%
-```
-
-**Detailed** adds:
-- What Was Checked (network segmentation, metrics calculated)
-- Network comparison table (Cost, Conv, Conv Rate, CPA, ROAS by network)
-- Campaign-level breakdown with performance deltas
-- Total waste calculation
+Use [OUTPUT_TEMPLATES.md](../_resources/OUTPUT_TEMPLATES.md), Short by default.
+For every finding include stable entity IDs, condition key, observed evidence and window,
+sample/coverage, resolved thresholds, recommendation, uncertainty and responsible owner.
+Separate confirmed observations, analyst interpretation, optional opportunities and skipped checks.
+Historical cost is exposure, not guaranteed savings; do not sum overlapping findings as recoverable spend.
+Include a network metric table, objective, exact ratios and covered date range.

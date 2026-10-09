@@ -1,101 +1,98 @@
 ---
 name: skill-060-in-market-custom-intent-layering
-description: "Evaluate usage of in-market segments and custom intent audiences to improve targeting precision."
-allowed-tools: Read, Grep, Glob
+description: "Evaluate current audience segments with explicit comparison coverage and overlap limits."
+allowed-tools: Read, Grep, Glob, Bash
 metadata:
-  library: eppc-ads-skills@1.1.0
+  library: eppc-ads-skills@2.0.0
   category: targeting
   kind: deterministic
   data_source: custom_query
   markets: all
   gaql_verified: null
-  reviewed: 2026-09-03
+  reviewed: 2026-09-06
+  agent: "gpt-6-astra | openai | 2026-09-06 | FixTargetingQuality | evidence-led audit corrections"
 ---
-# Skill 060: In-Market and Custom Intent Audience Layering
+# Skill 060: In-Market and Custom Segment Review
 
 ## Purpose
 
-In-market segments and custom intent audiences help reach users with demonstrated purchase intent. This skill evaluates current usage, identifies performance patterns, and recommends additional segments to add or custom intent audiences to create.
+Review in-market and custom segments using current channel-specific mechanics. The legacy
+skill identifier is retained, but unsupported custom_intent API fields and mandatory
+competitor audiences are not. Absence of optional audience signals is not an account defect.
 
 ## Data Requirements
 
-**Data Source:** Custom query required
+**Applicability:** Only audience types supported by the campaign channel/subtype. Custom
+segments may be targeting inputs or signals depending on channel; do not assume Search
+Observation support or that input keywords mean exact searches performed by every member.
 
-A basic account export includes audience targeting setup but not audience-level performance metrics.
+**Required inputs:** [DATA_CONTRACT](../_resources/DATA_CONTRACT.md) `account`,
+`campaigns`, `ad_groups`, `campaign_metrics`, `audiences`, `bidding_strategies` and
+`bid_adjustments`; client profile business_type, objectives and competitor_terms if relevant.
+- `export/custom/audience_segment_performance.csv`: Google Ads Audiences report,
+  one row per account_id/campaign_id/ad_group_id/audience_id/criterion_id/date/mode
+  and explicit report segments; impressions, clicks, cost, conversions, conversion_value,
+  audience_type, source, reporting_completeness. Common mature reporting window.
+- `export/custom/custom_segment_definitions.csv` from Audience manager/current campaign
+  settings: one row per account_id/segment_id/input_id/snapshot_date with segment_name,
+  input_type (keyword/URL/app), input_value, interpretation, channel_support, source.
+  Include campaign/ad-group association IDs in `audiences`, not inferred from names.
+- Only for non-audience comparisons, `export/custom/audience_exclusive_cohorts.csv`
+  must be a supplied defensible non-overlapping report or experiment aggregation:
+  account_id, campaign_id, ad_group_id, cohort_id, definition, date, impressions, clicks,
+  cost, conversions, conversion_value, assignment_method, source, overlap_resolved.
+  One row per mutually exclusive cohort/date; document exposed and unexposed definitions.
+  If Ads cannot provide it, do not manufacture control traffic by subtracting audience rows.
 
-**Export data:**
-- **Audiences (campaign level)** - Current audience setup
-
-**GAQL Query:**
-```sql
-SELECT
-  campaign.name,
-  ad_group.name,
-  ad_group_criterion.user_interest.user_interest_category,
-  ad_group_criterion.custom_intent.custom_intent,
-  ad_group_criterion.bid_modifier,
-  metrics.impressions,
-  metrics.clicks,
-  metrics.cost_micros,
-  metrics.conversions,
-  metrics.conversions_value
-FROM ad_group_audience_view
-WHERE segments.date DURING LAST_30_DAYS
-  AND metrics.impressions > 0
-```
-Run the query through the Google Ads API, a UI custom report, or Google Ads Editor; save the result as `audience_performance`.
+**Missing inputs:** No exclusive cohort evidence means skip audience-versus-non-audience
+inference; retain segment inventory/descriptive metrics. No custom definitions means
+relevance unknown. Missing support or strategy blocks targeting/bid proposals only.
 
 ## Analysis Steps
 
-1. **Review current audience setup:** Read audience targeting files, identify in-market audiences in use, identify custom intent audiences, note targeting mode.
-
-2. **Evaluate in-market audience performance:** Fetch performance data, calculate CPA/ROAS vs non-audience traffic, identify high and low performers.
-
-3. **Identify missing opportunities:** Relevant in-market segments not used, custom intent audiences not created, high-performing audiences underutilized.
-
-4. **Generate recommendations:** In-market segments to add, custom intent audiences to create, bid adjustments for existing audiences.
+1. Join all campaign inventory to associations and definitions. Classify in-market,
+   affinity, custom segment or first-party list plus Targeting, Observation or signal use.
+2. Describe overlap: a user may belong to multiple segments and reports are not additive.
+   Never sum segment costs as total audience spend or subtract their sum from campaign cost.
+3. Calculate segment CPA/ROAS descriptively. A campaign baseline includes the audience,
+   so label it a contextual, non-independent comparison rather than a control.
+4. If valid mutually exclusive cohorts are supplied, compare within the same campaign,
+   goal and mature window using the assignment/overlap methodology. Observational cohorts
+   still differ by intent; incremental lift requires an explicit controlled test design.
+5. Review adverse CPA >1.5x a comparable exclusive cohort or ROAS <0.7x only with both
+   sample gates; CPA <0.7x is an opportunity hypothesis, not automatic bid scaling.
+6. Suggest optional relevant categories or custom inputs from explicit business intent.
+   Explain URL/app/keyword input semantics, eligibility, policy and channel support.
+   Neither competitor input absence nor no in-market segments is inherently an issue.
+7. Ordinary audience modifiers are not a Smart Bidding control. With supported Manual CPC,
+   a bounded owner-reviewed test can use baseline CPA / segment CPA as a raw multiplier,
+   capped to 0.9–1.1 times current multiplier, only with exclusive comparable evidence.
+   Record overlap with other modifiers and platform limits; otherwise propose no bid value.
 
 ## Thresholds
 
 | Condition | Severity |
 |-----------|----------|
-| No in-market or custom intent audiences used | High |
-| In-market audience CPA >30% below average | High (increase bid) |
-| In-market audience CPA >50% above average | Warning (decrease/remove) |
-| Missing relevant in-market category for business | Warning |
-| Custom intent audience not created for competitors | Info |
+| CPA >1.5x or ROAS <0.7x valid comparison with mature samples | Warning |
+| Verified targeting/signal use contradicts documented business intent | Warning |
+| CPA <0.7x valid comparison with mature samples | Info |
+| Optional relevant segment not used or valid control unavailable | Info |
+| Unknown overlap, mechanism, definition, support or sample | Info |
 
-Sample size: judge CTR rows only above {{min_impressions}} impressions, conversion-rate rows only above {{min_clicks}} clicks, and CPA/ROAS comparisons only above {{min_conversions}} conversions; below that, report "insufficient sample" as Info.
+Use [PARAMETERS](../_resources/PARAMETERS.md): CTR needs {{min_impressions}}, CVR
+needs {{min_clicks}}, and CPA/ROAS needs {{min_conversions}} on BOTH comparison sides.
+Exclude incomplete days and immature conversion-lag periods; align goals and date basis.
+Undefined denominators produce N/A, not zero or infinity. Zero-conversion screening is
+a separate exception: mature tracking-verified data and cost >= {{spend_floor}} permit
+a Warning review, not an automatic pause. Numeric cutoffs below are triage heuristics.
 
 ## Output
 
-**Short (default):**
-```
-## In-Market & Custom Intent Audit
-
-**Account:** [Name] | **In-Market Segments Used:** [X] | **Custom Intent Audiences:** [Y]
-
-### High Priority ([Count])
-- **[Campaign]**: No in-market audiences → Add [relevant categories]
-
-### In-Market Performance
-| Segment | Cost | Conv | CPA | vs Avg |
-|---------|------|------|-----|--------|
-| [Category] | {{currency}} [X] | [Y] | {{currency}} [Z] | [%] |
-
-### Recommended Custom Intent Audiences
-1. **Competitor Intent**: [competitor1], [competitor2] keywords
-2. **Product Intent**: [product + buy], [product + price] keywords
-
-### Recommendations
-1. [Priority action]
-2. [Secondary action]
-```
-
-**Detailed adds:**
-- Current audience setup summary table (campaign, in-market used, custom intent used, mode)
-- In-market audience performance table (segment, impressions, clicks, cost, conv, CPA, vs avg)
-- Recommended in-market segments by industry
-- Custom intent audience recommendations with purpose, keywords, and URLs
-- Layering strategy recommendations by campaign type
-- Targeting vs Observation mode guidance
+Use [OUTPUT_TEMPLATES](../_resources/OUTPUT_TEMPLATES.md), not a separate format.
+Include stable account/campaign/ad-group/entity IDs, condition key, observed evidence and window,
+sample, resolved thresholds, recommendation, uncertainty, and responsible owner.
+List exact missing fields and dependent checks skipped; unknown does not mean passed.
+Recommendations are request-only proposals; do not modify accounts or export files.
+Historical exposure is not savings; no uplift forecast without an explicit counterfactual model.
+Include segment/criterion IDs, mechanism, overlap caveat, definition provenance,
+comparison method and separate descriptive metrics from causal test hypotheses.

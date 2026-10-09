@@ -1,93 +1,85 @@
 ---
 name: skill-127-trending-search-term-detection
-description: "Track week-over-week search query volume shifts to identify emerging opportunities and declining terms."
-allowed-tools: Read, Grep, Glob
+description: "Track changes in reported query traffic without treating first observation as market novelty or demanding keyword additions."
+allowed-tools: Read, Grep, Glob, Bash
 metadata:
-  library: eppc-ads-skills@1.1.0
+  library: eppc-ads-skills@2.0.0
   category: waste
-  kind: deterministic
+  kind: analyst
   data_source: custom_query
   related: [skill-013-search-term-mining-keywords, skill-014-search-term-mining-negatives]
   markets: all
   gaql_verified: null
-  reviewed: 2026-09-03
+  reviewed: 2026-09-06
+  agent: "gpt-6-astra | openai | 2026-09-06 | FixOperationsSeasonal | corrected evidence, controls, thresholds and request-only outputs"
 ---
-# Skill 127: Trending Search Term Detection
+# Skill 127: Observed Search Term Trend Review
 
 ## Purpose
 
-Analyze search term data across time periods to identify rising trends (opportunities to add as keywords), declining terms (investigate relevance), and new emerging queries worth capturing.
+Track changes in reported query traffic without treating first observation as market novelty or demanding keyword additions.
+
+This is a local evidence review. Recommendations are proposals, not permission to act on an account or disclose client data.
 
 ## Data Requirements
 
-**Data Source:** Custom query required
+**Applicability:** Campaigns with comparable dated search-term coverage; privacy-suppressed queries remain unobserved.
 
-**Export data:**
-- **Search terms (30 days)** - Recent search terms
+**Required inputs:**
+- Base `export/` tables: account, campaigns, keywords, negative_keywords, shared_negative_lists, search_terms, using [DATA_CONTRACT](../_resources/DATA_CONTRACT.md).
+- Read client objectives, parameter overrides, currency, timezone, snapshot, report completeness, conversion-date basis and lag maturity.
+- `export/custom/search_trend_daily.csv`: account_id/campaign_id/ad_group_id/query/date/matched_keyword_id grain; match_type, added_or_excluded, impressions, clicks, cost, conversions, conversion_value, reporting_coverage; Ads search-term report for 8 complete weeks, same filters and conversion basis.
+- `export/custom/search_trend_changes.csv`: account_id/campaign_id/change_id grain; occurred_at, changed_field, old_value, new_value, source; Ads targeting/budget/match/reporting changes covering trend dates.
 
-**GAQL Query (for trend analysis):**
-```sql
-SELECT
-  search_term_view.search_term,
-  campaign.name,
-  ad_group.name,
-  segments.date,
-  metrics.impressions,
-  metrics.clicks,
-  metrics.cost_micros,
-  metrics.conversions
-FROM search_term_view
-WHERE segments.date DURING LAST_14_DAYS
-  AND metrics.impressions > 0
-ORDER BY search_term_view.search_term, segments.date
-```
-Run the query through the Google Ads API, a UI custom report, or Google Ads Editor; save the result as `search_term_trends`.
+Keep original source labels and stable IDs; filenames are suggested local intake paths, not assumed existing files.
+Custom/configuration schemas describe UI/export evidence, not a claim of live API field verification.
+
+**Missing inputs:** List exact missing files/columns, source dates and affected subchecks.
+Continue independent inventory or arithmetic with available evidence; skip only dependent checks.
+Optional evidence gates only its stated deeper comparison, forecast or test-result analysis.
+Unknown settings, authorization, coverage or policy applicability are not false/disabled and are not a passed check.
 
 ## Analysis Steps
 
-1. **Fetch multi-period data:** Get search term data segmented by date for trend analysis
-2. **Calculate week-over-week changes:** Compare this week vs last week impressions/clicks
-3. **Identify rising trends:** Terms with >50% impression increase
-4. **Flag declining terms:** Terms with >30% impression decrease
-5. **Spot new terms:** First-time appearances with conversion potential
+1. Compare two complete, equal weekday-aligned mature weeks within the 8-week history; normalize text for grouping without losing raw query or matching IDs.
+
+2. Compute growth = current/prior minus 1 only for positive prior counts; first-reported terms use absolute counts and earliest observed date, not infinite growth or true novelty.
+
+3. Use one consistent screen: >50% growth or >30% decline with {{min_impressions}} in both periods for impression trends. Rate/efficiency comparisons obey their own sample gates.
+
+4. Check budget, serving, matching, reporting suppression and tracking changes before interpreting demand. Observed ads query volume is not total market demand.
+
+5. Check existing exact/phrase/broad coverage and shared negatives; no literal keyword does not mean missing reach. Route additions to skill-013 and negatives to skill-014 with intent/goal evidence, rather than adding immediately.
+
+Use matched IDs and declared grain before joining; never multiply entity metrics across many-to-many associations.
+For comparisons, align goals, traffic scope and complete periods; exclude incomplete days and conversion reporting lag.
+Use {{min_impressions}} for CTR/share, {{min_clicks}} for CVR and {{min_conversions}} for CPA/ROAS, on both comparison sides.
+A zero-conversion spend screen may bypass min_conversions only after maturity, working tracking and relevance review at {{spend_floor}}.
+Do not divide by zero; preserve censored, suppressed and unknown values rather than treating them as zero.
+Historical non-converting cost is exposure, not guaranteed savings; observational changes are not causal uplift.
 
 ## Thresholds
 
-| Condition | Severity |
-|-----------|----------|
-| New term with conversion, not added as keyword | Critical |
-| Rising term (>100% increase) with good CTR | Warning |
-| Declining term (>50% drop) with high spend | Warning |
-| High-volume term not in keyword list | Info |
+Numerical cutoffs here are triage heuristics unless explicitly tied to a sourced platform requirement.
+Resolve parameters through [PARAMETERS](../_resources/PARAMETERS.md); business tolerances require a declared value.
 
-Sample size: judge CTR rows only above {{min_impressions}} impressions, conversion-rate rows only above {{min_clicks}} clicks, and CPA/ROAS comparisons only above {{min_conversions}} conversions; below that, report "insufficient sample" as Info.
+| Condition | Severity |
+|---|---|
+| Comparable >30% decline with material exposure and an identified serving risk | Warning |
+| Comparable >50% growth suggesting a relevance/coverage review | Info |
+| First reported term, sparse history or changed reporting coverage | Info |
+
+Insufficient evidence or sample is Info. Critical requires directly evidenced material delivery, measurement or safety failure.
 
 ## Output
 
-**Short format (default):**
-```
-## Search Term Trends Audit
+Use [OUTPUT_TEMPLATES](../_resources/OUTPUT_TEMPLATES.md), not a conflicting report format.
+Each finding includes skill/entity IDs, condition key, severity, observed values and evidence references, exact window,
+sample, resolved threshold, recommendation, uncertainty, responsible owner and dependent skipped subchecks.
 
-**Account:** [Name] | **Period:** Last 14 days | **Trending Terms:** [X]
+- Query/campaign/ad-group/keyword IDs, dates, counts, growth branch, coverage and confounders.
+- Ranked relevance/coverage hypotheses with linked existing match coverage and canonical handoff.
 
-### Rising Trends - Add as Keywords ([Count])
-- **"[Term]"**: +[X]% impressions, [Y] conversions → Add as [match type]
-- **"[Term]"**: +[X]% impressions, high CTR → Add as exact match
-
-### New High-Potential Terms ([Count])
-- **"[Term]"**: First appearance, [X] conversions → Add immediately
-
-### Declining Terms - Investigate ([Count])
-- **"[Term]"**: -[X]% impressions → Check relevance/seasonality
-
-### Recommendations
-1. Add [X] rising terms as keywords
-2. Investigate [Y] declining terms
-3. Monitor [Z] new terms for patterns
-```
-
-**Detailed adds:**
-- Full trending terms table with metrics
-- Week-by-week volume comparison
-- Seasonal pattern identification
-- Keyword addition recommendations with match types
+Separate observations, hypotheses and requested changes. No account writes, rule installation, subscriptions,
+notifications, exclusions, feed edits, legal certification or external data transfers occur in this review.
+Any implementation request must name exact scope/values, approval owner, monitoring and recovery conditions.

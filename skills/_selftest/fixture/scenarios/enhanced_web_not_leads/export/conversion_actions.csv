@@ -1,0 +1,2 @@
+id,conversion_customer_id,name,category,status,type,enhanced_web_enabled
+WEB-ACTION,demo,Purchase,PURCHASE,ENABLED,WEBSITE,True

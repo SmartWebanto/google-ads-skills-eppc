@@ -1,0 +1,3 @@
+campaign_id,impressions,clicks,cost,conversions,conversion_value,goal_set_id,date_range_start,date_range_end
+EQUAL-A,90000,4500,3000,100,12000,purchase,2026-08-01,2026-08-30
+EQUAL-B,90000,4500,3000,100,12000,purchase,2026-08-01,2026-08-30

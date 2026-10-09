@@ -1,0 +1,2 @@
+id,campaign_id,customer_id,name,status,channel_type,bidding_strategy_type,strategy_id,budget_id,target_cpa,target_roas,daily_budget,shared_budget,goal_ids,goal_set_id,geo_targets,geo_target_method,languages,brand_policy
+FEED,FEED,demo,FEED,ENABLED,SHOPPING,TARGET_ROAS,s1,b1,,4,100,False,purchase,purchase,Italy,PRESENCE,it,any

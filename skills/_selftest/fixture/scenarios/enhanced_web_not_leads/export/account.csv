@@ -1,0 +1,2 @@
+customer_id,name,currency_code,time_zone,date_range_start,date_range_end,snapshot_date,rates_format,money_unit,conversion_date_basis,conversion_lag_days,auto_tagging,conversion_tracking,enhanced_conversions_for_leads_enabled
+demo,Synthetic regression,EUR,Europe/Rome,2026-08-01,2026-08-30,2026-09-06,fraction,currency,interaction_date,2,True,enabled,False

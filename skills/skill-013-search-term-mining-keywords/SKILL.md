@@ -1,90 +1,95 @@
 ---
 name: skill-013-search-term-mining-keywords
-description: "Review search term reports to identify high-performing queries that are not yet added as keywords, representing opportunities for better control and optimization."
-allowed-tools: Read, Grep, Glob
+description: "Identify relevant reported queries where an explicit keyword may improve control, without claiming incremental reach or mandated expansion."
+allowed-tools: Read, Grep, Glob, Bash
 metadata:
-  library: eppc-ads-skills@1.1.0
+  library: eppc-ads-skills@2.0.0
   category: keywords
-  kind: deterministic
+  kind: analyst
   data_source: export
-  related: [skill-014-search-term-mining-negatives, skill-127-trending-search-term-detection]
+  related: [skill-014-search-term-mining-negatives, skill-127-trending-search-term-detection, skill-015-ngram-analysis, skill-023-close-variant-query-expansion-monitoring]
   markets: all
   gaql_verified: null
-  reviewed: 2026-09-03
+  reviewed: 2026-09-06
+  agent: "gpt-6-astra | openai | 2026-09-06 | FixStructureKeywords | evidence-led audit correction"
 ---
 # Skill 013: Search Term Mining for New Keywords
 
 ## Purpose
-Review search term reports to identify high-performing queries that are not yet added as keywords, representing opportunities for better control and optimization. Adding converting search terms as keywords provides bid control and enables tailored ad copy.
+
+Identify relevant reported queries where an explicit keyword may improve control, without claiming incremental reach or mandated expansion.
+Recommendations are review proposals, not account changes or causal forecasts.
 
 ## Data Requirements
 
-**Data Source:** Account export
+**Applicability:** Search campaigns with reported queries and known keyword inventory.
 
-**Export data:**
-- **Search terms (30 days)** - Search query performance
-- **Keywords** - Existing keywords to cross-reference
+**Required inputs:**
+- `export/account` and the base schemas in [DATA_CONTRACT.md](../_resources/DATA_CONTRACT.md).
+- `export/campaigns`, `export/campaign_metrics`, `export/ad_groups`, `export/keywords`, `export/search_terms`.
+- `export/negative_keywords`, `export/shared_negative_lists`, including effective scope and list links.
+- Query metrics at account/campaign/ad_group/query/matched_keyword/window plus declared segments;
+  use matched keyword ID, explicit keyword match type and report match classification where available.
+- Profile brand_terms, competitor_terms, excluded_intents and campaign-specific goals; reporting filters/completeness.
+- `export/keyword_metrics` is optional contextual evidence, never substituted for a query's metrics.
+- Client profile: business type, campaign objectives, service area, approved constraints,
+  conversion lag and sales cycle, and applicable CPA/ROAS goals; never infer goals from bidding alone.
 
-**Reference GAQL:**
-```sql
-SELECT
-  campaign.name,
-  ad_group.name,
-  search_term_view.search_term,
-  search_term_view.status,
-  metrics.impressions,
-  metrics.clicks,
-  metrics.cost_micros,
-  metrics.conversions,
-  metrics.conversions_value
-FROM search_term_view
-WHERE segments.date DURING LAST_30_DAYS
-  AND metrics.impressions > 0
-```
-Run the reference query (API, UI report, or Editor export) if you need different date ranges or additional metrics.
+**Missing inputs:** Missing keyword IDs permits only ad-group-level candidates; absent goals/targets prevents economic ranking, not descriptive mining.
+Skip only dependent subchecks; list missing filenames/columns and retain supported inventory.
+Unknown settings are not equivalent to disabled controls; never report an incomplete check as passed.
 
 ## Analysis Steps
 
-1. **Identify converting terms not added:** Filter for Status = "None" (not explicit keyword) with Conversions >= 1
-2. **Find high-volume opportunities:** Status = "None", Conversions = 0, Clicks >= 10, CTR >= 2%
-3. **Cross-reference existing keywords:** Check if close variant already exists as keyword
-4. **Recommend match type:** High CPA risk → Exact; proven performer (3+ conv) → Phrase or Broad
-5. **Group recommendations:** Organize by ad group fit and priority (conversion-based > volume-based)
+1. Establish account, snapshot, currency, export window, conversion date basis and reporting coverage.
+   Use stable account/campaign/ad-group/entity IDs, not names, for joins; reject metric fan-out.
+   Separate current settings from historical performance; exclude incomplete days and immature conversions.
+
+2. Reconcile reported-query clicks/cost with compatible campaign totals and report coverage.
+   Privacy-omitted terms and filters limit conclusions; never assume an unreported query has zero traffic.
+
+3. Normalize case/spacing and deduplicate query rows only at their complete reported grain.
+   Aggregate query metrics within the intended campaign/ad-group objective; preserve distinct trigger mappings.
+
+4. Use reported added/excluded status as a hint, then check active keywords by ID/text/match/scope.
+   Distinguish exact existing text, observed close-variant coverage and uncertain semantic coverage.
+
+5. Classify relevance against the approved offer, brand strategy and exclusions before ranking.
+   Conversions alone do not establish a query is strategically desirable.
+
+6. For CPA ranking use campaign target, applicable profile target, or a mature same-goal benchmark.
+   Without one show observed metrics; three conversions never justify a Critical finding or broad expansion.
+
+7. Describe the specific control benefit: reporting, message/landing alignment or intended routing.
+   The query already served; adding it does not itself create new reach or guarantee which keyword serves.
+
+8. Check effective negatives using 017 and coordinate with 014/015/023 before any candidate proposal.
+   A keyword proposal conflicting with desired exclusions needs owner resolution.
+
+9. Suggest match type contextually; exact is not immune to close variants and broader reach needs a hypothesis.
+   Smart Bidding does not create keyword-level CPC control; no automatic keyword bid recommendations.
 
 ## Thresholds
 
+Resolve [PARAMETERS.md](../_resources/PARAMETERS.md) and profile overrides before screening.
+Numerical decision cutoffs below are triage heuristics, not platform requirements or causal proof.
+Compare CTR only with {{min_impressions}} impressions and conversion rates with {{min_clicks}} clicks
+on each side; CPA/ROAS comparisons require {{min_conversions}} mature conversions on each side.
+Zero-conversion screening is an exception to the conversion-count gate, not permission to pause:
+require working tracking, a mature comparable window, relevance review and {{spend_floor}}.
+Do not divide by zero; absent targets use an applicable profile target, otherwise omit target comparisons.
+
 | Condition | Severity |
 |-----------|----------|
-| Conversions >= 3 AND Status = "None" | Critical |
-| CPA <= Campaign Target CPA AND Status = "None" | Critical |
-| Conversions >= 1 AND Status = "None" | Warning |
-| Clicks >= 20 AND CTR >= 3% AND Conv = 0 | Info |
-
-Sample size: judge CTR rows only above {{min_impressions}} impressions, conversion-rate rows only above {{min_clicks}} clicks, and CPA/ROAS comparisons only above {{min_conversions}} conversions; below that, report "insufficient sample" as Info.
+| Relevant unadded query with mature favorable goal-relative outcomes and a documented control need | Info |
+| Converting or high-volume reported query without established incremental/control benefit | Info |
+| Unknown relevance, missing inventory or insufficient sample | Info |
 
 ## Output
 
-Use **Short** format by default. Use **Detailed** if user requests comprehensive analysis.
-
-**Short:**
-```
-## Search Term Mining Audit
-**Account:** [Name] | **Search Terms:** [X] | **Opportunities:** [Y]
-
-### Critical ([Count])
-- **"[search term]"**: [X] conversions at {{currency}} [Y] CPA, not added → Add as [exact]
-- **"[search term]"**: [X] conversions, triggering from broad match → Add as [exact]
-
-### Warnings ([Count])
-- **"[search term]"**: 1-2 conversions, worth capturing → Add as [exact]
-
-### Recommendations
-1. Add [X] converting search terms as keywords
-2. Estimated additional control: [Y]% of converting queries
-```
-
-**Detailed** adds:
-- What Was Checked (search term status, conversion data)
-- Top converting terms table (Term, Ad Group, Clicks, Conv, CPA, Status, Recommendation)
-- High-volume opportunity table (Term, Impressions, Clicks, CTR, Cost)
-- Summary statistics (total analyzed, terms not added, potential new keywords)
+Use [OUTPUT_TEMPLATES.md](../_resources/OUTPUT_TEMPLATES.md), Short by default.
+For every finding include stable entity IDs, condition key, observed evidence and window,
+sample/coverage, resolved thresholds, recommendation, uncertainty and responsible owner.
+Separate confirmed observations, analyst interpretation, optional opportunities and skipped checks.
+Historical cost is exposure, not guaranteed savings; do not sum overlapping findings as recoverable spend.
+Use candidate key campaign_id/ad_group_id/normalized_query/proposed_match_type; assign additions to 013 only.

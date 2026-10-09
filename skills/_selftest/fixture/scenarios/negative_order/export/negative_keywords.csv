@@ -1,0 +1,2 @@
+id,campaign_id,ad_group_id,level,text,match_type,status
+N1,NEG,,campaign,buy red shoes,PHRASE,ENABLED

@@ -1,420 +1,108 @@
-# PPC Skill Schema
+# PPC skill schema
 
-This document defines the standard structure for all PPC analysis skills.
+A skill is an executable analysis recipe, not a list of desirable Google features. Its inputs must support its conclusions. Keep 70–120 lines where practical; over 160 lines is a review warning. Central rules live in `DATA_CONTRACT.md`, `PARAMETERS.md` and `OUTPUT_TEMPLATES.md`; do not create conflicting copies.
 
-## Design Principles
+## Frontmatter
 
-1. **Concise** - Skills should be 80-120 lines maximum
-2. **Actionable** - Focus on what to check and what to report, not educational background
-3. **Issue-focused** - Output should only show problems and recommendations, never "passed" items
-4. **DRY** - Don't repeat information; Example Findings should be brief, not duplicate Output Format
-5. **No Fluff** - Remove "Why It Matters", "Important Notes", excessive explanations - Claude already knows PPC best practices
-
----
-
-## SKILL.md Structure
+Use this structure (all top-level keys unindented):
 
 ```yaml
 ---
-name: skill-XXX-descriptive-name
-description: "One-line description of what this skill checks."
-allowed-tools: Read, Grep, Glob
+name: skill-NNN-descriptive-name
+description: "The observable question and when this recipe applies."
+allowed-tools: Read, Grep, Glob, Bash
 metadata:
-  library: eppc-ads-skills@1.1.0
-  category: keywords                             # from the category table below
-  kind: deterministic                            # deterministic | analyst | operational
-  data_source: export                          # export | custom_query | external
-  merged_from: []                                # optional: absorbed skills (see MERGES.md)
-  related: []                                    # optional: skills covering adjacent facets
-  markets: all                                   # all | us_only | eea_relevant
-  gaql_verified: null                            # API version the queries were checked against, or null
-  reviewed: 2026-09-03
+  library: eppc-ads-skills@2.0.0
+  category: keywords
+  kind: analyst
+  data_source: export
+  markets: all
+  related: []
+  merged_from: []
+  gaql_verified: null
+  reviewed: 2026-09-06
+  agent: model | provider | date | session | change
 ---
 ```
 
-Directory name equals `name`. `_resources/scripts/lint.py` enforces this block.
-
-### Required Sections (in order)
-
-#### 1. Title
-```markdown
-# Skill XXX: Short Descriptive Title
-```
-- Single line, no subtitle or category
-
-#### 2. Purpose
-```markdown
-## Purpose
-One paragraph (2-3 sentences max) explaining what this audit checks and why it matters.
-```
-
-#### 3. Data Requirements
-```markdown
-## Data Requirements
-
-**Data Source:** Account export  ← or "Custom query required" or "External (beyond Google Ads data)"
-
-**Export data:**
-- **Campaigns** - Brief description
-- **Campaign metrics (30 days)** - Brief description
-
-**Reference GAQL:**
-```sql
-SELECT ... FROM ... WHERE ...
-```
-Run the reference query (API, UI report, or Editor export) if you need to adjust date range, add filters, or fetch additional fields.
-```
-
-**Data Source Values:**
-- `Account export` - The tables in `DATA_CONTRACT.md` contain all required data (`metadata.data_source: export`)
-- `Custom query required` - The reference GAQL query must be run (API, UI custom report, or Editor export) and saved under `export/custom/` (`custom_query`)
-- `External (beyond Google Ads data)` - Needs data outside Google Ads: site tests, CRM, Merchant Center, configuration review (`external`)
-
-**GAQL Rules:**
-- **Always include GAQL** as reference, even when the export is sufficient
-- This allows Claude to adjust queries (date range, filters, additional metrics)
-- Mark clearly whether it's required or just for reference
-
-**GAQL Date Range Rules:**
-- **Valid DURING literals:** `LAST_7_DAYS`, `LAST_14_DAYS`, `LAST_30_DAYS`, `THIS_MONTH`, `LAST_MONTH`, `TODAY`, `YESTERDAY`
-- **Invalid DURING literals:** `LAST_90_DAYS`, `LAST_365_DAYS`, `THIS_YEAR`, `THIS_QUARTER` — these do NOT exist in GAQL
-- **For ranges >30 days:** Use `BETWEEN '{start_date}' AND '{end_date}'` with placeholder variables. Claude will replace these with actual dates at execution time.
-- **Example:** `WHERE segments.date BETWEEN '{start_date}' AND '{end_date}'`
-- **Fields referenced in WHERE must be in SELECT** when querying from `shopping_performance_view` (e.g., `campaign.advertising_channel_type`)
-
-#### 4. Analysis Steps
-```markdown
-## Analysis Steps
-
-1. **Step name:** Brief description of what to check
-2. **Step name:** Brief description of what to check
-3. **Step name:** Brief description of what to check
-```
-- 3-6 steps maximum
-- Action-oriented, not explanatory
-- No sub-bullets unless necessary
-
-#### 5. Thresholds
-```markdown
-## Thresholds
-
-| Condition | Severity |
-|-----------|----------|
-| [specific condition] | Critical |
-| [specific condition] | Warning |
-| [specific condition] | Info |
-```
-- Table format only
-- Specific, measurable conditions
-- 3-8 thresholds maximum
-- Money thresholds are parameters from `PARAMETERS.md`, written `{{spend_floor}}` etc. Never a currency literal.
-- Rate-based rows get the sample-size note (`Sample size: ...`) after the table.
-
-#### 6. Output
-```markdown
-## Output
-
-Report ONLY issues found. Do not list passed items.
-
-### Issues Found
-| Entity | Issue | Impact | Severity |
-|--------|-------|--------|----------|
-
-### Recommendations
-1. [Specific action]
-2. [Specific action]
-```
-- Short by default, Detailed on request; both rendered from `OUTPUT_TEMPLATES.md` in the client's `report_language`
-- The skill's Output block says what to include; `OUTPUT_TEMPLATES.md` governs the header, the severity groups and the language
-- Every report starts with the provenance header; every finding names the skill id
-- Never show "OK" or "Pass" items
-
----
-
-## Data Requirements Examples
-
-### Example A: Export Sufficient
+Name equals directory. `agent` records the edit context; retain recent history when useful, without claiming another model's work. `merged_from` names removed recipes whose useful checks were incorporated, recorded in `MERGES.md`. `related` points only to surviving canonical names and defines adjacent ownership in the body.
 
-```markdown
-## Data Requirements
+`description` must be populated text. The catalog copies it and the complete `**Applicability:**`
+block into searchable rows; keep limits/exclusions explicit, not just in names. Regenerate
+`CATALOG.md` with the existing lint command after editing those fields. Do not maintain a
+second manually summarized routing taxonomy. Selection metadata narrows reads; selected
+recipes still execute their full canonical requirements.
 
-**Data Source:** Account export
+`gaql_verified` remains null unless an actual supported-version API validation happened. Public documentation review is not live query validation. `Bash` is permitted only for local read-only computation on approved evidence, never network transmission or account mutation.
 
-**Export data:**
-- **Keywords** - Keywords with match types and QS
-- **Negative keywords (ad group level)** - Negative keywords
-- **Shared negative lists** - Shared negative lists
+## Body sections
 
-**Reference GAQL:**
-```sql
-SELECT
-  campaign.name,
-  ad_group.name,
-  ad_group_criterion.keyword.text,
-  ad_group_criterion.keyword.match_type,
-  ad_group_criterion.quality_info.quality_score
-FROM keyword_view
-WHERE ad_group_criterion.status = 'ENABLED'
-  AND segments.date DURING LAST_30_DAYS
-```
-Run the reference query (API, UI report, or Editor export) if you need different date ranges or additional metrics.
-```
+Use one H1 title and exactly these H2 sections, in this order:
 
-### Example B: Custom GAQL Required
+### Purpose
 
-```markdown
-## Data Requirements
+State the observable business/configuration question. No fixed uplifts, mandatory tactic adoption, unsupported causal claims or educational boilerplate. Diagnostic labels are not business KPIs.
 
-**Data Source:** Custom query required
+### Data Requirements
 
-A basic account export does not include network-segmented metrics.
+Include these exact labels:
 
-**GAQL Query:**
-```sql
-SELECT
-  campaign.name,
-  segments.ad_network_type,
-  metrics.impressions,
-  metrics.clicks,
-  metrics.conversions,
-  metrics.cost_micros
-FROM campaign
-WHERE campaign.status = 'ENABLED'
-  AND segments.date DURING LAST_30_DAYS
-```
-Run the query through the Google Ads API, a UI custom report, or Google Ads Editor; save the result as `network_performance`.
-```
+- `**Applicability:**` Supported campaign types, objectives, market/control limits, and whether explicitly requested. Unknown business intent is not a defect.
+- `**Required inputs:**` Base files from the data contract, plus explicit supplemental filenames, row grain, stable keys, required columns, window and source. A complete parent inventory is needed to discover missing children. Distinguish required and optional deeper checks.
+- `**Missing inputs:**` Which subchecks become partial/skipped/Info and what evidence to request. Missing cannot mean enabled, disabled, noncompliant or no issue.
 
----
+Metadata classifies the core conclusion; optional external checks are explicitly gated. If a body `**Data Source:**` label is included, it must match metadata: Account export, Custom query required, or External (beyond Google Ads data). Omit the duplicate label when metadata is sufficient. Custom query includes special Google Ads UI/config exports, not necessarily an API query.
 
-## OUTPUT Schema (What Claude Should Report)
+**Reference GAQL is optional.** Include a query only when appropriate and defensible for the actual required evidence. A query must select stable IDs, required time/segment grain and actual input fields. A current setting is not historical state; a product title is not a query; a customer account ID is not consent verification. Never invent fields to make an audit seem executable. When no supported API query is established, specify a concrete UI/config/evidence export instead.
 
-The canonical templates, in English and Italian, live in `OUTPUT_TEMPLATES.md`; the examples below are the English short/detailed forms.
+Queries execute through the Google Ads API only. UI and Editor can supply equivalent evidence only when their actual export capabilities support the declared fields; they do not execute GAQL. Declare truncation/privacy filtering and omit arbitrary LIMIT from a complete-inventory query. Use valid date literals such as LAST_30_DAYS or explicit BETWEEN dates, never fabricated LAST_90_DAYS/LAST_365_DAYS literals.
 
-Two output formats are available. Use **Short** by default, or **Detailed** when user requests more information.
+### Analysis Steps
 
----
+Give a short substantive sequence with reproducible joins, formulas and decisions. Separate deterministic calculations from analyst judgments. Define the required business review or uncertainty method rather than saying “check significance”. Local calculations should be computed, not guessed.
 
-### Short Output Format
+All performance comparisons require compatible objectives/values, mature complete periods and the correct cohort sample. Both sides qualify. Handle zero/missing denominators. Separate observations from causes, scenarios from proven impact, and exposure from recoverable savings. Proposals must respect active bid strategy and supported controls.
 
-Concise summary focused on issues and actions.
+### Thresholds
 
-```markdown
-## [Skill Name] Audit
+Use a two-column Condition/Severity table. Severity cells are **exactly** Critical, Warning or Info. Express money/sample thresholds via defined `{{parameters}}`; explain that discretionary cutoffs are triage heuristics rather than platform mandates or significance tests. Applicable hard platform requirements need an authoritative source and scope.
 
-**Account:** [Name] | **Analyzed:** [X] campaigns, [Y] keywords | **Issues:** [Z]
+Critical requires directly evidenced material serving, measurement or safety failure. Optional feature absence, naming, small counts, low QS/Ad Strength and unknown evidence are never independently Critical. Zero-conversion spend is a guarded Warning screening path per `PARAMETERS.md`, not immediate pausing. Use explicit insufficient-evidence handling.
 
-### Critical ([Count])
-- **[Entity]**: [Issue] → [Fix]
+### Output
 
-### Warnings ([Count])
-- **[Entity]**: [Issue] → [Fix]
+Reference `../_resources/OUTPUT_TEMPLATES.md`, specifying only the additional evidence/table content this recipe needs. No second full Short/Detailed template with divergent severities. Include entity IDs, condition keys, provenance/window, numerator/denominator/sample, thresholds, proposed action and uncertainty. No invented forecasts or executable change files. State adjacent owners to avoid duplicate reporting.
+Delegated slices use the shared **Worker handoff** instead of duplicating a final report;
+this changes layout only. All required calculations, valid nondefect observations and coverage remain.
 
-### Recommendations
-1. [Priority action]
-2. [Secondary action]
-```
+## Executable check
 
-**Short format rules:**
-- Single line header with key stats
-- Issues as bullet points with inline fix
-- No tables, no sections for passed items
-- Target: 15-30 lines
+Every recipe folder also contains `scripts/check.py` and `tests/test_check.py`, authored per `RUNTIME.md`. The script implements each Analysis Step as a declared check and assigns only the severities the Thresholds table makes decidable from evidence. Judgments go to closed-outcome `ai_review` items. `SKILL.md` stays the canonical contract, and a behavior change updates both files together. Lint requires the script (`--allow-missing-scripts` only while authoring).
 
----
+## Kinds and data sources
 
-### Detailed Output Format
+| Kind | Meaning |
+|---|---|
+| deterministic | Reproducible calculations/configuration comparisons with explicit inputs |
+| analyst | Interpretation, semantic intent, business context or noncausal hypothesis review |
+| operational | Explicitly requested rule/script/schedule/configuration proposal; never deployed |
 
-Comprehensive report with context and analysis.
+| Data source | Meaning |
+|---|---|
+| export | Core conclusions supported by listed base tables |
+| custom_query | Additional Google Ads segments/history/configuration/export evidence required |
+| external | Core conclusions need supplied site/CRM/GA4/Merchant Center/business/authorization evidence |
 
-```markdown
-## [Skill Name] Audit
+Markets: all, us_only, eea_relevant. Mark an entire skill us_only only if its entire scope is US-only; gate individual country-specific subsections separately.
 
-**Account:** [Account Name]
-**Date:** [Date]
-**Entities Analyzed:** [Count breakdown]
+Categories: structure, keywords, creative, bidding, targeting, quality, tracking, shopping_pmax, remarketing, waste, competitive, compliance, seasonal, platform. The catalog, not numerical ranges, is authoritative after consolidation.
 
-### What Was Checked
-- [Aspect 1 checked]
-- [Aspect 2 checked]
-- [Aspect 3 checked]
+## Validation and maintenance
 
-### Critical Issues ([Count])
+`_resources/scripts/lint.py` validates names, metadata, references, evidence-section markers, source labels, severity vocabulary, parameters, routing and self-test references. It cannot prove data sufficiency, business correctness, API compatibility or causal claims. Do not equate a clean lint with account readiness.
 
-1. **[Entity Name]**: [Specific issue]
-   - Impact: [What this causes]
-   - Evidence: [Data supporting the finding]
-   - Fix: [Specific action to take]
+`_selftest/SKILL.md` exercises recipes against planted observations and counterexamples. Preserve meaningful false-positive cases, not tests that merely pin old wording or arbitrary default prescriptions. Run the actual recipes; numerical reimplementations alone cannot prove the Markdown was followed. Real-account calibration and supported-version API validation remain distinct evidence.
 
-### Warnings ([Count])
-
-1. **[Entity Name]**: [Specific issue]
-   - Fix: [Specific action to take]
-
-### Summary
-| Metric | Value |
-|--------|-------|
-| Total entities | X |
-| Issues found | Y |
-| Critical | Z |
-| Warnings | W |
-
-### Recommendations
-1. **[Priority action]** - [Brief rationale]
-2. **[Secondary action]** - [Brief rationale]
-```
-
-**Detailed format rules:**
-- "What Was Checked" section for transparency
-- Issues with Impact + Evidence + Fix
-- Summary table with metrics
-- **Never list passed entities or areas** - focus only on issues
-- Target: 40-70 lines
-
----
-
-### Output Rules (Both Formats)
-
-1. **Never list passed entities individually** - Don't show "Campaign X: OK" rows
-2. **Group by severity** - Critical → Warnings → Info
-3. **Be specific** - Name the exact entity (campaign, ad group, keyword)
-4. **Include the fix** - Every issue needs a specific recommendation
-5. **Quantify impact** - When possible, estimate cost/conversion impact
-6. **No educational content** - Don't explain why something is a best practice
-
-### When No Issues Found
-
-**Short:**
-```markdown
-## [Skill Name] Audit
-**Account:** [Name] | **Analyzed:** [X] entities | **Issues:** 0
-
-No issues found.
-```
-
-**Detailed:**
-```markdown
-## [Skill Name] Audit
-
-**Account:** [Name]
-**Entities Analyzed:** [X]
-
-### What Was Checked
-- [Aspect 1]
-- [Aspect 2]
-
-### Result
-No issues found. All [X] entities pass the audit criteria.
-```
-
-### Example: Short Output
-
-```markdown
-## Brand/Non-Brand Split Audit
-
-**Account:** Acme Demo | **Analyzed:** 2 campaigns, 15 keywords | **Issues:** 2
-
-### Critical (1)
-- **"Manual - ROAS - For Cost campaign"**: Mixed brand + non-brand keywords → Split into separate campaigns
-
-### Warnings (1)
-- **No brand negatives in non-brand campaigns** → Add "acme" as exact match negative
-
-### Recommendations
-1. Create dedicated "Brand - Search" campaign
-2. Add brand negatives to all non-brand campaigns
-```
-
-### Example: Detailed Output
-
-```markdown
-## Brand/Non-Brand Split Audit
-
-**Account:** Acme Demo
-**Date:** 2024-01-15
-**Entities Analyzed:** 2 campaigns, 15 keywords
-
-### What Was Checked
-- Campaign keyword composition (brand vs non-brand)
-- Brand negative keyword coverage
-- Campaign naming conventions
-
-### Critical Issues (1)
-
-1. **"Manual - ROAS - For Cost campaign"**: Contains both brand and non-brand keywords
-   - Impact: Inflated CTR metrics, distorted Smart Bidding signals
-   - Evidence: 2 brand keywords ("acme", "acme pricing") + 7 non-brand keywords
-   - Fix: Move brand keywords to dedicated Brand campaign
-
-### Warnings (1)
-
-1. **No brand negatives in non-brand campaigns**
-   - Fix: Add "acme" as exact match negative to non-brand campaigns
-
-### Summary
-| Metric | Value |
-|--------|-------|
-| Campaigns analyzed | 2 |
-| Keywords analyzed | 15 |
-| Critical issues | 1 |
-| Warnings | 1 |
-
-### Recommendations
-1. **Create "Brand - Search" campaign** - Isolate brand traffic for accurate measurement
-2. **Add brand negatives** - Prevent brand queries triggering non-brand campaigns
-```
-
-### Example: Bad Output (What to Avoid)
-
-```markdown
-## Brand/Non-Brand Split Audit
-
-### Campaign Analysis
-
-| Campaign | Classification | Brand KW | Non-Brand KW | Status |
-|----------|---------------|----------|--------------|--------|
-| Brand Campaign | Brand | 15 | 0 | ✓ OK |
-| Generic Campaign | Non-Brand | 0 | 45 | ✓ OK |
-| Mixed Campaign | Mixed | 8 | 22 | ⚠ Issue |
-
-### Why This Matters
-Brand and non-brand keywords have different performance characteristics...
-[3 paragraphs of explanation]
-```
-
-**Problems:**
-- Shows passing items as table rows ("OK" rows)
-- Includes educational content ("Why This Matters")
-- No specific fix recommendations
-- Verbose explanations nobody asked for
-
----
-
-## Kinds
-
-| Kind | Meaning | How it runs |
-|---|---|---|
-| deterministic | Thresholds computable from Google Ads data | Run as a check; findings follow the table |
-| analyst | Needs external data or judgment (CRM, site tests, intent, naming) | Run as guided analysis; state assumptions in Evidence |
-| operational | Deliverable is a configuration to deploy (rule, script, alert, schedule) | Run only when the user asks for automation; output is a proposal, never applied |
-
-## Skill Categories
-
-Category keys used in `metadata.category` (key in parentheses). 17 numbers of the original set are absent (084, 086, 087, 091, 096, 097, 132, 134, 138, 140, 143, 144, 153-155, 157, 158) and 8 more were merged (see MERGES.md).
-
-| Category | Skills | Focus |
-|----------|--------|-------|
-| Account Structure (structure) | 001-011 | Campaign organization, naming, settings |
-| Keyword Strategy (keywords) | 012-024 | Match types, negatives, search terms |
-| Ad Copy & Creative (creative) | 025-038 | RSA, extensions, ad quality |
-| Bidding & Budget (bidding) | 039-052 | Strategies, budgets, targets |
-| Targeting (targeting) | 053-063 | Location, device, audience |
-| Quality Score (quality) | 064-069 | QS components, improvement |
-| Conversion Tracking (tracking) | 070-081 | Tracking setup, accuracy |
-| Shopping/PMax (shopping_pmax) | 082-095 | Feed optimization, PMax settings |
-| Remarketing (remarketing) | 096-112 | Audiences, lists, measurement |
-| Waste Prevention (waste) | 113-129 | Placements, automation, monitoring |
-| Competitive (competitive) | 130-138 | Auction insights, competitive analysis |
-| Compliance (compliance) | 139-145 | Policy, compliance |
-| Seasonal (seasonal) | 146-152 | Seasonal adjustments |
-| Platform-Specific (platform) | 153-162 | MS Ads, AI features |
+agent: gpt-6-astra | openai | 2026-09-06 | s_20260906_fix | one evidence-first schema with honest validation scope
+agent: gpt-6-astra | openai | 2026-09-07 | s_20260907_context_opt | canonical discovery text and compact worker output
+agent: claude-opus-5-5 | anthropic | 2026-09-25 | s_20260925_runtime | executable check requirement

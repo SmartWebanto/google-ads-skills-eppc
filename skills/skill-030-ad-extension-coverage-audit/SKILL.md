@@ -1,93 +1,82 @@
 ---
 name: skill-030-ad-extension-coverage-audit
-description: "Verify all extension types are active and linked at appropriate levels."
-allowed-tools: Read, Grep, Glob
+description: "Inventory eligible asset coverage across account, campaign and ad-group associations without mandatory feature counts."
+allowed-tools: Read, Grep, Glob, Bash
 metadata:
-  library: eppc-ads-skills@1.1.0
+  library: eppc-ads-skills@2.0.0
   category: creative
-  kind: deterministic
+  kind: analyst
   data_source: export
   markets: all
   gaql_verified: null
-  reviewed: 2026-09-03
+  reviewed: 2026-09-06
+  agent: "gpt-6-astra | openai | 2026-09-06 | FixCreativeBidding | evidence-led audit correction"
 ---
-# Skill 030: Ad Extension Coverage Audit
+# Skill 030: Ad Asset Association Coverage Audit
 
 ## Purpose
 
-Ad extensions increase ad real estate and improve CTR by 10-15%. Missing extensions mean lost opportunities. This audit ensures comprehensive extension coverage at account, campaign, and ad group levels for all relevant extension types.
+Identify verified asset association and eligibility gaps while preserving valid optional-feature choices. Account-level absence does not imply no coverage at campaign or ad-group level.
+
+Recommendations are review-only; this recipe never changes an account.
 
 ## Data Requirements
 
-**Data Source:** Account export
+**Applicability:** Asset types supported by the campaign subtype and intended business function; calls, prices, promotions and lead forms are not universal requirements.
 
-**Export data:**
-- **Assets: sitelinks** - Sitelink extensions
-- **Assets: callouts** - Callout extensions
-- **Assets: structured snippets** - Structured snippet extensions
-- **Assets: call** - Call extensions
-- **Assets: price** - Price extensions
-- **Assets: promotion** - Promotion extensions
-- **Campaigns** - Campaign settings
+**Required inputs:**
+- Read `../_resources/DATA_CONTRACT.md`, `../_resources/PARAMETERS.md` and the supplied client profile.
+- `export/account`, `export/campaigns`, `export/ad_groups`, `export/assets`: full asset inventory, asset_id, type, fields, association level, account/campaign/ad_group/entity IDs, association status, approval, schedule and source when supplied.
+- Client profile: campaign objectives, business type and applicable call/offer/service context.
+- `export/assets` completeness/filter declarations must explicitly include all account-, campaign- and ad-group-level associations, including paused and zero-impression entries.
 
-**Reference GAQL:**
-```sql
-SELECT
-  campaign.name,
-  campaign.status,
-  asset.type,
-  campaign_asset.status,
-  campaign_asset.field_type
-FROM campaign_asset
-WHERE campaign.status != 'REMOVED'
-```
-Run the reference query (API, UI report, or Editor export) for account-level asset inventory or performance data.
+Use account currency, timezone, export window, snapshot and completeness declarations.
+Keep missing values distinct from zero and disabled; join on stable IDs, never names.
+
+**Missing inputs:** Missing linking levels, entity IDs or applicability/settings prevent absence and effective-coverage findings at that scope. Unknown schedules and eligibility are not disabled.
+Skip only the dependent subcheck; report its exact missing file/columns and coverage.
+Do not treat absent evidence as a defect or a passed check.
 
 ## Analysis Steps
 
-1. **Inventory all extension types:** Read ext_*.md files, categorize by type and linking level
-2. **Check coverage requirements:** Sitelinks (4+ recommended), Callouts (4+), Structured snippets (1+)
-3. **Verify linking hierarchy:** Account-level applies to all, campaign overrides account, ad group overrides campaign
-4. **Assess extension status:** Enabled vs Paused, Approved vs Disapproved
-5. **Evaluate quality:** Sitelinks with descriptions, unique callouts, relevant snippet headers
+1. Read the canonical `export/assets` table, not ext_*.md files. Construct the entity spine from all eligible campaigns/ad groups before joining asset links.
+
+2. Inventory each association by asset ID, type, linking level and linked entity ID. Distinguish unique reusable assets from association counts and exclude removed links from active coverage.
+
+3. For each entity/type show direct and potential inherited links separately. Resolve effective eligibility only using documented type-specific serving/association rules and supplied settings, not a universal nearest-level override rule.
+
+4. Intersect association status, parent status, asset approval, schedule and campaign eligibility. An approved asset is not proof of actual serving; a limited asset may still serve in eligible contexts.
+
+5. Declare complete/partial/unknown inventory at every level. A missing account-level sitelink is not an issue if appropriate campaign/ad-group coverage exists.
+
+6. Assess business usefulness before proposing optional types. Do not require four sitelinks/callouts, every type or universal account-level coverage.
+
+7. Review supplied fields for obvious duplicate text or stale configured dates; missing descriptions are an optional enrichment opportunity unless a documented requirement applies. Route destinations to 031 and policy triage to 037.
+
+8. Prioritize confirmed intended-coverage gaps for owner review; retain alternate layouts and do not forecast a percentage CTR uplift from adding assets.
 
 ## Thresholds
 
+Numerical screens are triage heuristics, not platform requirements or causal proof.
+Use resolved `{{min_impressions}}` for CTR/IS, `{{min_clicks}}` for CVR and
+`{{min_conversions}}` for CPA/ROAS comparisons; both comparison cohorts must qualify.
+Use mature, comparable goals/windows; exclude incomplete days and conversion lag.
+A zero denominator yields unavailable, never infinity or an invented zero rate.
+
 | Condition | Severity |
-|-----------|----------|
-| No sitelinks at any level | Critical |
-| No callouts at any level | Critical |
-| Sitelinks < 4 | Warning |
-| Callouts < 4 | Warning |
-| No structured snippets | Warning |
-| Disapproved extension | Critical |
+|---|---|
+| Intended asset association is confirmed ineligible/disabled and business coverage is affected | Warning |
+| No optional asset type or recommended count not met | Info |
+| Incomplete hierarchy, eligibility or schedule evidence | Info |
+
+Critical requires directly evidenced material delivery, measurement or safety failure.
+Historical spend is exposure, not guaranteed savings; any forecast requires an explicit model.
 
 ## Output
 
-**Short (default):**
-```
-## Extension Coverage Audit
-**Account:** [Name] | **Extension Types:** [X]/8 | **Issues:** [Y]
-
-### Critical ([Count])
-- **No [extension type]** at account level -> Add [X] [extension type]
-
-### Warnings ([Count])
-- **Sitelinks**: [X] (need [Y] more)
-
-### Coverage Matrix
-| Type | Account | Campaigns | Status |
-|------|---------|-----------|--------|
-| Sitelinks | X | X override | OK/Missing |
-| Callouts | X | X | OK/Missing |
-| Snippets | X | X | OK/Missing |
-| Call | X | X | OK/Missing |
-
-### Recommendations
-1. [Priority action]
-```
-
-**Detailed adds:**
-- Full extension inventory with linking details
-- Campaign-level coverage matrix
-- Extension quality issues (missing descriptions, generic URLs)
+Use `../_resources/OUTPUT_TEMPLATES.md`; do not create a competing report format.
+Include stable entity IDs, condition key, observed evidence/window, sample, resolved
+thresholds, recommendation, uncertainty and the responsible owner.
+Separate confirmed findings, opportunities, insufficient evidence and not-applicable checks.
+- Entity/type matrix showing direct, potential inherited, effective/unknown associations with asset and parent IDs.
+- Owner-approved opportunity list and explicit exclusions from the inventory; no blanket account-level absence findings.

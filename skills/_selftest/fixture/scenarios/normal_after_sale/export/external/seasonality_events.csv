@@ -1,0 +1,2 @@
+event_id,campaign_id,name,start_at,end_at,timezone,objective,offer,expected_cvr_change,rationale,owner,approval_status,normal_baseline_dates,exceptional_future_reason,expected_start,expected_end,estimate_range,evidence_ref
+NORMAL-RETURN,SALE,Synthetic 2-day sale,2026-08-29T00:00:00+02:00,2026-08-31T00:00:00+02:00,Europe/Rome,purchase,temporary sale ended,0.5,documented temporary offer only,synthetic owner,historical event ended,2026-08-01 through 2026-08-28,NONE: return to normal baseline expected,,,no exceptional future change,synthetic calendar

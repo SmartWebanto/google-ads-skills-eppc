@@ -1,0 +1,3 @@
+merchant_id,feed_label,language,item_id,snapshot_at,title,structured_title_if_used,description,brand,product_type,variant_attributes,product_url,promotion_ids,approval_status
+M1,IT,it,PROMO-TITLE,2026-09-06,Black Friday Deal Acme Drill,,Acme cordless drill 18V,Acme,Tools,18V,https://example.invalid/drill,,pending
+M1,IT,it,TRUE-DESCRIPTOR,2026-09-06,Acme Christmas-pattern sweater,,Sweater with woven Christmas tree pattern,Acme,Apparel,green medium,https://example.invalid/sweater,,approved

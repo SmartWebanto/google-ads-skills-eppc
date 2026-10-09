@@ -1,0 +1,2 @@
+id,conversion_customer_id,name,category,status,type,counting,primary_for_goal,include_in_conversions,value_settings,attribution_model,click_window_days
+purchase,demo,Purchase,PURCHASE,ENABLED,WEBSITE,EVERY,True,True,transaction_specific,DATA_DRIVEN,30

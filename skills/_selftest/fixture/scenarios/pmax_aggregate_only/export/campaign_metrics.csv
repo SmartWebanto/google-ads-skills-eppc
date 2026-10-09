@@ -1,0 +1,3 @@
+campaign_id,impressions,clicks,cost,conversions,conversion_value,goal_set_id,date_range_start,date_range_end
+SEARCH,100000,5000,3000,30,3000,purchase,2026-08-01,2026-08-30
+PMAX,100000,5000,3000,100,10000,purchase,2026-08-01,2026-08-30

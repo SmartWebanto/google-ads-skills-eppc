@@ -1,0 +1,2 @@
+account_id,campaign_id,query,merchant_id,item_id,date,impressions,clicks,cost,conversions,source_report,mapping_method,coverage
+demo,FEED-COLLISION,Christmas sweater,M1,REUSED-ID,2026-08-20,1000,100,100,5,synthetic ambiguous mapping,item ID only; locale unavailable,ambiguous full product key

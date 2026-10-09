@@ -1,0 +1,2 @@
+id,conversion_customer_id,name,category,status,type,counting,primary_for_goal,include_in_conversions,value_settings,attribution_model,click_window_days,data_driven_model_status,source_timestamp
+LEAD,demo,Qualified lead,LEAD,ENABLED,WEBSITE,EVERY,True,True,unit value 1 for count-based optimization,DATA_DRIVEN,30,AVAILABLE,2026-09-06

@@ -1,0 +1,2 @@
+id,campaign_id,ad_group_id,text,match_type,status,quality_score,expected_ctr,ad_relevance,landing_page_experience
+QK,QUALITY,QG,cordless drill,EXACT,ENABLED,5,AVERAGE,BELOW_AVERAGE,AVERAGE

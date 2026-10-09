@@ -1,0 +1,3 @@
+campaign_id,impressions,clicks,cost,conversions,conversion_value,goal_set_id,date_range_start,date_range_end
+CONTROL,100000,5000,1400,28,2240,purchase,2026-08-01,2026-08-30
+VARIANT,100000,5000,1400,56,4480,purchase,2026-08-01,2026-08-30

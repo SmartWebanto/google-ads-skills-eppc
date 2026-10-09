@@ -1,10 +1,25 @@
 slug: acme-demo
 report_language: en
 market: [IT]
-currency_override: null
-target_cpa: null          # campaign-level targets are in export/campaigns.csv
+business_type: mixed_ecommerce_and_repair
+objectives: [online purchases, qualified repair leads]
+service_area: [Italy]
+target_cpa: null
 target_roas: null
-monthly_spend: null       # computed from export/campaign_metrics.csv
 brand_terms: [acme, acme tools]
+competitor_terms: []
+excluded_intents: [employment searches, free product requests]
+customer_lifecycle: repeat tool purchases allowed
+conversion_lag_days: 2
+monthly_budget: 7500
+product_service_taxonomy: [hand tools, power tools, garden supplies, ladders, repair services]
+intended_offer: sell the named product or provide the requested repair; generic tool copy is unverified for other themes
+tracking_evidence: synthetic QA confirms purchase and lead goals recorded throughout the mature window
+campaign_objectives:
+  1001: {role: brand, brand_policy: brand_only, goal_ids: [5001], target_cpa: 20}
+  1002: {role: acquisition, brand_policy: nonbrand_only, goal_ids: [5001], target_cpa: 40}
+  1003: {role: repair_leads, brand_policy: nonbrand_only, goal_ids: [5002], target_cpa: 55}
+  1004: {role: product_sales, goal_ids: [5001], target_roas: 4.0}
+  1005: {role: product_sales, goal_ids: [5001]}
 export_path: export/
 parameter_overrides: {}

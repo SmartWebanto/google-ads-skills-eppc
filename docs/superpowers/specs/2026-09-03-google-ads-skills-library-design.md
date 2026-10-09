@@ -31,7 +31,7 @@ google-ads-skills-eppc/
 │   │   ├── SKILL_SCHEMA.md       # updated: metadata block, `## Output`, parameters, provenance
 │   │   ├── SKILL_EXAMPLE.md      # updated to the new frontmatter
 │   │   ├── PARAMETERS.md         # named thresholds, EUR defaults, spend-relative formulas
-│   │   ├── OUTPUT_TEMPLATES.md   # short/detailed templates in it + en, report header block
+│   │   ├── OUTPUT_TEMPLATES.md   # short/detailed templates in English, report header block
 │   │   ├── CLIENT_PROFILE.md     # template of the per-client profile the front desk reads
 │   │   ├── README.md             # upstream plugin readme (kept, marked as upstream)
 │   │   ├── commands/             # upstream command docs (kept verbatim, marked as upstream)
@@ -143,7 +143,7 @@ Rules written into PARAMETERS.md and the schema:
 
 ## 8. Output, provenance, language, client profile
 
-`skills/_resources/OUTPUT_TEMPLATES.md` holds the short and detailed templates in English and Italian, plus a mandatory report header:
+`skills/_resources/OUTPUT_TEMPLATES.md` holds the short and detailed templates in English (other report languages are translated at render time), plus a mandatory report header:
 
 ```
 ## <Skill title> — <Account name>
@@ -159,7 +159,7 @@ Every finding line carries the skill id, so a reader can trace it. The report is
 
 Rewritten for this library. Contents:
 
-- Triggers (Italian and English phrasings) and the description line.
+- Triggers (English phrasings) and the description line.
 - Operating rules: recommend-only, never execute mutations; input is a manual Google Ads UI/Editor export or a `/google-ads:get` export, and `/google-ads:get` is only allowed for a client with a signed DPA covering TrueClicks; never send account data anywhere else; read currency from the account; write in `report_language`; run Consent Mode v2 (075) in every tracking workflow for EEA accounts; cite provenance on every finding; do not double-report across related skills.
 - Routing: a table from request type to a workflow preset, each preset a list of skill ids: full audit, waste, search terms, keyword hygiene, creative, budget and bidding, tracking, PMax and Shopping, audience/geo/device, seasonality, compliance, change history, monthly review, launch review. Presets reference the CATALOG and skip `operational` skills unless the user asks for automation.
 - Where things are: PARAMETERS, OUTPUT_TEMPLATES, CLIENT_PROFILE, CATALOG, MERGES.

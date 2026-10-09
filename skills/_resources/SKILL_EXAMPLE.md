@@ -1,151 +1,50 @@
-# Example: Properly Structured Skill
+# Example: evidence-backed skill and report
 
-This shows what a skill should look like following the schema.
+Use the live `../skill-030-ad-extension-coverage-audit/SKILL.md` as the asset-coverage recipe and `SKILL_SCHEMA.md` as the authoring contract. Do not copy a second, divergent recipe from this file. Counts of optional assets are not universal requirements, and no fixed CTR uplift is promised.
 
----
+## Example inputs (synthetic)
 
-## Before (Too Verbose - 250 lines)
+- Campaign 1002 sells online-only products; phone sales are not a business objective.
+- Complete campaign/ad-group inventory and complete account/campaign/ad-group asset associations are supplied.
+- Asset 9001 is linked to campaign 1002. Its promotion text advertises an offer the supplied approved calendar says ended; timestamped serving evidence shows that same stale text still served after the approved end.
+- Other assets are usable. The account has no call asset. There is no experiment estimating the cost of the stale message.
 
-The original skill-030 had:
-- Multiple verbose output tables with template placeholders
-- "Example Findings" that duplicated the output format
-- Implementation checklists
-- Excessive explanatory text
+## Correct reasoning
 
-## After (Concise - 85 lines)
+1. Absence of a call asset is not a problem for this stated objective; do not prescribe one.
+2. A configuration end date alone would not prove stale serving. Here the observed serving interval and authorized offer dates support a stale-message finding.
+3. Recommend review/removal of the stale association, not execution. Report observed affected impressions or spend only when the serving evidence contains them; do not call all campaign spend wasted.
+4. Assign one canonical owner for the stale-offer condition. Related promotional/configuration checks may cite it but do not duplicate the finding.
 
-```markdown
----
-name: skill-030-ad-extension-coverage-audit
-description: "Verify all extension types are active and linked at appropriate levels."
-allowed-tools: Read, Grep, Glob
-metadata:
-  library: eppc-ads-skills@1.1.0
-  category: creative
-  kind: deterministic
-  data_source: export
-  markets: all
-  gaql_verified: null
-  reviewed: 2026-09-03
----
-# Skill 030: Ad Extension Coverage Audit
+## Illustrative short report
 
-## Purpose
-Verify that all recommended extension types (sitelinks, callouts, structured snippets) are active and linked at appropriate levels. Missing extensions reduce ad real estate and CTR by 10-15%.
+```text
+## Asset review — Synthetic online retailer
+Account demo · currency EUR · timezone Europe/Rome · data 2026-08-04–2026-09-02 · snapshot 2026-09-03
+Library eppc-ads-skills@2.0.0 · skills skill-030-ad-extension-coverage-audit · profile demo
+Evidence assets + association inventory + approved offer calendar + dated serving log; complete for this condition
+Conversion basis interaction date · maturity not used for configuration finding
+Parameters none used · spend window not used
 
-## Data Requirements
-
-**Data Source:** Account export
-
-**Export data:**
-- **Assets: sitelinks** - Sitelink extensions
-- **Assets: callouts** - Callout extensions
-- **Assets: structured snippets** - Structured snippets
-- **Assets: call** - Call extensions
-- **Campaigns** - Campaign settings
-
-**Reference GAQL:**
-```sql
-SELECT
-  campaign.name,
-  asset.type,
-  asset.sitelink_asset.link_text,
-  campaign_asset.status
-FROM campaign_asset
-WHERE campaign.status = 'ENABLED'
-```
-Run the reference query (API, UI report, or Editor export) if you need extension performance metrics.
-
-## Analysis Steps
-
-1. **Inventory extensions:** Count each extension type and their linking level (account/campaign/ad group)
-2. **Check minimum counts:** Verify sitelinks >= 4, callouts >= 4, structured snippets >= 1
-3. **Identify gaps:** Find campaigns/ad groups missing required extensions
-4. **Check status:** Flag disapproved or paused extensions
-5. **Assess quality:** Sitelinks should have descriptions, callouts should be unique
-
-## Thresholds
-
-| Condition | Severity |
-|-----------|----------|
-| No sitelinks at any level | Critical |
-| Sitelinks < 4 | Warning |
-| No callouts at any level | Critical |
-| Callouts < 4 | Warning |
-| No structured snippets | Warning |
-| Disapproved extension | Critical |
-| Sitelinks missing descriptions | Warning |
-
-## Output
-
-Report ONLY issues found.
-
-### Extension Gaps
-| Extension Type | Current | Minimum | Gap |
-|----------------|---------|---------|-----|
-
-### Campaign Gaps
-| Campaign | Missing Extensions |
-|----------|-------------------|
-
-### Quality Issues
-| Extension | Issue |
-|-----------|-------|
+### Warnings (1)
+- **Campaign 1002 / asset 9001**: expired offer text served after its approved end → review the stale association · Evidence approved calendar and dated serving log; monetary impact not quantified · stale_offer_serving · skill-030-ad-extension-coverage-audit
 
 ### Recommendations
-1. [Specific action to fix highest priority gap]
-2. [Next priority action]
+1. Confirm the current approved offer and propose correcting the stale association. No account changes made.
+
+### Coverage
+- Completed: asset applicability, effective associations and observed offer consistency for campaign 1002.
+- Not applicable: phone-asset coverage; profile specifies online-only sales.
 ```
 
----
+The example illustrates the evidence/decision distinction, not an additional executable fixture. Actual recipe output uses its declared condition ownership and `OUTPUT_TEMPLATES.md`.
 
-## Key Differences
+## Counterexamples worth testing
 
-| Aspect | Before | After |
-|--------|--------|-------|
-| Length | 250 lines | 85 lines |
-| Output tables | Show all (pass + fail) | Issues only |
-| Example Findings | 50 lines duplicating format | Removed (unnecessary) |
-| Explanatory text | Multiple paragraphs | 2-3 sentences max |
-| Recommendations | Generic best practices | Specific actions |
+- A complete inventory with no optional feature must not be reported as a critical defect.
+- An incomplete inventory must be labeled incomplete, not empty or healthy.
+- Two valid alternative headlines pinned to the same position are not conflicting pins.
+- Returning to normal after a promotional CVR spike does not justify routine negative seasonality compensation.
+- A different ROAS target direction cannot reuse a CPA rule.
 
----
-
-## Output Example (What Claude Produces)
-
-When this skill is executed, Claude should output:
-
-```markdown
-## Ad Extension Coverage Audit — Acme Demo
-Account 123-456-7890 · currency EUR · data LAST_30_DAYS · snapshot 2026-09-03
-Library eppc-ads-skills@1.1.0 · skill skill-030-ad-extension-coverage-audit · profile defaults
-
-**Campaigns Analyzed:** 2
-
-### Issues Found (3)
-
-#### Critical (1)
-
-1. **No call extensions configured**
-   - Impact: Missing phone lead opportunities
-   - Fix: Add call extension with business phone number
-
-#### Warnings (2)
-
-1. **Sitelinks missing descriptions** (3 of 4 sitelinks)
-   - Fix: Add description lines 1 & 2 to all sitelinks
-
-2. **No structured snippets**
-   - Fix: Add at least one structured snippet (Types, Services, or Brands)
-
-### Summary
-- Extension types present: 2/6 (sitelinks, callouts)
-- Missing: call, structured snippets, price, promotion
-
-### Recommendations
-1. Add call extension immediately
-2. Complete sitelink descriptions
-3. Add structured snippet with service types
-```
-
-**Note:** No "passing" extensions are listed. No educational content about why extensions matter.
+agent: gpt-6-astra | openai | 2026-09-06 | s_20260906_fix | remove prescriptive scaffold and clarify evidence examples

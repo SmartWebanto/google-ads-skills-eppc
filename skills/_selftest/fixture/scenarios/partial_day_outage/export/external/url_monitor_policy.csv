@@ -1,0 +1,2 @@
+monitor_id,URL_scope,test_cadence,critical_customer_task,expected_redirects,performance_limit_ms,owner,approval_status,recovery_check
+MON-1,https://example.invalid/checkout,5 minutes,checkout,none,2500,synthetic technical owner,approved for review only,successful checkout probe

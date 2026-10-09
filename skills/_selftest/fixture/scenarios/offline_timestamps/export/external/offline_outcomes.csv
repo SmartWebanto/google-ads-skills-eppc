@@ -1,0 +1,3 @@
+account_id,action_id,event_token,integration_id,business_event_timestamp,ready_for_upload_timestamp,eligible_for_upload,eligibility_reason,matching_method,supported_identifier_present,expected_value,currency,lifecycle_status,source_recorded_timestamp
+demo,OFFLINE-LEAD,FAST-AFTER-LONG-SALE,CRM,2026-08-20T10:00:00+02:00,2026-08-20T10:00:00+02:00,True,"eligible; clicked 30 days before outcome, no raw click ID included",click ID,True,100,EUR,qualified,2026-08-20T10:00:00+02:00
+demo,OFFLINE-LEAD,QUEUED-3-DAYS,CRM,2026-08-20T10:00:00+02:00,2026-08-20T10:00:00+02:00,True,eligible,click ID,True,100,EUR,qualified,2026-08-20T10:00:00+02:00

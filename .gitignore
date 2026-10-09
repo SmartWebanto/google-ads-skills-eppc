@@ -2,3 +2,9 @@
 __pycache__/
 *.pyc
 .codedna.lock
+dist/
+.env
+.env.*
+!.env.example
+.obsidian/
+skills/*.zip

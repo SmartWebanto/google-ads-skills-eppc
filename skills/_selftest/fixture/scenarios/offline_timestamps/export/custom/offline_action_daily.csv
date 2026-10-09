@@ -1,0 +1,2 @@
+account_id,campaign_id,action_id,date,date_basis,conversions,all_conversions,conversion_value,currency,reporting_mature
+demo,OFFLINE,OFFLINE-LEAD,2026-08-20,conversion_date,2,2,200,EUR,True

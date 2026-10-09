@@ -1,0 +1,2 @@
+account_id,action_id,integration_id,expected_business_event,matching_method,intended_cadence_hours,ready_to_submit_sla_hours,processing_expectation_hours,supported_upload_window_reference,conversion_window_days,automation_status,timezone,consent_policy_reference,owner
+demo,OFFLINE-LEAD,CRM,qualified lead,supported click-ID matching; no IDs exported,1,2,4,synthetic supported configuration; 90-day window,90,automated,Europe/Rome,synthetic permitted-use record,integration owner

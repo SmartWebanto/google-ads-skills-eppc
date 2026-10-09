@@ -1,99 +1,83 @@
 ---
 name: skill-041-smart-bidding-learning-phase-monitoring
-description: "Flag campaigns currently in Smart Bidding learning phase and assess impact on performance and decision-making."
-allowed-tools: Read, Grep, Glob
+description: "Monitor learning using dated status transitions, complete change histories and comparable pre-learning outcomes."
+allowed-tools: Read, Grep, Glob, Bash
 metadata:
-  library: eppc-ads-skills@1.1.0
+  library: eppc-ads-skills@2.0.0
   category: bidding
-  kind: deterministic
+  kind: analyst
   data_source: custom_query
   markets: all
   gaql_verified: null
-  reviewed: 2026-09-03
+  reviewed: 2026-09-06
+  agent: "gpt-6-astra | openai | 2026-09-06 | FixCreativeBidding | evidence-led audit correction"
 ---
 # Skill 041: Smart Bidding Learning Phase Monitoring
 
 ## Purpose
 
-Smart Bidding algorithms need time to learn optimal bid patterns. During learning, performance may be volatile, making changes extends the learning period, and evaluation of strategy effectiveness is unreliable. This skill identifies campaigns in learning phase, assesses expected exit timing, and flags disruptions that may extend learning.
+Distinguish currently reported learning from known learning duration and explore instability without attributing every change to a restart or imposing a blanket freeze.
+
+Recommendations are review-only; this recipe never changes an account.
 
 ## Data Requirements
 
-**Data Source:** Custom query required
+**Applicability:** Supported Smart Bidding campaigns and portfolios with actual platform status/reason evidence.
 
-A basic account export does not include campaign primary status or learning phase indicators.
+**Required inputs:**
+- Read `../_resources/DATA_CONTRACT.md`, `../_resources/PARAMETERS.md` and the supplied client profile.
+- `export/account`, `export/campaigns`, `export/bidding_strategies`, `export/conversion_actions`, `export/budgets`: IDs and optimization context.
+- `export/custom/learning_status_history.csv`: one account_id/campaign_id/strategy_id/observed_at row, raw_status, raw_reason, documented_learning_state, status_source, source_ref; continuous snapshots/history for 60 days or since creation, with gaps declared.
+- `export/custom/learning_changes.csv`: one account_id/change_id row, changed_at, campaign_id/strategy_id/budget_id, entity_type/id, field, old/new_value, reason, source_ref; all relevant target/budget/goal/status changes for at least 30 days plus baseline.
+- `export/custom/learning_daily.csv`: one account_id/campaign_id/date/goal_cohort row, impressions, clicks, cost, conversions, conversion_value, budget_id, lag_mature; daily Ads data covering the learning interval and a prior stable comparable baseline, normally at least 60 days.
 
-**Export data:**
-- **Campaigns** - Bidding strategy type, status
-- **Campaign metrics (30 days)** - Daily performance trends
+Use account currency, timezone, export window, snapshot and completeness declarations.
+Keep missing values distinct from zero and disabled; join on stable IDs, never names.
 
-**GAQL Query:**
-```sql
-SELECT
-  campaign.id,
-  campaign.name,
-  campaign.bidding_strategy_type,
-  campaign.primary_status,
-  campaign.primary_status_reasons,
-  bidding_strategy.status,
-  bidding_strategy.type,
-  metrics.conversions,
-  metrics.cost_micros,
-  metrics.impressions,
-  segments.date
-FROM campaign
-WHERE campaign.status = 'ENABLED'
-  AND segments.date DURING LAST_14_DAYS
-```
-Run the query through the Google Ads API, a UI custom report, or Google Ads Editor; save the result as `learning_phase_status`.
+**Missing inputs:** Current status cannot establish start date; first-observed learning gives a lower bound. Missing baseline/value/change history skips respective duration/ROAS/change-count comparisons.
+Skip only the dependent subcheck; report its exact missing file/columns and coverage.
+Do not treat absent evidence as a defect or a passed check.
 
 ## Analysis Steps
 
-1. **Identify Smart Bidding campaigns:** Filter for Target CPA, Target ROAS, Maximize Conversions, Maximize Conversion Value strategies.
+1. Map raw supplied status/reason to learning only when documented for that resource. Do not guess a campaign primary-status enum or confuse generic Limited with Learning.
 
-2. **Check learning phase status:** Look for primary status = "LEARNING" or learning-related status reasons; identify recent strategy/setting changes (<14 days).
+2. Identify last confirmed non-learning and first confirmed learning observations and any intervening gaps. Report exact transition only from an event; otherwise give an interval or minimum observed duration.
 
-3. **Assess learning duration:** Track days since strategy change, expected remaining learning time (typically 7-14 days for new strategies).
+3. Build a dated timeline of target, budget, strategy, conversion-goal and pause/resume changes. Count unique change IDs within the stated 30-day window; do not extrapolate fourteen days to thirty.
 
-4. **Identify learning disruptions:** Flag frequent target adjustments, budget changes, pausing/enabling, or conversion action changes during learning.
+4. Separate necessary incident repairs and planned tests from discretionary churn. A change during learning does not prove it restarted the learning process; mark associations as hypotheses.
 
-5. **Evaluate performance volatility:** Compare CPA/ROAS variance during learning vs stable periods; check budget utilization.
+5. Construct a pre-learning baseline with the same goals, attribution and comparable weekdays/season. Aggregate cost/conversions/value before CPA/ROAS; both baseline and learning sample need maturity.
+
+6. For volatility use non-overlapping complete weekly CPA/ROAS aggregates with qualifying samples; report number of valid weeks and range or coefficient of variation with positive mean. Do not compute daily CPA variance on zero-conversion days.
+
+7. A continuous observed learning interval over 21 days or repeated discretionary changes is a review heuristic, not Critical. Check lag, tracking, traffic, eligibility and business constraints; no universal conversion-volume gate.
+
+8. Propose an observation window based on actual conversion cycles and unresolved risks, with owner and next review date. Urgent tracking, safety, budget-cap and policy repairs override elective-change deferral; never promise an exit date.
 
 ## Thresholds
 
-| Condition | Severity |
-|-----------|----------|
-| Learning phase >21 days | Critical |
-| Multiple changes during active learning | Critical |
-| 3+ strategy changes in 30 days | Critical |
-| Learning phase >14 days + low volume (<15 conv/month) | High |
-| <15 conversions/month during learning | High |
-| CPA variance >50% during learning | Warning |
-| Budget underspend >40% during learning | Warning |
+Numerical screens are triage heuristics, not platform requirements or causal proof.
+Use resolved `{{min_impressions}}` for CTR/IS, `{{min_clicks}}` for CVR and
+`{{min_conversions}}` for CPA/ROAS comparisons; both comparison cohorts must qualify.
+Use mature, comparable goals/windows; exclude incomplete days and conversion lag.
+A zero denominator yields unavailable, never infinity or an invented zero rate.
 
-Sample size: judge CTR rows only above {{min_impressions}} impressions, conversion-rate rows only above {{min_clicks}} clicks, and CPA/ROAS comparisons only above {{min_conversions}} conversions; below that, report "insufficient sample" as Info.
+| Condition | Severity |
+|---|---|
+| Observed learning >21 days with corroborated sustained business-performance concern | Warning |
+| Repeated discretionary changes with documented instability needing review | Warning |
+| Learning alone, low volume, incomplete history or unqualified baseline | Info |
+
+Critical requires directly evidenced material delivery, measurement or safety failure.
+Historical spend is exposure, not guaranteed savings; any forecast requires an explicit model.
 
 ## Output
 
-**Short (default):**
-```
-## Smart Bidding Learning Phase Audit
-
-**Account:** [Name] | **Smart Bidding Campaigns:** [X] | **In Learning:** [Y]
-
-### Critical ([Count])
-- **[Campaign]**: In learning [X] days with [Y] changes → Freeze changes for 14 days
-
-### Warnings ([Count])
-- **[Campaign]**: Low volume ([X] conv/mo) extending learning → Consider consolidation
-
-### Recommendations
-1. [Priority action]
-2. [Secondary action]
-```
-
-**Detailed adds:**
-- Learning phase summary table (Learning/Limited/Stable status with conv/day and % of spend)
-- Campaigns in learning table with strategy, days, trigger, estimated exit date
-- Learning disruption risk assessment per campaign
-- Performance volatility metrics (pre-learning vs learning CPA)
+Use `../_resources/OUTPUT_TEMPLATES.md`; do not create a competing report format.
+Include stable entity IDs, condition key, observed evidence/window, sample, resolved
+thresholds, recommendation, uncertainty and the responsible owner.
+Separate confirmed findings, opportunities, insufficient evidence and not-applicable checks.
+- Status/change timeline with exact, bounded or unknown duration and coverage gaps.
+- Matched baseline outcomes, instability evidence and review-only monitoring plan with urgent-fix exceptions.

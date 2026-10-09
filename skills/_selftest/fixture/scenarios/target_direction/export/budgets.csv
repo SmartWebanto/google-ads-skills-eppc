@@ -1,0 +1,3 @@
+id,amount,shared,campaign_ids
+b1,100,False,CPA-TIGHT
+b2,100,False,ROAS-RELAXED

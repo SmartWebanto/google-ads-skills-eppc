@@ -1,0 +1,3 @@
+account_id,campaign_id,ad_group_id,ad_id,requirement_id,text_or_semantic_requirement,allowed_positions,must_always_show,rationale,approver_role,valid_from,valid_to,source_ref
+demo,CREATIVE,G-ADS,VALID-PINS,BRAND,Acme,HEADLINE_1,True,approved brand requirement,brand owner,2026-01-01,2027-01-01,synthetic brief
+demo,CREATIVE,G-ADS,OPTIONAL-ONLY,TERMS,Terms apply,any,True,business disclosure requirement,brand owner,2026-01-01,2027-01-01,synthetic brief
